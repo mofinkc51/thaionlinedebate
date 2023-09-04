@@ -1,0 +1,99 @@
+.bg-popup {
+    
+    background: rgba(33, 48, 66, 0.40);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-box{
+    width: 477px;
+    height: 425px;
+    background: #FFF;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.body-box{
+    border: 1px solid red;
+}
+.head-row{
+    display: flex;
+    justify-content: space-between;
+}
+.close-button{
+    background-color: transparent;
+    border: 0;
+    font-size: 25px;
+    cursor: pointer;
+    /* position: absolute; */
+    /* justify-content: ; */
+}
+
+  .input-label{
+    margin-top: 10px;
+    color: #000;
+font-family: Inter;
+font-size: 13px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+  }
+
+.topic-input{
+    width: 384px;
+    height: 33px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+    
+}
+.des-input{
+    width: 384px;
+    height: 74px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+}
+
+.side-box{
+    display: flex;
+}
+.side-input{
+    width: 184px;
+    height: 33px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+    margin-right: 12px;
+}
+
+.button-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+}
+
+.create-button{
+    width: 75px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #252958;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

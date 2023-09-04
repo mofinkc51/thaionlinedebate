@@ -1,0 +1,68 @@
+.dbt-box{
+    width: 282px;
+    height: 210px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.upper-box{
+    border: 1px solid white;
+    height: 150px;
+}
+
+.lower-box{
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    border-top: 1px solid #7a78783a;
+}
+.debate-button{
+    
+    width: 119.791px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 15px;
+    border: 1px solid rgba(12, 13, 13, 0.50);
+
+    margin-right: 30px;
+
+}
+
+.debate-button a{
+    text-decoration: none;
+
+    color: #0E0D0D;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 200% */
+}
+
+.bookmark-button{
+    display: flex;
+    width: 59.896px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 15px;
+    border: 1px solid rgba(12, 13, 13, 0.50);
+    background: #FFF;
+}
+
+.bookmark-button img{
+    width: 31.944px;
+height: 24px;
+flex-shrink: 0;
+}

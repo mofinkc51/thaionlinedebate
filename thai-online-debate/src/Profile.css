@@ -1,0 +1,74 @@
+.page-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid blue; */
+}
+
+.profile-page-body{
+    margin-top: 100px;
+    width: 586px;
+    border: 1px solid pink;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 280px;
+    height: 453px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+    /* border: 1px solid green; */
+}
+.left-box{
+    display: grid;
+    grid-template-columns: 1fr ;
+    justify-items: center;
+    /* border: 1px solid blue; */
+}
+.profile-img{
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+    /* border: 1px solid red; */
+    
+}
+.username-text{
+    
+    text-align: center;
+    
+    color: #2C343D;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 300;
+    /* line-height: 30.8px; 140% */
+
+    /* border: 1px solid red; */
+    margin-top: 9px;
+    margin-bottom: 9px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit-profile{
+
+    color: #97C4FB;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    /* line-height: 30.8px; 192.5% */
+    text-decoration-line: underline;
+    cursor: pointer;
+   
+    /* border: 1px solid red; */
+}
+
+.history-box{
+    width: 282px;
+    /* border: 1px solid red; */
+}

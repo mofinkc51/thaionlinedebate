@@ -1,0 +1,138 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Inter;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid red; */
+    margin-top: 3cm;
+    
+}
+.navbar {
+    display: flex;
+    border: 1px solid red;
+    background: linear-gradient(90deg, #92C3FB 0%, rgba(146, 195, 251, 0.54) 45.35%, rgba(146, 195, 251, 0.00) 100%), rgba(216, 196, 251, 0.75);
+    width: 100%;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+.logo {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid red; */
+
+    color: var(--white, #FFF);
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 700;
+
+    
+}
+
+ul {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    /* border: 1px solid red; */
+    padding-right: 3cm;
+
+
+}
+ul li{
+    margin: 0 1rem;
+    list-style: none;
+}
+
+.middle-box{
+    display: flex;
+    max-width: 1000px;
+    /* border: 1px solid green; */
+}
+
+.img-box{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    /* border: 1px solid green; */
+}
+
+img{
+    width: 100%;
+}
+
+.input-box {
+    width: 30%;
+    /* border: 1px solid green; */
+}
+
+.input-title{
+    color: #100F0F;
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.input-label{
+    display: flex;
+    width: 161px;
+    height: 11px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #100F0F;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 30.8px; /* 192.5% */
+}
+
+.textfield {
+
+    width: 306px;
+    height: 55px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+
+    font-size: 20px;
+
+    padding-left: 20px;
+}
+
+.button-signin-box{
+    margin-top: 0.5cm;
+    /* display: flex;
+    justify-content: space-between; */
+}
+
+.button-register{
+    width: 113px;
+    height: 55px;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #252958;
+
+    /* margin-right: 50px; */
+}
+

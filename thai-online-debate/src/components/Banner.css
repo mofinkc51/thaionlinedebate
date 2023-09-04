@@ -1,0 +1,11 @@
+.banner-box{
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+.banner{
+    width: 894px;
+    height: 322px;
+    border: 1px solid pink;
+}

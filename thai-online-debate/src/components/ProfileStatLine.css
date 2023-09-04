@@ -1,0 +1,7 @@
+.stat-line{
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: space-between;
+    width: 200px;
+    margin-top: -15px;
+}

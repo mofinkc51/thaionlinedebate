@@ -1,0 +1,29 @@
+.page-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid blue;
+}
+
+.topic-page-body{
+    width: 780px;
+}
+
+.topic-meta-box{
+    width: 780px;
+    /* height: 183px; */
+    /* border: 1px solid red; */
+    background-color: #FFF;
+    border-radius: 10px;
+    
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+    display: flex;
+}
+
+.topic-meta-box-left{
+    width: 50%;
+}
+
+.topic-meta-box-right{
+    width: 50%;
+}
