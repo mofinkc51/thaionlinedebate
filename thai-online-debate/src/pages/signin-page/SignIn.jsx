@@ -1,10 +1,28 @@
-import React from 'react'
+import React ,{useState}from 'react'
 import SignInNavbar from '../../components/Navbar/SignInNavbar'
 import './SignIn.css'
 import signinImg from '../../assets/signup.png'
-
+import axios from 'axios'
 
 function SignIn() {
+  const [inputs,setInputs] = useState({
+    user_email:"",
+    user_password:"",
+  });
+  const handleChange = (e) => {
+    setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}))
+  };
+  const [err, SetErr] = useState(null);
+
+const login_button = async (e) => {
+  try {
+    await axios.post("http://localhost:8800/api/auth/login", inputs);
+  } catch (err) {
+    SetErr(err.response.data);
+    alert(err.response.data);
+  }
+};
+
   return (
     <>
       {/* Navbar */}
@@ -24,12 +42,12 @@ function SignIn() {
               {/* form container */}
               <div className='signin-form-container'>
                 <p class="sigin-label">อีเมล</p>
-                <input type="email" name="email" class="signin-textfield" />
+                <input type="email" class="signin-textfield" name="user_email" onChange={handleChange}/>
                 <p class="sigin-label">รหัสผ่าน</p>
-                <input type="password" name="password" class="signin-textfield" />
+                <input type="password" class="signin-textfield" name="user_password" onChange={handleChange}/>
                 {/* buttone div */}
                 <div className='signin-button-container'>
-                  <button class="signin-button">เข้าสู่ระบบ</button>
+                  <button class="signin-button" onClick={login_button}>เข้าสู่ระบบ</button>
                 </div>
                 <a href="#">ลืมรหัสผ่าน</a>
               </div>
