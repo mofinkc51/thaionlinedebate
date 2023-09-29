@@ -10,6 +10,7 @@ import CreateTopicPopup from './components/CreateTopicPopup';
 import Profile from './pages/profile-page/Profile';
 import EditProfile from './pages/edit-profile-page/EditProfile';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
+import DebateTopic from './pages/debate-topic-page/DebateTopic';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
       {/* <CreateTopicPopup/> */}
       {/* <Profile/> */}
       {/* <EditProfile/> */}
-      <FavDebateGallery/>
+      {/* <FavDebateGallery/> */}
+      <DebateTopic/>
       
       
       
