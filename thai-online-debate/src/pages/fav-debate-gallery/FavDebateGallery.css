@@ -1,0 +1,23 @@
+
+.fav-debate-gallery-page-container{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid red;
+    padding-top: 4rem;
+
+}
+
+.fav-debate-gallery-title-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.fav-debate-gallery{
+    margin: 30px 0 0 0  ;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
+}

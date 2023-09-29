@@ -1,0 +1,119 @@
+.profile-page-container{
+    padding-top: 5rem;
+    max-width: 590px;
+    width: 100%;
+    /* border: 1px solid red; */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-left-side-box{
+    width: 280px;
+    height: 450px;
+    /* border: 1px solid green; */
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.profile-left-upper-container{
+    /* border: 1px solid blue; */
+    align-items: center;
+}
+.profile-upper-image-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid red; */
+    width: 100%;
+    margin-top: 30px;
+}
+.profile-prof-img{
+    width: 128px;
+    height: 128px;
+    flex-shrink: 0;
+    border-radius: 64px;
+    margin: 0;
+    /* border: 1px solid blue; */
+
+}
+
+.profile-prof-name{
+    color: #2C343D;
+    text-align: center;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 30.8px; /* 140% */
+}
+.profile-upper-editprofile-button-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-edit-prof-button{
+    color: #97C4FB;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 30.8px; /* 192.5% */
+    text-decoration-line: underline;
+
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+
+}
+
+/*  */
+
+.profile-stat-container{
+    margin: 25px auto 0 auto;
+    max-width: 200px;
+    width: 100%;
+}
+
+.profile-stat-title{
+    margin-bottom: 20px;
+    color: #2C343D;
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 30.8px; /* 192.5% */
+}
+
+.profile-stat-row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+profile-stat-label{
+        color: #2C343D;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 30.8px; /* 192.5% */
+}
+
+/* right side */
+.profile-right-side-box{
+    width: 280px;
+    /* border: 1px solid green; */
+
+}
+
+.profile-topic-history-title{
+    color: #2C343D;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30.8px; /* 192.5% */
+}

@@ -1,0 +1,81 @@
+.signup-container{
+    max-width: 990px;
+    margin: 0 auto;
+    /* border: 1px solid #a21111; */
+
+}
+
+.signup-flex{
+    display: flex;
+    align-items: center;
+    height: 90vh;
+    /* border: 1px solid #a21111; */
+
+}
+
+.signup-left-container{
+    /* border: 1px solid blue; */
+    width: 100%;
+}
+.signup-right-container{
+    /* border: 1px solid green; */
+    width: 100%;
+}
+
+.signup-title{
+    color: #100F0F;
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    margin-bottom: 30px;
+}
+
+
+.signup-form-container{
+    
+}
+
+.signup-label{
+    
+
+}
+.signup-textfield{
+    width: 306px;
+    height: 55px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+
+    font-size: 20px;
+
+    padding-left: 20px;
+    margin-bottom: 9px;
+}
+
+.signup-button-container{
+    margin-top: 9px;
+}
+
+.signup-button{
+    width: 113px;
+    height: 55px;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #252958;
+}
+
+/* Reponsive Part */
+@media screen and (max-width: 480px) {
+    
+}
