@@ -11,19 +11,20 @@ import Profile from './pages/profile-page/Profile';
 import EditProfile from './pages/edit-profile-page/EditProfile';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
 
+
 function App() {
   return (
     <>
       {/* <UserNavBar/> */}
       {/* <RegisterNavbar/> */}
       {/* <SignInNavbar/> */}
-      {/* <SignIn/> */}
-      {/* <SignIn/> */}
+      <SignIn/>
+      {/* <SignUp/> */}
       {/* <Home/> */}
       {/* <CreateTopicPopup/> */}
       {/* <Profile/> */}
       {/* <EditProfile/> */}
-      <FavDebateGallery/>
+      {/*<FavDebateGallery/>*/}
       
       
       

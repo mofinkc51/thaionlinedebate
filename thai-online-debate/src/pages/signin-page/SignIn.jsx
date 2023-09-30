@@ -40,17 +40,19 @@ const login_button = async (e) => {
               {/* heading text */}
               <h1 class="signin-title">เข้าสู่ระบบ</h1>
               {/* form container */}
+              <form onSubmit={login_button} action="/">
               <div className='signin-form-container'>
                 <p class="sigin-label">อีเมล</p>
-                <input type="email" class="signin-textfield" name="user_email" onChange={handleChange}/>
+                <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>
                 <p class="sigin-label">รหัสผ่าน</p>
-                <input type="password" class="signin-textfield" name="user_password" onChange={handleChange}/>
+                <input type="password" class="signin-textfield" name="user_password" onChange={handleChange} required/>
                 {/* buttone div */}
                 <div className='signin-button-container'>
-                  <button class="signin-button" onClick={login_button}>เข้าสู่ระบบ</button>
+                  <button class="signin-button">เข้าสู่ระบบ</button>
                 </div>
                 <a href="#">ลืมรหัสผ่าน</a>
               </div>
+              </form>
             </div>
         </div>
 
