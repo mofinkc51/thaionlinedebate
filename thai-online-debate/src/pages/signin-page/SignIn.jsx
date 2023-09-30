@@ -1,10 +1,12 @@
-import React ,{useState}from 'react'
+import React ,{useContext, useState}from 'react'
 import SignInNavbar from '../../components/Navbar/SignInNavbar'
 import './SignIn.css'
 import signinImg from '../../assets/signup.png'
 import axios from 'axios'
+import { AuthContext } from '../../context/authContext'
 
 function SignIn() {
+
   const [inputs,setInputs] = useState({
     user_email:"",
     user_password:"",
@@ -14,14 +16,17 @@ function SignIn() {
   };
   const [err, SetErr] = useState(null);
 
-const login_button = async (e) => {
-  try {
-    await axios.post("http://localhost:8800/api/auth/login", inputs);
-  } catch (err) {
-    SetErr(err.response.data);
-    alert(err.response.data);
-  }
-};
+  // const { login } = useContext(AuthContext);
+
+  const login_button = async (e) => {
+    e.preventDefault();
+    try { console.log("t")
+      // await login(inputs);
+    } catch (err) {
+      SetErr(err.response.data);
+      alert(err.response.data);
+    }
+  };
 
   return (
     <>
@@ -40,7 +45,7 @@ const login_button = async (e) => {
               {/* heading text */}
               <h1 class="signin-title">เข้าสู่ระบบ</h1>
               {/* form container */}
-              <form onSubmit={login_button} action="/">
+              <form onSubmit={login_button} >
               <div className='signin-form-container'>
                 <p class="sigin-label">อีเมล</p>
                 <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>

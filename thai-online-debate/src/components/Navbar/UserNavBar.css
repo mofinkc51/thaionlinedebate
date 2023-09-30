@@ -159,6 +159,8 @@ footer{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     overflow: hidden;
     z-index: 1;
+    /* visibility: hidden; */
+    /* opacity: 0; */
   }
 
   /* Links inside the dropdown */
@@ -180,4 +182,5 @@ footer{
   /* Show the dropdown menu on hover */
   .nav-dropdown:hover .nav-dropdown-content {
     display: block;
+    /* visibility: visible; */
   }
