@@ -1,0 +1,18 @@
+.tag-component{
+    margin: 5px 0;
+    height: 20px;
+    
+    max-width: 90px;
+
+    border-radius: 15px;
+    border: 1px solid #0C0D0D;
+    background: #FFF;
+    text-align: center;
+}
+.tag-component-name{
+    color: #2C343D;
+    font-size: 12px;
+    font-style: normal;
+
+
+}
