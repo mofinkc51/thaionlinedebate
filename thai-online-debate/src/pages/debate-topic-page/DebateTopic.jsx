@@ -65,9 +65,10 @@ function DebateTopic() {
                 <img className='debate-topic-option-image' src={optionButtonIcon} alt="" />
               </button>
               <div id="myDropdown" class="debate-topic-dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
+                <a href="#">เพิ่มเข้ารายการชื่นชอบ</a>
+                <a href="#">เพิ่มเข้ารายการดาวน์โหลด</a>
+                <a href="#">แก้ไขประเด็นโต้แย้ง</a>
+                <a href="#">แก้ไขประเด็นโต้แย้ง</a>
               </div>
             </div>
 
