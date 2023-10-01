@@ -17,7 +17,7 @@ function UserNavBar() {
                         <div class="nav-dropdown">
                             <li className='nav-dropdown'><a class="nav-dropbtn" href="">บัญชีผู้ใช้</a></li> 
                             <div class="nav-dropdown-content"> 
-                                    <a href="#"><img src=""/>โปรไฟล์</a>
+                                    <a href="/profile"><img src=""/>โปรไฟล์</a>
                                     <a href="#">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
                                     <a href="#">ส่งคำร้องการดาวน์โหลด</a>
                                     <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>

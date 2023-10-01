@@ -11,7 +11,7 @@ function RegisterNavbar() {
                         </div>
                         <ul class="nav-menu" id="myMenu">
                             <li><a href="">หน้าแรก</a></li>
-                            <li><a href="">เข้าสู่ระบบ</a></li>
+                            <li><a href="/signin">เข้าสู่ระบบ</a></li>
                             
                         </ul>
                     </div>

@@ -4,7 +4,7 @@ import './SignIn.css'
 import signinImg from '../../assets/signup.png'
 import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
-
+import { useNavigate } from 'react-router-dom'
 function SignIn() {
 
   const [inputs,setInputs] = useState({
@@ -16,12 +16,15 @@ function SignIn() {
   };
   const [err, SetErr] = useState(null);
 
-  // const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const login_button = async (e) => {
     e.preventDefault();
-    try { console.log("t")
-      // await login(inputs);
+    try { 
+       await login(inputs);
+       navigate('/home');
     } catch (err) {
       SetErr(err.response.data);
       alert(err.response.data);
@@ -45,7 +48,7 @@ function SignIn() {
               {/* heading text */}
               <h1 class="signin-title">เข้าสู่ระบบ</h1>
               {/* form container */}
-              <form onSubmit={login_button} >
+              <form onSubmit={login_button}>
               <div className='signin-form-container'>
                 <p class="sigin-label">อีเมล</p>
                 <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>
@@ -66,4 +69,4 @@ function SignIn() {
   )
 }
 
-export default SignIn
+export default SignIn;
