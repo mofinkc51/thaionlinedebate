@@ -56,10 +56,7 @@ nav{
     /* height: max-content; */
 
 }
-.nav-menu li:hover{
-  background-color: red;
 
-}
 
 .nav-menu li a{
     color: #fff;
