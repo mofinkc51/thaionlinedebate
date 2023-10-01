@@ -24,7 +24,7 @@ nav{
     align-items: center;
     height: 80px;
     position: relative;
-    border: 1px solid green;
+    /* border: 1px solid green; */
 
 }
 
@@ -40,7 +40,7 @@ nav{
   display: flex;
   align-items: center;
 
-    border: 1px solid gold;
+    /* border: 1px solid gold; */
 }
 
 .nav-menu li{
