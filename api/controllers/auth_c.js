@@ -5,9 +5,9 @@ import Jwt from "jsonwebtoken";
 export const register = (req,res)=>{
     //check user
 
-    const sql = "SELECT * FROM user WHERE user_name = ?"
+    const sql = "SELECT * FROM user WHERE user_email = ?"
 
-    db.query(sql,[req.body.user_name], (err,data)=>{
+    db.query(sql,[req.body.user_email], (err,data)=>{
         if(err) return res.status(500).json(err)
         if(data.length) return res.status(409).json("User already ext")
     
@@ -38,15 +38,15 @@ export const register = (req,res)=>{
 };
 
 export const login = (req,res)=>{
-    const sql = "SELECT * FROM user WHERE user_name = ?"
-    db.query(sql,[req.body.user_name], (err,data)=>{
+    const sql = "SELECT * FROM user WHERE user_email = ?"
+    db.query(sql,[req.body.user_email], (err,data)=>{
         if(err) return res.status(500).json(err)
         if(data.length === 0) return res.status(404).json("User not found");
-        console.log(data[0].user_name)
+        console.log(data[0].user_email)
         const checkPass = bcrypt.compareSync(req.body.user_password, data[0].user_password);
         console.log(checkPass)
         if(!checkPass) 
-            return res.status(400).json("Wrong password or username");
+            return res.status(400).json("Wrong password or email");
         //return res.status(200).json("login success")
 
         const token = Jwt.sign({id:data[0].user_id},"secretkey");

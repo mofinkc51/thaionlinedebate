@@ -1,10 +1,36 @@
-import React from 'react'
+import React ,{useContext, useState}from 'react'
 import SignInNavbar from '../../components/Navbar/SignInNavbar'
 import './SignIn.css'
 import signinImg from '../../assets/signup.png'
-
-
+import axios from 'axios'
+import { AuthContext } from '../../context/authContext'
+import { useNavigate } from 'react-router-dom'
 function SignIn() {
+
+  const [inputs,setInputs] = useState({
+    user_email:"",
+    user_password:"",
+  });
+  const handleChange = (e) => {
+    setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}))
+  };
+  const [err, SetErr] = useState(null);
+
+  const { login } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const login_button = async (e) => {
+    e.preventDefault();
+    try { 
+       await login(inputs);
+       navigate('/home');
+    } catch (err) {
+      SetErr(err.response.data);
+      alert(err.response.data);
+    }
+  };
+
   return (
     <>
       {/* Navbar */}
@@ -22,17 +48,19 @@ function SignIn() {
               {/* heading text */}
               <h1 class="signin-title">เข้าสู่ระบบ</h1>
               {/* form container */}
+              <form onSubmit={login_button}>
               <div className='signin-form-container'>
                 <p class="sigin-label">อีเมล</p>
-                <input type="email" name="email" class="signin-textfield" />
+                <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>
                 <p class="sigin-label">รหัสผ่าน</p>
-                <input type="password" name="password" class="signin-textfield" />
+                <input type="password" class="signin-textfield" name="user_password" onChange={handleChange} required/>
                 {/* buttone div */}
                 <div className='signin-button-container'>
                   <button class="signin-button">เข้าสู่ระบบ</button>
                 </div>
                 <a href="#">ลืมรหัสผ่าน</a>
               </div>
+              </form>
             </div>
         </div>
 
@@ -41,4 +69,4 @@ function SignIn() {
   )
 }
 
-export default SignIn
+export default SignIn;
