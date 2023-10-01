@@ -24,20 +24,27 @@ nav{
     align-items: center;
     height: 80px;
     position: relative;
+    border: 1px solid green;
+
 }
 
 .nav-wrapper .logo h3{
-    font-family: Inter;
     font-size: 20px;
     font-weight: 700;
     color: #fff;
 }
 
 .nav-menu{
-    display: flex;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+    border: 1px solid gold;
 }
 
 .nav-menu li{
+    align-items: center;
     margin-left: 40px;
     list-style-type: none;
     font-family: Inter;
@@ -46,6 +53,11 @@ nav{
     font-weight: 400;
     line-height: normal;
     text-transform: capitalize;
+    /* height: max-content; */
+
+}
+.nav-menu li:hover{
+  background-color: red;
 
 }
 
@@ -151,7 +163,9 @@ footer{
 
   /* Dropdown content (hidden by default) */
 .nav-dropdown-content {
-    margin-top: 1.5rem;
+
+    
+    margin-top: 1.3rem;
     display: none;
     position: absolute;
     width: 200px;
@@ -166,11 +180,16 @@ footer{
   /* Links inside the dropdown */
 .nav-dropdown-content a {
     float: bottom;
-    color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
+
+    color: #808080;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
     
   }
   
@@ -182,4 +201,5 @@ footer{
   /* Show the dropdown menu on hover */
   .nav-dropdown:hover .nav-dropdown-content {
     display: block;
+    transition: transform 150ms;
   }
