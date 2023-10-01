@@ -10,24 +10,36 @@ import CreateTopicPopup from './components/CreateTopicPopup';
 import Profile from './pages/profile-page/Profile';
 import EditProfile from './pages/edit-profile-page/EditProfile';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
+import { AuthContextProvider } from './context/authContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <>
+    <AuthContextProvider>
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/signin" element={<SignIn/>}/>
+            <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/home" element={<Home/>}/>
+            <Route path="/create-topic-popup" element={<CreateTopicPopup/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/import { BrowserRouter as Router, Routes, Route, Switch } from 'react-router-dom';edit-profile" element={<EditProfile/>}/>
+            <Route path="/fav-debate-gallery" element={<FavDebateGallery/>}/>
+          </Routes>
+        </div>
+      </Router>
       {/* <UserNavBar/> */}
       {/* <RegisterNavbar/> */}
       {/* <SignInNavbar/> */}
       {/* <SignIn/> */}
-      {/* <SignIn/> */}
+      {/* <SignUp/> */}
       {/* <Home/> */}
       {/* <CreateTopicPopup/> */}
       {/* <Profile/> */}
       {/* <EditProfile/> */}
-      <FavDebateGallery/>
-      
-      
-      
-    </>
+      {/*<FavDebateGallery/>*/}
+    </AuthContextProvider>
   );
 }
 

@@ -11,7 +11,7 @@ function SignInNavbar() {
                         </div>
                         <ul class="nav-menu" id="myMenu">
                             <li><a href="">หน้าแรก</a></li>
-                            <li><a href="">ลงทะเบียน</a></li>
+                            <li><a href="/signup">ลงทะเบียน</a></li>
                             
                         </ul>
                     </div>

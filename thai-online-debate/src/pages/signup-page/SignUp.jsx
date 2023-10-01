@@ -1,10 +1,45 @@
-import React from 'react'
+import React,{ useState }from 'react'
 import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
 import './SignUp.css'
 import signupImg from '../../assets/signup.png'
-
+import axios from 'axios';
 
 function SignUp() {
+  const [inputs,setInputs] = useState({
+    user_name:"",
+    user_email:"",
+    user_phonenum:"",
+    user_password:"",
+    confirmpassword:"",
+  });
+
+  const handleChange = (e) => {
+      setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}))
+  };
+  console.log(inputs)
+
+  const [err, SetErr] = useState(null);
+
+
+  const regis_button = async (e) => {
+
+      const {confirmpassword, ...inputsDb}  = inputs;
+      
+      if (inputs.confirmpassword !== inputs.user_password) {
+          return alert("password not match")
+
+      } else {
+          e.preventDefault();
+          try {
+              await axios.post("http://localhost:8800/api/auth/register", inputsDb)
+          } catch (err) {
+              SetErr(err.response.data)
+              alert(err.response.data)
+          }
+          //console.log("you tick toog and correct password");
+      }
+  };
+
   return (
     <>
     {/* Navbar */}
@@ -21,27 +56,30 @@ function SignUp() {
                 {/* heading text */}
                 <h1 class="signup-title">ลงทะเบียน</h1>
                 {/* form container */}
-                <div className='signup-form-container'>
+                <form onSubmit={regis_button}>
                 <p class="signup-label">ชื่อบัญชีผู้ใช้</p>
-                    <input type="text" name="username" class="signup-textfield" placeholder="ชื่อบัญชีผู้ใช้" />
+                    <input type="text" name="user_name" onChange={handleChange} class="signup-textfield" placeholder="ชื่อบัญชีผู้ใช้" required/>
                     <p class="signup-label">อีเมล</p>
-                    <input type="email" name="email" class="signup-textfield" placeholder="อีเมล" />
+                    <input type="email" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChange} class="signup-textfield" placeholder="อีเมล" required/>
                     <p class="signup-label">เบอร์โทรศัพท์</p>
-                    <input type="tel" name="phonenum" class="signup-textfield" placeholder="เบอร์โทรศัพท์" />
+                    <input type="tel" name="user_phonenum" min ="0" maxlength="10" onChange={handleChange} class="signup-textfield" placeholder="เบอร์โทรศัพท์" />
                     <p class="signup-label">รหัสผ่าน</p>
-                    <input type="password" name="password" class="signup-textfield" placeholder="รหัสผ่าน" />
+                    <input type="password" name="user_password" onChange={handleChange} class="signup-textfield" placeholder="รหัสผ่าน" required/>
                     <p class="signup-label">ยืนยันรหัสผ่าน</p>
-                    <input type="password" name="confirmpassword" class="signup-textfield" placeholder="ยืนยันรหัสผ่าน" />
+                    <input type="password" name="confirmpassword" onChange={handleChange} class="signup-textfield" placeholder="ยืนยันรหัสผ่าน" required/>
                     {/* check box div */}
                     <div className='checkbox-signup-container'>
-                        <input type="checkbox" id="checkbox-singup" value="accept" />
+                        <input type="checkbox" value="accept" name="checkbox1" id="checkbox1" required/>
                         <label for="checkbox-singup">  ยอมรับข้อตกลงการใช้บริการ</label><br/>
                         <a href="#">ข้อตกลงการใช้บริการ</a>
                     </div>
                     {/* buttone div */}
                     <div className='signup-button-container'>
-                        <button class="signup-button">ลงทะเบียน</button>
+                        <button class="signup-button" >ลงทะเบียน</button>
                     </div>
+                </form>
+                <div className='signup-form-container'>
+ 
                 </div>
             </div>
         </div> 
