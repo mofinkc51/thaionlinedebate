@@ -15,7 +15,7 @@ function UserNavBar() {
                         <li><a href="">หน้าแรก</a></li>
                         <li><a href="">สร้าง</a></li>
                         <div class="nav-dropdown">
-                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">บัญชีผู้ใช้</a></li> 
+                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">บัญชีผู้ใช้ ▼</a></li> 
                             <div class="nav-dropdown-content">
                                 
                                 <a href="#"><img src=""/>โปรไฟล์</a>

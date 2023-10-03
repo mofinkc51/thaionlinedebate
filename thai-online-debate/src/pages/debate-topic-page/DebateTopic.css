@@ -90,6 +90,13 @@
     z-index: 1;
   }
 
+.debate-topic-dropdown-content.active{
+    display: block;
+}
+.debate-topic-dropdown-content.inactive{
+    display: none;
+}
+
 /* Change color of dropdown links on hover */
 .debate-topic-dropdown-content button:hover {background-color: #ddd;}
 

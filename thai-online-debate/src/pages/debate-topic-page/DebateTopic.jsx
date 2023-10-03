@@ -1,34 +1,19 @@
-import React from 'react'
+import React, {useState, useEffect, useRef} from 'react';
 import './DebateTopic.css'
 import UserNavbar from '../../components/Navbar/UserNavBar'
 import TopicTag from '../../components/TopicTag'
 import optionButtonIcon from '../../assets/icon/more-vertical.png'
 
-function DebateTopic() {
 
-  // Close the dropdown menu if the user clicks outside of it
-  // window.onclick = function(event) {
-  //   if (!event.target.matches('.debate-topic-option-dropdown')) {
-  //     var dropdowns = document.getElementsByClassName("debate-topic-dropdown-content");
-  //     var i;
-  //     for (i = 0; i < dropdowns.length; i++) {
-  //       var openDropdown = dropdowns[i];
-  //       if (openDropdown.classList.contains('show')) {
-  //         openDropdown.classList.remove('show');
-  //       }
-  //     }
-  //   }
-  // }
+function DebateTopic() {
+  const [open, setOpen] = useState(false);
+
   const topicData = {
     topicName: "รถพลังงานไฟฟ้าจะมาแทนที่แบบสันดาป",
     topicCreator: "User",
     topicDescription: ""
   }
 
-  const dropDownClick = () =>{
-    console.log("clicked")
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
   return (
     <>
         <UserNavbar />
@@ -61,14 +46,14 @@ function DebateTopic() {
             
             {/* drop down button */}
             <div className="debate-topic-option-dropdown">
-              <button className="debate-topic-option-vert-button" onClick={dropDownClick}>
+              <div className="debate-topic-option-vert-button" onClick={()=>{setOpen(!open)}}>
                 <img className='debate-topic-option-image' src={optionButtonIcon} alt="" />
-              </button>
-              <div id="myDropdown" class="debate-topic-dropdown-content">
+              </div>
+              <div id="myDropdown" class={`debate-topic-dropdown-content ${open? "active": "inactive"}`}>
                 <button>เพิ่มเข้ารายการชื่นชอบ</button>
                 <button>เพิ่มเข้ารายการดาวน์โหลด</button>
                 <button>แก้ไขประเด็นโต้แย้ง</button>
-                <button>แก้ไขประเด็นโต้แย้ง</button>
+                <button>ลบประเด็นโต้แย้ง</button>
               </div>
             </div>
 
