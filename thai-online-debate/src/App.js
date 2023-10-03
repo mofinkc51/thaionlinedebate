@@ -10,6 +10,7 @@ import CreateTopicPopup from './components/CreateTopicPopup';
 import Profile from './pages/profile-page/Profile';
 import EditProfile from './pages/edit-profile-page/EditProfile';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
+import DebateTopic from './pages/debate-topic-page/DebateTopic';
 import { AuthContextProvider } from './context/authContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signin" element={<SignIn/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/home" element={<Home/>}/>
+            <Route path="/debate-topic" element={<DebateTopic/>}/>
             <Route path="/create-topic-popup" element={<CreateTopicPopup/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/import { BrowserRouter as Router, Routes, Route, Switch } from 'react-router-dom';edit-profile" element={<EditProfile/>}/>
