@@ -91,12 +91,29 @@
   }
 
 /* Change color of dropdown links on hover */
-.debate-topic-dropdown-content a:hover {background-color: #ddd;}
+.debate-topic-dropdown-content button:hover {background-color: #ddd;}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
-.debate-topic-dropdown-content a {
+
+.debate-topic-dropdown-content button {
+    cursor: pointer;
+    text-align: left;
+    border: none;
+    background: transparent;
+    color: #808080;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 12px 16px;
+    width: 100%;
+    text-decoration: none;
+    display: block;
+  }
+
+/* .debate-topic-dropdown-content a {
     color: #808080;
     font-size: 12px;
     font-style: normal;
@@ -105,7 +122,7 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-  }
+  } */
 
 .debate-topic-option-vert-button{
     cursor: pointer;
