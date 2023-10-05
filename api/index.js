@@ -1,5 +1,6 @@
 import express from "express"
-const app = express()
+const app = express();
+
 import authRoutes from "./routes/auth.js"
 import commentRoutes from "./routes/comments.js"
 import likeRoutes from "./routes/likes.js"
@@ -28,3 +29,4 @@ app.use("/api/users", userRoutes)
 app.listen(8800, ()=>{
     console.log("Connected")
 })
+

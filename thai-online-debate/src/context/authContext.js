@@ -20,9 +20,9 @@ export const AuthContextProvider = ({ children }) => {
         }
       );
       setCurrentUser(res.data);
-    } catch (error) {
+    } catch (err) {
       // Handle error
-      alert(error.response.data);
+      alert(err.response.data);
     }
   };
 
