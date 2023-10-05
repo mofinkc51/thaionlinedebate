@@ -24,7 +24,7 @@ function SignIn() {
     e.preventDefault();
     try { 
        await login(inputs);
-       navigate('/home');
+       navigate('/');
     } catch (err) {
       SetErr(err.response.data);
       alert(err.response.data);
