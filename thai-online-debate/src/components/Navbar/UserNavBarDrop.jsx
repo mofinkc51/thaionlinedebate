@@ -16,10 +16,12 @@ function UserNavBarDrop() {
                         <div class="dropdown">
                             <li className='dropdown'><a class="dropbtn" href="">บัญชีผู้ใช้</a></li> 
                             <div class="dropdown-content">
-                                <a href="#"><img src=""/>โปรไฟล์</a>
-                                <a href="#">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
-                                <a href="#">ส่งคำร้องการดาวน์โหลด</a>
-                                <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
+                                {/* <ul>
+                                    <li><a href="#"><img src=""/>โปรไฟล์</a>
+                                    <li><a href="#">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
+                                    <li><a href="#">ส่งคำร้องการดาวน์โหลด</a>
+                                    <li><a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
+                                </ul> */}
                                 
                             </div>
                         </div>

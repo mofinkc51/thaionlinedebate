@@ -21,7 +21,7 @@ function Profile() {
                         <p className='profile-prof-name'>Profile Name</p>
                     </div>
                     <div className="profile-upper-editprofile-button-container">
-                        <button className='profile-edit-prof-button'>แก้ไขข้อมูลส่วนตัว</button>
+                        <button className='profile-edit-prof-button'>ข้อมูลส่วนตัว</button>
                     </div>
                 </div>
 

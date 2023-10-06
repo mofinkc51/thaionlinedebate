@@ -27,7 +27,7 @@
 .edit-profile-profile-label-row{
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 1.5rem;
 }
 
 .edit-profile-data-label{
@@ -41,6 +41,7 @@
 
 .edit-profile-edit-button{
     /* make button clear */
+    cursor: pointer;
     background-color: transparent;
     border: 0;
     
@@ -53,6 +54,20 @@
     line-height: 30.8px; /* 192.5% */
     text-decoration-line: underline;
 }
+
+.edit-profile-textfield{
+    width: 70%;
+    margin-top: 0.5rem;
+
+    border: none;
+    border-bottom: 1px solid rgba(44, 52, 61, 0.60);
+
+    color: #2C343D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+}
+
 
 /* image row */
 .edit-profile-profile-image-row{
