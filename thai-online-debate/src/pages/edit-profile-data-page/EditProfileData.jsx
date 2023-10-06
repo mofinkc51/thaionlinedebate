@@ -9,8 +9,8 @@ function EditProfileData() {
         phonenum: '0831234567',
         email: 'email@gmail.com'
     }
-    document.getElementById('username').value = userData.username
-    document.getElementById('phonenum').value = userData.phonenum
+    // document.getElementById('username').value = userData.username
+    // document.getElementById('phonenum').value = userData.phonenum
   return (
     <>
     <UserNavBar/>
