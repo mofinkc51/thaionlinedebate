@@ -3,6 +3,8 @@ import './DebateTopic.css'
 import UserNavbar from '../../components/Navbar/UserNavBar'
 import TopicTag from '../../components/TopicTag'
 import optionButtonIcon from '../../assets/icon/more-vertical.png'
+import userImg from '../../assets/profile.png'
+import CommentComponent from '../../components/CommentComponent'
 
 
 function DebateTopic() {
@@ -11,7 +13,7 @@ function DebateTopic() {
   const topicData = {
     topicName: "รถพลังงานไฟฟ้าจะมาแทนที่แบบสันดาป",
     topicCreator: "User",
-    topicDescription: ""
+    topicDescription: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident quos ad minima ut dolorum quae veritatis, aspernatur explicabo necessitatibus dicta dolore commodi laboriosam beatae quo totam? Atque beatae dignissimos distinctio."
   }
 
   return (
@@ -40,7 +42,7 @@ function DebateTopic() {
             </div>
             {/* right content */}
             <div className="debate-topic-meta-data-right-content">
-              <p className='debate-topic-topic-description'>คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย คำอธิบาย</p>
+              <p className='debate-topic-topic-description'>{topicData.topicDescription}</p>
               
             </div>
             
@@ -68,14 +70,39 @@ function DebateTopic() {
                 <p className='debate-topic-side-stance-title'>
                   ฝั่งที่เห็นด้วย
                 </p>
+                <div className="debate-topic-comment-scroll-box">
+                <CommentComponent/>
+                <CommentComponent/>
+                <CommentComponent/>
+
+                  
+                </div>
+                <button className='debate-topic-agree-button'>แสดงความคิดเห็นเพื่อเห็นด้วย</button>
                 
               </div>
             </div>
             
+            {/* right contaienr */}
+            <div className="debate-topic-side-box">
+              <div className="debate-topic-side-content-container">
+                <p className='debate-topic-side-stance-title'>
+                  ฝั่งที่ไม่เห็นด้วย
+                </p>
+                <div className="debate-topic-comment-scroll-box">
+                  <CommentComponent/>
+
+
+                </div>
+                <button className='debate-topic-disagree-button'>แสดงความคิดเห็นเพื่อไม่เห็นด้วย</button>
+                
+              </div>
+            </div>
           </div>
         </div>
     </>
   )
 }
+
+
 
 export default DebateTopic
