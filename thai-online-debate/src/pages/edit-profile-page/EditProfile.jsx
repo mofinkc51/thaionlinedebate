@@ -1,9 +1,14 @@
-import React from 'react'
 import './EditProfile.css'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
+import React ,{ useContext }from 'react'
+import { AuthContext } from '../../context/authContext';
 
 function EditProfile() {
+    
+    const { currentUser } = useContext(AuthContext);
+
+    console.log(currentUser);
   return (
     <>
     <UserNavBar/>
@@ -28,20 +33,20 @@ function EditProfile() {
                     <p className='edit-profile-data-label'>ชื่อบัญชีผู้ใช้</p>
                     <button className='edit-profile-edit-button'>แก้ไข</button>
                 </div>
-                <p className='edit-profile-profile-data'>nker31</p>
+                <p className='edit-profile-profile-data'>{currentUser.user_name}</p>
 
                 {/* phonenum label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>เบอร์โทรศัพท์</p>
                     {/* <button className='edit-profile-edit-button'>แก้ไข</button> */}
                 </div>
-                <p className='edit-profile-profile-data'>0831234567</p>
+                <p className='edit-profile-profile-data'>{currentUser.user_phone}</p>
 
                 {/* email label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>อีเมล</p>
                 </div>
-                <p>peamzakc@gmail.com</p>
+                <p>{currentUser.user_email}</p>
 
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">

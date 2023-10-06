@@ -21,13 +21,21 @@ import { AuthContext } from './context/authContext';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
+
+
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/signin"/>;
+      
     }
-
+    var user = currentUser.user_name;
     return children;
   };
+
+  var user = "";
+  if (currentUser) {
+    user = currentUser.user_name;
+  }
   const router = createBrowserRouter([
     {
       path: "/",
@@ -42,6 +50,15 @@ function App() {
       element: (
         <ProtectedRoute>
           <Profile/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      //+ currentUser.user_name
+      path: (`/profile/${user}`),
+      element: (
+        <ProtectedRoute>
+          <EditProfile/>
         </ProtectedRoute>
       ),
     },
