@@ -1,7 +1,16 @@
 import React from 'react'
 import './UserNavBar.css'
+export const createTopic = () => {
+        var x = document.getElementsByClassName("showcreate");
+        if (x[0].style.display === "none") {
+          x[0].style.display = "block";
+        } else {
+          x[0].style.display = "none";
+        }
+};
 
 function UserNavBar() {
+
 
   return (
     <>
@@ -13,7 +22,7 @@ function UserNavBar() {
                     </div>
                     <ul class="nav-menu" id="myMenu">
                         <li><a href="">หน้าแรก</a></li>
-                        <li><a href="">สร้าง</a></li>
+                        <li><a onClick={createTopic}>สร้าง</a></li>
                         <div class="nav-dropdown">
                             <li className='nav-dropdown'><a class="nav-dropbtn" href="">บัญชีผู้ใช้ ▼</a></li> 
                             <div class="nav-dropdown-content">

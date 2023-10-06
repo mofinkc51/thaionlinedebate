@@ -8,6 +8,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+  const locate = window.location.origin;
 
   const login = async (inputs) => {
     try {
@@ -19,9 +20,9 @@ export const AuthContextProvider = ({ children }) => {
         }
       );
       setCurrentUser(res.data);
-    } catch (error) {
+    } catch (err) {
       // Handle error
-      alert(error.response.data);
+      alert(err.response.data);
     }
   };
 

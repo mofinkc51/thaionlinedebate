@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@ngrok/ngrok": "^0.7.1"
+  }
+}
