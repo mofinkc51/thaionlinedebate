@@ -13,7 +13,9 @@ function DebateTopic() {
   const topicData = {
     topicName: "รถพลังงานไฟฟ้าจะมาแทนที่แบบสันดาป",
     topicCreator: "User",
-    topicDescription: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident quos ad minima ut dolorum quae veritatis, aspernatur explicabo necessitatibus dicta dolore commodi laboriosam beatae quo totam? Atque beatae dignissimos distinctio."
+    topicDescription: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident quos ad minima ut dolorum quae veritatis, aspernatur explicabo necessitatibus dicta dolore commodi laboriosam beatae quo totam? Atque beatae dignissimos distinctio.",
+    topicAgree: 100,
+    topicDisagree: 0
   }
 
   return (
@@ -42,7 +44,30 @@ function DebateTopic() {
             </div>
             {/* right content */}
             <div className="debate-topic-meta-data-right-content">
-              <p className='debate-topic-topic-description'>{topicData.topicDescription}</p>
+              <div className="debate-topic-description-box">
+                <p className='debate-topic-topic-description'>{topicData.topicDescription}</p>
+              </div>
+              <p className='debate-topic-progress-bar-title'>อัตราส่วนการโต้แย้ง</p>
+              {/* <progress className='debate-topic-progress-bar' id="file" value="70" max="100"></progress>  */}
+              
+              <div className="debate-topic-legend-row">
+                {/* agree legend */}
+                <div className='debate-topic-legend-element'>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <circle cx="6.5" cy="6.5" r="6.5" fill="#0DC7B1"/>
+                  </svg>
+                  <p className='debate-topic-legend-text'>เห็นด้วย {topicData.topicAgree}%</p>
+                </div>
+
+                {/* disagree legend */}
+                <div className='debate-topic-legend-element'>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <circle cx="6.5" cy="6.5" r="6.5" fill="#EB5757"/>
+                  </svg>
+                  <p className='debate-topic-legend-text'>ไม่เห็นด้วย {topicData.topicDisagree}%</p>
+                </div>
+
+              </div>
               
             </div>
             
