@@ -30,15 +30,15 @@ function Profile() {
                     <p className='profile-stat-title'>สถิติ</p>
                     <div className="profile-stat-row">
                         <p className="profile-stat-label">ประเด็นโต้แย้งที่สร้าง</p>
-                        <p>5</p>
+                        <p>6</p>
                     </div>
                     <div className="profile-stat-row">
                         <p className="profile-stat-label">จำนวนการโต้แย้ง</p>
-                        <p>5</p>
+                        <p>3</p>
                     </div>
                     <div className="profile-stat-row">
                         <p className="profile-stat-label">จำนวนการโดนกดถูกใจ</p>
-                        <p>5</p>
+                        <p>9</p>
                     </div>
                 </div>
 

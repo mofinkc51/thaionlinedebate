@@ -90,7 +90,7 @@ function DebateTopic() {
 
               <div className='debate-topic-tag-container'>
                 <TopicTag tagName="เทคโนโลยี"/>
-                <TopicTag tagName="เซมิคอนดัคเตอร์"/>
+                {/* <TopicTag tagName="เซมิคอนดัคเตอร์"/> */}
                 
 
               </div>

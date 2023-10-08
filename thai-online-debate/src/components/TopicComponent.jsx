@@ -2,11 +2,12 @@ import React from 'react'
 import './TopicComponent.css'
 import saveIcon from '../assets/icon/bookmark.png'
 
-function TopicComponent() {
+function TopicComponent(props) {
+  const topicname = props.topicname
   return (
     <div className='topic-component'>
         <div className="topic-component-title-container">
-          <p className='topic-component-title'>ม.กรุงเทพดีแค่โฆษณา</p>
+          <p className='topic-component-title'>{topicname}</p>
         </div>
         
         <div className="topic-component-line"></div>
