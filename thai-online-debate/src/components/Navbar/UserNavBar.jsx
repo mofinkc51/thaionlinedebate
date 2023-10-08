@@ -17,7 +17,6 @@ function UserNavBar() {
 
     const { currentUser } = useContext(AuthContext);
 
-    console.log(currentUser);
     const logout = async () => {
         const res = await axios.post(
             "http://localhost:8800/api/auth/logout","",

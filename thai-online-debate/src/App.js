@@ -17,6 +17,7 @@ import { BrowserRouter as  Router, Routes, Route ,
   Navigate,
 } from 'react-router-dom';
 import { AuthContext } from './context/authContext';
+import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 
 function App() {
 
@@ -54,11 +55,19 @@ function App() {
       ),
     },
     {
-      //+ currentUser.user_name
-      path: (`/profile/${user}`),
+      // (`/profile/${user}`)
+      path: "profile/me",
       element: (
         <ProtectedRoute>
           <EditProfile/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "profile/me/edit",
+      element: (
+        <ProtectedRoute>
+          <EditProfileData/>
         </ProtectedRoute>
       ),
     },

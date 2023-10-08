@@ -10,7 +10,8 @@ function Profile() {
 
     const user = currentUser.user_name;
     const personal_link = () => {
-        window.location.href = `/profile/${user}`
+        window.location.href = "/profile/me";
+        // window.location.href = `/profile/${user}`
     }
     console.log(currentUser);
   return (

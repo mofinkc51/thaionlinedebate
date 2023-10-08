@@ -61,11 +61,18 @@
 
     border: none;
     border-bottom: 1px solid rgba(44, 52, 61, 0.60);
-
+    appearance: none;
     color: #2C343D;
     font-size: 16px;
     font-style: normal;
     font-weight: 300;
+    
+}
+.edit-profile-textfield 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 

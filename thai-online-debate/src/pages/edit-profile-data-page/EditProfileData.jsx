@@ -1,16 +1,30 @@
-import React from 'react'
+import React,{ useContext, useState } from 'react'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
+import { AuthContext } from '../../context/authContext';
 
 function EditProfileData() {
 
-    const userData = {
-        username: 'nker31',
-        phonenum: '0831234567',
-        email: 'email@gmail.com'
+    const { currentUser } = useContext(AuthContext);
+
+    const [userData,setUserData ]= useState({
+        user_name: currentUser.user_name,
+        user_phonenum: currentUser.user_phonenum
+    });
+    
+    console.log(userData);
+    const handleChange = (e) => {
+        setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        
+      };
+    
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    // };
+    const handleSubmit = async (e) => { 
+        e.preventDefault();
     }
-    // document.getElementById('username').value = userData.username
-    // document.getElementById('phonenum').value = userData.phonenum
+
   return (
     <>
     <UserNavBar/>
@@ -31,12 +45,15 @@ function EditProfileData() {
                 </div>
 
                 {/* username label row */}
-                <form action="">
+                <form onSubmit={handleSubmit}>
                     <div className="edit-profile-profile-label-row">
                         <p className='edit-profile-data-label'>ชื่อบัญชีผู้ใช้</p>
                         <button className='edit-profile-edit-button'>บันทึก</button>
                     </div>
-                    <input className='edit-profile-textfield' type="text" id="username" name="username"/><br/>
+
+                    <input className='edit-profile-textfield' type="text"  
+                    name="user_name" value={userData.user_name} onChange={handleChange}
+                    required/><br/>
                     {/* <p className='edit-profile-profile-data'>nker31</p> */}
 
                     {/* phonenum label row */}
@@ -44,7 +61,11 @@ function EditProfileData() {
                         <p className='edit-profile-data-label'>เบอร์โทรศัพท์</p>
                         {/* <button className='edit-profile-edit-button'>แก้ไข</button> */}
                     </div>
-                    <input className='edit-profile-textfield' type="tel" id="phonenum" name="phonenum"/><br/>
+
+                    <input className='edit-profile-textfield' type="number" 
+                    name="user_phonenum" value={userData.user_phonenum} onChange={handleChange}
+
+                    /><br/>
                     {/* <p className='edit-profile-profile-data'>0831234567</p> */}
 
                 </form>
@@ -54,7 +75,7 @@ function EditProfileData() {
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>อีเมล</p>
                 </div>
-                <p>{userData.email}</p>
+                <p>{currentUser.user_email}</p>
 
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">

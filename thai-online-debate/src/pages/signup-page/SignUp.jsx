@@ -3,6 +3,7 @@ import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
 import './SignUp.css'
 import signupImg from '../../assets/signup.png'
 import axios from 'axios';
+import { user_validation } from '../../checked';
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -14,7 +15,7 @@ function SignUp() {
   });
 
   const handleChange = (e) => {
-      setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}))
+      setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}));
   };
   console.log(inputs)
 
@@ -25,9 +26,13 @@ function SignUp() {
 
       const {confirmpassword, ...inputsDb}  = inputs;
       
+      if (!user_validation(inputs.user_name,5,20)){
+          
+      }
+
       if (inputs.confirmpassword !== inputs.user_password) {
           return alert("password not match")
-
+      
       } else {
           e.preventDefault();
           try {

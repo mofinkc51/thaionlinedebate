@@ -1,14 +1,32 @@
 import './EditProfile.css'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
-import React ,{ useContext }from 'react'
+import React ,{ useContext ,useState}from 'react'
 import { AuthContext } from '../../context/authContext';
-
+import { makeRequest } from '../../axios';
 function EditProfile() {
     
     const { currentUser } = useContext(AuthContext);
 
-    console.log(currentUser);
+    const [file, setFile] = useState(null);
+
+    const uploadFile = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            const res = await makeRequest.post("/upload", formData);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleClick = async (e) => {
+        e.preventDefault();
+        let imgUrl = "";
+        if (file) imgUrl = await uploadFile();
+        setFile(null);
+      };
+    
   return (
     <>
     <UserNavBar/>
@@ -19,7 +37,7 @@ function EditProfile() {
                 {/* profile img label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รูปภาพโปรโฟล์</p>
-                    <button className='edit-profile-edit-button'>อัปโหลด</button>
+                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด</button>
                 </div>
 
                 {/* image row */}              
@@ -31,7 +49,8 @@ function EditProfile() {
                 {/* username label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>ชื่อบัญชีผู้ใช้</p>
-                    <button className='edit-profile-edit-button'>แก้ไข</button>
+                    <a href='me/edit' className='edit-profile-edit-button'>แก้ไข</a>
+                    {/* <button className='edit-profile-edit-button'>แก้ไข</button> */}
                 </div>
                 <p className='edit-profile-profile-data'>{currentUser.user_name}</p>
 
