@@ -1,0 +1,153 @@
+.edit-topic-bg-opacity{
+    background: rgba(33, 48, 66, 0.40);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-topic-popup-box{
+    width: 480px;
+    height: 425px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+}
+
+
+.edit-topic-popup-box-container{
+    width: 385px;
+    height: 360px;
+    /* border: 1px solid red; */
+    margin: 0 auto;
+}
+
+.edit-topic-title-row{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: -20px;
+}
+
+.edit-topic-close-button{
+    background-color: transparent;
+    border: 0;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* for everyone */
+.edit-topic-popup-label{
+    color: #000;
+    /* font-family: Inter; */
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin-bottom: 5px;
+
+}
+
+/* topic name and topic name input box */
+
+.edit-topic-popup-topicname-row{
+    margin-top: 20px;
+}
+
+
+
+.edit-topic-popup-topicname-input{
+    width: 100%;
+    height: 33px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+
+}
+
+/* topic description and input box */
+.edit-topic-popup-topicdesc-row{
+    margin-top: 5px;
+
+}
+
+.edit-topic-popup-topicdesc-input{
+    height: 74px;
+    flex-shrink: 0;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;   
+
+}
+
+/* topic side and input box */
+.edit-topic-stance-row{
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+
+    
+}
+
+.edit-topic-stance{
+    /* width: 50%; */
+}
+.edit-topic-popup-stance-input{
+    width: 184px;
+    height: 33px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+    /* border: 1px solid red; */
+}
+
+/* tag row */
+
+.edit-topic-tag-row{
+    margin-top: 5px;
+}
+
+.edit-topic-tag-box{
+    height: 20px;
+}
+
+/* button row */
+.edit-topic-button-row{
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.edit-topic-confirm-button{
+    cursor: pointer;
+    width: 75px;
+    height: 38px;
+    border-radius: 10px;
+    color: #fff;
+    background: #252958;
+    border: none;
+    margin-right: 4px;
+
+}
+.edit-topic-cancel-button{
+    cursor: pointer;
+
+    width: 75px;
+    height: 38px;
+    border-radius: 10px;
+    color: #A30D11;
+    background: #FBE7E8;
+    border: none;
+    margin-left: 4px;
+}
+

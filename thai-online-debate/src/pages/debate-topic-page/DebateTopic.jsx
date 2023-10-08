@@ -7,6 +7,8 @@ import userImg from '../../assets/profile.png'
 import CommentComponent from '../../components/CommentComponent'
 import AddAgreeComment from '../../components/topic-popup/AddAgreeComment'
 import AddDisagreeComment from '../../components/topic-popup/AddDisagreeComment'
+import EditTopicPopup from '../../components/topic-popup/EditTopicPopup';
+import DeleteTopicPopup from '../../components/topic-popup/DeleteTopicPopup';
 
 
 function DebateTopic() {
@@ -16,6 +18,8 @@ function DebateTopic() {
 
   const [selectedAgreePopup, setSelectedAgreePopup] = useState(null)
   const [selectedDisagreePopup, setSelectedDisagreePopup] = useState(null)
+  const [selectedEditPopup, setSelectedEditPopup] = useState(null)
+  const [selectedDeletePopup, setSelectedDeletePopup] = useState(null)
 
   let popup = null
 
@@ -27,6 +31,16 @@ function DebateTopic() {
     setSelectedDisagreePopup(<AddDisagreeComment onCloseClick={onCommentCloseClick}/>)
   }
 
+  const handleEditTopic = () => {
+    setOpen(false)
+    setSelectedEditPopup(<EditTopicPopup onCloseClick={onCommentCloseClick}/>)
+  }
+
+  const handleDeleteTopic = () => {
+    setOpen(false)
+    setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick}/>)
+  }
+
   if(!!selectedAgreePopup){
     popup = <AddAgreeComment onCloseClick={onCommentCloseClick}/>
   }
@@ -35,10 +49,21 @@ function DebateTopic() {
     popup = <AddDisagreeComment onCloseClick={onCommentCloseClick}/>
   }
 
+  if(!!selectedEditPopup){
+    popup = <EditTopicPopup onCloseClick={onCommentCloseClick}/>
+
+  }
+
+  if(!!selectedDeletePopup){
+    popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick}/>
+  }
+
   function onCommentCloseClick(){
     popup = null
     setSelectedAgreePopup(null)
     setSelectedDisagreePopup(null)
+    setSelectedEditPopup(null)
+    setSelectedDeletePopup(null)
   }
 
   const topicData = {
@@ -110,8 +135,8 @@ function DebateTopic() {
               <div id="myDropdown" class={`debate-topic-dropdown-content ${open? "active": "inactive"}`}>
                 <button>เพิ่มเข้ารายการชื่นชอบ</button>
                 <button>เพิ่มเข้ารายการดาวน์โหลด</button>
-                <button>แก้ไขประเด็นโต้แย้ง</button>
-                <button>ลบประเด็นโต้แย้ง</button>
+                <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
+                <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
               </div>
             </div>
 
