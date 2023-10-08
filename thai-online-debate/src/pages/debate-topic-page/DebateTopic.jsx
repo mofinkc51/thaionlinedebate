@@ -5,10 +5,41 @@ import TopicTag from '../../components/TopicTag'
 import optionButtonIcon from '../../assets/icon/more-vertical.png'
 import userImg from '../../assets/profile.png'
 import CommentComponent from '../../components/CommentComponent'
+import AddAgreeComment from '../../components/topic-popup/AddAgreeComment'
+import AddDisagreeComment from '../../components/topic-popup/AddDisagreeComment'
 
 
 function DebateTopic() {
+
+
   const [open, setOpen] = useState(false);
+
+  const [selectedAgreePopup, setSelectedAgreePopup] = useState(null)
+  const [selectedDisagreePopup, setSelectedDisagreePopup] = useState(null)
+
+  let popup = null
+
+
+  const handleAgreeComment = () => {
+    setSelectedAgreePopup(<AddAgreeComment onCloseClick={onCommentCloseClick}/>)
+  }
+  const handleDisagreeComment = () => {
+    setSelectedDisagreePopup(<AddDisagreeComment onCloseClick={onCommentCloseClick}/>)
+  }
+
+  if(!!selectedAgreePopup){
+    popup = <AddAgreeComment onCloseClick={onCommentCloseClick}/>
+  }
+
+  if(!!selectedDisagreePopup){
+    popup = <AddDisagreeComment onCloseClick={onCommentCloseClick}/>
+  }
+
+  function onCommentCloseClick(){
+    popup = null
+    setSelectedAgreePopup(null)
+    setSelectedDisagreePopup(null)
+  }
 
   const topicData = {
     topicName: "รถพลังงานไฟฟ้าจะมาแทนที่แบบสันดาป",
@@ -102,7 +133,7 @@ function DebateTopic() {
 
                   
                 </div>
-                <button className='debate-topic-agree-button'>แสดงความคิดเห็นเพื่อเห็นด้วย</button>
+                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นเพื่อเห็นด้วย</button>
                 
               </div>
             </div>
@@ -118,12 +149,13 @@ function DebateTopic() {
 
 
                 </div>
-                <button className='debate-topic-disagree-button'>แสดงความคิดเห็นเพื่อไม่เห็นด้วย</button>
+                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นเพื่อไม่เห็นด้วย</button>
                 
               </div>
             </div>
           </div>
         </div>
+        {popup}
     </>
   )
 }
