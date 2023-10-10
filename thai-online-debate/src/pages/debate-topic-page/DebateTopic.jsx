@@ -9,7 +9,8 @@ import AddAgreeComment from '../../components/topic-popup/AddAgreeComment'
 import AddDisagreeComment from '../../components/topic-popup/AddDisagreeComment'
 import EditTopicPopup from '../../components/topic-popup/EditTopicPopup';
 import DeleteTopicPopup from '../../components/topic-popup/DeleteTopicPopup';
-
+import AddToFavPopup from '../../components/topic-popup/AddToFavPopup';
+import AddToDownloadPopup from '../../components/topic-popup/AddToDownloadPopup';
 
 function DebateTopic() {
 
@@ -20,6 +21,8 @@ function DebateTopic() {
   const [selectedDisagreePopup, setSelectedDisagreePopup] = useState(null)
   const [selectedEditPopup, setSelectedEditPopup] = useState(null)
   const [selectedDeletePopup, setSelectedDeletePopup] = useState(null)
+  const [selectedAddtofavPopup, setSelectedAddtofavPopup] = useState(null)
+  const [selectedAddtoDownloadPopup, setSelectedAddtoDownloadPopup] = useState(null)
 
   let popup = null
 
@@ -41,6 +44,16 @@ function DebateTopic() {
     setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick}/>)
   }
 
+  const handleAddToFav = () => {
+    setOpen(false)
+    setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
+  }
+
+  const handleAddToDownload = () => {
+    setOpen(false)
+    setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
+  }
+
   if(!!selectedAgreePopup){
     popup = <AddAgreeComment onCloseClick={onCommentCloseClick}/>
   }
@@ -58,12 +71,23 @@ function DebateTopic() {
     popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick}/>
   }
 
+  if(!!selectedAddtofavPopup){
+    popup = <AddToFavPopup onCloseClick={onCommentCloseClick}/>
+
+  }
+
+  if(!!selectedAddtoDownloadPopup){
+    popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
+  }
+
   function onCommentCloseClick(){
     popup = null
     setSelectedAgreePopup(null)
     setSelectedDisagreePopup(null)
     setSelectedEditPopup(null)
     setSelectedDeletePopup(null)
+    setSelectedAddtofavPopup(null)
+    setSelectedAddtoDownloadPopup(null)
   }
 
   const topicData = {
@@ -133,8 +157,8 @@ function DebateTopic() {
                 <img className='debate-topic-option-image' src={optionButtonIcon} alt="" />
               </div>
               <div id="myDropdown" class={`debate-topic-dropdown-content ${open? "active": "inactive"}`}>
-                <button>เพิ่มเข้ารายการชื่นชอบ</button>
-                <button>เพิ่มเข้ารายการดาวน์โหลด</button>
+                <button onClick={handleAddToFav}>เพิ่มเข้ารายการชื่นชอบ</button>
+                <button onClick={handleAddToDownload}>เพิ่มเข้ารายการดาวน์โหลด</button>
                 <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
                 <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
               </div>
