@@ -3,11 +3,14 @@ import React, {useState, useEffect, useRef} from 'react';
 import './DownloadRequestList.css'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import DownloadRequestRow from '../../components/download-request-row/DownloadRequestRow'
-import DownloadFormPopup from '../../components/download-request-row/DownloadFormPopup';
+import DownloadFormPopup from '../../components/download-request-popup/DownloadFormPopup';
+// import ConfirmRequestPopup from './ConfirmRequestPopup';
+
 function DownloadRequestList() {
     const [selectedRequestPopup, setSelectedRequestPopup] = useState(null)
-
+    const [selectedConfirmPopup, setSelectedConfirmPopup] = useState(null)
     let popup = null
+
     const handleRequestClick = () => {
         console.log('clicked')
         setSelectedRequestPopup(<DownloadFormPopup onCloseClick={onCloseClick}/>)
