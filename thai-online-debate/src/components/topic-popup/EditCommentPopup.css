@@ -1,5 +1,5 @@
 
-.report-topic-bg-opacity{
+.edit-comment-bg-opacity{
     
     background: rgba(33, 48, 66, 0.40);
     position: fixed;
@@ -13,7 +13,7 @@
     align-items: center;
   }
 
-.report-topic-popup-box{
+.edit-comment-popup-box{
     width: 480px;
     height: 260px;
     border-radius: 10px;
@@ -23,20 +23,20 @@
     align-items: center;
 }
 
-.report-topic-popup-box-container{
+.edit-comment-popup-box-container{
     width: 385px;
     /* border: 1px solid red; */
     margin: 0 auto;
 }
 
-.report-topic-title-row{
+.edit-comment-title-row{
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-bottom: -20px;
 }
 
-.report-topic-close-button{
+.edit-comment-close-button{
     background-color: transparent;
     border: 0;
     font-size: 25px;
@@ -44,7 +44,7 @@
 }
 
 /* for everyone */
-.report-topic-popup-label{
+.edit-comment-popup-label{
     color: #000;
     /* font-family: Inter; */
     font-size: 13px;
@@ -55,7 +55,7 @@
     margin-bottom: 5px;
 
 }
-.report-topic-popup-label:after {
+.edit-comment-popup-label:after {
     content:" *";
     color: red;
   }
@@ -63,12 +63,12 @@
 
 
 /* topic description and input box */
-.report-topic-popup-topicdesc-row{
+.edit-comment-popup-topicdesc-row{
     margin-top: 20px;
 
 }
 
-.report-topic-popup-topicdesc-input{
+.edit-comment-popup-topicdesc-input{
     padding-left: 5px;
     height: 74px;
     flex-shrink: 0;
@@ -82,14 +82,14 @@
 
 
 /* button row */
-.report-topic-button-row{
+.edit-comment-button-row{
     margin-top: 15px;
     display: flex;
     justify-content: center;
 
 }
 
-.report-topic-confirm-button{
+.edit-comment-confirm-button{
     cursor: pointer;
     width: 75px;
     height: 38px;
@@ -100,7 +100,7 @@
     margin-right: 4px;
 
 }
-.report-topic-cancel-button{
+.edit-comment-cancel-button{
     cursor: pointer;
 
     width: 75px;
