@@ -1,24 +1,20 @@
+import Swal from 'sweetalert2'
 
-import { withSwal } from 'react-sweetalert2';
 
-export default withSwal((props, ref) => {
-    const { Swal, ...rest } = props;
-
- function user_validation(username, min ,max) {
-    var username_len = username.value.length;
+export function user_validation(username, min ,max) {
+    var username_len = username.length;
     if (username_len == 0 || username_len < min || username_len > max) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: ("Username cannot be blank /lenght between " + min + " to " + max)
           })
-        username.focus();
         return false;
     }
     return true;
 }
 //pass
-function password_validation(password, min ,max) {
+export function password_validation(password, min ,max) {
     var password_len = password.value.length;
     if (password_len == 0 || password_len < min || password_len > max) {
         Swal.fire({
@@ -32,7 +28,7 @@ function password_validation(password, min ,max) {
     return true;
 }
 //letter
-function allletter(inputtxt) {
+export function allletter(inputtxt) {
     var letters = /^[A-Za-z]+$/;
     if(inputtxt.value.match(letters)) {
         return true;
@@ -48,7 +44,7 @@ function allletter(inputtxt) {
 }
 
 //mail
-function email_validation(email) {
+export function email_validation(email) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email.value.match(mailformat)) {
         return true;
@@ -64,7 +60,7 @@ function email_validation(email) {
     }
 }
 //country
-function country_validation(country) {
+export function country_validation(country) {
     if (country.value == "") {        
         Swal.fire({
             icon: 'error',
@@ -77,7 +73,7 @@ function country_validation(country) {
     return true;
 }
 //zip
-function zip_validation(zip) {
+export function zip_validation(zip) {
     var numbers = /^[0-9]+$/;
     if (zip.value.match(numbers)) {
         return true;
@@ -92,7 +88,7 @@ function zip_validation(zip) {
     }
 }
 //language
-function language_validation(language) {
+export function language_validation(language) {
     if (language[0].checked || language[1].checked) {
         return true;
     } else {        
@@ -107,7 +103,7 @@ function language_validation(language) {
 
 }
 //gender
-function gender_validation(gender) {
+export function gender_validation(gender) {
     if (gender[0].checked || gender[1].checked || gender[2].checked) {
         return true;
     } else {        
@@ -120,5 +116,3 @@ function gender_validation(gender) {
         
     }
 }
-
-});

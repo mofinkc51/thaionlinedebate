@@ -23,11 +23,11 @@ function SignUp() {
 
 
   const regis_button = async (e) => {
-
+        e.preventDefault();
       const {confirmpassword, ...inputsDb}  = inputs;
-      
+
       if (!user_validation(inputs.user_name,5,20)){
-          
+          return document.getElementsByName('user_name')[0].focus();
       }
 
       if (inputs.confirmpassword !== inputs.user_password) {
