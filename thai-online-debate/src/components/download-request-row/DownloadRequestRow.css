@@ -1,0 +1,23 @@
+.download-request-row{
+    height: 60px;
+    /* bo */
+}
+
+.download-request-row  td {
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    padding: 8px;
+  }
+
+.download-request-row:hover{
+    /* background: #FFF; */
+}
+
+.download-request-row td button{
+
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+
+    margin: 5px;
+}

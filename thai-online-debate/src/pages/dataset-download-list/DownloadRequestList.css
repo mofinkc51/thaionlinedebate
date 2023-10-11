@@ -1,0 +1,79 @@
+
+.download-request-page-container{
+    width: 894px;
+    margin: 80px auto;
+    /* border: 1px solid red; */
+}
+.download-request-title-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.download-request-title-row button{
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+
+    width: 167px;
+    height: 31px;
+    /* padding: 8px 12px; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 8px;
+    color: #FFF;
+    border: none;
+    background: #624DE3;    
+
+}
+.download-request-title{
+    /* color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 100%;
+    /* border: 1px solid red; */
+    /* padding: 35px 35px; */
+
+    color: #100F0F;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+
+    margin-bottom: 20px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+.download-request-table-header{
+    height: 50px;
+
+}
+/* .download-list-table-header th{
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+} */
+
+ th {
+    background: #FFF;;
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    padding: 8px;
+  }
+
+
+
+  tr:nth-child(even) {
+    background: #F7F6FE;
+  }

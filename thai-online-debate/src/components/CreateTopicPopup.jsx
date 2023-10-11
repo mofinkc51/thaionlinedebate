@@ -43,7 +43,7 @@ function CreateTopicPopup() {
                     <div className="create-topic-tag-row">
                         <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
                         <div className="create-topic-tag-box">
-
+                            <button>+</button>
                         </div>
                     </div>
 

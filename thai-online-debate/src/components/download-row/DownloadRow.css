@@ -1,0 +1,10 @@
+.download-list-row{
+    height: 60px;
+    /* bo */
+}
+
+.download-list-row  td {
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    padding: 8px;
+  }

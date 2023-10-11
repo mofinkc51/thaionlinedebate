@@ -52,15 +52,15 @@ function home() {
         <div className="popular-topic-container">
           <h2 className='popular-title'>Popular Topic</h2>
           <div className="popular-topic-grid">
-            <TopicComponent />
-            <TopicComponent />
-            <TopicComponent />
+            <TopicComponent topicname="ไต้หวันเป็นประเทศ"/>
+            <TopicComponent topicname="นโยบายแจกเงินดิจิตอลเป็นสิ่งที่ไม่ควรทำ"/>
+            <TopicComponent topicname="กะเพราไม่ควรใส่ถั่วฝักยาว"/>
           </div>
         </div>
       </div>
       <div id="create-topic-popup" display="none">
           <CreateTopicPopup/>
-        </div>
+      </div>
     </>
   )
 }
