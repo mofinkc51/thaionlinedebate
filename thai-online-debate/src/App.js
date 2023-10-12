@@ -22,8 +22,7 @@ import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
-
-
+  
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/signin"/>;

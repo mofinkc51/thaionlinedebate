@@ -2,6 +2,9 @@ import React,{ useContext, useState } from 'react'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
 import { AuthContext } from '../../context/authContext';
+import { user_validation } from '../../checked';
+import axios from 'axios';
+
 
 function EditProfileData() {
 
@@ -23,6 +26,16 @@ function EditProfileData() {
     // };
     const handleSubmit = async (e) => { 
         e.preventDefault();
+        console.log(userData);
+        if (!user_validation(userData.user_name,5,15)){
+            return document.getElementsByName('user_name')[0].focus();
+        } try {
+            await axios.put("http://localhost:8800/api/users", userData)
+        } catch (err) {
+            console.log(err);
+            alert(err.response.data)
+        }
+        //console.log("you tick toog and correct password");
     }
 
   return (
