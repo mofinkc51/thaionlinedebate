@@ -1,0 +1,9 @@
+.admin-menu-content-container{
+    border: 1px solid red;
+    max-width: 900px;
+    min-height: 500px;
+    width: 100%;
+    margin-left: 450px;
+    margin-top: 80px;
+}
+
