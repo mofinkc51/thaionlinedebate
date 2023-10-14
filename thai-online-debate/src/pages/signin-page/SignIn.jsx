@@ -5,6 +5,7 @@ import signinImg from '../../assets/signup.png'
 import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 function SignIn() {
 
   const [inputs,setInputs] = useState({
@@ -27,7 +28,10 @@ function SignIn() {
        navigate('/');
     } catch (err) {
       SetErr(err.response.data);
-      alert(err.response.data);
+      Swal.fire({
+        icon: 'error',
+        title: err.response.data,
+      })
     }
   };
 

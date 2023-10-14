@@ -2,17 +2,21 @@ import React,{ useContext, useState } from 'react'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
 import { AuthContext } from '../../context/authContext';
-import { user_validation } from '../../checked';
-import axios from 'axios';
-
+import { phone_validation, user_validation } from '../../checked';
+import { makeRequest } from '../../axios';
+import Swal from 'sweetalert2'
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function EditProfileData() {
 
     const { currentUser } = useContext(AuthContext);
 
     const [userData,setUserData ]= useState({
+        user_email: currentUser.user_email,
+        user_id: currentUser.user_id,
         user_name: currentUser.user_name,
-        user_phonenum: currentUser.user_phonenum
+        user_phonenum: currentUser.user_phonenum,
+        user_pic: currentUser.user_pic
     });
     
     console.log(userData);
@@ -26,14 +30,25 @@ function EditProfileData() {
     // };
     const handleSubmit = async (e) => { 
         e.preventDefault();
-        console.log(userData);
         if (!user_validation(userData.user_name,5,15)){
             return document.getElementsByName('user_name')[0].focus();
+        }
+        if (!phone_validation(userData.user_phonenum)){
+            return document.getElementsByName('user_phonenum')[0].focus();
         } try {
-            await axios.put("http://localhost:8800/api/users", userData)
+            await makeRequest.put(`/users/edit/${userData.user_id}`, userData)
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'แก้ไขข้อมูลสําเร็จ',
+            });
         } catch (err) {
             console.log(err);
-            alert(err.response.data)
+            Swal.fire({
+                icon: 'error',
+                title: err.response.data,
+            })
         }
         //console.log("you tick toog and correct password");
     }
@@ -76,7 +91,8 @@ function EditProfileData() {
                     </div>
 
                     <input className='edit-profile-textfield' type="number" 
-                    name="user_phonenum" value={userData.user_phonenum} onChange={handleChange}
+                    name="user_phonenum" value={userData.user_phonenum} onChange={handleChange} data-maxlength = "10"
+                    oninput="this.value=this.value.slice(0,this.dataset.maxlength)" 
 
                     /><br/>
                     {/* <p className='edit-profile-profile-data'>0831234567</p> */}

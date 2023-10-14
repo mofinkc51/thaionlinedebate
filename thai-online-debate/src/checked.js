@@ -7,7 +7,7 @@ export function user_validation(username, min ,max) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: ("Username cannot be blank /lenght between " + min + " to " + max)
+            text: ("Username must be lenght between " + min + " to " + max)
           })
         return false;
     }
@@ -20,9 +20,23 @@ export function password_validation(password, min ,max) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: ("Password cannot be blank /lenght between " + min + " to " + max)
+            text: ("Password must be lenght between " + min + " to " + max)
           })
-        password.focus();
+        return false;
+    }
+    return true;
+}
+export function phone_validation(phone) {
+    var phone_len = phone.length;
+    if (phone_len == 0) {
+        return true;
+    }
+    if (phone_len > 10 || phone_len < 10) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: ("Phone number must be 10 digits")
+          })
         return false;
     }
     return true;
@@ -38,7 +52,6 @@ export function allletter(inputtxt) {
             title: 'Oops...',
             text:("Please "+ inputtxt.placeholder + " with alphabet characters only")
         })
-        inputtxt.focus();
         return false;
     }
 }
@@ -46,7 +59,7 @@ export function allletter(inputtxt) {
 //mail
 export function email_validation(email) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email.value.match(mailformat)) {
+    if (email.match(mailformat)) {
         return true;
     }
     else {        
@@ -55,7 +68,6 @@ export function email_validation(email) {
             title: 'Oops...',
             text: ("You have entered an invalid email address!")
         })
-        email.focus();
         return false;
     }
 }

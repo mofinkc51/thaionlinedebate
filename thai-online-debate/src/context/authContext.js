@@ -1,6 +1,6 @@
 import axios from "axios";
 import React , { useEffect, useState } from "react";
-
+import Swal from "sweetalert2";
 
 export const AuthContext = React.createContext();
 
@@ -22,7 +22,10 @@ export const AuthContextProvider = ({ children }) => {
       setCurrentUser(res.data);
     } catch (err) {
       // Handle error
-      alert(err.response.data);
+      Swal.fire({
+        icon: "error",
+        title: err.response.data,
+      })
     }
   };
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import './UserNavBar.css'
 import React ,{ useContext }from 'react'
 import { AuthContext } from '../../context/authContext';
-
+import { makeRequest } from "../../axios";
     
 export const createTopic = () => {
     var x = document.getElementsByClassName("showcreate");
@@ -18,11 +18,7 @@ function UserNavBar() {
     const { currentUser } = useContext(AuthContext);
 
     const logout = async () => {
-        const res = await axios.post(
-            "http://localhost:8800/api/auth/logout","",
-            {
-                withCredentials: true,
-            })
+        const res = await makeRequest.post("/auth/logout","");
         localStorage.removeItem("user");
         window.location.reload();
     }
@@ -39,7 +35,7 @@ function UserNavBar() {
                         <li><a href="">หน้าแรก</a></li>
                         <li><a onClick={createTopic}>สร้าง</a></li>
                         <div class="nav-dropdown">
-                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">บัญชีผู้ใช้ ▼</a></li> 
+                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} ▼</a></li> 
                             <div class="nav-dropdown-content">
                                 
                                 <a href="/profile"><img src=""/>โปรไฟล์</a>
