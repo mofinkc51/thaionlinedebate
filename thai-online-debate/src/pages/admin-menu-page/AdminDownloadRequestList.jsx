@@ -1,16 +1,16 @@
 import React from 'react'
-import './AdminManageRequest.css'
+import './AdminDownloadRequestList.css'
 import AdminManageRequestRow from '../../components/admin-manage-request-row/AdminManageRequestRow'
 
-function AdminManageRequest() {
+function AdminDownloadRequestList() {
     
   return (
     <>
-        <div className="admin-manage-request-title-row">
+        <div className="admin-download-request-title-row">
             <h2>อนุมัติคำร้องการดาวน์โหลดชุดข้อมูล</h2>
         </div>
         {/* table part */}
-        <table className='admin-manage-request-table'>
+        <table className='admin-download-request-table'>
 
             {/* table header  */}
             <tr className='admin-manage-request-table-header'>
@@ -29,4 +29,4 @@ function AdminManageRequest() {
   )
 }
 
-export default AdminManageRequest
+export default AdminDownloadRequestList
