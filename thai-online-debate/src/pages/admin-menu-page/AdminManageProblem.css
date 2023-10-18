@@ -1,0 +1,37 @@
+.admin-manage-problem-title-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
+.admin-manage-problem-title{
+    /* color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 100%;
+    /* border: 1px solid red; */
+    /* padding: 35px 35px; */
+
+    color: #100F0F;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+
+    margin-bottom: 20px;
+}
+
+/* table */
+.activity-table-header-topic-name{
+    width: 170px;
+}
+
+.activity-table-header-time{
+    width: 150px;
+    /* border: 1px solid red; */
+
+}
