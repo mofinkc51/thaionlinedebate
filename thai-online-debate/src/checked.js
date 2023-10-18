@@ -44,7 +44,7 @@ export function phone_validation(phone) {
 //letter
 export function allletter(inputtxt) {
     var letters = /^[A-Za-z]+$/;
-    if(inputtxt.value.match(letters)) {
+    if(inputtxt.match(letters)) {
         return true;
     } else {        
         Swal.fire({
@@ -69,62 +69,5 @@ export function email_validation(email) {
             text: ("You have entered an invalid email address!")
         })
         return false;
-    }
-}
-//country
-export function country_validation(country) {
-    if (country.value == "") {        
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text:("Please Select your country")
-    })
-        country.focus();
-        return false;
-    }
-    return true;
-}
-//zip
-export function zip_validation(zip) {
-    var numbers = /^[0-9]+$/;
-    if (zip.value.match(numbers)) {
-        return true;
-    } else {        
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text:("Zip cannot be blank / numbers only")
-        })
-        zip.focus();
-        return false;
-    }
-}
-//language
-export function language_validation(language) {
-    if (language[0].checked || language[1].checked) {
-        return true;
-    } else {        
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text:("Please select your language")
-        })
-        return false;
-        
-    }
-
-}
-//gender
-export function gender_validation(gender) {
-    if (gender[0].checked || gender[1].checked || gender[2].checked) {
-        return true;
-    } else {        
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text:("Please select your gender")
-        })
-        return false;
-        
     }
 }

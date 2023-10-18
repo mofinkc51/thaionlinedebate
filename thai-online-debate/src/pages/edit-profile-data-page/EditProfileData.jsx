@@ -1,4 +1,4 @@
-import React,{ useContext, useState } from 'react'
+import React,{ useContext, useState,useRef } from 'react'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
 import { AuthContext } from '../../context/authContext';
@@ -10,6 +10,21 @@ import { Navigate, useNavigate } from 'react-router-dom';
 function EditProfileData() {
 
     const { currentUser } = useContext(AuthContext);
+    const [pic, setPic] = useState(null);
+    const hiddenFileInput = useRef(null);
+
+    const upload = async (file) => {
+        console.log(file);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            const res = await makeRequest.post("/upload", formData);
+            console.log("res data" + res.data);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const [userData,setUserData ]= useState({
         user_email: currentUser.user_email,
@@ -19,7 +34,6 @@ function EditProfileData() {
         user_pic: currentUser.user_pic
     });
     
-    console.log(userData);
     const handleChange = (e) => {
         setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
         
@@ -30,19 +44,28 @@ function EditProfileData() {
     // };
     const handleSubmit = async (e) => { 
         e.preventDefault();
+        let picUrl;
+        picUrl = pic ? await upload(pic) : currentUser.user_pic;
+        console.log("before add db "+picUrl);
+        setUserData({ ...userData, user_pic: picUrl });
+
         if (!user_validation(userData.user_name,5,15)){
             return document.getElementsByName('user_name')[0].focus();
         }
         if (!phone_validation(userData.user_phonenum)){
             return document.getElementsByName('user_phonenum')[0].focus();
         } try {
+            console.log("after add db "+userData.user_pic);
+
             await makeRequest.put(`/users/edit/${userData.user_id}`, userData)
             localStorage.setItem('user', JSON.stringify(userData));
-            
+
             Swal.fire({
                 icon: 'success',
                 title: 'แก้ไขข้อมูลสําเร็จ',
             });
+            
+
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -50,9 +73,16 @@ function EditProfileData() {
                 title: err.response.data,
             })
         }
+        setPic(null);
         //console.log("you tick toog and correct password");
     }
 
+    const handleClick = async (e) => {
+        // e.preventDefault();
+        hiddenFileInput.current.click();
+
+
+      };
   return (
     <>
     <UserNavBar/>
@@ -64,14 +94,30 @@ function EditProfileData() {
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รูปภาพโปรโฟล์</p>
                     {/* <button className='edit-profile-edit-button'>แก้ไขรูปภาพ</button> */}
+                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
+                    <input 
+                        type="file"
+                        ref={hiddenFileInput}        
+                        style={{display:'none'}}
+                        onChange={(e) => setPic(e.target.files[0])} 
+                    />
+                    </button>
                 </div>
 
                 {/* image row */}              
                 <div className="edit-profile-profile-image-row">
-                    <img src={profileImg} className='edit-profile-profile-img' />
+                    {/* <img src={profileImg} className='edit-profile-profile-img' /> */}
+                    <img src={pic 
+                        ? URL.createObjectURL(pic) 
+                        : "/upload/"+currentUser.user_pic} alt='' 
+                        className='edit-profile-profile-img' />
                     {/* s<p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
                 </div>
-
+                <div className="edit-profile-profile-image-row">
+                <img src={currentUser.user_pic} 
+                alt='' 
+                className='edit-profile-profile-img' />
+                </div>
                 {/* username label row */}
                 <form onSubmit={handleSubmit}>
                     <div className="edit-profile-profile-label-row">
