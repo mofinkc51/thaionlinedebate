@@ -1,10 +1,13 @@
 import React from 'react'
-import UserNavbar from '../../components/Navbar/UserNavBar'
+import UserNavbar, { createTopic } from '../../components/Navbar/UserNavBar'
 import './home.css'
 import bbImg from '../../assets/billboard-1.png'
 import TopicComponent from '../../components/TopicComponent'
+import CreateTopicPopup from '../../components/CreateTopicPopup'
+
 
 function home() {
+  
   return (
     <>
       <UserNavbar/>
@@ -34,7 +37,7 @@ function home() {
           </div>
           {/* search box container right side */}
           <div className="search-bar-container">
-            <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง' />
+            <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/>
           </div>
           
         </div>
@@ -49,14 +52,19 @@ function home() {
         <div className="popular-topic-container">
           <h2 className='popular-title'>Popular Topic</h2>
           <div className="popular-topic-grid">
-            <TopicComponent />
-            <TopicComponent />
-            <TopicComponent />
+            <TopicComponent topicname="ไต้หวันเป็นประเทศ"/>
+            <TopicComponent topicname="นโยบายแจกเงินดิจิตอลเป็นสิ่งที่ไม่ควรทำ"/>
+            <TopicComponent topicname="กะเพราไม่ควรใส่ถั่วฝักยาว"/>
           </div>
         </div>
+      </div>
+      <div id="create-topic-popup" display="none">
+          <CreateTopicPopup/>
       </div>
     </>
   )
 }
 
-export default home
+console.log(window.location.origin);
+
+export default home;

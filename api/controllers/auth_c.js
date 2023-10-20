@@ -9,7 +9,7 @@ export const register = (req,res)=>{
 
     db.query(sql,[req.body.user_email], (err,data)=>{
         if(err) return res.status(500).json(err)
-        if(data.length) return res.status(409).json("User already ext")
+        if(data.length) return res.status(409).json("email is already exists");
     
     //create user
         //hash pass
@@ -56,7 +56,7 @@ export const login = (req,res)=>{
         res.cookie("accessToken", token, {httpOnly:true,})
         .status(200)
         .json(ot);
-        console.log(ot)
+        console.log(token)
 
     });
 
@@ -66,5 +66,6 @@ export const logout = (req,res)=>{
     res.clearCookie("accessToken", {
         secure:true,
         sameSite:"none"
-    }).status(200).json("User has logged out")
+    }).status(200).json("User has logged out");
+    
 };

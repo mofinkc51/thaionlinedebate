@@ -14,11 +14,12 @@ function FavDebateGallery() {
             <h2>รายการประเด็นโต้แย้งที่ชื่นชอบ</h2>
         </div>
         <div className="fav-debate-gallery">
-        <TopicComponent/>
-        <TopicComponent/>
-        <TopicComponent/>
-        <TopicComponent/>
-        <TopicComponent/>
+        <TopicComponent topicname="ควรเพิ่มบทลงโทษสำหรับเยาวชน"/>
+        <TopicComponent topicname="อิสราเอลมีสิทธิในการเข้ายึดฉนวนกาซา"/>
+        <TopicComponent topicname="ซอยจุ๊กินได้โดยไม่มีอันตราย"/>
+        <TopicComponent topicname="เวย์โปรตีนส่งผลอันตรายต่อร่างกาย"/>
+        <TopicComponent topicname="สมรสเท่าเทียมควรถูกผลักดัน"/>
+        
         {/* <TopicComponent/> */}
             
 

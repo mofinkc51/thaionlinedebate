@@ -1,6 +1,6 @@
 import axios from "axios";
-import React , { createContext, useEffect, useState } from "react";
-
+import React , { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export const AuthContext = React.createContext();
 
@@ -8,6 +8,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+  const locate = window.location.origin;
 
   const login = async (inputs) => {
     try {
@@ -19,9 +20,12 @@ export const AuthContextProvider = ({ children }) => {
         }
       );
       setCurrentUser(res.data);
-    } catch (error) {
+    } catch (err) {
       // Handle error
-      alert(error.response.data);
+      Swal.fire({
+        icon: "error",
+        title: err.response.data,
+      })
     }
   };
 

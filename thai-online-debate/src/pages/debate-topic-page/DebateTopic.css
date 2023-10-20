@@ -1,0 +1,314 @@
+.debate-topic-page-container{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    /* border: 1px solid salmon; */
+   
+}
+
+/* meta data part */
+
+.debate-topic-meta-data-container{
+    margin-top: 30px;
+    width: 100%;
+    min-height: 180px;
+    padding: 20px 30px;
+    display: flex;
+    background: #FFF;
+    border-radius: 10px;
+    
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.debate-topic-meta-data-left-content{
+    width: 50%;
+    /* border: 1px solid red; */
+}
+.debate-topic-topic-name{
+    max-width: 320px;
+    color: #000;
+
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px; /* 114.286% */
+}
+.debate-topic-label{
+    color: #2C343D;
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px; /* 141.667% */
+    margin-top: 15px;
+}
+
+.debate-topic-tag-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0;
+
+    max-width: 320px;
+    height: 50px;
+    /* border: 5px solid gold; */
+}
+
+.debate-topic-topic-creator-link{
+    color: #2C343D;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 1000;
+    line-height: 17px; /* 141.667% */
+}
+
+.debate-topic-meta-data-right-content{
+    width: 50%;
+    /* border: 1px solid green; */
+}
+.debate-topic-description-box{
+    width: 100%;
+    height: 100px;
+    /* border: 1px solid red; */
+    /* margin-top: 10px; */
+    /* overflow-y: scroll;   */
+    overflow: hidden;
+
+    
+
+}
+
+.debate-topic-topic-description{
+    max-width: 320px;
+    font-size: 14px;
+    color: #2C343D;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 17px; /* 141.667% */
+}
+
+
+
+/* progression bar */
+
+.debate-topic-progress-bar-title{
+    color: #2C343D;
+    font-size: 14px;      
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px; /* 141.667% */
+}
+.debate-topic-progress-bar-container{
+    width: 100%;
+    max-width: 200px;
+    height: 10px;
+    border-radius: 10px;
+    background: #F2F2F2;
+    margin-top: 10px;
+    /* border: 1px solid red; */
+}
+
+
+
+
+.debate-topic-legend-row{
+    display: flex;
+    /* justify-content: space-between; */
+    margin-top: 10px;
+    
+    width: 100%;
+    max-width: 200px;
+    /* border: 1px solid red; */
+}
+
+.debate-topic-legend-element{
+    display: flex;
+    width: 100%;
+    max-width: 100px;
+    /* border: 1px solid red;  */
+}
+
+.debate-topic-legend-text{
+    padding-left: 5px;
+    color: #2C343D;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px; /* 141.667% */
+}
+
+
+
+/* drop down button */
+.debate-topic-option-dropdown{
+    position: relative;
+    display: inline-block;
+
+}
+
+.debate-topic-dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+.debate-topic-dropdown-content.active{
+    display: block;
+}
+.debate-topic-dropdown-content.inactive{
+    display: none;
+}
+
+/* Change color of dropdown links on hover */
+.debate-topic-dropdown-content button:hover {background-color: #ddd;}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+
+.debate-topic-dropdown-content button {
+    cursor: pointer;
+    text-align: left;
+    border: none;
+    background: transparent;
+    color: #808080;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 12px 16px;
+    width: 100%;
+    text-decoration: none;
+    display: block;
+  }
+
+/* .debate-topic-dropdown-content a {
+    color: #808080;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  } */
+
+.debate-topic-option-vert-button{
+    cursor: pointer;
+
+    /* position: absolute; */
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background-color: transparent;
+
+}
+
+
+debate-topic-option-image{
+
+}
+
+
+/* debate topic content part */
+
+.debate-topic-two-side-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    /* border: 1px solid green; */
+    margin-top: 15px;
+    min-height: 500px
+}
+
+.debate-topic-side-box{
+    width: 390px;
+    height: 465px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.debate-topic-side-content-container{
+    max-width: 330px;
+    width: 100%;
+    /* border: 1px solid red; */
+    margin: auto;
+    padding: 20px 0;
+    height: 100%;
+}
+
+.debate-topic-side-stance-title{
+    color: #000;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 45px; 
+
+}
+
+.debate-topic-comment-scroll-box{
+    width: 100%;
+    height: 320px;
+    /* border: 1px solid red; */
+    margin-top: 10px;
+    overflow-y: scroll;
+    /* padding-right: 10px; */
+
+}
+
+.debate-topic-agree-button{
+    /* size */
+    width: 100%;
+    height: 45px;
+    /* text */
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    /* customize */
+    cursor: pointer;
+    border-radius: 10px;
+    background: #0DC7B1;
+    border: none;
+    /* position */
+    margin-top: 10px;
+    padding: 10px;
+    
+}
+
+.debate-topic-agree-button:hover{
+    background: #0DC7B1;
+    border: 1px solid #0C9177;
+}
+
+.debate-topic-disagree-button{
+    /* size */
+    width: 100%;
+    height: 45px;
+    /* text */
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    /* customize */
+    border-radius: 10px;
+    background: #EB5757;
+    border: none;
+    cursor: pointer;
+    /* position */
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.debate-topic-disagree-button:hover {
+    background-color: #EB5757;
+    border: 1px solid #D13A3A;
+  }
