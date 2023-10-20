@@ -1,32 +1,12 @@
 import './EditProfile.css'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
-import React ,{ useContext ,useState}from 'react'
+import React ,{ useContext ,useRef,useState}from 'react'
 import { AuthContext } from '../../context/authContext';
 import { makeRequest } from '../../axios';
 function EditProfile() {
     
     const { currentUser } = useContext(AuthContext);
-
-    const [file, setFile] = useState(null);
-
-    const uploadFile = async () => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const res = await makeRequest.post("/upload", formData);
-            return res.data;
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    const handleClick = async (e) => {
-        e.preventDefault();
-        let imgUrl = "";
-        if (file) imgUrl = await uploadFile();
-        setFile(null);
-      };
-    
   return (
     <>
     <UserNavBar/>
@@ -37,11 +17,22 @@ function EditProfile() {
                 {/* profile img label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รูปภาพโปรโฟล์</p>
-                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด</button>
+                    {/* <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
+                    <input 
+                        type="file"
+                        ref={hiddenFileInput}        
+                        style={{display:'none'}}
+                        onChange={(e) => setPic(e.target.files[0])} 
+                    />
+                    </button> */}
                 </div>
 
                 {/* image row */}              
                 <div className="edit-profile-profile-image-row">
+                    {/* <img src={pic 
+                        ? URL.createObjectURL(pic) 
+                        : "/upload/"+currentUser.user_pic+""} alt='' 
+                        className='edit-profile-profile-img' /> */}
                     <img src={profileImg} className='edit-profile-profile-img' />
                     <p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p>
                 </div>

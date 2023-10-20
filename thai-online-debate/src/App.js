@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import { useContext } from "react";
+import React, { useContext } from "react";
 import './App.css';
 import UserNavBar from './components/Navbar/UserNavBar';
 import RegisterNavbar from './components/Navbar/RegisterNavbar';
@@ -22,21 +22,21 @@ import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
-
-
+  
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/signin"/>;
       
     }
-    var user = currentUser.user_name;
+    //var user = currentUser.user_name;
     return children;
   };
 
-  var user = "";
-  if (currentUser) {
-    user = currentUser.user_name;
-  }
+  // var user = "";
+  // if (currentUser) {
+  //   user = currentUser.user_name;
+  // }
+
   const router = createBrowserRouter([
     {
       path: "/",

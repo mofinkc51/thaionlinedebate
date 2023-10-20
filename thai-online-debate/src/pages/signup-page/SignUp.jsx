@@ -3,7 +3,8 @@ import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
 import './SignUp.css'
 import signupImg from '../../assets/signup.png'
 import axios from 'axios';
-import { user_validation } from '../../checked';
+import { email_validation, user_validation, phone_validation } from '../../checked';
+import Swal from 'sweetalert2';
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -19,19 +20,32 @@ function SignUp() {
   };
   console.log(inputs)
 
-  const [err, SetErr] = useState(null);
+  const [error, SetErr] = useState(null);
 
 
   const regis_button = async (e) => {
-
+        e.preventDefault();
       const {confirmpassword, ...inputsDb}  = inputs;
-      
-      if (!user_validation(inputs.user_name,5,20)){
-          
+
+      if (!user_validation(inputs.user_name,5,15)){
+          return document.getElementsByName('user_name')[0].focus();
+      }
+      if (!email_validation(inputs.user_email)){
+          return document.getElementsByName('user_email')[0].focus();
+      }
+      if (!phone_validation(inputs.user_phonenum)){
+          return document.getElementsByName('user_phonenum')[0].focus();
+      }
+      if (!user_validation(inputs.user_password,5,15)){
+          return document.getElementsByName('user_password')[0].focus();
       }
 
       if (inputs.confirmpassword !== inputs.user_password) {
-          return alert("password not match")
+          return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text:("password not match")
+          });
       
       } else {
           e.preventDefault();
@@ -39,7 +53,10 @@ function SignUp() {
               await axios.post("http://localhost:8800/api/auth/register", inputsDb)
           } catch (err) {
               SetErr(err.response.data)
-              alert(err.response.data)
+              Swal.fire({
+                  icon: 'error',
+                  title: error,
+              })
           }
           //console.log("you tick toog and correct password");
       }
@@ -67,7 +84,7 @@ function SignUp() {
                     <p class="signup-label">อีเมล</p>
                     <input type="email" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChange} class="signup-textfield" placeholder="อีเมล" required/>
                     <p class="signup-label">เบอร์โทรศัพท์</p>
-                    <input type="tel" name="user_phonenum" min ="0" maxlength="10" onChange={handleChange} class="signup-textfield" placeholder="เบอร์โทรศัพท์" />
+                    <input type="number" name="user_phonenum" min ="0" maxlength="10"  onChange={handleChange} class="signup-textfield" placeholder="เบอร์โทรศัพท์" />
                     <p class="signup-label">รหัสผ่าน</p>
                     <input type="password" name="user_password" onChange={handleChange} class="signup-textfield" placeholder="รหัสผ่าน" required/>
                     <p class="signup-label">ยืนยันรหัสผ่าน</p>

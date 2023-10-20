@@ -10,15 +10,11 @@ import CreateTopicPopup from './components/CreateTopicPopup';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
 import DebateTopic from './pages/debate-topic-page/DebateTopic';
 import EditTopicPopup from './components/topic-popup/EditTopicPopup';
-import AdminSidemenu from './components/admin-sidemenu/AdminSidemenu';
 // import AddAgreeComment from './components/topic-popup/AddAgreeComment';
 // import AddDisagreeComment from './components/topic-popup/AddDisagreeComment';
 import DeleteTopicPopup from './components/topic-popup/DeleteTopicPopup';
 import DownloadList from './pages/download-list-page/DownloadList';
 import DownloadRequestList from './pages/dataset-download-list/DownloadRequestList';
-import EditPasswordPopup from './components/edit-user-password-popup/EditPasswordPopup';
-import AdminMenu from './pages/admin-menu-page/AdminMenu';
-import DeleteRequestPopup from './components/admin-popup/DeleteRequestPopup';
 import reportWebVitals from './reportWebVitals';
 import { AuthContextProvider } from './context/authContext';
 
@@ -26,9 +22,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    {/* <AuthContextProvider>
+    <AuthContextProvider>
       <App/>
-    </AuthContextProvider> */}
+    </AuthContextProvider>
     {/* <FavDebateGallery/> */}
     {/* <SignIn/> */}
     {/* <SignUp/> */}
@@ -41,11 +37,7 @@ root.render(
     {/* <EditTopicPopup/> */}
     {/* <DeleteTopicPopup/> */}
     {/* <DownloadList/> */}
-    {/* <DownloadRequestList/> */}
-    {/* <AdminSidemenu/> */}
-    <AdminMenu/>
-    {/* <EditPasswordPopup/> */}
-    {/* <DeleteRequestPopup/> */}
+    
   </React.StrictMode>
 );
 
