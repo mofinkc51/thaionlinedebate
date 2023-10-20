@@ -1,0 +1,15 @@
+.admin-manage-request-row{
+    height: 60px;
+}
+
+.admin-manage-request-row td button{
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 5px 2.5px 0px 2.5px;
+}
+
+.admin-manage-request-row td{
+    text-align: left;
+    padding: 8px;
+}

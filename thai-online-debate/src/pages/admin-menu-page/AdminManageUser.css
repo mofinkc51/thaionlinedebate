@@ -1,0 +1,64 @@
+
+/* for manage user page */
+.admin-manage-user-title-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+    /* for search box container */
+
+.admin-manage-user-search-container{
+    margin-top: 3px;
+    position: relative;
+
+}
+.admin-manage-user-search-container button{
+    cursor: pointer;
+    position: absolute;
+    height: 30px;
+    background: transparent;
+    border: none;
+    padding: 5px 5px 0px 5px;
+    margin-left: 5px;
+
+}
+
+.admin-manage-user-search-container img{
+    width: 16px;
+height: 16px;
+
+}
+.admin-manage-user-search-container input{
+    width: 220px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+    padding-left: 40px;
+}
+
+/* table part */
+.admin-manage-user-table{
+    margin-top: 20px;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+
+ th {
+    background: #FFF;;
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    padding: 8px;
+  }
+
+
+
+  tr:nth-child(even) {
+    background: #F7F6FE;
+  }

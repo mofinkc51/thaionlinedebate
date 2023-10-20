@@ -1,0 +1,90 @@
+.admin-manage-request-page-container{
+    max-width: 400px;
+
+}
+
+.admin-manage-request-requester-row{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.manage-request-requester-box{
+
+}
+
+.manage-request-date-box{
+
+}
+
+/* for text */
+.admin-manage-request-page-container h4{
+    margin-bottom: 5px;
+}
+
+.manage-request-text{
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+.admin-manage-request-topic-requested-row,
+.admin-manage-request-topic-reason-row,
+.admin-manage-request-proof-row {
+    margin-top: 30px;
+}
+
+.manage-request-proof-row{
+    max-width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.manage-request-proof-button{
+    cursor: pointer;
+    color: #97C4FB;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    /* line-height: 30.8px;  */
+    text-decoration-line: underline;
+    border: none;
+    background-color: transparent;
+}
+
+/* button row */
+
+.admin-manage-request-button-row{
+    margin-top: 30px;
+    display: flex;
+}
+
+
+.manage-request-confirm-button{
+    cursor: pointer;
+    width: 75px;
+    height: 38px;
+    border-radius: 10px;
+    color: #1F9254;
+    background: #EBF9F1;
+    border: none;
+    margin-right: 4px;
+
+}
+.manage-request-cancel-button{
+    cursor: pointer;
+
+    width: 75px;
+    height: 38px;
+    border-radius: 10px;
+    color: #A30D11;
+    background: #FBE7E8;
+    border: none;
+    margin-left: 4px;
+}

@@ -1,0 +1,61 @@
+.admin-manage-activity-title-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.admin-manage-activity-title-row button{
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+
+    width: 167px;
+    height: 31px;
+    /* padding: 8px 12px; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 8px;
+    color: #FFF;
+    border: none;
+    background: #624DE3;    
+
+}
+
+.admin-manage-activity-title-row button:hover{
+    background-color:#7F61E6;
+
+}
+
+.admin-manage-activity-title{
+    /* color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 100%;
+    /* border: 1px solid red; */
+    /* padding: 35px 35px; */
+
+    color: #100F0F;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+
+    margin-bottom: 20px;
+}
+
+/* table */
+.activity-table-header-topic-name{
+    width: 170px;
+}
+
+.activity-table-header-time{
+    width: 150px;
+    /* border: 1px solid red; */
+
+}
