@@ -8,7 +8,6 @@ import Swal from 'sweetalert2'
 import { Navigate, useNavigate } from 'react-router-dom';
 
 function EditProfileData() {
-
     const { currentUser } = useContext(AuthContext);
     const [pic, setPic] = useState(null);
     const hiddenFileInput = useRef(null);
@@ -19,7 +18,7 @@ function EditProfileData() {
             const formData = new FormData();
             formData.append("file", file);
             const res = await makeRequest.post("/upload", formData);
-            console.log("res data" + res.data);
+            console.log(formData.get("file"));
             return res.data;
         } catch (err) {
             console.log(err);
@@ -45,17 +44,21 @@ function EditProfileData() {
     const handleSubmit = async (e) => { 
         e.preventDefault();
         let picUrl;
-        picUrl = pic ? await upload(pic) : currentUser.user_pic;
-        console.log("before add db "+picUrl);
-        setUserData({ ...userData, user_pic: picUrl });
-
+        picUrl = pic ? await upload(pic) : userData.user_pic;
+        // console.log("before set db "+picUrl);
+        console.log("user data pic before setpic"+userData.user_pic);
+        if (picUrl === null){
+            picUrl = userData.user_pic;
+        }
+        setUserData({ ...userData, user_pic: picUrl});
+        console.log("after set db "+userData.user_pic);
         if (!user_validation(userData.user_name,5,15)){
             return document.getElementsByName('user_name')[0].focus();
         }
         if (!phone_validation(userData.user_phonenum)){
             return document.getElementsByName('user_phonenum')[0].focus();
         } try {
-            console.log("after add db "+userData.user_pic);
+            console.log("last add db "+userData.user_pic);
 
             await makeRequest.put(`/users/edit/${userData.user_id}`, userData)
             localStorage.setItem('user', JSON.stringify(userData));
@@ -77,8 +80,7 @@ function EditProfileData() {
         //console.log("you tick toog and correct password");
     }
 
-    const handleClick = async (e) => {
-        // e.preventDefault();
+    const handleClick = () => {
         hiddenFileInput.current.click();
 
 
@@ -109,14 +111,9 @@ function EditProfileData() {
                     {/* <img src={profileImg} className='edit-profile-profile-img' /> */}
                     <img src={pic 
                         ? URL.createObjectURL(pic) 
-                        : "/upload/"+currentUser.user_pic} alt='' 
+                        : "/thai-online-debate/public/upload/"+currentUser.user_pic} alt='' 
                         className='edit-profile-profile-img' />
                     {/* s<p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
-                </div>
-                <div className="edit-profile-profile-image-row">
-                <img src={currentUser.user_pic} 
-                alt='' 
-                className='edit-profile-profile-img' />
                 </div>
                 {/* username label row */}
                 <form onSubmit={handleSubmit}>
