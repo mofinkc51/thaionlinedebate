@@ -1,5 +1,7 @@
 import React from 'react'
 import AdminManageProblemRow from '../../components/admin-manage-problem-row/AdminManageProblemRow'
+import DeleteProblemPopup from '../../components/admin-popup/DeleteProblemPopup'
+import EditProblemPopup from '../../components/admin-popup/EditProblemPopup'
 
 function AdminManageProblem() {
   return (
@@ -21,6 +23,8 @@ function AdminManageProblem() {
             {/* table body */}
             <AdminManageProblemRow/>
         </table>
+        {/* <DeleteProblemPopup/> */}
+        <EditProblemPopup/>
     </>
   )
 }

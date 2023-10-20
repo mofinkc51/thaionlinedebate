@@ -1,6 +1,9 @@
 import React from 'react'
 import './AdminManageActivity.css'
 import AdminManageActivityRow from '../../components/admin-manage-activity-row/AdminManageActivityRow'
+import CreateActivityPopup from '../../components/admin-popup/CreateActivityPopup'
+import EditActivityPopup from '../../components/admin-popup/EditActivityPopup'
+import DeleteActivityPopup from '../../components/admin-popup/DeleteActivityPopup'
 
 function AdminManageActivity() {
   return (
@@ -10,7 +13,6 @@ function AdminManageActivity() {
         <button>สร้างกิจกรรมโต้แย้ง</button>
       </div>
 
-      {/* table part */}
       {/* table part */}
       <table className='admin-download-activity-table'>
 
@@ -27,7 +29,9 @@ function AdminManageActivity() {
         {/* table body */}
         <AdminManageActivityRow/>
       </table>
-
+      {/* <CreateActivityPopup/> */}
+      {/* <EditActivityPopup/> */}
+      <DeleteActivityPopup/>
 
     </>
   )
