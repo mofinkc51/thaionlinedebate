@@ -4,7 +4,7 @@ import React ,{ useContext }from 'react'
 import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
-export const createTopic = () => {
+export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
     if (x[0].style.display === "none") {
         x[0].style.display = "block";
@@ -49,7 +49,7 @@ function UserNavBar() {
                     </div>
                     <ul class="nav-menu" id="myMenu">
                         <li><a href="/">หน้าแรก</a></li>
-                        <li><a onClick={createTopic}>สร้าง</a></li>
+                        <li><a onClick={createTopicForm}>สร้าง</a></li>
                         <div class="nav-dropdown">
                             <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} ▼</a></li> 
                             <div class="nav-dropdown-content">
