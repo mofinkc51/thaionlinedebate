@@ -10,8 +10,8 @@ function CreateTopicPopup() {
     const [topic, setTopic] = useState({
         dbt_title: "",
         dbt_description: "",
-        dbt_agree: "",
-        dbt_disagree: "",
+        dbt_agree: "เห็นด้วย",
+        dbt_disagree: "ไม่เห็นด้วย",
     });
 
     const handleChange = (e) => {
@@ -24,11 +24,16 @@ function CreateTopicPopup() {
         try {
 
             await makeRequest.post('/posts', topic)
+            Swal.fire({
+                icon: 'success',
+                title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
+            })
+            
         }   catch (err) {
             SetErr(err.response.data)
             Swal.fire({
                 icon: 'error',
-                title: error,
+                title: err.response.data,
             })
         }
     }
@@ -54,7 +59,7 @@ function CreateTopicPopup() {
                             <p className='create-topic-popup-label'>หัวข้อประเด็นโต้แย้ง</p>
 
                             <input type="text" className='create-topic-popup-topicname-input'
-                            onChange={handleChange} name="dbt_title"
+                            onChange={handleChange} name="dbt_title" required
                             />
                         
                         </div>
@@ -62,7 +67,7 @@ function CreateTopicPopup() {
                         <div className="create-topic-popup-topicdesc-row">
                             <p className='create-topic-popup-label'>คำอธิบายประเด็นโต้แย้ง</p>
                             <textarea className="create-topic-popup-topicdesc-input" 
-                            onChange={handleChange}
+                            onChange={handleChange} required
                             name="dbt_description" id="" cols="30" rows="5">
                                 
                                 
@@ -75,7 +80,7 @@ function CreateTopicPopup() {
                                 <p className='create-topic-popup-label'>ฝั่งที่ 1</p>
 
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_agree"
+                                onChange={handleChange} name="dbt_agree" required
                                 />
                             
                             </div>
@@ -84,7 +89,7 @@ function CreateTopicPopup() {
                                 <p className='create-topic-popup-label'>ฝั่งที่ 2</p>
 
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_disagree"
+                                onChange={handleChange} name="dbt_disagree" required
                                 />
                             
                             </div>

@@ -29,4 +29,4 @@ function FavDebateGallery() {
   )
 }
 
-export default FavDebateGallery
+export default FavDebateGallery;

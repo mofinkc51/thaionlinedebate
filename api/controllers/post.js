@@ -17,6 +17,10 @@ export const getTopics = (req,res)=>{
     });
   });
 };
+
+export const getTopic = (req,res)=>{
+  
+}
 export const getPost = (req,res)=>{
   const userId = req.query.userId;
   const token = req.cookies.accessToken;

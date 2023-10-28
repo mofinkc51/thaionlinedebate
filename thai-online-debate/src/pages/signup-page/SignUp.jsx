@@ -55,7 +55,7 @@ function SignUp() {
               SetErr(err.response.data)
               Swal.fire({
                   icon: 'error',
-                  title: error,
+                  title: err.response.data,
               })
           }
           //console.log("you tick toog and correct password");

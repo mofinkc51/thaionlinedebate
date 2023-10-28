@@ -11,6 +11,7 @@ import CreateTopicPopup from './components/CreateTopicPopup';
 import Profile from './pages/profile-page/Profile';
 import EditProfile from './pages/edit-profile-page/EditProfile';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
+import EditPasswordPopup from './components/edit-user-password-popup/EditPasswordPopup';
 import { BrowserRouter as  Router, Routes, Route ,  
   createBrowserRouter,
   RouterProvider,
@@ -19,7 +20,7 @@ import { BrowserRouter as  Router, Routes, Route ,
 import { AuthContext } from './context/authContext';
 import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 import { makeRequest } from './axios';
-
+import DebateTopic from './pages/debate-topic-page/DebateTopic';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
@@ -73,14 +74,25 @@ function App() {
       ),
     },
     {
+      path: "profile/me/changepassword",
+      element: <EditPasswordPopup/>
+    },
+    {
       path: "/signin",
       element: <SignIn/>,
     },
     {
       path: "/signup",
     element: <SignUp/>,
+    },
+    {
+      path : "/topic",
+      element : <DebateTopic/>,
+    },
+    {
+      path : "/fav",
+      element : <FavDebateGallery/>,
     }
-
   ]);
 
   return (

@@ -4,11 +4,12 @@ import jwt from "jsonwebtoken";
 export const getUser = (req,res)=>{
     const user_id = req.params.user_id;
     const sql = "SELECT * FROM user WHERE user_id=?";
-  
+    return res.status(200).json(req);
     db.query(sql, [user_id], (err, data) => {
       if (err) return res.status(500).json(err);
       const { password, ...info } = data[0];
-      return res.json(info);
+      return res.status(200).json(user_id);
+      // return res.json(info);
     });
     
 };
