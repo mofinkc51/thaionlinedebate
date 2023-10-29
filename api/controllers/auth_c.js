@@ -72,12 +72,11 @@ export const logout = (req,res)=>{
 
 export const checktoken = (req,res)=>{
     const token = req.cookies.accessToken;
-    console.log(token);
-    return res.status(200).json(token);
-//     Jwt.verify(token, "secretkey", (err, userInfo) => {
-//       if (userInfo === undefined) 
-//       return res.status(401).json("Not authenticatede!");
-//       console.log(userInfo);
-//       return res.status(200).json(userInfo);
-//     })
+    if (!token) {
+        console.log("no token")
+        return token;
+    } else {
+        console.log(token)
+        return res.status(200).json("Token is valid");
+    } 
 };

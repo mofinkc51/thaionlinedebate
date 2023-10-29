@@ -12,7 +12,7 @@ function TopicComponent(props) {
         
         <div className="topic-component-line"></div>
         <div className="topic-component-bt-container">
-          <button onClick={props.getTops(0)} className='topic-component-debate-button'>ดีเบต</button>
+          <button onClick={props.getTops} className='topic-component-debate-button'>ดีเบต</button>
           <button className='topic-component-save-button'><img src={saveIcon} className='save-button'/></button>
         </div>
     </div>

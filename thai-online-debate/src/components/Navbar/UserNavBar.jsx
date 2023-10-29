@@ -34,7 +34,7 @@ function UserNavBar() {
           })
     }
     const logout_db = async () => {
-        const res = await makeRequest.post("/auth/logout", "");
+        await makeRequest.post("/auth/logout", "");
         localStorage.removeItem("user");
         window.location.reload();
     }

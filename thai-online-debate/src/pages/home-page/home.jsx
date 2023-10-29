@@ -5,11 +5,15 @@ import bbImg from '../../assets/billboard-1.png'
 import TopicComponent from '../../components/TopicComponent'
 import CreateTopicPopup from '../../components/CreateTopicPopup'
 import { makeRequest } from '../../axios'
-
+import { Navigate } from 'react-router-dom'
 
 function Home() {
 
-  const [debate,setDebate] = useState([])
+  const [debate,setDebate] = useState([{
+    dbt_id:"",
+    dbt_title:"",
+  }]);
+
   const getTopTopics = async () => {
     try {
       const res = await makeRequest.get('/posts/tops')
@@ -18,13 +22,38 @@ function Home() {
       console.log(err);
     }
   }
+  // const checkToken = async () => {
+  //   try {
+  //     const res = await makeRequest.get('/auth/token');
+  //     return res; // Assuming the token is returned in the response data
+  //   } catch (err) {
+  //     console.log(err);
+  //     return null; // Return null if an error occurs
+  //   }
+  // };
+  
+  // const check = async () => {
+  //   try {
+  //     const token = await checkToken();
+  //     if (token) {
+  //       console.log(token);
+  //     } else {
+  //       alert('Token is null or not available');
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  
+  // useEffect(() => {
+  //   getTopTopics();
+  // });
 
-  useEffect(() => { 
-    getTopTopics(); 
-  }, []);
   const showTopic = () => {
     return console.log(debate);
   }
+
+
   return (
     <>
       <UserNavbar/>

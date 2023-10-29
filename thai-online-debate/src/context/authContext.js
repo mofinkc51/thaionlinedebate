@@ -1,6 +1,7 @@
 import axios from "axios";
 import React , { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { makeRequest } from "../axios";
 
 export const AuthContext = React.createContext();
 
@@ -12,13 +13,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (inputs) => {
     try {
-      const res = await axios.post(
-        "http://localhost:8800/api/auth/login",
-        inputs,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await makeRequest.post("/auth/login", inputs);
       setCurrentUser(res.data);
     } catch (err) {
       // Handle error

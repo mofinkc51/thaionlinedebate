@@ -24,20 +24,14 @@ import DebateTopic from './pages/debate-topic-page/DebateTopic';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
-  
+
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/signin"/>;
       
     }
-    //var user = currentUser.user_name;
     return children;
   };
-
-  // var user = "";
-  // if (currentUser) {
-  //   user = currentUser.user_name;
-  // }
 
   const router = createBrowserRouter([
     {

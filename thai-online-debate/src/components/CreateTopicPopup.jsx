@@ -6,7 +6,7 @@ import { makeRequest } from '../axios';
 import Swal from 'sweetalert2';
 
 function CreateTopicPopup() {
-    const [error, SetErr] = useState(null);
+    const [err, SetErr] = useState(null);
     const [topic, setTopic] = useState({
         dbt_title: "",
         dbt_description: "",
