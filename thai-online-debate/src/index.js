@@ -22,13 +22,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
+    {/* <App/> */}
     {/* <AuthContextProvider>
-      <App/>
     </AuthContextProvider> */}
     {/* <FavDebateGallery/> */}
     {/* <SignIn/> */}
     {/* <SignUp/> */}
-    {/* <Home/> */}
+    <Home/>
     {/* <CreateTopicPopup/> */}
     {/* <Profile/> */}
     {/* <DebateTopic/> */}
@@ -37,7 +37,7 @@ root.render(
     {/* <EditTopicPopup/> */}
     {/* <DeleteTopicPopup/> */}
     {/* <DownloadList/> */}
-    <DownloadRequestList/>
+    {/* <DownloadRequestList/> */}
   </React.StrictMode>
 );
 

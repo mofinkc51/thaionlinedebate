@@ -26,9 +26,7 @@ function SignUp() {
 
       const {confirmpassword, ...inputsDb}  = inputs;
       
-      if (!user_validation(inputs.user_name,5,20)){
-          
-      }
+      
 
       if (inputs.confirmpassword !== inputs.user_password) {
           return alert("password not match")

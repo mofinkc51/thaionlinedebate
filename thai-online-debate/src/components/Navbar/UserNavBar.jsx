@@ -15,7 +15,7 @@ export const createTopic = () => {
 
 function UserNavBar() {
 
-    const { currentUser } = useContext(AuthContext);
+    // const { currentUser } = useContext(AuthContext);
 
     const logout = async () => {
         const res = await axios.post(

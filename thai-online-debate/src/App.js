@@ -21,54 +21,52 @@ import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 
 function App() {
 
-  const { currentUser } = useContext(AuthContext);
+  // const { currentUser } = useContext(AuthContext);
 
 
-  const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/signin"/>;
+  // const ProtectedRoute = ({ children }) => {
+  //   if (!currentUser) {
+  //     return <Navigate to="/signin"/>;
       
-    }
-    var user = currentUser.user_name;
-    return children;
-  };
+  //   }
+  //   var user = currentUser.user_name;
+  //   return children;
+  // };
 
-  var user = "";
-  if (currentUser) {
-    user = currentUser.user_name;
-  }
+  // var user = "";
+  // if (currentUser) {
+  //   user = currentUser.user_name;
+  // }
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <ProtectedRoute>
           <Home/>
-        </ProtectedRoute>
       ),
     },
     {
       path: "/profile",
       element: (
-        <ProtectedRoute>
+        // <ProtectedRoute>
           <Profile/>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
     },
     {
       // (`/profile/${user}`)
       path: "profile/me",
       element: (
-        <ProtectedRoute>
+        // <ProtectedRoute>
           <EditProfile/>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
     },
     {
       path: "profile/me/edit",
       element: (
-        <ProtectedRoute>
+        // <ProtectedRoute>
           <EditProfileData/>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
     },
     {
