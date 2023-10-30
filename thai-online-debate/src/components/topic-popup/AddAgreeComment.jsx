@@ -1,11 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './AddComment.css'
 import closeButtonIcon from '../../assets/icon/close.png'
-
+import { makeRequest } from '../../axios';
 
 function AddAgreeComment(props) {
-
+    
+    const topicId = window.location.pathname.split("/").pop();
+    const [dataComment, setDataComment] = useState({
+        dbc_comment: "",
+        dbc_total_like: 0,
+        dbc_stance: 0,
+        dbt_id: topicId
+    });
+    const handleChange = (e) => {
+        setDataComment((prev)=>({ ...prev, [e.target.name]:e.target.value}));
+    };
   const {onCloseClick} = props;
+
+  const addCommentAgree = async (e) => {
+    e.preventDefault();
+    try {
+        await makeRequest.post('/comments/', dataComment)
+        window.location.reload();
+    } catch (err) {
+        console.log(err);
+    }
+  }
     
   return (
     <>
@@ -13,11 +33,15 @@ function AddAgreeComment(props) {
             <div className="add-comment-popup-box">
                 <div className="add-comment-popup-container">
                     <h2>เพิ่มข้อความโต้แย้งฝั่งเห็นด้วย</h2>
-                    <form action="">
+                    <form >
                         <label htmlFor='comment-input'></label>
-                        <textarea className="add-comment-popup-input" name="comment-input" id="comment-input" cols="30" ></textarea>
+                        <textarea className="add-comment-popup-input" name="dbc_comment" 
+                        onChange={handleChange} 
+                        id="comment-input" cols="30" ></textarea>
                         <div className="add-comment-button-container">
-                            <button className="add-comment-popup-button">เพิ่ม</button>
+                            <button className="add-comment-popup-button"
+                            onClick={addCommentAgree}
+                            >เพิ่ม</button>
 
                         </div>
                     </form>

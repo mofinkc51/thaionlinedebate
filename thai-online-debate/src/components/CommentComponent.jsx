@@ -1,12 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import userImg from '../assets/profile.png'
 import './CommentComponent.css'
-function CommentComponent() {
+function CommentComponent(props) {
     const commentData = {
-        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident quos ad minima ut dolorum quae veritatis, aspernatur explicabo necessitatibus dicta dolore commodi laboriosam beatae quo totam? Atque beatae dignissimos distinctio.",
+        comment: props.comment,
         userImg: userImg,
-        timestamp: "13:00",
-    }
+        timestamp: props.timestamp,
+      };
+      const [dateAndTime, setdateAndTime] = useState({
+        date: '',
+        time: '',
+      });
+      
+      const convertTimestamp = (timestamp) => {
+        const dateObj = new Date(timestamp);
+        const dbc_date = dateObj.toISOString().split('T')[0];
+        const dbc_time = dateObj.toTimeString().split(' ')[0];
+      
+        setdateAndTime({ date: dbc_date, time: dbc_time });
+      };
+      
+      useEffect(() => {
+        convertTimestamp(commentData.timestamp);
+      }, []);
+      
   return (
     <>
         <div className="comment-component">
@@ -17,7 +34,7 @@ function CommentComponent() {
             <div className='comment-action-row'>
                 <button className='comment-like-button'>ถูกใจ</button>
                 <button className='comment-reply-button'>ตอบกลับ</button>
-                <p className='comment-timestamp'>{commentData.timestamp}</p>
+                <p className='comment-timestamp'>{dateAndTime.date}</p>
             </div>
         </div>
         

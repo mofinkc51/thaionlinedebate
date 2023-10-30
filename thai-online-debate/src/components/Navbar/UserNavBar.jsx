@@ -36,7 +36,7 @@ function UserNavBar() {
     const logout_db = async () => {
         await makeRequest.post("/auth/logout", "");
         localStorage.removeItem("user");
-        window.location.reload();
+        navigator("/signin");
     }
 
   return (
@@ -55,7 +55,7 @@ function UserNavBar() {
                             <div class="nav-dropdown-content">
                                 
                                 <a href="/profile"><img src=""/>โปรไฟล์</a>
-                                <a href="#">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
+                                <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
                                 <a href="#">ส่งคำร้องการดาวน์โหลด</a>
                                 <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
                                 <a href="/" onClick={logout}>ออกจากระบบ</a>

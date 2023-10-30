@@ -1,9 +1,9 @@
 import express from "express";
-import { addComment } from "../controllers/comment.js";
+import { addComment , getComment } from "../controllers/comment.js";
 
 const router = express.Router()
 
-router.get("",)
+router.get("/:dbt_id",getComment)
 router.post("/",addComment)
 
 

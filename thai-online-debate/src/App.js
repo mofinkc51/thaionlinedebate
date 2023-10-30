@@ -80,7 +80,7 @@ function App() {
     element: <SignUp/>,
     },
     {
-      path : "/topic",
+      path : "/topic/:id",
       element : <DebateTopic/>,
     },
     {

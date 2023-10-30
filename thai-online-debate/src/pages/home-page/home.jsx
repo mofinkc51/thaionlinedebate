@@ -5,52 +5,33 @@ import bbImg from '../../assets/billboard-1.png'
 import TopicComponent from '../../components/TopicComponent'
 import CreateTopicPopup from '../../components/CreateTopicPopup'
 import { makeRequest } from '../../axios'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 function Home() {
-
+  
   const [debate,setDebate] = useState([{
     dbt_id:"",
     dbt_title:"",
   }]);
+  const navigate = useNavigate();
 
   const getTopTopics = async () => {
     try {
       const res = await makeRequest.get('/posts/tops')
       return setDebate(res.data)
     } catch (err) {
+      if (err.response.status === 401) {
+        navigate('/signin');
+      }
       console.log(err);
     }
   }
-  // const checkToken = async () => {
-  //   try {
-  //     const res = await makeRequest.get('/auth/token');
-  //     return res; // Assuming the token is returned in the response data
-  //   } catch (err) {
-  //     console.log(err);
-  //     return null; // Return null if an error occurs
-  //   }
-  // };
-  
-  // const check = async () => {
-  //   try {
-  //     const token = await checkToken();
-  //     if (token) {
-  //       console.log(token);
-  //     } else {
-  //       alert('Token is null or not available');
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  
-  // useEffect(() => {
-  //   getTopTopics();
-  // });
+  useEffect(() => {
+    getTopTopics();
+  },[]);
 
-  const showTopic = () => {
-    return console.log(debate);
+  const showTopic = (id) => {
+    return console.log(id);
   }
 
 
@@ -98,9 +79,12 @@ function Home() {
         <div className="popular-topic-container">
           <h2 className='popular-title'>Popular Topic</h2>
           <div className="popular-topic-grid">
-            <TopicComponent topicname="ไต้หวันเป็นประเทศ" getTops={showTopic}/>
-            <TopicComponent topicname="นโยบายแจกเงินดิจิตอลเป็นสิ่งที่ไม่ควรทำ" getTops={showTopic}/>
-            <TopicComponent topicname="กะเพราไม่ควรใส่ถั่วฝักยาว" getTops={showTopic}/>
+            {debate.map((debate) => (
+              <TopicComponent topicname={debate.dbt_title} id={debate.dbt_id}/>
+            ))}
+            {/* <TopicComponent topicname={debate[0].dbt_title} getTops={showTopic}/>
+            <TopicComponent topicname={debate[1].dbt_title} getTops={showTopic}/>
+            <TopicComponent topicname={debate[2].dbt_title} getTops={showTopic}/> */}
           </div>
         </div>
       </div>
