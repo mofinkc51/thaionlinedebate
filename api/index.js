@@ -6,6 +6,7 @@ import commentRoutes from "./routes/comments.js"
 import likeRoutes from "./routes/likes.js"
 import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/users.js"
+import adminRoutes from "./routes/admin.js"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import multer from "multer";
@@ -44,7 +45,7 @@ app.use("/api/comments", commentRoutes)
 app.use("/api/likes", likeRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/users", userRoutes)
-
+app.use("/api/admin", adminRoutes)
 app.listen(8800, ()=>{
     console.log("Connected")
 })
