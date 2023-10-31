@@ -11,6 +11,7 @@ import CreateTopicPopup from './components/CreateTopicPopup';
 import Profile from './pages/profile-page/Profile';
 import EditProfile from './pages/edit-profile-page/EditProfile';
 import FavDebateGallery from './pages/fav-debate-gallery/FavDebateGallery';
+import EditPasswordPopup from './components/edit-user-password-popup/EditPasswordPopup';
 import { BrowserRouter as  Router, Routes, Route ,  
   createBrowserRouter,
   RouterProvider,
@@ -18,24 +19,20 @@ import { BrowserRouter as  Router, Routes, Route ,
 } from 'react-router-dom';
 import { AuthContext } from './context/authContext';
 import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
-
+import { makeRequest } from './axios';
+import DebateTopic from './pages/debate-topic-page/DebateTopic';
+import DownloadRequestList from './pages/dataset-download-list/DownloadRequestList';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
-  
+
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/signin"/>;
       
     }
-    //var user = currentUser.user_name;
     return children;
   };
-
-  // var user = "";
-  // if (currentUser) {
-  //   user = currentUser.user_name;
-  // }
 
   const router = createBrowserRouter([
     {
@@ -72,14 +69,29 @@ function App() {
       ),
     },
     {
+      path: "profile/me/changepassword",
+      element: <EditPasswordPopup/>
+    },
+    {
       path: "/signin",
       element: <SignIn/>,
     },
     {
       path: "/signup",
     element: <SignUp/>,
+    },
+    {
+      path : "/topic/:id",
+      element : <DebateTopic/>,
+    },
+    {
+      path : "/fav",
+      element : <FavDebateGallery/>,
+    },
+    {
+      path : "/downloadrequest",
+      element : <DownloadRequestList/>,
     }
-
   ]);
 
   return (

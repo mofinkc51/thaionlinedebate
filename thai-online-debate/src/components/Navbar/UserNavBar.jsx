@@ -4,7 +4,8 @@ import React ,{ useContext }from 'react'
 import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
-export const createTopic = () => {
+import { useNavigate } from 'react-router-dom'
+export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
     if (x[0].style.display === "none") {
         x[0].style.display = "block";
@@ -16,7 +17,7 @@ export const createTopic = () => {
 function UserNavBar() {
 
     const { currentUser } = useContext(AuthContext);
-
+    const navigator = useNavigate();
     const logout = async (e) => {
         e.preventDefault();
         Swal.fire({
@@ -34,9 +35,9 @@ function UserNavBar() {
           })
     }
     const logout_db = async () => {
-        const res = await makeRequest.post("/auth/logout", "");
+        await makeRequest.post("/auth/logout", "");
         localStorage.removeItem("user");
-        window.location.reload();
+        navigator("/signin");
     }
 
   return (
@@ -49,14 +50,14 @@ function UserNavBar() {
                     </div>
                     <ul class="nav-menu" id="myMenu">
                         <li><a href="/">หน้าแรก</a></li>
-                        <li><a onClick={createTopic}>สร้าง</a></li>
+                        <li><a onClick={createTopicForm}>สร้าง</a></li>
                         <div class="nav-dropdown">
                             <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} ▼</a></li> 
                             <div class="nav-dropdown-content">
                                 
                                 <a href="/profile"><img src=""/>โปรไฟล์</a>
-                                <a href="#">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
-                                <a href="#">ส่งคำร้องการดาวน์โหลด</a>
+                                <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
+                                <a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
                                 <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
                                 <a href="/" onClick={logout}>ออกจากระบบ</a>
                             </div>

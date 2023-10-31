@@ -69,3 +69,14 @@ export const logout = (req,res)=>{
     }).status(200).json("User has logged out");
     
 };
+
+export const checktoken = (req,res)=>{
+    const token = req.cookies.accessToken;
+    if (!token) {
+        console.log("no token")
+        return token;
+    } else {
+        console.log(token)
+        return res.status(200).json("Token is valid");
+    } 
+};

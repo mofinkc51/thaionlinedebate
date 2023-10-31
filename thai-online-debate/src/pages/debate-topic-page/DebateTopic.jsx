@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import './DebateTopic.css'
 import UserNavbar from '../../components/Navbar/UserNavBar'
 import TopicTag from '../../components/TopicTag'
@@ -11,8 +11,11 @@ import EditTopicPopup from '../../components/topic-popup/EditTopicPopup';
 import DeleteTopicPopup from '../../components/topic-popup/DeleteTopicPopup';
 import AddToFavPopup from '../../components/topic-popup/AddToFavPopup';
 import AddToDownloadPopup from '../../components/topic-popup/AddToDownloadPopup';
+import { useNavigate } from 'react-router-dom';
+import { makeRequest } from '../../axios';
+import Swal from 'sweetalert2'
 
-function DebateTopic() {
+function DebateTopic(props) {
 
 
   const [open, setOpen] = useState(false);
@@ -25,6 +28,73 @@ function DebateTopic() {
   const [selectedAddtoDownloadPopup, setSelectedAddtoDownloadPopup] = useState(null)
 
   let popup = null
+  
+  
+  const topicId = window.location.pathname.split("/").pop();
+  
+  let stance = {
+    dbc_stance: 0
+  }
+  
+  let [commentDataAgree, setCommentDataAgree] = useState([]);
+  let [commentDataDisagree, setCommentDataDisagree] = useState([]);
+  
+  const [topicData, setTopicData] = useState({
+    topicName: "Loading...",
+    topicCreator: "Loading User...",
+    topicDescription: "Loading Description..."
+  });
+  const getCommentAgree = async () => {
+    stance.dbc_stance = 0;
+    try {
+      const res = await makeRequest.get(`/comments/${topicId}`, { params: stance });
+      console.log(res.data[0]);
+      setCommentDataAgree(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
+  const getCommentDisagree = async () => {
+    stance.dbc_stance = 1;
+    try {
+      const res = await makeRequest.get(`/comments/${topicId}`, { params: stance });
+      console.log(res.data[0]);
+      setCommentDataDisagree(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
+  const getTopicData = async () => {
+    try {
+      
+      await Promise.all([getCommentAgree(), getCommentDisagree()]);
+      const res = await makeRequest.get('/posts/topic/' + topicId);
+      console.log(res.data[0]);
+  
+  
+      return setTopicData({
+        topicName: res.data[0].dbt_title,
+        topicCreator: res.data[0].user_id,
+        topicDescription: res.data[0].dbt_description
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
+  useEffect(() => {
+    getTopicData();
+    getCommentAgree();
+    getCommentDisagree();
+  }, []);
+
+  let agreeCount = commentDataAgree.length;
+  let disagreeCount = commentDataDisagree.length;
+  let totalComments = agreeCount + disagreeCount;
+  let percentageAgree = (agreeCount / totalComments) * 100;
+  let percentageDisAgree = (disagreeCount / totalComments) * 100;
 
 
   const handleAgreeComment = () => {
@@ -44,9 +114,22 @@ function DebateTopic() {
     setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick}/>)
   }
 
-  const handleAddToFav = () => {
+  const handleAddToFav = async () => {
+    try {
+      const res = await makeRequest.post('/likes/fav', {dbt_id: topicId});
+      Swal.fire({
+        icon: 'success',
+        title: res.data
+      })
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: err.response.data
+      })
+    }
     setOpen(false)
-    setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
+
+    // setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
   }
 
   const handleAddToDownload = () => {
@@ -90,14 +173,6 @@ function DebateTopic() {
     setSelectedAddtoDownloadPopup(null)
   }
 
-  const topicData = {
-    topicName: "รถพลังงานไฟฟ้าจะมาแทนที่แบบสันดาป",
-    topicCreator: "User",
-    topicDescription: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident quos ad minima ut dolorum quae veritatis, aspernatur explicabo necessitatibus dicta dolore commodi laboriosam beatae quo totam? Atque beatae dignissimos distinctio.",
-    topicAgree: 100,
-    topicDisagree: 0
-  }
-
   return (
     <>
         <UserNavbar />
@@ -136,7 +211,7 @@ function DebateTopic() {
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                     <circle cx="6.5" cy="6.5" r="6.5" fill="#0DC7B1"/>
                   </svg>
-                  <p className='debate-topic-legend-text'>เห็นด้วย {topicData.topicAgree}%</p>
+                  <p className='debate-topic-legend-text'>เห็นด้วย {Math.round(percentageAgree)}%</p>
                 </div>
 
                 {/* disagree legend */}
@@ -144,7 +219,7 @@ function DebateTopic() {
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                     <circle cx="6.5" cy="6.5" r="6.5" fill="#EB5757"/>
                   </svg>
-                  <p className='debate-topic-legend-text'>ไม่เห็นด้วย {topicData.topicDisagree}%</p>
+                  <p className='debate-topic-legend-text'>ไม่เห็นด้วย {Math.round(percentageDisAgree)}%</p>
                 </div>
 
               </div>
@@ -161,6 +236,7 @@ function DebateTopic() {
                 <button onClick={handleAddToDownload}>เพิ่มเข้ารายการดาวน์โหลด</button>
                 <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
                 <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
+
               </div>
             </div>
 
@@ -176,11 +252,15 @@ function DebateTopic() {
                   ฝั่งที่เห็นด้วย
                 </p>
                 <div className="debate-topic-comment-scroll-box">
-                <CommentComponent/>
-                <CommentComponent/>
-                <CommentComponent/>
+                {commentDataAgree.map((commentDataAgree, index) => (
+                  <CommentComponent
+                    key={`agree-${commentDataAgree.dbc_id}`}
+                    comment={commentDataAgree.dbc_comment}
+                    id={commentDataAgree.dbc_id}
+                    timestamp={commentDataAgree.dbc_timestamp}
+                  />
+                ))}
 
-                  
                 </div>
                 <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นเพื่อเห็นด้วย</button>
                 
@@ -194,8 +274,12 @@ function DebateTopic() {
                   ฝั่งที่ไม่เห็นด้วย
                 </p>
                 <div className="debate-topic-comment-scroll-box">
-                  <CommentComponent/>
+                {commentDataDisagree.map((commentDataDisAgree) => (
+                    <CommentComponent comment={commentDataDisAgree.dbc_comment} 
+                    id={commentDataDisAgree.dbc_id} timestamp={commentDataDisAgree.dbc_timestamp}
 
+                    />
+                  ))}
 
                 </div>
                 <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นเพื่อไม่เห็นด้วย</button>

@@ -1,0 +1,21 @@
+/* for manage user page */
+.admin-download-request-title-row{
+
+}
+
+.admin-download-request-table{
+    margin-top: 20px;
+
+}
+
+.request-header-requester-name{
+    width: 170px;
+}
+
+.request-header-topic-quantity{
+    /* width: 150px; */
+}
+
+.request-header-manage{
+    /* width: 140px; */
+}

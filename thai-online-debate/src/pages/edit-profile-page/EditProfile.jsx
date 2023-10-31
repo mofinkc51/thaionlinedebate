@@ -7,6 +7,7 @@ import { makeRequest } from '../../axios';
 function EditProfile() {
     
     const { currentUser } = useContext(AuthContext);
+    
   return (
     <>
     <UserNavBar/>

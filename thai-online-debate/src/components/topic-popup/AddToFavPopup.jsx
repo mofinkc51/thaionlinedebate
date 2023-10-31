@@ -2,8 +2,8 @@ import React from 'react'
 import './AddToFavPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 function AddToFavPopup(props) {
-  const {onCloseClick} = props;
-
+    
+    const {onCloseClick} = props;
   return (
     <>
         <div className="add-to-fav-bg-opacity">

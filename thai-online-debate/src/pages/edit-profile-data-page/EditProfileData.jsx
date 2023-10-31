@@ -82,9 +82,8 @@ function EditProfileData() {
 
     const handleClick = () => {
         hiddenFileInput.current.click();
-
-
       };
+
   return (
     <>
     <UserNavBar/>
@@ -109,12 +108,11 @@ function EditProfileData() {
                 {/* image row */}              
                 <div className="edit-profile-profile-image-row">
                     {/* <img src={profileImg} className='edit-profile-profile-img' /> */}
-                    <img src={pic 
-                        ? URL.createObjectURL(pic) 
-                        : "/thai-online-debate/public/upload/"+currentUser.user_pic} alt='' 
+                    <img src={pic ? URL.createObjectURL(pic) : "/upload/"+currentUser.user_pic+""} alt='' 
                         className='edit-profile-profile-img' />
                     {/* s<p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
                 </div>
+                
                 {/* username label row */}
                 <form onSubmit={handleSubmit}>
                     <div className="edit-profile-profile-label-row">
@@ -152,7 +150,7 @@ function EditProfileData() {
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รหัสผ่าน</p>
-                    <button className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</button>
+                    <a href="/profile/me/changepassword" className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</a>
                 </div>
 
             </div>

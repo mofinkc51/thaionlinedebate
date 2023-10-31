@@ -1,10 +1,12 @@
-import React,{ useState }from 'react'
+import React ,{useContext, useState}from 'react'
 import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
 import './SignUp.css'
 import signupImg from '../../assets/signup.png'
 import axios from 'axios';
 import { email_validation, user_validation, phone_validation } from '../../checked';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../context/authContext'
+import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -14,6 +16,8 @@ function SignUp() {
     user_password:"",
     confirmpassword:"",
   });
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
       setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}));
@@ -51,11 +55,17 @@ function SignUp() {
           e.preventDefault();
           try {
               await axios.post("http://localhost:8800/api/auth/register", inputsDb)
+              Swal.fire({
+                  icon: 'success',
+                  title: 'สมัครสมาชิกเรียบร้อย',
+              })
+              await login(inputs);
+                navigate('/');
           } catch (err) {
               SetErr(err.response.data)
               Swal.fire({
                   icon: 'error',
-                  title: error,
+                  title: err.response.data,
               })
           }
           //console.log("you tick toog and correct password");
