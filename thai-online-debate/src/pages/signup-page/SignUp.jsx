@@ -81,7 +81,7 @@ function SignUp() {
         <div className='signup-flex'>
             {/* image container */}
             <div className='signup-left-container'>
-              <img src={signupImg}/>
+              <img className='signup-img' src={signupImg}/>
             </div>
             {/* right container */}
             <div className='signup-right-container'>

@@ -1,9 +1,9 @@
 .debate-topic-page-container{
     width: 100%;
-    max-width: 800px;
+    max-width: 860px;
     margin: 0 auto;
-    /* border: 1px solid salmon; */
-   
+    border: 1px solid salmon;
+    padding: 0 30px;
 }
 
 /* meta data part */
@@ -311,4 +311,64 @@ debate-topic-option-image{
 .debate-topic-disagree-button:hover {
     background-color: #EB5757;
     border: 1px solid #D13A3A;
+  }
+
+  /* responsive part */
+  @media screen and (max-width: 800px) {
+    .debate-topic-two-side-container{
+    /* border: 1px solid #D13A3A; */
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .debate-topic-side-box{
+        /* width: 100%; */
+        margin-bottom: 15px;
+    }
+
+    .debate-topic-meta-data-container{
+        width: 100%;
+        margin: 20px auto 0 auto;
+
+        max-width: 390px;
+
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .debate-topic-meta-data-left-content{
+        width: 90%;
+        /* border: 1px solid red; */
+    }
+
+    .debate-topic-topic-name, .debate-topic-side-stance-title{
+        font-size: 24px;
+    }
+
+    .debate-topic-tag-container{
+        min-height: 20px;
+        height: auto;
+    }
+    
+
+    .debate-topic-meta-data-right-content{
+        display: none;
+    }
+
+
+  }
+
+  @media screen and (max-width: 400px) {
+
+    .debate-topic-side-box{
+        width: 100%;
+    }
+    
+
+    .debate-topic-agree-button, .debate-topic-disagree-button{
+        width: 100%;
+        /* max-width: 270px; */
+        /* margin: 10px auto 0 auto; */
+    }
   }

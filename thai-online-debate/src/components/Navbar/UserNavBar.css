@@ -10,6 +10,8 @@
     max-width: 990px;
     height: 80px;
     margin: 0 auto;
+    padding: 0 30px;
+
 }
 
 nav{
@@ -106,10 +108,18 @@ footer{
 
 
 /* Responsive section */
+/* 
+@media only screen and (min-width:361px) and (max-width: 1000px ){
+  .nav-container{
+    padding: 0 30px;
+
+  }
+} */
+
 @media only screen and (max-width: 360px){
 
     nav{
-        background-color: aqua;
+        /* background-color: aqua; */
     }
     .nav-menu{
         display: none;

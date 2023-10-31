@@ -2,7 +2,7 @@
 .signin-container{
     max-width: 990px;
     margin: 0 auto;
-    /* border: 1px solid #a21111; */
+    /* border: 1px solid green; */
 
 }
 
@@ -11,12 +11,24 @@
     align-items: center;
     height: 80vh;
     /* border: 1px solid #a21111; */
+    
 
 }
 
 .signin-left-container{
     /* border: 1px solid blue; */
-    width: 100%;
+    /* width: 100%; */
+    /* border: 1px solid #a21111; */
+
+}
+
+.signin-img{
+    max-width: 600px;
+    width: auto;
+    height: 100%;
+    resize: horizontal;
+    /* border: 1px solid #a21111; */
+
 }
 .signin-right-container{
     /* border: 1px solid green; */
@@ -73,6 +85,24 @@
     flex-shrink: 0;
     border-radius: 10px;
     background: #252958;
+}
+
+@media only screen and (min-width:431px) and (max-width: 900px ) {
+    
+    .signin-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signin-flex{
+        max-width: 310px;
+        
+    }
+    .signin-left-container{
+        display: none;
+    }
+
 }
 
 @media only screen and (max-width: 480px) {

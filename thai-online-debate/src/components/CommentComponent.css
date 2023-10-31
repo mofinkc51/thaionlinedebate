@@ -14,7 +14,7 @@
     padding: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-bottom: 2px;
 }
 
@@ -26,6 +26,7 @@
 }
 
 .debate-topic-comment-text{
+    /* border: 1px solid red; */
     margin: 0 0 0 10px;
 
     color: #2C343D;
