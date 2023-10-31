@@ -7,6 +7,7 @@ import { email_validation, user_validation, phone_validation } from '../../check
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
+import { makeRequest } from '../../axios';
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -54,7 +55,7 @@ function SignUp() {
       } else {
           e.preventDefault();
           try {
-              await axios.post("http://localhost:8800/api/auth/register", inputsDb)
+              await makeRequest.post('/auth/register', inputsDb);
               Swal.fire({
                   icon: 'success',
                   title: 'สมัครสมาชิกเรียบร้อย',
