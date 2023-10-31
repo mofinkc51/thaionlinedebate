@@ -13,6 +13,7 @@ import AddToFavPopup from '../../components/topic-popup/AddToFavPopup';
 import AddToDownloadPopup from '../../components/topic-popup/AddToDownloadPopup';
 import { useNavigate } from 'react-router-dom';
 import { makeRequest } from '../../axios';
+import Swal from 'sweetalert2'
 
 function DebateTopic(props) {
 
@@ -113,9 +114,22 @@ function DebateTopic(props) {
     setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick}/>)
   }
 
-  const handleAddToFav = () => {
+  const handleAddToFav = async () => {
+    try {
+      const res = await makeRequest.post('/likes/fav', {dbt_id: topicId});
+      Swal.fire({
+        icon: 'success',
+        title: res.data
+      })
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: err.response.data
+      })
+    }
     setOpen(false)
-    setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
+
+    // setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
   }
 
   const handleAddToDownload = () => {
@@ -222,6 +236,7 @@ function DebateTopic(props) {
                 <button onClick={handleAddToDownload}>เพิ่มเข้ารายการดาวน์โหลด</button>
                 <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
                 <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
+
               </div>
             </div>
 

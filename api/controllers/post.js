@@ -78,8 +78,7 @@ export const getFav = (req,res)=>{
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const sql = "SELECT * FROM favoritetopic WHERE user_id=?";
-    
+    const sql = "SELECT debatetopic.dbt_id, debatetopic.dbt_title, favoritetopic.favtop_id FROM debatetopic INNER JOIN favoritetopic ON debatetopic.dbt_id = favoritetopic.dbt_id WHERE favoritetopic.user_id=?;"
     db.query(sql,[userInfo.id],(err, data) => {
 
         if (err) res.status(500).json(err);

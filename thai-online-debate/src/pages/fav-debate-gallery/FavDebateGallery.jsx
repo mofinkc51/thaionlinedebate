@@ -15,10 +15,10 @@ function FavDebateGallery() {
 
   const getTopTopics = async () => {
     try {
-      const resFav = await makeRequest.get('/posts/fav')
-      console.log(resFav.data);
-      const res = await makeRequest.get('/posts/topic/'+resFav.data[0].dbt_id)
-      return setDebate(res.data)
+        const resFav = await makeRequest.get('/posts/fav')
+        console.log(resFav.data.length);
+
+        return setDebate(resFav.data);
     } catch (err) {
       if (err.response.status === 401) {
         navigate('/signin');
@@ -41,15 +41,6 @@ function FavDebateGallery() {
         {debate.map((debate) => (
               <TopicComponent topicname={debate.dbt_title} id={debate.dbt_id}/>
             ))}
-        <TopicComponent topicname="ควรเพิ่มบทลงโทษสำหรับเยาวชน"/>
-        <TopicComponent topicname="อิสราเอลมีสิทธิในการเข้ายึดฉนวนกาซา"/>
-        <TopicComponent topicname="ซอยจุ๊กินได้โดยไม่มีอันตราย"/>
-        <TopicComponent topicname="เวย์โปรตีนส่งผลอันตรายต่อร่างกาย"/>
-        <TopicComponent topicname="สมรสเท่าเทียมควรถูกผลักดัน"/>
-        
-        {/* <TopicComponent/> */}
-            
-
         </div>
     </div>
     </>

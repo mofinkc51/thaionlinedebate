@@ -21,6 +21,7 @@ import { AuthContext } from './context/authContext';
 import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 import { makeRequest } from './axios';
 import DebateTopic from './pages/debate-topic-page/DebateTopic';
+import DownloadRequestList from './pages/dataset-download-list/DownloadRequestList';
 function App() {
 
   const { currentUser } = useContext(AuthContext);
@@ -86,6 +87,10 @@ function App() {
     {
       path : "/fav",
       element : <FavDebateGallery/>,
+    },
+    {
+      path : "/downloadrequest",
+      element : <DownloadRequestList/>,
     }
   ]);
 

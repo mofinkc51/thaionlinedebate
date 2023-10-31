@@ -67,7 +67,7 @@ function CreateTopicPopup() {
                         <div className="create-topic-popup-topicdesc-row">
                             <p className='create-topic-popup-label'>คำอธิบายประเด็นโต้แย้ง</p>
                             <textarea className="create-topic-popup-topicdesc-input" 
-                            onChange={handleChange} required
+                            onChange={handleChange} required 
                             name="dbt_description" id="" cols="30" rows="5">
                                 
                                 

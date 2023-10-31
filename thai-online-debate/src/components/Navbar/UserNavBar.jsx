@@ -4,6 +4,7 @@ import React ,{ useContext }from 'react'
 import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
     if (x[0].style.display === "none") {
@@ -16,7 +17,7 @@ export const createTopicForm = () => {
 function UserNavBar() {
 
     const { currentUser } = useContext(AuthContext);
-
+    const navigator = useNavigate();
     const logout = async (e) => {
         e.preventDefault();
         Swal.fire({
@@ -56,7 +57,7 @@ function UserNavBar() {
                                 
                                 <a href="/profile"><img src=""/>โปรไฟล์</a>
                                 <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
-                                <a href="#">ส่งคำร้องการดาวน์โหลด</a>
+                                <a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
                                 <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
                                 <a href="/" onClick={logout}>ออกจากระบบ</a>
                             </div>
