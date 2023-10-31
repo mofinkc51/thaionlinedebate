@@ -6,6 +6,7 @@ import TopicComponent from '../../components/TopicComponent'
 import CreateTopicPopup from '../../components/CreateTopicPopup'
 import { makeRequest } from '../../axios'
 import { Navigate, useNavigate } from 'react-router-dom'
+import searchButton from '../../assets/icon/search.png'
 
 function Home() {
   
@@ -64,6 +65,7 @@ function Home() {
           </div>
           {/* search box container right side */}
           <div className="search-bar-container">
+            <button><img src={searchButton}/></button>
             <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/>
           </div>
           

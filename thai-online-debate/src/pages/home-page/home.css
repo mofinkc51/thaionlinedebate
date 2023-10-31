@@ -40,7 +40,28 @@
 
 .search-bar-container{
     width: 30%;
+    position: relative;
 }
+
+.search-bar-container button{
+    cursor: pointer;
+    position: absolute;
+    width: 15%;
+    height: 100%;
+    border-radius: 10px ;
+    border: none;
+    background: transparent;
+    margin: 0.1 cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.search-bar-container button img{
+    width: 18px;
+}
+
 
 .search-box{
     width: 100%;
@@ -48,10 +69,7 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;
-}
-
-.search-box::placeholder{
-    padding-left: 30px;
+    padding-left: 45px;
 }
 
 
