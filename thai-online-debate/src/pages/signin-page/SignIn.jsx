@@ -15,25 +15,24 @@ function SignIn() {
   const handleChange = (e) => {
     setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}))
   };
-  
   const [err, SetErr] = useState(null);
 
-  // const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const login_button = async (e) => {
-    // e.preventDefault();
-    // try { 
-    //    await login(inputs);
-    //    navigate('/');
-    // } catch (err) {
-    //   SetErr(err.response.data);
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: err.response.data,
-    //   })
-    // }
+    e.preventDefault();
+    try { 
+       await login(inputs);
+       navigate('/');
+    } catch (err) {
+      SetErr(err.response.data);
+      Swal.fire({
+        icon: 'error',
+        title: err.response.data,
+      })
+    }
   };
 
   return (
@@ -46,7 +45,7 @@ function SignIn() {
           <div className='signin-flex'>
             {/* image container */}
             <div className='signin-left-container'>
-              <img className='signin-img' src={signinImg}/>
+              <img src={signinImg}/>
             </div>
             {/* right container */}
             <div className='signin-right-container'>
