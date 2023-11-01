@@ -6,16 +6,21 @@
 .debate-topic-comment-content{
     width: 100%;
     min-height: 50px;
-    /* max-height: 80px; */
     border-radius: 10px;
     background: #F9F9F9;
-    /* border: 1px solid red; */
 
     padding: 10px;
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
     margin-bottom: 2px;
+
+    /* hover */
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.debate-topic-comment-content:hover{
+    background: #EFEFEF; /* Slightly darker shade for hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adding subtle shadow on hover */
 }
 
 .debate-topic-comment-user-img{
