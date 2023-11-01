@@ -22,6 +22,8 @@ import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 import { makeRequest } from './axios';
 import DebateTopic from './pages/debate-topic-page/DebateTopic';
 import DownloadRequestList from './pages/dataset-download-list/DownloadRequestList';
+import EditCommentPopup from './components/topic-popup/EditTopicPopup';
+
 function App() {
 
   const { currentUser } = useContext(AuthContext);
