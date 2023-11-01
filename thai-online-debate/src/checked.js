@@ -26,6 +26,19 @@ export function password_validation(password, min ,max) {
     }
     return true;
 }
+
+export function text_validation(text, min ,max) {
+    var text_len = text.length;
+    if (text_len == 0 || text_len < min || text_len > max) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: ("letter must be lenght between " + min + " to " + max)
+          })
+        return false;
+    }
+    return true;
+}
 export function phone_validation(phone) {
     var phone_len = phone.length;
     if (phone_len == 0) {

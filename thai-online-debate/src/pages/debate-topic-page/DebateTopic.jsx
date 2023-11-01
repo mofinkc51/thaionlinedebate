@@ -40,15 +40,17 @@ function DebateTopic(props) {
   let [commentDataDisagree, setCommentDataDisagree] = useState([]);
   
   const [topicData, setTopicData] = useState({
-    topicName: "Loading...",
-    topicCreator: "Loading User...",
-    topicDescription: "Loading Description..."
+    dbt_id: "",
+    dbt_title: "Loading...",
+    dbt_id: "Loading User...",
+    dbt_description: "Loading Description...",
+    dbt_agree: "Loading...",
+    dbt_disagree: "Loading..."
   });
   const getCommentAgree = async () => {
     stance.dbc_stance = 0;
     try {
       const res = await makeRequest.get(`/comments/${topicId}`, { params: stance });
-      console.log(res.data[0]);
       setCommentDataAgree(res.data);
     } catch (err) {
       console.log(err);
@@ -59,7 +61,6 @@ function DebateTopic(props) {
     stance.dbc_stance = 1;
     try {
       const res = await makeRequest.get(`/comments/${topicId}`, { params: stance });
-      console.log(res.data[0]);
       setCommentDataDisagree(res.data);
     } catch (err) {
       console.log(err);
@@ -71,13 +72,14 @@ function DebateTopic(props) {
       
       await Promise.all([getCommentAgree(), getCommentDisagree()]);
       const res = await makeRequest.get('/posts/topic/' + topicId);
-      console.log(res.data[0]);
-  
-  
+      console.log(res.data);
       return setTopicData({
-        topicName: res.data[0].dbt_title,
-        topicCreator: res.data[0].user_id,
-        topicDescription: res.data[0].dbt_description
+        dbt_id: res.data[0].dbt_id,
+        dbt_title: res.data[0].dbt_title,
+        user_id: res.data[0].user_id,
+        dbt_description: res.data[0].dbt_description,
+        dbt_agree: res.data[0].dbt_agree,
+        dbt_disagree: res.data[0].dbt_disagree
       });
     } catch (err) {
       console.log(err);
@@ -86,32 +88,58 @@ function DebateTopic(props) {
   
   useEffect(() => {
     getTopicData();
+    checkEditTopic();
     getCommentAgree();
     getCommentDisagree();
   }, []);
+  
+  const checkEditTopic = async () => {
+    try {
+      const res = await makeRequest.get('/posts/checkedit/' + topicId);
+      console.log(res.data);
+      if (res.data === "true") {
+        return document.getElementById('checkuser').style.display = 'block'
+      } 
+    } catch(err){
+      console.log(err);
+      document.getElementById('checkuser').style.display = 'none'
+    }
+  }
 
   let agreeCount = commentDataAgree.length;
   let disagreeCount = commentDataDisagree.length;
   let totalComments = agreeCount + disagreeCount;
   let percentageAgree = (agreeCount / totalComments) * 100;
   let percentageDisAgree = (disagreeCount / totalComments) * 100;
-
-
+  
+  
   const handleAgreeComment = () => {
     setSelectedAgreePopup(<AddAgreeComment onCloseClick={onCommentCloseClick}/>)
   }
+  if(!!selectedAgreePopup){
+    popup = <AddAgreeComment onCloseClick={onCommentCloseClick}/>
+  }
+
   const handleDisagreeComment = () => {
     setSelectedDisagreePopup(<AddDisagreeComment onCloseClick={onCommentCloseClick}/>)
   }
-
+  if(!!selectedDisagreePopup){
+    popup = <AddDisagreeComment onCloseClick={onCommentCloseClick}/>
+  }
   const handleEditTopic = () => {
     setOpen(false)
-    setSelectedEditPopup(<EditTopicPopup onCloseClick={onCommentCloseClick}/>)
+    setSelectedEditPopup(<EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData}/>)
   }
+  if(!!selectedEditPopup){
+    popup = <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData}/>
 
+  }
   const handleDeleteTopic = () => {
     setOpen(false)
     setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick}/>)
+  }
+  if(!!selectedDeletePopup){
+    popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick}/>
   }
 
   const handleAddToFav = async () => {
@@ -128,40 +156,22 @@ function DebateTopic(props) {
       })
     }
     setOpen(false)
-
+    
     // setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
+  }
+  if(!!selectedAddtofavPopup){
+    popup = <AddToFavPopup onCloseClick={onCommentCloseClick}/>
+
   }
 
   const handleAddToDownload = () => {
     setOpen(false)
     setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
   }
-
-  if(!!selectedAgreePopup){
-    popup = <AddAgreeComment onCloseClick={onCommentCloseClick}/>
-  }
-
-  if(!!selectedDisagreePopup){
-    popup = <AddDisagreeComment onCloseClick={onCommentCloseClick}/>
-  }
-
-  if(!!selectedEditPopup){
-    popup = <EditTopicPopup onCloseClick={onCommentCloseClick}/>
-
-  }
-
-  if(!!selectedDeletePopup){
-    popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick}/>
-  }
-
-  if(!!selectedAddtofavPopup){
-    popup = <AddToFavPopup onCloseClick={onCommentCloseClick}/>
-
-  }
-
   if(!!selectedAddtoDownloadPopup){
     popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
   }
+
 
   function onCommentCloseClick(){
     popup = null
@@ -183,7 +193,7 @@ function DebateTopic(props) {
             {/* left content */}
             <div className='debate-topic-meta-data-left-content'>
               {/* topic name */}
-              <p className='debate-topic-topic-name'>{topicData.topicName}</p>
+              <p className='debate-topic-topic-name'>{topicData.dbt_title}</p>
               {/* topic tag */}
               <p className='debate-topic-label'>แท็กที่เกี่ยวข้อง:</p>
 
@@ -195,12 +205,12 @@ function DebateTopic(props) {
               </div>
               {/* topic creator row */}
               <label className='debate-topic-label'>สร้างโดย: </label>
-              <a className='debate-topic-topic-creator-link'>{topicData.topicCreator}</a>
+              <a className='debate-topic-topic-creator-link'>{topicData.user_id}</a>
             </div>
             {/* right content */}
             <div className="debate-topic-meta-data-right-content">
               <div className="debate-topic-description-box">
-                <p className='debate-topic-topic-description'>{topicData.topicDescription}</p>
+                <p className='debate-topic-topic-description'>{topicData.dbt_description}</p>
               </div>
               <p className='debate-topic-progress-bar-title'>อัตราส่วนการโต้แย้ง</p>
               {/* <progress className='debate-topic-progress-bar' id="file" value="70" max="100"></progress>  */}
@@ -234,8 +244,10 @@ function DebateTopic(props) {
               <div id="myDropdown" class={`debate-topic-dropdown-content ${open? "active": "inactive"}`}>
                 <button onClick={handleAddToFav}>เพิ่มเข้ารายการชื่นชอบ</button>
                 <button onClick={handleAddToDownload}>เพิ่มเข้ารายการดาวน์โหลด</button>
-                <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
-                <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
+                <div id="checkuser" display="none">
+                  <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
+                  <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
+                </div>    
 
               </div>
             </div>

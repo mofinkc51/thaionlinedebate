@@ -30,10 +30,6 @@ function Home() {
     getTopTopics();
   },[]);
 
-  const showTopic = (id) => {
-    return console.log(id);
-  }
-
 
   return (
     <>
