@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import userImg from '../assets/profile.png'
 import './CommentComponent.css'
+import optionButton from '../assets/icon/more-vertical.png'
 function CommentComponent(props) {
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const [isOptionClicked, setIsOptionClicked] = useState(false);
+
+    
+    
     const commentData = {
         comment: props.comment,
         userImg: userImg,
@@ -27,6 +35,7 @@ function CommentComponent(props) {
   return (
     <>
         <div className="comment-component">
+            
             <div className="debate-topic-comment-content">
                 <img className='debate-topic-comment-user-img' src={commentData.userImg} alt="" />
                 <div className="debate-topic-comment-text">{commentData.comment}</div>
@@ -34,7 +43,18 @@ function CommentComponent(props) {
             <div className='comment-action-row'>
                 <button className='comment-like-button'>ถูกใจ</button>
                 <button className='comment-reply-button'>ตอบกลับ</button>
-                <p className='comment-timestamp'>{dateAndTime.date}</p>
+                {/* <p className='comment-timestamp'>{dateAndTime.date}</p> */}
+                <p className='comment-timestamp' onMouseOver={() => setIsHovered(true)} onMouseOut={() => setIsHovered(false)}>
+                  {isHovered ? dateAndTime.time : dateAndTime.date}
+                </p>
+                
+            </div>
+            <button className='comment-option-button' onClick={()=>setIsOptionClicked(!isOptionClicked)}><img src={optionButton} alt="" /></button>
+            <div class={`comment-dropdown-content ${isOptionClicked? "active": "inactive"}`}>
+                <button>แก้ไข</button>
+                <button>ลบ</button>
+                
+
             </div>
         </div>
         
