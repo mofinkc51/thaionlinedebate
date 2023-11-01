@@ -63,6 +63,7 @@
     background: #FFF;
     margin-bottom: 20px;
     resize: none;   
+    padding: 5px 0 0 10px
 
 }
 
@@ -74,16 +75,23 @@
 
 .add-comment-popup-button{
     margin: 0 auto;
-
     width: 75px;
     height: 38px;
     flex-shrink: 0;
-
     border: none;
     border-radius: 10px;
     color: #FFF;
     background: #252958;
+    transition: background 0.3s, transform 0.3s; /* Optional: For smooth transition */
 }
+
+.add-comment-popup-button:hover{
+    background: #3B3B7A; /* Slightly lighter shade for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+
 
 .add-comment-close-button{
     top: 20px;
