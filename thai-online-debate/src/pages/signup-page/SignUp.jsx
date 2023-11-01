@@ -104,7 +104,7 @@ function SignUp() {
                     <div className='checkbox-signup-container'>
                         <input type="checkbox" value="accept" name="checkbox1" id="checkbox1" required/>
                         <label for="checkbox-singup">  ยอมรับข้อตกลงการใช้บริการ</label><br/>
-                        <a href="#">ข้อตกลงการใช้บริการ</a>
+                        <a href="https://pdpa.pro/policies/view/th/qaKroJW3nfKLKKQ9Bw2w2C5r" target="_blank">ข้อตกลงการใช้บริการ</a>
                     </div>
                     {/* buttone div */}
                     <div className='signup-button-container'>
