@@ -76,7 +76,6 @@
     width: 113px;
     height: 55px;
     color: #FFF;
-    font-family: Inter;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -85,6 +84,15 @@
     flex-shrink: 0;
     border-radius: 10px;
     background: #252958;
+    border: 2px solid #252958; /* Adding a border with the same color as the background */
+    transition: background 0.3s, border-color 0.3s, color 0.3s; /* For smooth transitions */
+}
+
+.signin-button:hover{
+    background: #3B3B7A; /* Slightly lighter shade for hover */
+    border-color: #FFF; /* Changing border color to white on hover */
+    color: #FFF;/* Changing text color to the original background color */
+    cursor: pointer; /* Change cursor to pointer on hover */
 }
 
 @media only screen and (min-width:431px) and (max-width: 900px ) {

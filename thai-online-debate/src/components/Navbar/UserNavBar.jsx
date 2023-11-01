@@ -5,6 +5,8 @@ import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { FaAngleDown } from 'react-icons/fa6';
+
 export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
     if (x[0].style.display === "none") {
@@ -52,7 +54,7 @@ function UserNavBar() {
                         <li><a href="/">หน้าแรก</a></li>
                         <li><a onClick={createTopicForm}>สร้าง</a></li>
                         <div class="nav-dropdown">
-                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} ▼</a></li> 
+                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} <FaAngleDown/></a></li> 
                             <div class="nav-dropdown-content">
                                 
                                 <a href="/profile"><img src=""/>โปรไฟล์</a>

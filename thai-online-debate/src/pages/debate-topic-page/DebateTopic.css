@@ -281,12 +281,13 @@ debate-topic-option-image{
     /* position */
     margin-top: 10px;
     padding: 10px;
-    
+    transition: background 0.3s, transform 0.3s; /* For smooth transition */
+
 }
 
 .debate-topic-agree-button:hover{
-    background: #0DC7B1;
-    border: 1px solid #0C9177;
+    background: #0EBFA0; /* Slightly lighter shade for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
 
 .debate-topic-disagree-button{
@@ -306,12 +307,14 @@ debate-topic-option-image{
     /* position */
     margin-top: 10px;
     padding: 10px;
+    transition: background 0.3s, transform 0.3s; /* For smooth transition */
+
 }
 
-.debate-topic-disagree-button:hover {
-    background-color: #EB5757;
-    border: 1px solid #D13A3A;
-  }
+.debate-topic-disagree-button:hover{
+    background: #E04848; /* Slightly lighter shade for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
 
   /* responsive part */
   @media screen and (max-width: 800px) {

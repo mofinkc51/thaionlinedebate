@@ -7,6 +7,7 @@ import { email_validation, user_validation, phone_validation } from '../../check
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
+import { makeRequest } from '../../axios';
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -54,7 +55,7 @@ function SignUp() {
       } else {
           e.preventDefault();
           try {
-              await axios.post("http://localhost:8800/api/auth/register", inputsDb)
+              await makeRequest.post('/auth/register', inputsDb);
               Swal.fire({
                   icon: 'success',
                   title: 'สมัครสมาชิกเรียบร้อย',
@@ -103,7 +104,7 @@ function SignUp() {
                     <div className='checkbox-signup-container'>
                         <input type="checkbox" value="accept" name="checkbox1" id="checkbox1" required/>
                         <label for="checkbox-singup">  ยอมรับข้อตกลงการใช้บริการ</label><br/>
-                        <a href="#">ข้อตกลงการใช้บริการ</a>
+                        <a href="https://pdpa.pro/policies/view/th/qaKroJW3nfKLKKQ9Bw2w2C5r" target="_blank">ข้อตกลงการใช้บริการ</a>
                     </div>
                     {/* buttone div */}
                     <div className='signup-button-container'>

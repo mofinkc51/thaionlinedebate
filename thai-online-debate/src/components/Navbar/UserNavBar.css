@@ -157,7 +157,13 @@ footer{
   overflow: hidden;
 }
 
+
 /* Dropdown button */
+
+.nav-dropbtn svg{
+  padding-top: 4px;
+  /* border: ; */
+}
 .nav-dropdown .nav-dropbtn {
     outline: none;
     color: white;
