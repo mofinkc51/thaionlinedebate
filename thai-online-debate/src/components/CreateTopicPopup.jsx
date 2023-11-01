@@ -16,6 +16,7 @@ function CreateTopicPopup() {
 
     const handleChange = (e) => {
         setTopic((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        console.log(topic);
     };
     
     const createTopic = async (e) => {
@@ -80,7 +81,7 @@ function CreateTopicPopup() {
                                 <p className='create-topic-popup-label'>ฝั่งที่ 1</p>
 
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_agree" required
+                                onChange={handleChange} name="dbt_agree" value={topic.dbt_agree} required
                                 />
                             
                             </div>
@@ -89,7 +90,7 @@ function CreateTopicPopup() {
                                 <p className='create-topic-popup-label'>ฝั่งที่ 2</p>
 
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_disagree" required
+                                onChange={handleChange} name="dbt_disagree" value={topic.dbt_disagree} required
                                 />
                             
                             </div>

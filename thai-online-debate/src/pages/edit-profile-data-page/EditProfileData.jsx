@@ -38,9 +38,6 @@ function EditProfileData() {
         
       };
     
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    // };
     const handleSubmit = async (e) => { 
         e.preventDefault();
         let picUrl;
