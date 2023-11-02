@@ -6,7 +6,6 @@ export const getComment = (req, res) => {
   const dbt_id = req.params.dbt_id;
   const sql = "SELECT * FROM debatecomment WHERE dbt_id=? AND dbc_stance=? ORDER BY dbc_timestamp DESC";
   const stance = req.query;
-
   if (!dbt_id) return res.status(400).json("dbt_id is required");
   db.query(sql, [dbt_id, stance.dbc_stance], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -50,3 +49,62 @@ export const addComment = (req, res) => {
       );
     });
 };
+
+export const getCanComment = (req, res) => {
+  const dbc_id = req.params.dbc_id;
+  const dbt_id = req.query.dbt_id;
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    const sql =
+      "SELECT dbc_id FROM debatecomment WHERE dbc_id = ? AND dbt_id=? AND user_id=?";
+    db.query(sql,[dbc_id,dbt_id,userInfo.id],(err, data) => {
+        if (err) res.status(500).json(err);
+        if (data.length === 0) return res.status(200).json("false");
+        return res.status(200).json("true");
+      }
+    );
+  });
+}
+
+export const updateComment = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) 
+  return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    const sql =
+      "UPDATE debatecomment SET dbc_comment=?,dbc_timestamp=? WHERE dbc_id=?"
+    db.query(sql,[
+      req.body.dbc_comment,
+      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+      req.body.dbc_id
+    ],(err, data) => {
+        console.log(req.body.dbt_id,userInfo.id)
+        if (err) res.status(500).json(err);
+        if (data.affectedRows > 0) return res.json("Updated!");
+        return res.status(403).json("You can update only your comment!");
+      }
+    );
+  });
+}
+
+export const deleteComment= (req,res) => {
+  const dbc_id = req.params.dbc_id;
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const sql =
+      "DELETE FROM debatecomment WHERE dbc_id=?";
+
+    db.query(sql,dbc_id,(err, data) => {
+        if (err) res.status(500).json(err);
+        if (data.length === 0) return res.status(404).json("cant delete comment");
+        return res.status(200).json("deleted comment");
+      }
+    );
+  });
+}

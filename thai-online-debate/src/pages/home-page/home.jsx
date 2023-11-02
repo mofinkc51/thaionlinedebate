@@ -17,9 +17,9 @@ function Home() {
   const navigate = useNavigate();
 
   const getTopTopics = async () => {
+    console.log("runget")
     try {
       const res = await makeRequest.get('/posts/tops')
-      console.log(res.data);
       return setDebate(res.data)
     } catch (err) {
       if (err.response.status === 401) {

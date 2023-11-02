@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './AddComment.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 import { makeRequest } from '../../axios';
+import { text_validation } from '../../checked';
 
 function AddAgreeComment(props) {
     
@@ -19,7 +20,11 @@ function AddAgreeComment(props) {
 
   const addCommentAgree = async (e) => {
     e.preventDefault();
+    if (!text_validation(dataComment.dbc_comment,10,150)){
+        return document.getElementsByName('dbc_comment')[0].focus();
+    }
     try {
+        
         await makeRequest.post('/comments/', dataComment)
         window.location.reload();
     } catch (err) {
