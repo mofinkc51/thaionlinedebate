@@ -1,11 +1,13 @@
 import React from 'react'
 import './DeleteTopicPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'
+import { makeRequest } from '../../axios';
+import Swal from 'sweetalert2'
 
 
 function DeleteTopicPopup(props) {
-
     const {onCloseClick} = props;
+    
   return (
     <>
         <div className="delete-topic-bg-opacity">

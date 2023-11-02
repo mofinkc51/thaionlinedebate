@@ -17,7 +17,7 @@ function AddAgreeComment(props) {
     };
   const {onCloseClick} = props;
 
-  const addCommentAgree = async (e) => {
+  const addCommentDisAgree = async (e) => {
     e.preventDefault();
     try {
         await makeRequest.post('/comments/', dataComment)
@@ -32,13 +32,17 @@ function AddAgreeComment(props) {
             <div className="add-comment-popup-box">
                 <div className="add-comment-popup-container">
                     <h2>เพิ่มข้อความโต้แย้งฝั่งไม่เห็นด้วย</h2>
-                    <form action="">
+                    <form onSubmit={addCommentDisAgree}>
                         <label htmlFor='comment-input'></label>
                         <textarea className="add-comment-popup-input" 
-                        onChange={handleChange} name="dbc_comment" id="comment-input" cols="30" ></textarea>
+                        onChange={handleChange} 
+                        name="dbc_comment" 
+                        id="comment-input" cols="30" 
+                        required
+                        ></textarea>
                         <div className="add-comment-button-container">
                             <button className="add-comment-popup-button"
-                            onClick={addCommentAgree}>เพิ่ม</button>
+                            >เพิ่ม</button>
 
                         </div>
                     </form>
