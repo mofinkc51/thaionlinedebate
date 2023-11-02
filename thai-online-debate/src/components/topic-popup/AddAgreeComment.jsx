@@ -33,14 +33,17 @@ function AddAgreeComment(props) {
             <div className="add-comment-popup-box">
                 <div className="add-comment-popup-container">
                     <h2>เพิ่มข้อความโต้แย้งฝั่งเห็นด้วย</h2>
-                    <form >
+                    <form onSubmit={addCommentAgree}>
                         <label htmlFor='comment-input'></label>
                         <textarea className="add-comment-popup-input" name="dbc_comment" 
                         onChange={handleChange} 
-                        id="comment-input" cols="30" ></textarea>
+                        id="comment-input" cols="30" 
+                        required
+
+                        ></textarea>
                         <div className="add-comment-button-container">
                             <button className="add-comment-popup-button"
-                            onClick={addCommentAgree}
+                            
                             >เพิ่ม</button>
 
                         </div>

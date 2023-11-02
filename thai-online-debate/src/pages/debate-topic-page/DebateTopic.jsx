@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import './DebateTopic.css'
 import UserNavbar from '../../components/Navbar/UserNavBar'
 import TopicTag from '../../components/TopicTag'
@@ -29,7 +29,7 @@ function DebateTopic(props) {
 
   let popup = null
   
-  
+  const navigate = useNavigate();
   const topicId = window.location.pathname.split("/").pop();
   
   let stance = {
@@ -109,8 +109,8 @@ function DebateTopic(props) {
   let agreeCount = commentDataAgree.length;
   let disagreeCount = commentDataDisagree.length;
   let totalComments = agreeCount + disagreeCount;
-  let percentageAgree = (agreeCount / totalComments) * 100;
-  let percentageDisAgree = (disagreeCount / totalComments) * 100;
+  let percentageAgree = (agreeCount / totalComments) * 100 ? (agreeCount / totalComments) * 100 : 0;
+  let percentageDisAgree = (disagreeCount / totalComments) * 100 ? (disagreeCount / totalComments) * 100 : 0;
   
   
   const handleAgreeComment = () => {
@@ -134,13 +134,42 @@ function DebateTopic(props) {
     popup = <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData}/>
 
   }
-  const handleDeleteTopic = () => {
-    setOpen(false)
-    setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick}/>)
-  }
-  if(!!selectedDeletePopup){
-    popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick}/>
-  }
+  const handleDeleteTopic = async (e) => {
+    e.preventDefault();
+    try {
+        Swal.fire({
+            title: 'คุณต้องการลบประเด็นโต้แย้ง ?',
+            text: "หากคุณตกลกจะเป็นการลบประเด็นโต้แย้งอย่างถาวร !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่ ลบประเด็นโต้แย้ง!',
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+                await makeRequest.delete(`/posts/${topicId}`)
+                Swal.fire({
+                    title:'ลบประเด็นโต้แย้งเรียบร้อย!',
+                    icon: 'success',
+                }).then(() => {
+                  navigate('/');
+                })
+            }
+          })
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: err.response.data,
+        })
+    }
+};
+  // const handleDeleteTopic = () => {
+  //   setOpen(false)
+  //   setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick} dbt_id={topicId}/>)
+  // }
+  // if(!!selectedDeletePopup){
+  //   popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick} dbt_id={topicId}/>
+  // }
 
   const handleAddToFav = async () => {
     try {

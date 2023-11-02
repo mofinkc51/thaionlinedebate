@@ -19,6 +19,7 @@ function Home() {
   const getTopTopics = async () => {
     try {
       const res = await makeRequest.get('/posts/tops')
+      console.log(res.data);
       return setDebate(res.data)
     } catch (err) {
       if (err.response.status === 401) {

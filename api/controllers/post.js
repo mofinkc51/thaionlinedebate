@@ -9,7 +9,8 @@ export const getTops = (req,res)=>{
 
   jwt.verify(token, "secretkey", (err) => {
     if (err) return res.status(403).json("Token is not valid!");
-    const sql = "SELECT debatetopic.dbt_id, debatetopic.dbt_title, COUNT(*) AS num_comments FROM debatetopic JOIN debatecomment ON debatetopic.dbt_id = debatecomment.dbt_id GROUP BY debatetopic.dbt_id ORDER BY num_comments DESC LIMIT 3;";
+    const sql = 
+    "SELECT debatetopic.dbt_id, debatetopic.dbt_title, COUNT(debatecomment.dbt_id) AS num_comments FROM debatetopic LEFT JOIN debatecomment ON debatetopic.dbt_id = debatecomment.dbt_id GROUP BY debatetopic.dbt_id, debatetopic.dbt_title, debatetopic.dbt_timestamp ORDER BY num_comments DESC, debatetopic.dbt_timestamp DESC LIMIT 3;"
   
     db.query(sql, (err, data) => {
       if (err) return res.status(500).json(err);
@@ -68,7 +69,21 @@ export const addPost = (req,res)=>{
       );
     });
 }
-
+export const getLastTopic = (req,res)=>{
+  const token = req.cookies.accessToken;
+  if (!token) 
+  return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    const sql = "SELECT dbt_id,dbt_timestamp FROM debatetopic WHERE user_id = ? ORDER BY dbt_timestamp DESC LIMIT 1"
+    db.query(sql,[userInfo.id],(err, data) => {
+        if (err) res.status(500).json(err);
+        if (data.length === 0) return res.status(404).json("last not found");
+        return res.status(200).json(data);
+      }
+    );
+  });
+}
 export const getFav = (req,res)=>{
   const token = req.cookies.accessToken;
 
@@ -136,5 +151,20 @@ export const updatePost = (req,res)=>{
 }
 
 export const deletePost = (req,res)=>{
-    
+  const dbt_id = req.params.dbt_id;
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const sql =
+      "DELETE FROM debatetopic WHERE dbt_id=? AND user_id=?";
+
+    db.query(sql,[dbt_id,userInfo.id],(err, data) => {
+        if (err) res.status(500).json(err);
+        if (data.length === 0) return res.status(404).json("cant delete topic");
+        return res.status(200).json("deleted topic");
+      }
+    );
+  });
 }
