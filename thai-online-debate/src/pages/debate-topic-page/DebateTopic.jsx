@@ -23,7 +23,6 @@ function DebateTopic(props) {
   const [selectedAgreePopup, setSelectedAgreePopup] = useState(null)
   const [selectedDisagreePopup, setSelectedDisagreePopup] = useState(null)
   const [selectedEditPopup, setSelectedEditPopup] = useState(null)
-  const [selectedDeletePopup, setSelectedDeletePopup] = useState(null)
   const [selectedAddtofavPopup, setSelectedAddtofavPopup] = useState(null)
   const [selectedAddtoDownloadPopup, setSelectedAddtoDownloadPopup] = useState(null)
 
@@ -43,6 +42,7 @@ function DebateTopic(props) {
     dbt_id: "",
     dbt_title: "Loading...",
     dbt_id: "Loading User...",
+    user_name: "Loading User...",
     dbt_description: "Loading Description...",
     dbt_agree: "Loading...",
     dbt_disagree: "Loading..."
@@ -72,10 +72,11 @@ function DebateTopic(props) {
       
       await Promise.all([getCommentAgree(), getCommentDisagree()]);
       const res = await makeRequest.get('/posts/topic/' + topicId);
-      console.log(res.data);
       return setTopicData({
+        
         dbt_id: res.data[0].dbt_id,
         dbt_title: res.data[0].dbt_title,
+        user_name: res.data[0].user_name,
         user_id: res.data[0].user_id,
         dbt_description: res.data[0].dbt_description,
         dbt_agree: res.data[0].dbt_agree,
@@ -92,17 +93,19 @@ function DebateTopic(props) {
     getCommentAgree();
     getCommentDisagree();
   }, []);
-  
+
+  const [canEditDelete, setCanEditDelete] = useState(false);
   const checkEditTopic = async () => {
     try {
       const res = await makeRequest.get('/posts/checkedit/' + topicId);
-      console.log(res.data);
       if (res.data === "true") {
-        return document.getElementById('checkuser').style.display = 'block'
-      } 
+        setCanEditDelete(true);
+      }
+      if (res.data === "false") {
+        setCanEditDelete(false);
+      }
     } catch(err){
       console.log(err);
-      document.getElementById('checkuser').style.display = 'none'
     }
   }
 
@@ -163,14 +166,6 @@ function DebateTopic(props) {
         })
     }
 };
-  // const handleDeleteTopic = () => {
-  //   setOpen(false)
-  //   setSelectedDeletePopup(<DeleteTopicPopup onCloseClick={onCommentCloseClick} dbt_id={topicId}/>)
-  // }
-  // if(!!selectedDeletePopup){
-  //   popup = <DeleteTopicPopup onCloseClick={onCommentCloseClick} dbt_id={topicId}/>
-  // }
-
   const handleAddToFav = async () => {
     try {
       const res = await makeRequest.post('/likes/fav', {dbt_id: topicId});
@@ -207,7 +202,6 @@ function DebateTopic(props) {
     setSelectedAgreePopup(null)
     setSelectedDisagreePopup(null)
     setSelectedEditPopup(null)
-    setSelectedDeletePopup(null)
     setSelectedAddtofavPopup(null)
     setSelectedAddtoDownloadPopup(null)
   }
@@ -234,7 +228,7 @@ function DebateTopic(props) {
               </div>
               {/* topic creator row */}
               <label className='debate-topic-label'>สร้างโดย: </label>
-              <a className='debate-topic-topic-creator-link'>{topicData.user_id}</a>
+              <a className='debate-topic-topic-creator-link'>{topicData.user_name}</a>
             </div>
             {/* right content */}
             <div className="debate-topic-meta-data-right-content">
@@ -273,11 +267,12 @@ function DebateTopic(props) {
               <div id="myDropdown" class={`debate-topic-dropdown-content ${open? "active": "inactive"}`}>
                 <button onClick={handleAddToFav}>เพิ่มเข้ารายการชื่นชอบ</button>
                 <button onClick={handleAddToDownload}>เพิ่มเข้ารายการดาวน์โหลด</button>
-                <div id="checkuser" display="none">
-                  <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
-                  <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
-                </div>    
-
+                {canEditDelete && (
+                  <div>
+                    <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
+                    <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
+                  </div>    
+                )}
               </div>
             </div>
 
@@ -295,7 +290,6 @@ function DebateTopic(props) {
                 <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
                   <CommentComponent
-                    key={`agree-${commentDataAgree.dbc_id}`}
                     comment={commentDataAgree.dbc_comment}
                     id={commentDataAgree.dbc_id}
                     timestamp={commentDataAgree.dbc_timestamp}
@@ -316,9 +310,10 @@ function DebateTopic(props) {
                 </p>
                 <div className="debate-topic-comment-scroll-box">
                 {commentDataDisagree.map((commentDataDisAgree) => (
-                    <CommentComponent comment={commentDataDisAgree.dbc_comment} 
-                    id={commentDataDisAgree.dbc_id} timestamp={commentDataDisAgree.dbc_timestamp}
-
+                    <CommentComponent 
+                    comment={commentDataDisAgree.dbc_comment} 
+                    id={commentDataDisAgree.dbc_id} 
+                    timestamp={commentDataDisAgree.dbc_timestamp}
                     />
                   ))}
 

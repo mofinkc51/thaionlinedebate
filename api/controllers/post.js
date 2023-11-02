@@ -21,7 +21,7 @@ export const getTops = (req,res)=>{
 
 export const getTopic = (req,res)=>{
   const dbt_id = req.params.dbt_id;
-  const sql = "SELECT * FROM debatetopic WHERE dbt_id=?";
+  const sql = "SELECT d.dbt_id, d.dbt_title, d.dbt_description, d.dbt_timestamp, d.dbt_agree, d.dbt_disagree, d.user_id, u.user_name FROM debatetopic AS d JOIN user AS u ON d.user_id = u.user_id WHERE d.dbt_id=?";
 
   if (!dbt_id) return res.status(400).json("dbt_id is required");
 
@@ -31,9 +31,6 @@ export const getTopic = (req,res)=>{
 
     return res.status(200).json(data);
   });
-}
-export const getPost = (req,res)=>{
-
 }
 
 export const addPost = (req,res)=>{
@@ -116,14 +113,13 @@ export const checkTopicCanEdit = (req,res)=>{
 
     db.query(sql,[dbt_id,userInfo.id],(err, data) => {
         if (err) res.status(500).json(err);
-        if (data.length === 0) return res.status(404).json("false");
+        if (data.length === 0) return res.status(200).json("false");
         return res.status(200).json("true");
       }
     );
   });
 }
 export const updatePost = (req,res)=>{
-  // const dbt_id = req.params.dbt_id;
   const token = req.cookies.accessToken;
   if (!token) 
   return res.status(401).json("Not authenticatede!");
