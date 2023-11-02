@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import './App.css';
 import UserNavBar from './components/Navbar/UserNavBar';
 import RegisterNavbar from './components/Navbar/RegisterNavbar';
@@ -22,9 +22,22 @@ import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
 import { makeRequest } from './axios';
 import DebateTopic from './pages/debate-topic-page/DebateTopic';
 import DownloadRequestList from './pages/dataset-download-list/DownloadRequestList';
+import AdminNavBar from './components/Navbar/AdminNavBar';
+import AdminSidemenu from './components/admin-sidemenu/AdminSidemenu';
+
+
 function App() {
 
   const { currentUser } = useContext(AuthContext);
+  
+  /*useEffect(() => {
+    if (currentUser && currentUser.role_id === "admin") {
+      console.log("Current user:ตรงกัน");
+    }
+    else{
+      console.log("ไม่ตรงกัน")
+    }
+  }, [currentUser]);*/
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -32,6 +45,14 @@ function App() {
       
     }
     return children;
+  };
+  
+
+  const AdminRoute = ({ children }) => {
+    if (currentUser && currentUser.role_id === "admin") {
+      return children;
+    }
+    return <Navigate to="/signin"/>;
   };
 
   const router = createBrowserRouter([
@@ -91,8 +112,12 @@ function App() {
     {
       path : "/downloadrequest",
       element : <DownloadRequestList/>,
-    }
+    },
+  
+    
   ]);
+
+  
 
   return (
     <div>
