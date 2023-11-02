@@ -4,6 +4,7 @@ import closeButtonIcon from '../assets/icon/close.png'
 import UserNavbar, { createTopicForm } from '../components/Navbar/UserNavBar'
 import { makeRequest } from '../axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 function CreateTopicPopup() {
     const [err, SetErr] = useState(null);
@@ -16,28 +17,40 @@ function CreateTopicPopup() {
 
     const handleChange = (e) => {
         setTopic((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-        console.log(topic);
     };
     
+    const navigate = useNavigate();
+
+    const navigateTopic = async () => {
+        try {
+            const res = await makeRequest.get('/posts/last')
+            navigate(`/topic/${res.data[0].dbt_id}`);
+        }catch(err) {
+            if (err.response.status === 401) {
+                navigate('/signin');
+            }
+            console.log(err);
+        }
+    };
     const createTopic = async (e) => {
         e.preventDefault()
         console.log(topic);
         try {
-
             await makeRequest.post('/posts', topic)
             Swal.fire({
                 icon: 'success',
                 title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
-            })
-            
-        }   catch (err) {
+            }).then(() => {
+                navigateTopic();
+            });
+        } catch (err) {
             SetErr(err.response.data)
             Swal.fire({
                 icon: 'error',
                 title: err.response.data,
             })
         }
-    }
+    };
 
 
 
