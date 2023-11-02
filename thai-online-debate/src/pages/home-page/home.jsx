@@ -75,8 +75,10 @@ function Home() {
         {/*  */}
 
         {/* Popular topic */}
-        <div className="popular-topic-container">
           <h2 className='popular-title'>Popular Topic</h2>
+        
+        <div className="popular-topic-container">
+          {/* <h2 className='popular-title'>Popular Topic</h2> */}
           <div className="popular-topic-grid">
             {debate.map((debate) => (
               <TopicComponent topicname={debate.dbt_title} id={debate.dbt_id}/>
