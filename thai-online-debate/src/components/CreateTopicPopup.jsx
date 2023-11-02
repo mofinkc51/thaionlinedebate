@@ -4,9 +4,40 @@ import closeButtonIcon from '../assets/icon/close.png'
 import UserNavbar, { createTopicForm } from '../components/Navbar/UserNavBar'
 import { makeRequest } from '../axios';
 import Swal from 'sweetalert2';
+import InputTag from './input-tag/InputTag';
 import { useNavigate } from 'react-router-dom';
 
 function CreateTopicPopup() {
+    // search tag part
+
+    const items = [
+        'การเมือง',
+        'การเมืองไทย',
+        'เที่ยวไทย',
+        'เที่ยวต่างประเทศ',
+        'เศรษฐกิจ',
+        'เที่ยว JAPAN',
+        'เที่ยว KOREA',
+        'เที่ยว USA',
+        'เที่ยว EUROPE',
+        'เที่ยว CHINA'
+
+    ];
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredItems = searchTerm
+        ? items.filter((item) =>
+            item.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : [];
+
+    // Get a maximum of 5 items
+    const displayedItems = filteredItems.slice(0, 5);
+
+    // end search tag part
+
+
     const [err, SetErr] = useState(null);
     const [topic, setTopic] = useState({
         dbt_title: "",
@@ -112,9 +143,61 @@ function CreateTopicPopup() {
                         {/* tag row */}
                         <div className="create-topic-tag-row">
                             <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
-                            <div className="create-topic-tag-box">
-                                <button>+</button>
+                            <div className="input-tag-container">
+                                {/* display selected tag here */}
+                                <InputTag tagNames="hello world"/>
+                                <InputTag tagNames="tag test"/>
+                                <InputTag tagNames="tag"/>
+                                <InputTag tagNames="test test test"/>
+                                <InputTag tagNames="tag test"/>
+
                             </div>
+                        </div>
+
+                        {/* tag search row */}
+                        <div className="create-topic-search-tag-row">
+                            <p className='create-topic-popup-label'>ค้นหาแท็ก</p>
+                            {/* <input type="text" className='create-topic-popup-tagsearch-input' onChange={handleChange}
+                                /> */}
+                            {/* <input
+                                type="text"
+                                placeholder="Search"
+                                className='create-topic-popup-tagsearch-input'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <ul>
+                                {filteredItems.map((item, index) => (
+                                    <li key={index}>{item}</li>
+                                ))}
+                            </ul> */}
+                            <input
+                                type="text"
+                                placeholder=""
+                                className='create-topic-popup-tagsearch-input'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <div className='tag-choice-drop-down'>
+                                {displayedItems.length === 0 && searchTerm ? (
+                                    <div className="tag-choice-row">
+                                        <p>ไม่พบแท็กที่ค้นหา</p>
+                                    </div>
+                                ) : (
+                                    displayedItems.map((item, index) => 
+                                    <div className='tag-choice-row'>
+                                        <div className="tag-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                            <input type="checkbox" id="" name="" value=""/>
+                                            <label for="vehicle1" key={index}>{item}</label><br></br>
+                                        </div>
+
+                                        
+                                    </div>
+                                        
+                                    )
+                                )}
+                            </div>
+                                
                         </div>
 
                         {/* button row */}
