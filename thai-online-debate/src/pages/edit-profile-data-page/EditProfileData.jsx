@@ -32,40 +32,41 @@ function EditProfileData() {
         user_phonenum: currentUser.user_phonenum,
         user_pic: currentUser.user_pic
     });
-    
+    console.log(userData.user_pic);
     const handleChange = (e) => {
         setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-        
       };
     
     const handleSubmit = async (e) => { 
         e.preventDefault();
         let picUrl;
         picUrl = pic ? await upload(pic) : userData.user_pic;
-        // console.log("before set db "+picUrl);
-        console.log("user data pic before setpic"+userData.user_pic);
+    
         if (picUrl === null){
             picUrl = userData.user_pic;
         }
-        setUserData({ ...userData, user_pic: picUrl});
-        console.log("after set db "+userData.user_pic);
-        if (!user_validation(userData.user_name,5,15)){
+        // Updating user_pic in the local copy
+        const updatedUserData = { ...userData, user_pic: picUrl};
+        if (!user_validation(updatedUserData.user_name,5,15)){
             return document.getElementsByName('user_name')[0].focus();
         }
-        if (!phone_validation(userData.user_phonenum)){
+        
+        if (!phone_validation(updatedUserData.user_phonenum)){
             return document.getElementsByName('user_phonenum')[0].focus();
-        } try {
-            console.log("last add db "+userData.user_pic);
-
-            await makeRequest.put(`/users/edit/${userData.user_id}`, userData)
-            localStorage.setItem('user', JSON.stringify(userData));
-
+        } 
+        
+        try {
+            await makeRequest.put(`/users/edit/${updatedUserData.user_id}`, updatedUserData)
+            localStorage.setItem('user', JSON.stringify(updatedUserData));
+            console.log("lastest add db "+ updatedUserData.user_pic);
             Swal.fire({
                 icon: 'success',
                 title: 'แก้ไขข้อมูลสําเร็จ',
-            });
-            
-
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            })
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -73,10 +74,12 @@ function EditProfileData() {
                 title: err.response.data,
             })
         }
+    
+        // Now, update the state
+        setUserData(updatedUserData);
         setPic(null);
-        //console.log("you tick toog and correct password");
     }
-
+    
     const handleClick = () => {
         hiddenFileInput.current.click();
       };
@@ -105,7 +108,9 @@ function EditProfileData() {
                 {/* image row */}              
                 <div className="edit-profile-profile-image-row">
                     {/* <img src={profileImg} className='edit-profile-profile-img' /> */}
-                    <img src={pic ? URL.createObjectURL(pic) : "/upload/"+currentUser.user_pic+""} alt='' 
+                    <img 
+                    src={pic ? URL.createObjectURL(pic) : require('../../assets/upload/'+currentUser.user_pic)}
+                    alt='' 
                         className='edit-profile-profile-img' />
                     {/* s<p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
                 </div>
