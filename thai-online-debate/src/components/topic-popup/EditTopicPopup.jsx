@@ -4,7 +4,27 @@ import closeButtonIcon from '../../assets/icon/close.png';
 import { text_validation } from '../../checked';
 import Swal from 'sweetalert2';
 import { makeRequest } from '../../axios';
+import InputTag from '../input-tag/InputTag';
 function EditTopicPopup(props) {
+    // search tag part
+
+    const items = [
+        
+    ];
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredItems = searchTerm
+        ? items.filter((item) =>
+            item.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : [];
+
+    // Get a maximum of 5 items
+    const displayedItems = filteredItems.slice(0, 5);
+
+    // end search tag part
+
     const [topicData, setTopicData] = useState({
         dbt_title: props.data.dbt_title,
         dbt_description: props.data.dbt_description,
@@ -88,12 +108,51 @@ function EditTopicPopup(props) {
 
                     </div>
                     {/* tag row */}
-                    <div className="edit-topic-tag-row">
-                        <label className='edit-topic-popup-label'>แท็กที่เกี่ยวข้อง</label>
-                        <div className="edit-topic-tag-box">
+                    <div className="create-topic-tag-row">
+                            <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
+                            <div className="input-tag-container">
+                                {/* display selected tag here */}
+                                <InputTag tagNames="hello world"/>
+                                <InputTag tagNames="tag test"/>
+                                <InputTag tagNames="tag"/>
+                                <InputTag tagNames="test test test"/>
+                                <InputTag tagNames="tag test"/>
 
-                        </div>
+                            </div>
                     </div>
+
+                    {/* tag search row */}
+                    <div className="edit-topic-search-tag-row">
+                            <p className='edit-topic-popup-label'>ค้นหาแท็ก</p>
+                            
+                            <input
+                                type="text"
+                                placeholder=""
+                                className='create-topic-popup-tagsearch-input'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <div className='tag-choice-drop-down'>
+                                {displayedItems.length === 0 && searchTerm ? (
+                                    <div className="tag-choice-row">
+                                        <p>ไม่พบแท็กที่ค้นหา</p>
+                                    </div>
+                                ) : (
+                                    displayedItems.map((item, index) => 
+                                    <div className='tag-choice-row'>
+                                        <div className="tag-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                            <input type="checkbox" id="" name="" value=""/>
+                                            <label for="vehicle1" key={index}>{item}</label><br></br>
+                                        </div>
+
+                                        
+                                    </div>
+                                        
+                                    )
+                                )}
+                            </div>
+                                
+                        </div>
 
                     {/* button row */}
                     <div className="edit-topic-button-row">
