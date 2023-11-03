@@ -7,6 +7,7 @@ import CreateTopicPopup from '../../components/CreateTopicPopup'
 import { makeRequest } from '../../axios'
 import { Navigate, useNavigate } from 'react-router-dom'
 import searchButton from '../../assets/icon/search.png'
+import BannerSlider from '../../components/banner-silder/BannerSlider'
 
 function Home() {
 
@@ -124,9 +125,10 @@ const displayedItems = filteredItems.slice(0, 5);
         </div>
 
         {/* Banner */}
-        <div className="billboard-container">
+        {/* <div className="billboard-container">
           <img src={bbImg} alt="" className='billboard-img'/>
-        </div>
+        </div> */}
+        <BannerSlider/>
         {/*  */}
 
         {/* Popular topic */}
