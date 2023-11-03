@@ -60,6 +60,7 @@ nav{
 
 
 .nav-menu li a{
+  cursor: pointer;
     color: #fff;
     text-decoration: none;
 }
