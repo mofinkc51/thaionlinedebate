@@ -2,13 +2,12 @@ import './Profile.css'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import profileImg from '../../assets/profile.png'
 import HistoryTopic from '../../components/HistoryTopic'
-import React ,{ useEffect, useState }from 'react'
+import React ,{ Children, useContext, useEffect, useState }from 'react'
 import { makeRequest } from '../../axios'
+import { AuthContext } from '../../context/authContext';
+import { useLocation } from 'react-router-dom'
+
 function Profile() {
-    const personal_link = () => {
-        window.location.href = "/profile/me";
-        // window.location.href = `/profile/${user}`
-    }
     const user_id = window.location.pathname.split("/").pop();
     const  [userData , setUserData]  = useState({});
     const [countData, setCountData] = useState({});
@@ -37,17 +36,17 @@ function Profile() {
             console.log(err);
         }
     }
-    console.log(historyData[0]);
-
+    const personal_link = () => {
+        window.location.href = "/profile/me";
+    }
     useEffect(() => {
         getProfile();
         getUserCount();
         getHistory();
     },[])
-    console.log(userData);
     const profileImageSrc = userData.user_pic ? require("../../assets/upload/" + userData.user_pic) : profileImg;
-
-
+    const { currentUser } = useContext(AuthContext);
+    const location = useLocation();
   return (
     <>  
     
@@ -66,7 +65,9 @@ function Profile() {
                     </div>
                     <div className="profile-upper-editprofile-button-container">
                         {/* <a id = "profil" href="#">ข้อมูลส่วนตัว</a> */}
-                        <button className='profile-edit-prof-button' onClick={personal_link}>ข้อมูลส่วนตัว</button>
+                        {location.pathname.split("/").pop() === currentUser.user_id && (
+                            <button className='profile-edit-prof-button' onClick={personal_link}>ข้อมูลส่วนตัว</button>
+                         )}
                     </div>
                 </div>
 

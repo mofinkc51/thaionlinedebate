@@ -23,6 +23,7 @@ import { makeRequest } from './axios';
 import DebateTopic from './pages/debate-topic-page/DebateTopic';
 import DownloadRequestList from './pages/dataset-download-list/DownloadRequestList';
 import EditCommentPopup from './components/topic-popup/EditTopicPopup';
+import DownloadList from './pages/download-list-page/DownloadList';
 
 function App() {
 
@@ -93,6 +94,10 @@ function App() {
     {
       path : "/downloadrequest",
       element : <DownloadRequestList/>,
+    },
+    {
+      path : "/historydownload",
+      element : <DownloadList/>,
     }
   ]);
 

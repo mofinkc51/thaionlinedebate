@@ -20,7 +20,7 @@ function CommentComponent(props) {
   const commentData = {
     dbc_id : props.id,
     dbc_comment: props.comment,
-    userImg: userImg,
+    user_pic: props.user_pic,
     timestamp: props.timestamp,
   };
   const convertTimestamp = (timestamp) => {
@@ -98,7 +98,7 @@ function CommentComponent(props) {
         <div className="debate-topic-comment-content">
           <img
             className="debate-topic-comment-user-img"
-            src={commentData.userImg}
+            src={require('../assets/upload/'+commentData.user_pic)}
             alt=""
           />
           <div className="debate-topic-comment-text">{commentData.dbc_comment}</div>
