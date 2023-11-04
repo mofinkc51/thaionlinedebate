@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './BannerSlider.css';
 import banner_one from '../../assets/billboard-1.png';
 import banner_two from '../../assets/billboard-2.png';
+import banner_three from '../../assets/billboard-3.png';
 
 const BannerSlider = () => {
   const [selected, setSelected] = useState(1);
   
   const images = [
     banner_one,
-    banner_two
+    banner_two,
+    banner_three
   ]
 
   useEffect(() => {

@@ -100,27 +100,23 @@ function Home() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
-            <div className="debate-choice-drop-down">
+            <div className='debate-choice-drop-down'>
               {displayedItems.length === 0 && searchTerm ? (
-                <div className="debate-choice-row">
-                  <p>ไม่ประเด็นโต้แย้งที่ค้นหา</p>
-                </div>
-              ) : (
-                displayedItems.map((item, index) => (
-                  <div className="debate-choice-row">
-                    <div className="debate-choice-row-container">
-                      {/* <p key={index}>{item}</p> */}
-                      <a for="" key={index}>
-                        {item}
-                      </a>
-                      <br></br>
-                    </div>
+                 <div className="debate-choice-row">
+                    <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
+                       </div>
+                      ) : (
+                       displayedItems.map((item, index) => 
+                         <div className='debate-choice-row'>
+                             <div className="debate-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                <a for="" key={index}>{item}</a><br></br>
+                             </div>           
+                         </div>
+                      )
+                    )}
                   </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
+              </div>
+         </div>
 
         {/* Banner */}
         {/* <div className="billboard-container">
