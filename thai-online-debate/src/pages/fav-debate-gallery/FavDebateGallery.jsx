@@ -7,6 +7,11 @@ import { makeRequest } from '../../axios'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 function FavDebateGallery() {
+
+  const handleSortChange = (sortType) => {
+    // Here, you would implement your sorting logic based on sortType
+    console.log(`Sorting by: ${sortType}`);
+};
   const [debate,setDebate] = useState([{
     dbt_id:"",
     dbt_title:"",
@@ -36,6 +41,14 @@ function FavDebateGallery() {
     <div className="fav-debate-gallery-page-container">
         <div className="fav-debate-gallery-title-row">
             <h2>รายการประเด็นโต้แย้งที่ชื่นชอบ</h2>
+            <div className='fav-sort-component'>
+              <label>จัดเรียงโดย: </label>
+              <select className='fav-select' onChange={handleSortChange}>
+                  <option value="">เพิ่มล่าสุด</option>
+                  <option value="">ตัวอักษร ก → ฮ</option>
+                  <option value="">ตัวอักษร ฮ → ก</option>
+              </select>
+            </div>
         </div>
         <div className="fav-debate-gallery">
         {debate.map((debate) => (

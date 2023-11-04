@@ -7,8 +7,38 @@ import CreateTopicPopup from '../../components/CreateTopicPopup'
 import { makeRequest } from '../../axios'
 import { Navigate, useNavigate } from 'react-router-dom'
 import searchButton from '../../assets/icon/search.png'
+import BannerSlider from '../../components/banner-silder/BannerSlider'
 
 function Home() {
+
+  // search tag part
+
+  const items = [
+    'การเมือง',
+    'การเมืองไทย',
+    'เที่ยวไทย',
+    'เที่ยวต่างประเทศ',
+    'เศรษฐกิจ',
+    'เที่ยว JAPAN',
+    'เที่ยว KOREA',
+    'เที่ยว USA',
+    'เที่ยว EUROPE',
+    'เที่ยว CHINA'
+
+];
+
+const [searchTerm, setSearchTerm] = useState('');
+
+const filteredItems = searchTerm
+    ? items.filter((item) =>
+        item.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    : [];
+
+// Get a maximum of 5 items
+const displayedItems = filteredItems.slice(0, 5);
+
+// end search tag part
   
   const [debate,setDebate] = useState([{
     dbt_id:"",
@@ -63,15 +93,42 @@ function Home() {
           {/* search box container right side */}
           <div className="search-bar-container">
             <button><img src={searchButton}/></button>
-            <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/>
+            <input
+                                type="text"
+                                placeholder="ค้นหาประเด็นโต้แย้ง"
+                                className='search-box'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
+            <div className='debate-choice-drop-down'>
+                                {displayedItems.length === 0 && searchTerm ? (
+                                    <div className="debate-choice-row">
+                                        <p>ไม่ประเด็นโต้แย้งที่ค้นหา</p>
+                                    </div>
+                                ) : (
+                                    displayedItems.map((item, index) => 
+                                    <div className='debate-choice-row'>
+                                        <div className="debate-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                            <a for="" key={index}>{item}</a><br></br>
+                                        </div>
+
+                                        
+                                    </div>
+                                        
+                                    )
+                                )}
+            </div>
           </div>
+          
           
         </div>
 
         {/* Banner */}
-        <div className="billboard-container">
+        {/* <div className="billboard-container">
           <img src={bbImg} alt="" className='billboard-img'/>
-        </div>
+        </div> */}
+        <BannerSlider/>
         {/*  */}
 
         {/* Popular topic */}
