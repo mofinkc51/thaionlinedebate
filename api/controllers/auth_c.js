@@ -35,7 +35,7 @@ export const register = (req,res)=>{
             return res.status(200).json("User has been created");
         });
     });
-};
+}; 
 
 export const login = (req,res)=>{
     const sql = "SELECT * FROM user WHERE user_email = ?"
@@ -48,15 +48,15 @@ export const login = (req,res)=>{
         if(!checkPass) 
             return res.status(400).json("Wrong password or email");
         //return res.status(200).json("login success")
-
+ 
         const token = Jwt.sign({id:data[0].user_id},"secretkey");
-
-        const {user_password, ...ot} = data[0]
-
+        const {user_password, ...ot} = data[0];
+        
         res.cookie("accessToken", token, {httpOnly:true,})
         .status(200)
         .json(ot);
-        console.log(token)
+        console.log(responseData)
+        console.log(ot)
 
     });
 

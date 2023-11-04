@@ -1,4 +1,4 @@
-import React , { useEffect , useState}from 'react'
+import React , { useEffect , useState , useContext }from 'react'
 import UserNavbar, { createTopic } from '../../components/Navbar/UserNavBar'
 import './home.css'
 import bbImg from '../../assets/billboard-1.png'
@@ -6,14 +6,18 @@ import TopicComponent from '../../components/TopicComponent'
 import CreateTopicPopup from '../../components/CreateTopicPopup'
 import { makeRequest } from '../../axios'
 import { Navigate, useNavigate } from 'react-router-dom'
+import AdminNavBar from '../../components/Navbar/AdminNavBar'
+import { AuthContext } from '../../context/authContext'
+
 
 function Home() {
-  
+  const { currentUser } = useContext(AuthContext);
   const [debate,setDebate] = useState([{
     dbt_id:"",
     dbt_title:"",
   }]);
   const navigate = useNavigate();
+  
 
   const getTopTopics = async () => {
     try {
@@ -35,9 +39,11 @@ function Home() {
   }
 
 
+
+
   return (
     <>
-      <UserNavbar/>
+      {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavbar />}
       {/* page-container */}
       <div className="homepage-container">
         

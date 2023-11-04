@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+
 export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
     if (x[0].style.display === "none") {

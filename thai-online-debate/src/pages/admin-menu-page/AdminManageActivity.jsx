@@ -31,7 +31,7 @@ function AdminManageActivity() {
       </table>
       {/* <CreateActivityPopup/> */}
       {/* <EditActivityPopup/> */}
-      <DeleteActivityPopup/>
+      {/*<DeleteActivityPopup/>*/}
 
     </>
   )

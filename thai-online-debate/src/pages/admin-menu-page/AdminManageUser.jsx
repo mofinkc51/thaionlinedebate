@@ -24,7 +24,7 @@ function AdminManageUser() {
                 <th>ตรวจสอบ</th>
             </tr>
             {/* table body */}
-            <AdminManageUserRow/>
+            {<AdminManageUserRow/>}
             {/* <AdminManageUserRow/>
             <AdminManageUserRow/>
             <AdminManageUserRow/>
