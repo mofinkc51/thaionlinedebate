@@ -104,7 +104,7 @@ const displayedItems = filteredItems.slice(0, 5);
             <div className='debate-choice-drop-down'>
                                 {displayedItems.length === 0 && searchTerm ? (
                                     <div className="debate-choice-row">
-                                        <p>ไม่ประเด็นโต้แย้งที่ค้นหา</p>
+                                        <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
                                     </div>
                                 ) : (
                                     displayedItems.map((item, index) => 
