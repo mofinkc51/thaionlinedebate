@@ -232,6 +232,8 @@ function DebateTopic(props) {
             </div>
             {/* right content */}
             <div className="debate-topic-meta-data-right-content">
+            <p className='debate-topic-topic-description-title'>รายละเอียดประเด็นโต้แย้ง</p>
+              
               <div className="debate-topic-description-box">
                 <p className='debate-topic-topic-description'>{topicData.dbt_description}</p>
               </div>
