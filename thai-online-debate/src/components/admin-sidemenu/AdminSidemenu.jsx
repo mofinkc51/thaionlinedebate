@@ -20,7 +20,7 @@ function AdminSidemenu({ onMenuClick }) {
         <li><a href="#" onClick={() => onMenuClick('manageProblem')}>จัดการปัญหา</a></li>
       </ul>
     </div>
-
+ 
     </>
   )
 }
