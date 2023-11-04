@@ -61,8 +61,8 @@ function EditProfile() {
 
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">
-                    <p className='edit-profile-data-label'>รหัสผ่าน</p>
-                    <button className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</button>
+                    {/* <p className='edit-profile-data-label'>รหัสผ่าน</p> */}
+                    {/* <button className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</button> */}
                 </div>
 
             </div>

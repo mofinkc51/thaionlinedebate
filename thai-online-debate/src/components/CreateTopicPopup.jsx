@@ -6,6 +6,7 @@ import { makeRequest } from '../axios';
 import Swal from 'sweetalert2';
 import InputTag from './input-tag/InputTag';
 import { useNavigate } from 'react-router-dom';
+import { text_validation } from '../checked';
 
 function CreateTopicPopup() {
     // search tag part
@@ -65,8 +66,24 @@ function CreateTopicPopup() {
     };
     const createTopic = async (e) => {
         e.preventDefault()
-        console.log(topic);
-        try {
+        if (!text_validation(topic.dbt_title,3,50)){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: ("หัวข้อประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 3 + " ถึง " + 50)
+              }).then(() => {
+                  document.getElementsByName('dbt_title')[0].focus()
+              })
+        }
+        if (!text_validation(topic.dbt_description,10,500)){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: ("คำอธิบายประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 10 + " ถึง " + 500)
+              }).then(() => {
+                 document.getElementsByName('dbt_description')[0].focus();
+              })
+        } try {
             await makeRequest.post('/posts', topic)
             Swal.fire({
                 icon: 'success',

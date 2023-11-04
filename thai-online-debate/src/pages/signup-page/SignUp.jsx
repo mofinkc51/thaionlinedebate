@@ -3,7 +3,7 @@ import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
 import './SignUp.css'
 import signupImg from '../../assets/signup.png'
 import axios from 'axios';
-import { email_validation, user_validation, phone_validation } from '../../checked';
+import { email_validation, user_validation, phone_validation, password_validation } from '../../checked';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
@@ -41,7 +41,7 @@ function SignUp() {
       if (!phone_validation(inputs.user_phonenum)){
           return document.getElementsByName('user_phonenum')[0].focus();
       }
-      if (!user_validation(inputs.user_password,5,15)){
+      if (!password_validation(inputs.user_password,5,20)){
           return document.getElementsByName('user_password')[0].focus();
       }
 

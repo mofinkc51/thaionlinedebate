@@ -37,8 +37,6 @@ export const getUserHistory = (req, res) => {
   db.query(sql, user_id, (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0) return res.status(404).json("ไม่มีประวัติประเด็นโต้แย้ง");
-
-    console.log(data);
     return res.status(200).json(data);
   });
 
