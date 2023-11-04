@@ -15,7 +15,7 @@ export function user_validation(username, min ,max) {
 }
 //pass
 export function password_validation(password, min ,max) {
-    var password_len = password.value.length;
+    var password_len = password.length;
     if (password_len == 0 || password_len < min || password_len > max) {
         Swal.fire({
             icon: 'error',
@@ -30,11 +30,7 @@ export function password_validation(password, min ,max) {
 export function text_validation(text, min ,max) {
     var text_len = text.length;
     if (text_len == 0 || text_len < min || text_len > max) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: ("letter must be lenght between " + min + " to " + max)
-          })
+
         return false;
     }
     return true;

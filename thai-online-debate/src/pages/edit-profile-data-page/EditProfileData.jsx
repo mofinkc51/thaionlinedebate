@@ -6,6 +6,7 @@ import { phone_validation, user_validation } from '../../checked';
 import { makeRequest } from '../../axios';
 import Swal from 'sweetalert2'
 import { Navigate, useNavigate } from 'react-router-dom';
+import EditPasswordPopup from '../../components/edit-user-password-popup/EditPasswordPopup';
 
 function EditProfileData() {
     const { currentUser } = useContext(AuthContext);
@@ -13,12 +14,10 @@ function EditProfileData() {
     const hiddenFileInput = useRef(null);
 
     const upload = async (file) => {
-        console.log(file);
         try {
             const formData = new FormData();
             formData.append("file", file);
             const res = await makeRequest.post("/upload", formData);
-            console.log(formData.get("file"));
             return res.data;
         } catch (err) {
             console.log(err);
@@ -32,7 +31,6 @@ function EditProfileData() {
         user_phonenum: currentUser.user_phonenum,
         user_pic: currentUser.user_pic
     });
-    console.log(userData.user_pic);
     const handleChange = (e) => {
         setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
       };
@@ -58,7 +56,6 @@ function EditProfileData() {
         try {
             await makeRequest.put(`/users/edit/${updatedUserData.user_id}`, updatedUserData)
             localStorage.setItem('user', JSON.stringify(updatedUserData));
-            console.log("lastest add db "+ updatedUserData.user_pic);
             Swal.fire({
                 icon: 'success',
                 title: 'แก้ไขข้อมูลสําเร็จ',
@@ -84,6 +81,16 @@ function EditProfileData() {
         hiddenFileInput.current.click();
       };
 
+    const [showEditPasswordPopup, setShowEditPasswordPopup] = useState(false);
+    const changePassWord = () => {
+        setShowEditPasswordPopup(true);
+    };
+    const handleEditPasswordPopupClose = () => {
+        setShowEditPasswordPopup(false);
+    };
+    
+   
+    
   return (
     <>
     <UserNavBar/>
@@ -152,7 +159,8 @@ function EditProfileData() {
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รหัสผ่าน</p>
-                    <a href="/profile/me/changepassword" className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</a>
+                    <button type="button" onClick={changePassWord} className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</button>
+                    {showEditPasswordPopup && <EditPasswordPopup onClose={handleEditPasswordPopupClose} user_id = {currentUser.user_id}/>}
                 </div>
 
             </div>

@@ -295,6 +295,7 @@ function DebateTopic(props) {
                     comment={commentDataAgree.dbc_comment}
                     id={commentDataAgree.dbc_id}
                     timestamp={commentDataAgree.dbc_timestamp}
+                    user_pic={commentDataAgree.user_pic}
                   />
                 ))}
 
@@ -316,6 +317,7 @@ function DebateTopic(props) {
                     comment={commentDataDisAgree.dbc_comment} 
                     id={commentDataDisAgree.dbc_id} 
                     timestamp={commentDataDisAgree.dbc_timestamp}
+                    user_pic={commentDataDisAgree.user_pic}
                     />
                   ))}
 

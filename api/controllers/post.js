@@ -137,7 +137,6 @@ export const updatePost = (req,res)=>{
       req.body.dbt_id,
       userInfo.id,
     ],(err, data) => {
-        console.log(req.body.dbt_id,userInfo.id)
         if (err) res.status(500).json(err);
         if (data.affectedRows > 0) return res.json("Updated!");
         return res.status(403).json("You can update only your post!");
