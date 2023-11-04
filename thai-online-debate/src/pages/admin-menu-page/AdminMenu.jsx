@@ -28,9 +28,9 @@ function AdminMenu() {
         {activeMenu === 'manageRequest' && <AdminManageRequest />}
         {activeMenu === 'manageactivity' && <AdminManageAcitivity />}
         {activeMenu === 'manageProblem' && <AdminManageProblem />}
-        
       </div>
     </>
+    
   );
 }
 
