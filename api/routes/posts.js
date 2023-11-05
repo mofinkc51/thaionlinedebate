@@ -1,5 +1,5 @@
 import express from "express";
-import { addPost , updatePost , deletePost , getTops ,getTopic,getFav,checkTopicCanEdit,getLastTopic} from "../controllers/post.js";
+import { addPost , updatePost , deletePost , getTops ,getTopic,getFav,checkTopicCanEdit,getLastTopic,getSearch} from "../controllers/post.js";
 
 const router = express.Router()
 //get top 3 topic
@@ -18,4 +18,7 @@ router.get("/checkedit/:dbt_id", checkTopicCanEdit);
 router.delete("/:dbt_id", deletePost);
 //get last topic create
 router.get("/last",getLastTopic)
+//get top for search
+router.get("/search",getSearch)
+
 export default router

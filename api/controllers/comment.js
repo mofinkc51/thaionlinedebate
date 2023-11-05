@@ -9,7 +9,7 @@ export const getComment = (req, res) => {
   if (!dbt_id) return res.status(400).json("dbt_id is required");
   db.query(sql, [dbt_id, stance.dbc_stance], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json("dbt comment not found");
+    if (data.length === 0) return res.status(200).json(data);
 
     return res.status(200).json(data);
   });

@@ -3,6 +3,7 @@ import './AddComment.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 import { makeRequest } from '../../axios';
 import { text_validation } from '../../checked';
+import Swal from 'sweetalert2'
 
 
 function AddAgreeComment(props) {
@@ -20,7 +21,12 @@ function AddAgreeComment(props) {
 
   const addCommentDisAgree = async (e) => {
     e.preventDefault();    
-    if (!text_validation(dataComment.dbc_comment,10,150)){
+    if (!text_validation(dataComment.dbc_comment,3,150)){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+600+' ตัวอักษร'
+        });
         return document.getElementsByName('dbc_comment')[0].focus();
     }
     try {

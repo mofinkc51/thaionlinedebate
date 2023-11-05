@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
 import './EditTopicPopup.css';
 import closeButtonIcon from '../../assets/icon/close.png';
 import { text_validation } from '../../checked';
@@ -35,14 +35,34 @@ function EditTopicPopup(props) {
     const handleChange = (e) => {
         setTopicData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+
+    const titleInputRef = useRef(null);
+    const descInputRef = useRef(null);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(topicData);
-        if (!text_validation(topicData.dbt_title,3,50)){
-            return document.getElementsByName('dbt_title')[0].focus();
+        if (!text_validation(topicData.dbt_title,8,50)){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'หัวข้อประเด็นโต้แย้งต้องมีความยาวอย่างน้อย '+ 8 +' ตัวอักษรและไม่เกิน '+50+' ตัวอักษร'
+            }).then(() => {
+                // ใช้ ref เพื่อกำหนด focus
+                titleInputRef.current.focus();
+            });
+            return;
         }
         if (!text_validation(topicData.dbt_description,10,500)){
-            return document.getElementsByName('dbt_description')[0].focus();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'คำอธิบายประเด็นโต้แย้งต้องมีความยาวอย่างน้อย '+ 10 +' ตัวอักษรและไม่เกิน '+500+' ตัวอักษร'
+            }).then(() => {
+                // ใช้ ref เพื่อกำหนด focus
+                descInputRef.current.focus();
+            });
+            return;
         } try {
             await makeRequest.put(`/posts/edit/${topicData.dbt_id}`, topicData)
             Swal.fire({
@@ -76,6 +96,7 @@ function EditTopicPopup(props) {
                         <input type="text" className='edit-topic-popup-topicname-input'
                         name="dbt_title"
                         value={topicData.dbt_title} onChange={handleChange} required
+                        ref={titleInputRef}
                         />
                     </div>
                     {/* Topic desc row */}
@@ -84,6 +105,7 @@ function EditTopicPopup(props) {
                         <textarea className="edit-topic-popup-topicdesc-input" 
                         name="dbt_description" id="" cols="30" rows="5" 
                         value={topicData.dbt_description} onChange={handleChange} required
+                        ref={descInputRef}
                         >
                         </textarea> 
                     </div>
@@ -156,7 +178,7 @@ function EditTopicPopup(props) {
 
                     {/* button row */}
                     <div className="edit-topic-button-row">
-                        <button className='edit-topic-confirm-button'>ยืนยัน</button>
+                        <button type="submit" className='edit-topic-confirm-button'>ยืนยัน</button>
                         <button className='edit-topic-cancel-button' onClick={props.onCloseClick}>ยกเลิก</button>
                     </div>
                 </form>

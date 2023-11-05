@@ -12,16 +12,12 @@ function FavDebateGallery() {
     // Here, you would implement your sorting logic based on sortType
     console.log(`Sorting by: ${sortType}`);
 };
-  const [debate,setDebate] = useState([{
-    dbt_id:"",
-    dbt_title:"",
-  }]);
+  const [debate,setDebate] = useState([]);
   const navigate = useNavigate();
 
   const getTopTopics = async () => {
     try {
         const resFav = await makeRequest.get('/posts/fav')
-        console.log(resFav.data.length);
 
         return setDebate(resFav.data);
     } catch (err) {
@@ -31,9 +27,14 @@ function FavDebateGallery() {
       console.log(err);
     }
   }
+  const refreshTopics = () => {
+    getTopTopics();
+  };
+
   useEffect(() => {
     getTopTopics();
   },[]);
+
   return (
     <>
     <UserNavBar/>
@@ -52,7 +53,11 @@ function FavDebateGallery() {
         </div>
         <div className="fav-debate-gallery">
         {debate.map((debate) => (
-              <TopicComponent topicname={debate.dbt_title} id={debate.dbt_id}/>
+              <TopicComponent 
+              topicname={debate.dbt_title} 
+              id={debate.dbt_id}
+              refresh={refreshTopics}
+              />
             ))}
         </div>
     </div>
