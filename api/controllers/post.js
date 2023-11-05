@@ -94,7 +94,7 @@ export const getFav = (req,res)=>{
     db.query(sql,[userInfo.id],(err, data) => {
 
         if (err) res.status(500).json(err);
-        if (data.length === 0) return res.status(404).json("fav not found");
+        if (data.length === 0) return res.status(200).json(data);
         return res.status(200).json(data);
       }
     );
@@ -161,5 +161,13 @@ export const deletePost = (req,res)=>{
         return res.status(200).json("deleted topic");
       }
     );
+  });
+}
+export const getSearch = (req,res)=>{
+  const sql = "SELECT dbt_id, dbt_title FROM debatetopic";
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.length === 0) return res.status(404).json("Topic not found");
+    return res.status(200).json(data);
   });
 }
