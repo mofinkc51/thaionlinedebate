@@ -9,6 +9,41 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import EditPasswordPopup from '../../components/edit-user-password-popup/EditPasswordPopup';
 
 function EditProfileData() {
+    const handleUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const allowedFileTypes = ['image/png', 'image/jpeg'];
+          const maxSize = 2 * 1024 * 1024; // 2 MB
+    
+          if (!allowedFileTypes.includes(file.type)) {
+            setErrorMessage('Error: Invalid file type. Please upload a PNG or JPEG image.');
+            // alert('Error: Invalid file type. Please upload a PNG or JPEG image.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'ประเภทไฟล์ไม่ถูกต้อง กรุณาอัปโหลดไฟล์นามสกุล PNG หรือ JPEG'
+              })
+            return;
+          }
+    
+          if (file.size > maxSize) {
+            setErrorMessage('Error: File size exceeds 2MB. Please upload a smaller image.');
+            // alert('Error: File size exceeds 2MB. Please upload a smaller image.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'ขนาดไฟล์เกิน 2 MB กรุณาอัปโหลดไฟล์ที่มีขนาดเล็กลง'
+              })
+            return;
+          }
+    
+          setErrorMessage('');
+          // If needed, you can set the file to state or perform upload operations here
+          // setPic(file);
+          setPic(e.target.files[0])
+        }
+      };
+      const [errorMessage, setErrorMessage] = useState("");
     const { currentUser } = useContext(AuthContext);
     const [pic, setPic] = useState(null);
     const hiddenFileInput = useRef(null);
@@ -79,6 +114,7 @@ function EditProfileData() {
     
     const handleClick = () => {
         hiddenFileInput.current.click();
+        
       };
 
     const [showEditPasswordPopup, setShowEditPasswordPopup] = useState(false);
@@ -102,14 +138,30 @@ function EditProfileData() {
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รูปภาพโปรโฟล์</p>
                     {/* <button className='edit-profile-edit-button'>แก้ไขรูปภาพ</button> */}
-                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
+                    {/* <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
                     <input 
                         type="file"
-                        ref={hiddenFileInput}        
+                        ref={hiddenFileInput} 
+                              
                         style={{display:'none'}}
                         onChange={(e) => setPic(e.target.files[0])} 
                     />
-                    </button>
+                    <input
+                        type="file"
+                        ref={hiddenFileInput}
+                        accept="image/png, image/jpeg"
+                        style={{ display: 'none' }}
+                        onChange={handleUpload}
+                    />
+                    </button> */}
+                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด</button>
+                    <input
+                        type="file"
+                        ref={hiddenFileInput}
+                        accept="image/png, image/jpeg"
+                        style={{ display: 'none' }}
+                        onChange={handleUpload}
+                    />
                 </div>
 
                 {/* image row */}              
@@ -120,6 +172,8 @@ function EditProfileData() {
                     alt='' 
                         className='edit-profile-profile-img' />
                     {/* s<p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
+                    <p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p>
+
                 </div>
                 
                 {/* username label row */}
