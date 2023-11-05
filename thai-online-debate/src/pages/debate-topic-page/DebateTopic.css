@@ -73,8 +73,14 @@
     overflow-y: auto;
     max-height: 100px;
 
-    
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.debate-topic-description-box::-webkit-scrollbar {
+    display: none;
 }
 
 .debate-topic-topic-description-title{
@@ -273,7 +279,16 @@ debate-topic-option-image{
     overflow-y: auto;
     /* padding-right: 10px; */
 
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
 }
+/* Hide scrollbar for Chrome, Safari and Opera */
+.debate-topic-comment-scroll-box::-webkit-scrollbar {
+    display: none;
+}
+
 
 .debate-topic-agree-button{
     /* size */
