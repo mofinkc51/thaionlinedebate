@@ -28,6 +28,7 @@
     height: 30px;
     flex-shrink: 0;
     border-radius: 64px;
+    object-fit: cover;
 }
 
 .debate-topic-comment-text{
