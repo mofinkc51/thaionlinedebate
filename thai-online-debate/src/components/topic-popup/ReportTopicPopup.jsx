@@ -2,7 +2,7 @@ import React from 'react'
 import './ReportTopicPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 
-function DownloadFormPopup(props) {
+function ReportTopicPopup(props) {
     const {onCloseClick} = props;
   return (
     <>
@@ -33,4 +33,4 @@ function DownloadFormPopup(props) {
   )
 }
 
-export default DownloadFormPopup
+export default ReportTopicPopup

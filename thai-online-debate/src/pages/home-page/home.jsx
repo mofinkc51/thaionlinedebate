@@ -12,42 +12,43 @@ import BannerSlider from "../../components/banner-silder/BannerSlider";
 function Home() {
   // search tag part
 
-  const items = [
-    "การเมือง",
-    "การเมืองไทย",
-    "เที่ยวไทย",
-    "เที่ยวต่างประเทศ",
-    "เศรษฐกิจ",
-    "เที่ยว JAPAN",
-    "เที่ยว KOREA",
-    "เที่ยว USA",
-    "เที่ยว EUROPE",
-    "เที่ยว CHINA",
-  ];
+  // const items = [
+  //   "การเมือง",
+  //   "การเมืองไทย",
+  //   "เที่ยวไทย",
+  //   "เที่ยวต่างประเทศ",
+  //   "เศรษฐกิจ",
+  //   "เที่ยว JAPAN",
+  //   "เที่ยว KOREA",
+  //   "เที่ยว USA",
+  //   "เที่ยว EUROPE",
+  //   "เที่ยว CHINA",
+  // ];
+
+  const [items, setItems] = useState([
+    {
+      dbt_title: "ประเด็นโต้แย้ง",
+      dbt_id: "1234",
+    }
+  ]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredItems = searchTerm
-    ? items.filter((item) =>
-        item.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : [];
+      ? items.filter((item) =>
+          item.dbt_title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : items;
 
   // Get a maximum of 5 items
   const displayedItems = filteredItems.slice(0, 5);
 
   // end search tag part
 
-  const [debate, setDebate] = useState([
-    {
-      dbt_id: "",
-      dbt_title: "",
-    },
-  ]);
+  const [debate, setDebate] = useState([]);
   const navigate = useNavigate();
 
   const getTopTopics = async () => {
-    console.log("runget");
     try {
       const res = await makeRequest.get("/posts/tops");
       return setDebate(res.data);
@@ -58,8 +59,20 @@ function Home() {
       console.log(err);
     }
   };
+
+  const getTopicSearch = async () => {
+    try {
+      const res = await makeRequest.get("/posts/search");
+      return setItems(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getTopTopics();
+    getTopicSearch();
+    console.log(items);
   }, []);
 
   return (
@@ -101,19 +114,20 @@ function Home() {
             />
             {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
             <div className='debate-choice-drop-down'>
-              {displayedItems.length === 0 && searchTerm ? (
+              {searchTerm && displayedItems.length === 0 ? (
                  <div className="debate-choice-row">
                     <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
-                       </div>
-                      ) : (
-                       displayedItems.map((item, index) => 
-                         <div className='debate-choice-row'>
-                             <div className="debate-choice-row-container">{/* <p key={index}>{item}</p> */}
-                                <a for="" key={index}>{item}</a><br></br>
-                             </div>           
-                         </div>
-                      )
-                    )}
+                  </div>
+                  ) : (
+                    searchTerm &&
+                    displayedItems.map((item, index) => 
+                      <div className='debate-choice-row' key={index}>
+                          <div className="debate-choice-row-container">
+                              <a href={`/topic/${item.dbt_id}`}>{item.dbt_title}</a>
+                          </div>           
+                      </div>
+                    )
+                  )}
                   </div>
               </div>
          </div>
@@ -132,7 +146,11 @@ function Home() {
           {/* <h2 className='popular-title'>Popular Topic</h2> */}
           <div className="popular-topic-grid">
             {debate.map((debate) => (
-              <TopicComponent topicname={debate.dbt_title} id={debate.dbt_id} />
+              <TopicComponent 
+              topicname={debate.dbt_title} 
+              id={debate.dbt_id} 
+              refresh={getTopTopics}
+              />
             ))}
             {/* <TopicComponent topicname={debate[0].dbt_title} getTops={showTopic}/>
             <TopicComponent topicname={debate[1].dbt_title} getTops={showTopic}/>

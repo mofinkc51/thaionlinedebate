@@ -105,7 +105,8 @@ function EditProfileData() {
                     <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
                     <input 
                         type="file"
-                        ref={hiddenFileInput}        
+                        ref={hiddenFileInput} 
+                        accept="image/png, image/jpeg"       
                         style={{display:'none'}}
                         onChange={(e) => setPic(e.target.files[0])} 
                     />

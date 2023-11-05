@@ -73,7 +73,43 @@ function App() {
     },
     {
       path: "profile/me/changepassword",
-      element: <EditPasswordPopup/>
+      element: (
+        <ProtectedRoute>
+          <EditPasswordPopup/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/topic/:id",
+      element: (
+        <ProtectedRoute>
+          <DebateTopic/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/fav",
+      element: (
+        <ProtectedRoute>
+          <FavDebateGallery/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/downloadrequest",
+      element: (
+        <ProtectedRoute>
+          <DownloadRequestList/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/historydownload",
+      element: (
+        <ProtectedRoute>
+          <DownloadList/>
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/signin",
@@ -82,22 +118,6 @@ function App() {
     {
       path: "/signup",
     element: <SignUp/>,
-    },
-    {
-      path : "/topic/:id",
-      element : <DebateTopic/>,
-    },
-    {
-      path : "/fav",
-      element : <FavDebateGallery/>,
-    },
-    {
-      path : "/downloadrequest",
-      element : <DownloadRequestList/>,
-    },
-    {
-      path : "/historydownload",
-      element : <DownloadList/>,
     }
   ]);
 

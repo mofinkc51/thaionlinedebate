@@ -14,6 +14,7 @@ import AddToDownloadPopup from '../../components/topic-popup/AddToDownloadPopup'
 import { useNavigate } from 'react-router-dom';
 import { makeRequest } from '../../axios';
 import Swal from 'sweetalert2'
+import ReportTopicPopup from '../../components/topic-popup/ReportTopicPopup';
 
 function DebateTopic(props) {
 
@@ -25,7 +26,7 @@ function DebateTopic(props) {
   const [selectedEditPopup, setSelectedEditPopup] = useState(null)
   const [selectedAddtofavPopup, setSelectedAddtofavPopup] = useState(null)
   const [selectedAddtoDownloadPopup, setSelectedAddtoDownloadPopup] = useState(null)
-
+  const [selectedReportPopup, setSelectedReportPopup] = useState(null)
   let popup = null
   
   const navigate = useNavigate();
@@ -196,6 +197,13 @@ function DebateTopic(props) {
     popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
   }
 
+  const handleReportTopic = () => {
+    setOpen(false)
+    setSelectedReportPopup(<ReportTopicPopup onCloseClick={onCommentCloseClick}/>)
+  }
+  if(!!selectedReportPopup){
+    popup = <ReportTopicPopup onCloseClick={onCommentCloseClick}/>
+  }
 
   function onCommentCloseClick(){
     popup = null
@@ -204,6 +212,7 @@ function DebateTopic(props) {
     setSelectedEditPopup(null)
     setSelectedAddtofavPopup(null)
     setSelectedAddtoDownloadPopup(null)
+    setSelectedReportPopup(null)
   }
 
   return (
@@ -275,6 +284,7 @@ function DebateTopic(props) {
                     <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
                   </div>    
                 )}
+                <button onClick={handleReportTopic}>รายงานปัญหา</button>
               </div>
             </div>
 
