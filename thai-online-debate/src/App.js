@@ -183,8 +183,6 @@ function App() {
       path: "/manage/main/request",
       element: (
         <AdminRoute>
-           <AdminNavBar />
-           <AdminSidemenu />
           <AdminManageRequest/> 
         </AdminRoute>
       ),
