@@ -3,20 +3,21 @@ import AdminManageUserRow from '../../components/admin-manage-user-row/AdminMana
 import searchIcon from '../../assets/icon/search.png'; // เพิ่ม import นี้
 import './AdminManageUser.css' ;
 
-
 const AdminManageUser = () => {
-const [filteredUsers, setFilteredUsers] = useState([]); // เพิ่มตัวแปรนี้
-  const [users, setUsers] = useState([]);
-  const [searchText, setSearchText] = useState(''); // State สำหรับเก็บข้อความค้นหา
+  const [filteredUsers, setFilteredUsers] = useState([]); // เพิ่มตัวแปรนี้
+    const [users, setUsers] = useState([]);
+    const [searchText, setSearchText] = useState(''); // State สำหรับเก็บข้อความค้นหา
 
+    
   useEffect(() => {
-    fetch('http://localhost:8800/api/users/findall')
+    fetch('http://localhost:8800/api/admin/findall')
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+        
       });
   }, []);
 
@@ -59,7 +60,7 @@ const [filteredUsers, setFilteredUsers] = useState([]); // เพิ่มตั
         ))}
       </table>
     </>
-  );
-};
 
+);
+};
 export default AdminManageUser;
