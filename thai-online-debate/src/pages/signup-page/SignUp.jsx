@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
 import { makeRequest } from '../../axios';
+import Footer from '../../components/footer/Footer';
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -118,6 +119,7 @@ function SignUp() {
         </div> 
         
     </div>
+    <Footer/>
     </>
   )
 }

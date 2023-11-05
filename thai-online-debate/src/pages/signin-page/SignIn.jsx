@@ -6,6 +6,7 @@ import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import Footer from '../../components/footer/Footer'
 function SignIn() {
 
   const [inputs,setInputs] = useState({
@@ -69,6 +70,7 @@ function SignIn() {
         </div>
 
       </div>
+      <Footer/>
     </>
   )
 }

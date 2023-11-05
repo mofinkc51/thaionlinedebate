@@ -35,7 +35,7 @@ function EditProfile() {
                         : "/upload/"+currentUser.user_pic+""} alt='' 
                         className='edit-profile-profile-img' /> */}
                     <img src={require('../../assets/upload/'+currentUser.user_pic)} className='edit-profile-profile-img' />
-                    <p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p>
+                    {/* <p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
                 </div>
 
                 {/* username label row */}

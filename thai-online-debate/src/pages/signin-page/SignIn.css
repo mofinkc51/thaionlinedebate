@@ -114,9 +114,19 @@
 }
 
 @media only screen and (max-width: 480px) {
+    .signin-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .signin-flex{
-        display: block;
+        padding-top: 100px;
+        display: flex;
+        align-items:baseline;
+        height: 80vh;
         
+    
     }
 
     .signin-left-container{
@@ -126,7 +136,7 @@
     .signin-right-container{
         width: 100%;
         
-        margin: 30px auto;
+        /* margin: 30px auto; */
 
     }
 
@@ -142,7 +152,7 @@
         border-radius: 10px;
         border: 1px solid rgba(0, 0, 0, 0.50);
         background: #FFF;
-        font-size: 20px;
+        font-size: 14px;
         padding-left: 20px;
     
         margin-bottom: 9px;
@@ -150,7 +160,7 @@
 
     .signin-form-container{
         /* max-width: 250px; */
-        border: 1px solid #a21111;
+        /* border: 1px solid #a21111; */
     }
 
     .signin-button{
