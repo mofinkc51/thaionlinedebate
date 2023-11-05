@@ -1,9 +1,10 @@
 import express from "express";
-import { } from "../controllers/user.js";
+import { getAllUsers } from "../controllers/get_user.js";
+import { getApprove } from "../controllers/get_apvDownload.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("")
+router.get("/findall", getAllUsers);
+router.get("/apvdownload", getApprove);
 
-
-export default router
+export default router;
