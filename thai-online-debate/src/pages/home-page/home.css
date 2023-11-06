@@ -166,6 +166,16 @@
     align-items: center;
     /* padding: 0 10px; */
 }
+
+.debate-choice-row-container a{
+    /* border: 1px solid red; */
+
+    text-decoration: none;
+    color: black;
+
+}
+
+
 .debate-choice-row-container input{
     /* border: 1px solid red; */
     margin-right: 10px;
