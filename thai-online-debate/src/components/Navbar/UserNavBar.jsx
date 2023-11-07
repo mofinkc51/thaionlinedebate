@@ -39,6 +39,7 @@ function UserNavBar() {
     const logout_db = async () => {
         await makeRequest.post("/auth/logout", "");
         localStorage.removeItem("user");
+        localStorage.removeItem('downloadList');
         navigator("/signin");
     }
     const location = useLocation();

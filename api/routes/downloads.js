@@ -1,10 +1,10 @@
 import express from "express";
-import { getDownload,addDownload,deleteDownload } from "../controllers/download.js";
+import { getDownload,addDownload,getDownloadApproved } from "../controllers/download.js";
 
 const router = express.Router()
 
-router.get("/download", getDownload)
-router.post("/download", addDownload)
-router.delete("/download", deleteDownload)
+router.get("/", getDownload)
+router.post("/", addDownload)
+router.get("/approved", getDownloadApproved)
 
 export default router
