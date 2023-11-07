@@ -43,45 +43,45 @@ function AdminNavBar() {
 
   return (
     <>
-    <nav>
-         <div class="nav-container">
-             <div class="nav-wrapper">
-                 <div class="logo">
-                     <h3>TDBate</h3>
-                 </div>
-                 <ul class="nav-menu" id="myMenu">
-                     <li><a href="/">หน้าแรก</a></li>
-                     <li><a onClick={createTopicForm}>สร้าง</a></li>
-                     <li><a href="/manage/main">เมนู</a></li>
-                     <div class="nav-dropdown">
-                         <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name}</a></li> 
-                         <div class="nav-dropdown-content">
-                             
-                             <a href="/profile"><img src=""/>โปรไฟล์</a>
-                             <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
-                             <a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
-                             <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
-                             <a href="/"onClick={logout}>ออกจากระบบ</a>
-                         </div>
-                     </div>
- 
-                 </ul>
-                 {/* <ul class="nav-menu" id="myMenu">
-                     <li><a href="">หน้าแรก</a></li>
-                     <li><a href="">สร้าง</a></li>
-                     <li><a href="">บัญชีผู้ใช้</a></li>
-                 </ul> */}
-                
-                 {/* <div class="ham-menu" onclick={toggleHam(this)}>
-                     <div class="bar1"></div>
-                     <div class="bar2"></div>
-                     <div class="bar3"></div>
-                 </div> */}
-                 
-             </div>
-         </div>
-     </nav> 
- </>
+       <nav>
+            <div class="nav-container">
+                <div class="nav-wrapper">
+                    <div class="logo">
+                        <h3>TDBate</h3>
+                    </div>
+                    <ul class="nav-menu" id="myMenu">
+                        <li><a href="/">หน้าแรก</a></li>
+                        <li><a onClick={createTopicForm}>สร้าง</a></li>
+                        <li><a href="/manage/main">เมนู</a></li>
+                        <div class="nav-dropdown">
+                            <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} ▼</a></li> 
+                            <div class="nav-dropdown-content">
+                                
+                                <a href="/profile"><img src=""/>โปรไฟล์</a>
+                                <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
+                                <a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
+                                <a href="#">ประวัติคำร้องขอชุดข้อมูล</a>
+                                <a href="/" onClick={logout}>ออกจากระบบ</a>
+                            </div>
+                        </div>
+
+                    </ul>
+                    {/* <ul class="nav-menu" id="myMenu">
+                        <li><a href="">หน้าแรก</a></li>
+                        <li><a href="">สร้าง</a></li>
+                        <li><a href="">บัญชีผู้ใช้</a></li>
+                    </ul> */}
+                   
+                    {/* <div class="ham-menu" onclick={toggleHam(this)}>
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div> */}
+                    
+                </div>
+            </div>
+        </nav> 
+    </>
   )
 }
 
