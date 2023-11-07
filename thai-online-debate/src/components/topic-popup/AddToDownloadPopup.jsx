@@ -2,8 +2,9 @@ import React from 'react'
 import './AddToDownloadPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 function AddToDownloadPopup(props) {
-  const {onCloseClick} = props;
+  const onCloseClick = props.onCloseClick;
 
+  
   return (
     <>
         <div className="add-to-download-bg-opacity">
