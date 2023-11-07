@@ -42,7 +42,7 @@ function DebateTopic(props) {
   const [topicData, setTopicData] = useState({
     dbt_id: "",
     dbt_title: "Loading...",
-    dbt_id: "Loading User...",
+    dbt_id: "Loading...",
     user_name: "Loading User...",
     dbt_description: "Loading Description...",
     dbt_agree: "Loading...",
@@ -189,20 +189,38 @@ function DebateTopic(props) {
 
   }
 
+  function addToDownloadList(dbt_id) {
+    // ดึงรายการที่มีอยู่จาก localStorage
+    let downloadList = JSON.parse(localStorage.getItem('downloadList')) || [];
+    
+    // ตรวจสอบว่า dbt_id นี้มีอยู่แล้วในรายการหรือไม่
+    if (!downloadList.includes(dbt_id)) {
+      // เพิ่ม dbt_id ใหม่เข้าไปในรายการถ้ายังไม่มี
+      downloadList.push(dbt_id);
+      // บันทึกกลับเข้า localStorage
+      localStorage.setItem('downloadList', JSON.stringify(downloadList));
+    }
+  }
+  
   const handleAddToDownload = () => {
     setOpen(false)
-    setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
+    addToDownloadList(topicData.dbt_id)
+    Swal.fire({
+      icon: 'success',
+      title: 'เพิ่มประเด็นโต้แย้งเรียบร้อย'
+    })
+    // setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
   }
-  if(!!selectedAddtoDownloadPopup){
-    popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
-  }
+  // if(!!selectedAddtoDownloadPopup){
+  //   popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
+  // }
 
   const handleReportTopic = () => {
     setOpen(false)
-    setSelectedReportPopup(<ReportTopicPopup onCloseClick={onCommentCloseClick}/>)
+    setSelectedReportPopup(<ReportTopicPopup onCloseClick={onCommentCloseClick} data={topicData}/>)
   }
   if(!!selectedReportPopup){
-    popup = <ReportTopicPopup onCloseClick={onCommentCloseClick}/>
+    popup = <ReportTopicPopup onCloseClick={onCommentCloseClick} data={topicData}/>
   }
 
   function onCommentCloseClick(){
