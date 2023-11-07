@@ -4,6 +4,7 @@ import profileImg from '../../assets/profile.png'
 import HistoryTopic from '../../components/HistoryTopic'
 import React ,{ useContext }from 'react'
 import { AuthContext } from '../../context/authContext';
+import AdminNavBar from '../../components/Navbar/AdminNavBar'
 function Profile() {
 
     const { currentUser } = useContext(AuthContext);
@@ -17,7 +18,7 @@ function Profile() {
   return (
     <>  
     
-        <UserNavBar/>
+        {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavBar />}
         <div className="profile-page-container">
             {/* left side profile data */}
             <div className="profile-left-side-box">
