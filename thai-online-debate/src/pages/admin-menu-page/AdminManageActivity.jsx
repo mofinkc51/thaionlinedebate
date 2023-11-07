@@ -5,7 +5,7 @@ import AdminManageActivityRow from '../../components/admin-manage-activity-row/A
 import CreateActivityPopup from '../../components/admin-popup/CreateActivityPopup'
 import EditActivityPopup from '../../components/admin-popup/EditActivityPopup'
 import DeleteActivityPopup from '../../components/admin-popup/DeleteActivityPopup'
-
+import { makeRequest } from '../../axios';
 function AdminManageActivity() {
 
   const [activities, setActivities] = useState([]);
@@ -15,7 +15,7 @@ function AdminManageActivity() {
     const fetchActivities = async () => {
       try {
         // ทำการเปลี่ยน URL เป็น endpoint ของคุณที่ใช้เรียกข้อมูล
-        const response = await axios.get('http://localhost:8800/api/admin/activity');
+        const response = await makeRequest.get('/admin/activity');
         setActivities(response.data);
       } catch (error) {
         console.error('Error fetching activities:', error);
