@@ -2,7 +2,8 @@ import React from 'react'
 import './CreateActivityPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 
-function CreateActivityPopup() {
+
+function CreateActivityPopup({ closePopup }) {
   return (
     <>
        <div className='create-activity-bg-opacity'>
@@ -12,7 +13,10 @@ function CreateActivityPopup() {
                     {/* Topic title row */}
                     <div className="create-activity-title-row">
                         <h2>สร้างกิจกรรมโต้แย้ง</h2>
-                        <button className='create-activity-close-button'><img src={closeButtonIcon} alt="" /></button>
+                        {/* เพิ่ม onClick event handler ที่ปุ่มปิด */}
+                        <button className='create-activity-close-button' onClick={closePopup}>
+                        <img src={closeButtonIcon} alt="Close" />
+                        </button>
                     </div>
                     {/* Topic name row */}
                     <div className="create-activity-popup-topicname-row">

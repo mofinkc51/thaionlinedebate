@@ -5,6 +5,7 @@ import HistoryTopic from '../../components/HistoryTopic'
 import React ,{ Children, useContext, useEffect, useState }from 'react'
 import { makeRequest } from '../../axios'
 import { AuthContext } from '../../context/authContext';
+import AdminNavBar from '../../components/Navbar/AdminNavBar'
 import { useLocation } from 'react-router-dom'
 
 function Profile() {
@@ -50,7 +51,7 @@ function Profile() {
   return (
     <>  
     
-        <UserNavBar/>
+        {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavBar />}
         <div className="profile-page-container">
             {/* left side profile data */}
             <div className="profile-left-side-box">

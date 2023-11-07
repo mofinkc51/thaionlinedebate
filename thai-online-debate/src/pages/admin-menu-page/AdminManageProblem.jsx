@@ -24,7 +24,7 @@ function AdminManageProblem() {
             <AdminManageProblemRow/>
         </table>
         {/* <DeleteProblemPopup/> */}
-        <EditProblemPopup/>
+        {/*<EditProblemPopup/>*/}
     </>
   )
 }
