@@ -25,7 +25,6 @@ function AdminMenu() {
       <div className="admin-menu-content-container">
         {activeMenu === 'manageUser' && <AdminManageUser />}
         {activeMenu === 'downloadRequest' && <AdminDownloadRequestList />}
-        {activeMenu === 'manageRequest' && <AdminManageRequest />}
         {activeMenu === 'manageactivity' && <AdminManageAcitivity />}
         {activeMenu === 'manageProblem' && <AdminManageProblem />}
       </div>
