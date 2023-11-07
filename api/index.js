@@ -7,6 +7,8 @@ import likeRoutes from "./routes/likes.js"
 import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/users.js"
 import adminRoutes from "./routes/admin.js"
+import downloadRoutes from "./routes/downloads.js"
+import reportRoutes from "./routes/reports.js"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import multer from "multer";
@@ -26,7 +28,7 @@ app.use(cookieParser());
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "../thai-online-debate/public/upload");
+      cb(null, "../thai-online-debate/src/assets/upload");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + file.originalname);
@@ -46,6 +48,9 @@ app.use("/api/likes", likeRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/admin", adminRoutes)
+app.use("/api/reports", reportRoutes)
+app.use("/api/downloads", downloadRoutes)
+
 app.listen(8800, ()=>{
     console.log("Connected")
 })

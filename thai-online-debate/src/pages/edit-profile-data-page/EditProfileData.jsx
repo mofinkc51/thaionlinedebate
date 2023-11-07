@@ -6,19 +6,53 @@ import { phone_validation, user_validation } from '../../checked';
 import { makeRequest } from '../../axios';
 import Swal from 'sweetalert2'
 import { Navigate, useNavigate } from 'react-router-dom';
+import EditPasswordPopup from '../../components/edit-user-password-popup/EditPasswordPopup';
 
 function EditProfileData() {
+    const handleUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const allowedFileTypes = ['image/png', 'image/jpeg'];
+          const maxSize = 2 * 1024 * 1024; // 2 MB
+    
+          if (!allowedFileTypes.includes(file.type)) {
+            setErrorMessage('Error: Invalid file type. Please upload a PNG or JPEG image.');
+            // alert('Error: Invalid file type. Please upload a PNG or JPEG image.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'ประเภทไฟล์ไม่ถูกต้อง กรุณาอัปโหลดไฟล์นามสกุล PNG หรือ JPEG'
+              })
+            return;
+          }
+    
+          if (file.size > maxSize) {
+            setErrorMessage('Error: File size exceeds 2MB. Please upload a smaller image.');
+            // alert('Error: File size exceeds 2MB. Please upload a smaller image.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'ขนาดไฟล์เกิน 2 MB กรุณาอัปโหลดไฟล์ที่มีขนาดเล็กลง'
+              })
+            return;
+          }
+    
+          setErrorMessage('');
+          // If needed, you can set the file to state or perform upload operations here
+          // setPic(file);
+          setPic(e.target.files[0])
+        }
+      };
+      const [errorMessage, setErrorMessage] = useState("");
     const { currentUser } = useContext(AuthContext);
     const [pic, setPic] = useState(null);
     const hiddenFileInput = useRef(null);
 
     const upload = async (file) => {
-        console.log(file);
         try {
             const formData = new FormData();
             formData.append("file", file);
             const res = await makeRequest.post("/upload", formData);
-            console.log(formData.get("file"));
             return res.data;
         } catch (err) {
             console.log(err);
@@ -32,43 +66,39 @@ function EditProfileData() {
         user_phonenum: currentUser.user_phonenum,
         user_pic: currentUser.user_pic
     });
-    
     const handleChange = (e) => {
         setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-        
       };
     
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    // };
     const handleSubmit = async (e) => { 
         e.preventDefault();
         let picUrl;
         picUrl = pic ? await upload(pic) : userData.user_pic;
-        // console.log("before set db "+picUrl);
-        console.log("user data pic before setpic"+userData.user_pic);
+    
         if (picUrl === null){
             picUrl = userData.user_pic;
         }
-        setUserData({ ...userData, user_pic: picUrl});
-        console.log("after set db "+userData.user_pic);
-        if (!user_validation(userData.user_name,5,15)){
+        // Updating user_pic in the local copy
+        const updatedUserData = { ...userData, user_pic: picUrl};
+        if (!user_validation(updatedUserData.user_name,5,15)){
             return document.getElementsByName('user_name')[0].focus();
         }
-        if (!phone_validation(userData.user_phonenum)){
+        
+        if (!phone_validation(updatedUserData.user_phonenum)){
             return document.getElementsByName('user_phonenum')[0].focus();
-        } try {
-            console.log("last add db "+userData.user_pic);
-
-            await makeRequest.put(`/users/edit/${userData.user_id}`, userData)
-            localStorage.setItem('user', JSON.stringify(userData));
-
+        } 
+        
+        try {
+            await makeRequest.put(`/users/edit/${updatedUserData.user_id}`, updatedUserData)
+            localStorage.setItem('user', JSON.stringify(updatedUserData));
             Swal.fire({
                 icon: 'success',
                 title: 'แก้ไขข้อมูลสําเร็จ',
-            });
-            
-
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            })
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -76,14 +106,27 @@ function EditProfileData() {
                 title: err.response.data,
             })
         }
+    
+        // Now, update the state
+        setUserData(updatedUserData);
         setPic(null);
-        //console.log("you tick toog and correct password");
     }
-
+    
     const handleClick = () => {
         hiddenFileInput.current.click();
+        
       };
 
+    const [showEditPasswordPopup, setShowEditPasswordPopup] = useState(false);
+    const changePassWord = () => {
+        setShowEditPasswordPopup(true);
+    };
+    const handleEditPasswordPopupClose = () => {
+        setShowEditPasswordPopup(false);
+    };
+    
+   
+    
   return (
     <>
     <UserNavBar/>
@@ -95,22 +138,42 @@ function EditProfileData() {
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รูปภาพโปรโฟล์</p>
                     {/* <button className='edit-profile-edit-button'>แก้ไขรูปภาพ</button> */}
-                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
+                    {/* <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
                     <input 
                         type="file"
-                        ref={hiddenFileInput}        
+                        ref={hiddenFileInput}
+                        accept="image/png, image/jpeg"
                         style={{display:'none'}}
                         onChange={(e) => setPic(e.target.files[0])} 
                     />
-                    </button>
+                    <input
+                        type="file"
+                        ref={hiddenFileInput}
+                        accept="image/png, image/jpeg"
+                        style={{ display: 'none' }}
+                        onChange={handleUpload}
+                    />
+                    </button> */}
+                    <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด</button>
+                    <input
+                        type="file"
+                        ref={hiddenFileInput}
+                        accept="image/png, image/jpeg"
+                        style={{ display: 'none' }}
+                        onChange={handleUpload}
+                    />
                 </div>
 
                 {/* image row */}              
                 <div className="edit-profile-profile-image-row">
                     {/* <img src={profileImg} className='edit-profile-profile-img' /> */}
-                    <img src={pic ? URL.createObjectURL(pic) : "/upload/"+currentUser.user_pic+""} alt='' 
+                    <img 
+                    src={pic ? URL.createObjectURL(pic) : require('../../assets/upload/'+currentUser.user_pic)}
+                    alt='' 
                         className='edit-profile-profile-img' />
                     {/* s<p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
+                    <p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p>
+
                 </div>
                 
                 {/* username label row */}
@@ -150,7 +213,8 @@ function EditProfileData() {
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รหัสผ่าน</p>
-                    <a href="/profile/me/changepassword" className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</a>
+                    <button type="button" onClick={changePassWord} className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</button>
+                    {showEditPasswordPopup && <EditPasswordPopup onClose={handleEditPasswordPopupClose} user_id = {currentUser.user_id}/>}
                 </div>
 
             </div>

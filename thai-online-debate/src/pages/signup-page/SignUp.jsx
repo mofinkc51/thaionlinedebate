@@ -3,10 +3,12 @@ import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
 import './SignUp.css'
 import signupImg from '../../assets/signup.png'
 import axios from 'axios';
-import { email_validation, user_validation, phone_validation } from '../../checked';
+import { email_validation, user_validation, phone_validation, password_validation } from '../../checked';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
+import { makeRequest } from '../../axios';
+import Footer from '../../components/footer/Footer';
 
 function SignUp() {
   const [inputs,setInputs] = useState({
@@ -40,7 +42,7 @@ function SignUp() {
       if (!phone_validation(inputs.user_phonenum)){
           return document.getElementsByName('user_phonenum')[0].focus();
       }
-      if (!user_validation(inputs.user_password,5,15)){
+      if (!password_validation(inputs.user_password,5,20)){
           return document.getElementsByName('user_password')[0].focus();
       }
 
@@ -54,7 +56,7 @@ function SignUp() {
       } else {
           e.preventDefault();
           try {
-              await axios.post("http://localhost:8800/api/auth/register", inputsDb)
+              await makeRequest.post('/auth/register', inputsDb);
               Swal.fire({
                   icon: 'success',
                   title: 'สมัครสมาชิกเรียบร้อย',
@@ -103,7 +105,7 @@ function SignUp() {
                     <div className='checkbox-signup-container'>
                         <input type="checkbox" value="accept" name="checkbox1" id="checkbox1" required/>
                         <label for="checkbox-singup">  ยอมรับข้อตกลงการใช้บริการ</label><br/>
-                        <a href="#">ข้อตกลงการใช้บริการ</a>
+                        <a href="https://pdpa.pro/policies/view/th/qaKroJW3nfKLKKQ9Bw2w2C5r" target="_blank">ข้อตกลงการใช้บริการ</a>
                     </div>
                     {/* buttone div */}
                     <div className='signup-button-container'>
@@ -117,6 +119,7 @@ function SignUp() {
         </div> 
         
     </div>
+    <Footer/>
     </>
   )
 }

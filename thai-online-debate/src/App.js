@@ -34,7 +34,8 @@ import AdminManageRequestRow from './components/admin-manage-request-row/AdminMa
 import AdminSidemenu from './components/admin-sidemenu/AdminSidemenu';
 import AdminMenu from './pages/admin-menu-page/AdminMenu';
 import AdminNavBar from './components/Navbar/AdminNavBar';
-
+import EditCommentPopup from './components/topic-popup/EditTopicPopup';
+import DownloadList from './pages/download-list-page/DownloadList';
 
 function App() {
 
@@ -75,7 +76,7 @@ function App() {
       ),
     },
     {
-      path: "/profile",
+      path: "/profile/:id",
       element: (
         <ProtectedRoute>
           <Profile/>
@@ -101,7 +102,43 @@ function App() {
     },
     {
       path: "profile/me/changepassword",
-      element: <EditPasswordPopup/>
+      element: (
+        <ProtectedRoute>
+          <EditPasswordPopup/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/topic/:id",
+      element: (
+        <ProtectedRoute>
+          <DebateTopic/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/fav",
+      element: (
+        <ProtectedRoute>
+          <FavDebateGallery/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/downloadrequest",
+      element: (
+        <ProtectedRoute>
+          <DownloadRequestList/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/historydownload",
+      element: (
+        <ProtectedRoute>
+          <DownloadList/>
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/signin",
@@ -110,18 +147,6 @@ function App() {
     {
       path: "/signup",
     element: <SignUp/>,
-    },
-    {
-      path : "/topic/:id",
-      element : <DebateTopic/>,
-    },
-    {
-      path : "/fav",
-      element : <FavDebateGallery/>,
-    },
-    {
-      path : "/downloadrequest",
-      element : <DownloadRequestList/>,
     },
     {
       path: "/manage/downloadrequest",
@@ -203,9 +228,6 @@ function App() {
         </AdminRoute>
       ),
     },
-    
-  
-    
   ]);
 
   

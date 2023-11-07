@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 860px;
     margin: 0 auto;
-    border: 1px solid salmon;
+    /* border: 1px solid salmon; */
     padding: 0 30px;
 }
 
@@ -68,14 +68,22 @@
 }
 .debate-topic-description-box{
     width: 100%;
-    height: 100px;
-    /* border: 1px solid red; */
+    overflow-y: auto;
+    max-height: 100px;
+
+    overflow-wrap: break-word;
+    overflow-y: auto;
+
+}
+
+.debate-topic-topic-description-title{
+    color: #2C343D;
+    font-size: 14px;      
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px; /* 141.667% */
+    margin-bottom: 5px;
     /* margin-top: 10px; */
-    /* overflow-y: scroll;   */
-    overflow: hidden;
-
-    
-
 }
 
 .debate-topic-topic-description{
@@ -86,6 +94,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: 17px; /* 141.667% */
+    /* margin-top: 5px; */
 }
 
 
@@ -98,6 +107,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: 17px; /* 141.667% */
+    margin-top: 10px;
 }
 .debate-topic-progress-bar-container{
     width: 100%;
@@ -115,7 +125,7 @@
 .debate-topic-legend-row{
     display: flex;
     /* justify-content: space-between; */
-    margin-top: 10px;
+    margin-top: 5px;
     
     width: 100%;
     max-width: 200px;
@@ -259,10 +269,13 @@ debate-topic-option-image{
     height: 320px;
     /* border: 1px solid red; */
     margin-top: 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
     /* padding-right: 10px; */
 
+
 }
+
+
 
 .debate-topic-agree-button{
     /* size */
@@ -281,12 +294,13 @@ debate-topic-option-image{
     /* position */
     margin-top: 10px;
     padding: 10px;
-    
+    transition: background 0.3s, transform 0.3s; /* For smooth transition */
+
 }
 
 .debate-topic-agree-button:hover{
-    background: #0DC7B1;
-    border: 1px solid #0C9177;
+    background: #0EBFA0; /* Slightly lighter shade for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
 
 .debate-topic-disagree-button{
@@ -306,12 +320,14 @@ debate-topic-option-image{
     /* position */
     margin-top: 10px;
     padding: 10px;
+    transition: background 0.3s, transform 0.3s; /* For smooth transition */
+
 }
 
-.debate-topic-disagree-button:hover {
-    background-color: #EB5757;
-    border: 1px solid #D13A3A;
-  }
+.debate-topic-disagree-button:hover{
+    background: #E04848; /* Slightly lighter shade for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
 
   /* responsive part */
   @media screen and (max-width: 800px) {

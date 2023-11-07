@@ -73,7 +73,6 @@
     width: 113px;
     height: 55px;
     color: #FFF;
-    font-family: Inter;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -82,6 +81,17 @@
     flex-shrink: 0;
     border-radius: 10px;
     background: #252958;
+    /* border: none; */
+    border: 2px solid #252958; /* Adding a border with the same color as the background */
+    transition: background 0.3s, border-color 0.3s, color 0.3s; /* For smooth transitions */
+}
+
+
+.signup-button:hover{
+    background: #3B3B7A; /* Slightly lighter shade for hover */
+    border-color: #FFF; /* Changing border color to white on hover */
+    color: #FFF;/* Changing text color to the original background color */
+    cursor: pointer; /* Change cursor to pointer on hover */
 }
 
 /* Reponsive Part */
@@ -105,5 +115,58 @@
 }
 
 @media screen and (max-width: 480px) {
+    .signup-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signup-flex{
+        padding-top: 70px;
+        display: flex;
+        align-items:baseline;
+        height: 80vh;
+        
     
+    }
+
+    .signup-left-container{
+        display: none;
+    }
+
+    .signup-right-container{
+        width: 100%;
+        
+        /* margin: 30px auto; */
+
+    }
+
+    .signup-title{
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .signup-textfield{
+        width: 240px;
+        height: 44px;
+    
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.50);
+        background: #FFF;
+        font-size: 14px;
+        padding-left: 20px;
+    
+        margin-bottom: 9px;
+    }
+
+    .signup-form-container{
+        /* max-width: 250px; */
+        /* border: 1px solid #a21111; */
+    }
+
+    .signup-button{
+        width: 90px;
+        height: 44px;
+        font-size: 14px;
+    }
 }

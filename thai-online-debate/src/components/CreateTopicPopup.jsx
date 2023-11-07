@@ -4,8 +4,41 @@ import closeButtonIcon from '../assets/icon/close.png'
 import UserNavbar, { createTopicForm } from '../components/Navbar/UserNavBar'
 import { makeRequest } from '../axios';
 import Swal from 'sweetalert2';
+import InputTag from './input-tag/InputTag';
+import { useNavigate } from 'react-router-dom';
+import { text_validation } from '../checked';
 
 function CreateTopicPopup() {
+    // search tag part
+
+    const items = [
+        'การเมือง',
+        'การเมืองไทย',
+        'เที่ยวไทย',
+        'เที่ยวต่างประเทศ',
+        'เศรษฐกิจ',
+        'เที่ยว JAPAN',
+        'เที่ยว KOREA',
+        'เที่ยว USA',
+        'เที่ยว EUROPE',
+        'เที่ยว CHINA'
+
+    ];
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredItems = searchTerm
+        ? items.filter((item) =>
+            item.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : [];
+
+    // Get a maximum of 5 items
+    const displayedItems = filteredItems.slice(0, 5);
+
+    // end search tag part
+
+
     const [err, SetErr] = useState(null);
     const [topic, setTopic] = useState({
         dbt_title: "",
@@ -18,25 +51,54 @@ function CreateTopicPopup() {
         setTopic((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
     
+    const navigate = useNavigate();
+
+    const navigateTopic = async () => {
+        try {
+            const res = await makeRequest.get('/posts/last')
+            navigate(`/topic/${res.data[0].dbt_id}`);
+        }catch(err) {
+            if (err.response.status === 401) {
+                navigate('/signin');
+            }
+            console.log(err);
+        }
+    };
     const createTopic = async (e) => {
         e.preventDefault()
-        console.log(topic);
-        try {
-
+        if (!text_validation(topic.dbt_title,3,50)){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: ("หัวข้อประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 3 + " ถึง " + 50)
+              }).then(() => {
+                  document.getElementsByName('dbt_title')[0].focus()
+              })
+        }
+        if (!text_validation(topic.dbt_description,10,500)){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: ("คำอธิบายประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 10 + " ถึง " + 500)
+              }).then(() => {
+                 document.getElementsByName('dbt_description')[0].focus();
+              })
+        } try {
             await makeRequest.post('/posts', topic)
             Swal.fire({
                 icon: 'success',
                 title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
-            })
-            
-        }   catch (err) {
+            }).then(() => {
+                navigateTopic();
+            });
+        } catch (err) {
             SetErr(err.response.data)
             Swal.fire({
                 icon: 'error',
                 title: err.response.data,
             })
         }
-    }
+    };
 
 
 
@@ -80,7 +142,7 @@ function CreateTopicPopup() {
                                 <p className='create-topic-popup-label'>ฝั่งที่ 1</p>
 
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_agree" required
+                                onChange={handleChange} name="dbt_agree" value={topic.dbt_agree} required
                                 />
                             
                             </div>
@@ -89,7 +151,7 @@ function CreateTopicPopup() {
                                 <p className='create-topic-popup-label'>ฝั่งที่ 2</p>
 
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_disagree" required
+                                onChange={handleChange} name="dbt_disagree" value={topic.dbt_disagree} required
                                 />
                             
                             </div>
@@ -98,9 +160,61 @@ function CreateTopicPopup() {
                         {/* tag row */}
                         <div className="create-topic-tag-row">
                             <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
-                            <div className="create-topic-tag-box">
-                                <button>+</button>
+                            <div className="input-tag-container">
+                                {/* display selected tag here */}
+                                <InputTag tagNames="hello world"/>
+                                <InputTag tagNames="tag test"/>
+                                <InputTag tagNames="tag"/>
+                                <InputTag tagNames="test test test"/>
+                                <InputTag tagNames="tag test"/>
+
                             </div>
+                        </div>
+
+                        {/* tag search row */}
+                        <div className="create-topic-search-tag-row">
+                            <p className='create-topic-popup-label'>ค้นหาแท็ก</p>
+                            {/* <input type="text" className='create-topic-popup-tagsearch-input' onChange={handleChange}
+                                /> */}
+                            {/* <input
+                                type="text"
+                                placeholder="Search"
+                                className='create-topic-popup-tagsearch-input'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <ul>
+                                {filteredItems.map((item, index) => (
+                                    <li key={index}>{item}</li>
+                                ))}
+                            </ul> */}
+                            <input
+                                type="text"
+                                placeholder=""
+                                className='create-topic-popup-tagsearch-input'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <div className='tag-choice-drop-down'>
+                                {displayedItems.length === 0 && searchTerm ? (
+                                    <div className="tag-choice-row">
+                                        <p>ไม่พบแท็กที่ค้นหา</p>
+                                    </div>
+                                ) : (
+                                    displayedItems.map((item, index) => 
+                                    <div className='tag-choice-row'>
+                                        <div className="tag-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                            <input type="checkbox" id="" name="" value=""/>
+                                            <label for="vehicle1" key={index}>{item}</label><br></br>
+                                        </div>
+
+                                        
+                                    </div>
+                                        
+                                    )
+                                )}
+                            </div>
+                                
                         </div>
 
                         {/* button row */}
