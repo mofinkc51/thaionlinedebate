@@ -62,3 +62,9 @@ table {
   tr:nth-child(even) {
     background: #F7F6FE;
   }
+
+  .search-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }

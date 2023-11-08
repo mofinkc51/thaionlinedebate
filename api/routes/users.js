@@ -1,7 +1,7 @@
 import express from "express";
 import { getUser , updateUser ,getUserCount,getUserHistory} from "../controllers/user.js";
 
-const router = express.Router()
+const router = express.Router();
 
 router.get("/find/:user_id",getUser)
 router.put("/edit/:user_id", updateUser)

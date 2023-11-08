@@ -21,7 +21,7 @@ function AddAgreeComment(props) {
 
   const addCommentDisAgree = async (e) => {
     e.preventDefault();    
-    if (!text_validation(dataComment.dbc_comment,3,150)){
+    if (!text_validation(dataComment.dbc_comment,3,600)){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

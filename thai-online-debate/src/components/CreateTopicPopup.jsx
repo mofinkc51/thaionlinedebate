@@ -66,6 +66,7 @@ function CreateTopicPopup() {
     };
     const createTopic = async (e) => {
         e.preventDefault()
+        
         if (!text_validation(topic.dbt_title,3,50)){
             return Swal.fire({
                 icon: 'error',
@@ -158,10 +159,9 @@ function CreateTopicPopup() {
 
                         </div>
                         {/* tag row */}
-                        <div className="create-topic-tag-row">
+                        {/* <div className="create-topic-tag-row">
                             <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
                             <div className="input-tag-container">
-                                {/* display selected tag here */}
                                 <InputTag tagNames="hello world"/>
                                 <InputTag tagNames="tag test"/>
                                 <InputTag tagNames="tag"/>
@@ -169,25 +169,11 @@ function CreateTopicPopup() {
                                 <InputTag tagNames="tag test"/>
 
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* tag search row */}
-                        <div className="create-topic-search-tag-row">
+                        {/* <div className="create-topic-search-tag-row">
                             <p className='create-topic-popup-label'>ค้นหาแท็ก</p>
-                            {/* <input type="text" className='create-topic-popup-tagsearch-input' onChange={handleChange}
-                                /> */}
-                            {/* <input
-                                type="text"
-                                placeholder="Search"
-                                className='create-topic-popup-tagsearch-input'
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            <ul>
-                                {filteredItems.map((item, index) => (
-                                    <li key={index}>{item}</li>
-                                ))}
-                            </ul> */}
                             <input
                                 type="text"
                                 placeholder=""
@@ -203,7 +189,7 @@ function CreateTopicPopup() {
                                 ) : (
                                     displayedItems.map((item, index) => 
                                     <div className='tag-choice-row'>
-                                        <div className="tag-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                        <div className="tag-choice-row-container">
                                             <input type="checkbox" id="" name="" value=""/>
                                             <label for="vehicle1" key={index}>{item}</label><br></br>
                                         </div>
@@ -215,7 +201,7 @@ function CreateTopicPopup() {
                                 )}
                             </div>
                                 
-                        </div>
+                        </div> */}
 
                         {/* button row */}
                         <div className="create-topic-button-row">

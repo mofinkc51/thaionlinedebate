@@ -6,6 +6,7 @@ import commentRoutes from "./routes/comments.js"
 import likeRoutes from "./routes/likes.js"
 import postRoutes from "./routes/posts.js"
 import userRoutes from "./routes/users.js"
+import adminRoutes from "./routes/admin.js"
 import downloadRoutes from "./routes/downloads.js"
 import reportRoutes from "./routes/reports.js"
 import cors from "cors"
@@ -46,6 +47,7 @@ app.use("/api/comments", commentRoutes)
 app.use("/api/likes", likeRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/admin", adminRoutes)
 app.use("/api/reports", reportRoutes)
 app.use("/api/downloads", downloadRoutes)
 
