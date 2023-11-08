@@ -6,8 +6,8 @@ import { getProblem } from "../controllers/get_problem.js";
 
 const router = express.Router();
 
-router.get("/findall", getAllUsers);
-router.get("/apvdownload", getApprove);
+router.get("/findall", getAllUsers)
+router.get("/apvdownload", getApprove)
 router.get("/activity", getActivity)
 router.get("/reportproblem" ,getProblem)
 
