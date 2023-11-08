@@ -71,9 +71,10 @@ function CommentComponent(props) {
             text: commentData.dbc_comment+" จะถูกลบอย่างถาวร !",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: 'grey',
             confirmButtonText: 'ใช่ ลบคอมเมนต์!',
+            cancelButtonText: 'ยกเลิก'
           }).then(async (result) => {
             if (result.isConfirmed) {
                 await makeRequest.delete(`/comments/${commentData.dbc_id}`)

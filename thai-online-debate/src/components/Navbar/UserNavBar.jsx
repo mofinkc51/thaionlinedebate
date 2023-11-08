@@ -27,9 +27,10 @@ function UserNavBar() {
             text: "คุณต้องการออกจากระบบหรือไม่?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: 'grey',
             confirmButtonText: 'ใช่ ออกจากระบบเลย!',
+            cancelButtonText: 'ยกเลิก'
           }).then((result) => {
             if (result.isConfirmed) {
                 logout_db()
