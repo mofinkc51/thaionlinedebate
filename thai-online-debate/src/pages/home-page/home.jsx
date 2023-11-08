@@ -10,6 +10,7 @@ import AdminNavBar from '../../components/Navbar/AdminNavBar'
 import { AuthContext } from '../../context/authContext'
 import searchButton from "../../assets/icon/search.png";
 import BannerSlider from "../../components/banner-silder/BannerSlider";
+import Swal from "sweetalert2";
 
 function Home() {
   const { currentUser } = useContext(AuthContext);
@@ -64,6 +65,13 @@ function Home() {
       console.log(items);
     }, []);
 
+    const handleTagClicked = () => {
+      Swal.fire({
+        icon: "error",
+        title: "ขออภัย",
+        text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
+      });
+    };
 
 
     return (
@@ -75,19 +83,19 @@ function Home() {
           <div className="tag-search-container">
             {/* tag container left side */}
             <div className="tag-bar-container">
-              <div className="tag-item">
+              <div className="tag-item" onClick={handleTagClicked}>
                 <p>เทคโนโลยี</p>
               </div>
-              <div className="tag-item">
+              <div className="tag-item" onClick={handleTagClicked}>
                 <p>สังคม</p>
               </div>
-              <div className="tag-item">
+              <div className="tag-item" onClick={handleTagClicked}>
                 <p>การศึกษา</p>
               </div>
-              <div className="tag-item">
+              <div className="tag-item" onClick={handleTagClicked}>
                 <p>การเมือง</p>
               </div>
-              <div className="tag-item">
+              <div className="tag-item" onClick={handleTagClicked}>
                 <p>การทหาร</p>
               </div>
             </div>

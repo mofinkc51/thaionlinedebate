@@ -36,6 +36,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.tag-item:hover{
+    background: #E8E8E8; /* Light grey background on hover */
+    border-color: #252958; /* Change border color on hover */
 }
 
 .search-bar-container{
