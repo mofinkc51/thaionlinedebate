@@ -70,11 +70,11 @@ function UserNavBar() {
                             <FaAngleDown/>
                             </a></li> 
                             <div class="nav-dropdown-content">
-                                <a href={`/profile/${currentUser.user_id}`}>โปรไฟล์</a>
-                                <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
-                                <a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
-                                <a href="#" onClick={handleTagClicked}>ประวัติคำร้องขอชุดข้อมูล</a>
-                                <a href="/" onClick={logout}>ออกจากระบบ</a>
+                                <a className="nav-dropdown-a" href={`/profile/${currentUser.user_id}`}>โปรไฟล์</a>
+                                <a className="nav-dropdown-a" href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
+                                <a className="nav-dropdown-a" href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
+                                <a className="nav-dropdown-a" href="#" onClick={handleTagClicked}>ประวัติคำร้องขอชุดข้อมูล</a>
+                                <a className="nav-dropdown-signout" href="/" onClick={logout}>ออกจากระบบ</a>
                             </div>
                         </div>
 
