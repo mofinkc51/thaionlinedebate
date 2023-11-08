@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
 import { useLocation, useNavigate } from 'react-router-dom'
-// import { FaAngleDown} from 'react-icons'
+import { FaAngleDown} from 'react-icons/fa6'
 
 export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
@@ -44,6 +44,14 @@ function UserNavBar() {
     }
     const location = useLocation();
 
+    const handleTagClicked = () => {
+        Swal.fire({
+          icon: "error",
+          title: "ขออภัย",
+          text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
+        });
+      };
+
   return (
     <>
        <nav>
@@ -59,13 +67,13 @@ function UserNavBar() {
                         )}
                         <div class="nav-dropdown">
                             <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} 
-                            {/* <FaAngleDown/> */}
+                            <FaAngleDown/>
                             </a></li> 
                             <div class="nav-dropdown-content">
                                 <a href={`/profile/${currentUser.user_id}`}>โปรไฟล์</a>
                                 <a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a>
                                 <a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a>
-                                <a href="/historydownload">ประวัติคำร้องขอชุดข้อมูล</a>
+                                <a href="#" onClick={handleTagClicked}>ประวัติคำร้องขอชุดข้อมูล</a>
                                 <a href="/" onClick={logout}>ออกจากระบบ</a>
                             </div>
                         </div>
