@@ -83,7 +83,7 @@
 
 .edit-topic-popup-topicdesc-input{
     width: 100% !important; 
-
+    padding: 5px 10px;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;
@@ -212,7 +212,7 @@
 
 /* button row */
 .edit-topic-button-row{
-    margin-top: 5px;
+    margin-top: 15px;
     display: flex;
     justify-content: center;
 
@@ -227,8 +227,15 @@
     background: #252958;
     border: none;
     margin-right: 4px;
+    transition: background-color 0.3s, color 0.3s;
 
 }
+
+.edit-topic-confirm-button:hover{
+    background: #3B3B7A; /* Lighter shade of the original background color */
+    color: #E0E0E0; /* A lighter shade for the text to ensure contrast */
+}
+
 .edit-topic-cancel-button{
     cursor: pointer;
 
@@ -239,5 +246,12 @@
     background: #FBE7E8;
     border: none;
     margin-left: 4px;
+    transition: background-color 0.3s, color 0.3s;
+
+}
+
+.edit-topic-cancel-button:hover{
+    background: #FACDCD; /* A lighter shade of the original background color */
+    color: #9D0F15; /* A darker shade of the original text color to maintain readability */
 }
 
