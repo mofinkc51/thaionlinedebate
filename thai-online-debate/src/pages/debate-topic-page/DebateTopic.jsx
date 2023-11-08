@@ -245,26 +245,28 @@ function DebateTopic(props) {
               {/* topic name */}
               <p className='debate-topic-topic-name'>{topicData.dbt_title}</p>
               {/* topic tag */}
-              <p className='debate-topic-label'>แท็กที่เกี่ยวข้อง:</p>
+              {/* <p className='debate-topic-label'>แท็กที่เกี่ยวข้อง:</p> */}
 
-              <div className='debate-topic-tag-container'>
+              {/* <div className='debate-topic-tag-container'>
                 <TopicTag tagName="เทคโนโลยี"/>
-                {/* <TopicTag tagName="เซมิคอนดัคเตอร์"/> */}
+                <TopicTag tagName="เซมิคอนดัคเตอร์"/>
                 
 
-              </div>
+              </div> */}
               {/* topic creator row */}
-              <label className='debate-topic-label'>สร้างโดย: </label>
-              <a className='debate-topic-topic-creator-link'>{topicData.user_name}</a>
+              <div className="debate-topic-creator-row">
+                <label className='debate-topic-label'>สร้างโดย: </label>
+                <a className='debate-topic-topic-creator-link'>{topicData.user_name}</a>
+              </div>
             </div>
             {/* right content */}
             <div className="debate-topic-meta-data-right-content">
-            <p className='debate-topic-topic-description-title'>รายละเอียดประเด็นโต้แย้ง</p>
+            <h3 className='debate-topic-topic-description-title'>รายละเอียดประเด็นโต้แย้ง</h3>
               
               <div className="debate-topic-description-box">
                 <p className='debate-topic-topic-description'>{topicData.dbt_description}</p>
               </div>
-              <p className='debate-topic-progress-bar-title'>อัตราส่วนการโต้แย้ง</p>
+              <h3 className='debate-topic-progress-bar-title'>อัตราส่วนการโต้แย้ง</h3>
               {/* <progress className='debate-topic-progress-bar' id="file" value="70" max="100"></progress>  */}
               
               <div className="debate-topic-legend-row">

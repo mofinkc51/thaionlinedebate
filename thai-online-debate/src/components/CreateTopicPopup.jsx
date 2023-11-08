@@ -66,6 +66,7 @@ function CreateTopicPopup() {
     };
     const createTopic = async (e) => {
         e.preventDefault()
+        
         if (!text_validation(topic.dbt_title,3,50)){
             return Swal.fire({
                 icon: 'error',
