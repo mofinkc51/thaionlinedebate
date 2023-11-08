@@ -20,12 +20,12 @@ function AddAgreeComment(props) {
   const {onCloseClick} = props;
 
   const addCommentDisAgree = async (e) => {
-    e.preventDefault();    
-    if (!text_validation(dataComment.dbc_comment,3,600)){
+    e.preventDefault();
+    if (!text_validation(dataComment.dbc_comment,3,300)){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+600+' ตัวอักษร'
+            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+300+' ตัวอักษร'
         });
         return document.getElementsByName('dbc_comment')[0].focus();
     }

@@ -93,6 +93,13 @@ function CommentComponent(props) {
         })
     }
 };
+const handleTagClicked = () => {
+  Swal.fire({
+    icon: "warning",
+    title: "ขออภัย",
+    text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
+  });
+};
   return (
     <>
       <div className="comment-component">
@@ -105,8 +112,8 @@ function CommentComponent(props) {
           <div className="debate-topic-comment-text">{commentData.dbc_comment}</div>
         </div>
         <div className="comment-action-row">
-          <button className="comment-like-button">ถูกใจ</button>
-          <button className="comment-reply-button">ตอบกลับ</button>
+          <button onClick={handleTagClicked} className="comment-like-button">ถูกใจ</button>
+          <button onClick={handleTagClicked} className="comment-reply-button">ตอบกลับ</button>
           {/* <p className='comment-timestamp'>{dateAndTime.date}</p> */}
           <p
             className="comment-timestamp"

@@ -21,16 +21,16 @@ function AddAgreeComment(props) {
 
   const addCommentAgree = async (e) => {
     e.preventDefault();
-    if (!text_validation(dataComment.dbc_comment,3,600)){
+    if (!text_validation(dataComment.dbc_comment,3,300)){
+        console.log("ไม่ผ่าน")
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+600+' ตัวอักษร'
+            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+300+' ตัวอักษร'
         });
         return document.getElementsByName('dbc_comment')[0].focus();
     }
     try {
-        
         await makeRequest.post('/comments/', dataComment)
         window.location.reload();
     } catch (err) {

@@ -71,7 +71,7 @@ function CreateTopicPopup() {
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: ("หัวข้อประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 3 + " ถึง " + 50)
+                text: ("หัวข้อประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 8 + " ถึง " + 50)
               }).then(() => {
                   document.getElementsByName('dbt_title')[0].focus()
               })
