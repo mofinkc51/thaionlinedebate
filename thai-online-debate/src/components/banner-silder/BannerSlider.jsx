@@ -2,21 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './BannerSlider.css';
 import banner_one from '../../assets/billboard-1.png';
 import banner_two from '../../assets/billboard-2.png';
-import banner_three from '../../assets/billboard-3.png';
+import banner_open_house from '../../assets/billboard-3.png';
+import banner_evaluation from '../../assets/billboard-4.png';
 
 const BannerSlider = () => {
   const [selected, setSelected] = useState(1);
   
   const images = [
-    banner_one,
-    banner_two,
-    banner_three
+    banner_open_house,
+    banner_evaluation,
+    banner_one
   ]
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSelected((prevSelected) => (prevSelected % images.length) + 1);
-    }, 5000);
+    }, 7000);
     return () => clearInterval(interval);
   }, [images.length]);
 
