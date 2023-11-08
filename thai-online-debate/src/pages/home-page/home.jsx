@@ -69,7 +69,6 @@ function Home() {
     return (
       <>
         {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavbar />}
-        <UserNavbar />
         {/* page-container */}
         <div className="homepage-container">
           {/* Tag bar and search box container is here */}
