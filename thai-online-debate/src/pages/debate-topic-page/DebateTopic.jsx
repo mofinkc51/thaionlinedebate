@@ -143,12 +143,13 @@ function DebateTopic(props) {
     try {
         Swal.fire({
             title: 'คุณต้องการลบประเด็นโต้แย้ง ?',
-            text: "หากคุณตกลกจะเป็นการลบประเด็นโต้แย้งอย่างถาวร !",
+            text: "หากคุณตกลงจะเป็นการลบประเด็นโต้แย้งอย่างถาวร !",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: 'grey',
             confirmButtonText: 'ใช่ ลบประเด็นโต้แย้ง!',
+            cancelButtonText: 'ยกเลิก'
           }).then(async (result) => {
             if (result.isConfirmed) {
                 await makeRequest.delete(`/posts/${topicId}`)

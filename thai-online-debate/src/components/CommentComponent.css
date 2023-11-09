@@ -32,15 +32,17 @@
 }
 
 .debate-topic-comment-text{
-    margin: 0 10px 0 10px;
-    padding: 5px 10px 0 0;
+    margin: 5px 5px 0 10px;
+    padding: 0px 10px 0 0;
     color: #2C343D;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
     line-height: 17px; /* 141.667% */
     overflow-wrap: break-word;
-    overflow-y: auto;
+    /* overflow-y: auto; */
+    min-height: 30px;
+    max-width: 300px;
 }
 /* option button */
 .comment-option-button{
@@ -57,7 +59,7 @@
     /* border: 1px solid #808080; */
 
     top: 12px;
-    right: 0;
+    right: 5px;
     position: absolute
     /* line-height: 17px; */
 }

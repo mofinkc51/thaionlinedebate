@@ -21,7 +21,7 @@ export const addFavorite = (req, res) => {
                 const deleteFavSql = "DELETE FROM favoritetopic WHERE user_id = ? AND dbt_id=?";
                 db.query(deleteFavSql, [userInfo.id, dbt_id], (err, data) => {
                     if (err) return res.status(500).json(err);
-                    return res.status(200).json("Favorite has been removed");
+                    return res.status(200).json("ลบออกจากรายการประเด็นโต้แย้งที่ชื่นชอบแล้ว");
                 });
             } else {
                 // If the topic is not favorited, add it to favorites
@@ -35,7 +35,7 @@ export const addFavorite = (req, res) => {
                 ];
                 db.query(addFavSql, [newFavValues], (err, data) => {
                     if (err) return res.status(500).json(err);
-                    return res.status(200).json("Favorite has been added");
+                    return res.status(200).json("เพิ่มเข้ารายการประเด็นโต้แย้งที่ชื่นชอบแล้ว");
                 });
             }
         });

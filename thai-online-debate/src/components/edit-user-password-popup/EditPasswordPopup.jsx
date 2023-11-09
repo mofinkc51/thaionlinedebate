@@ -20,7 +20,7 @@ function EditPasswordPopup(props) {
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'password not match'
+                text: 'รหัสผ่านไม่ตรงกัน'
             }).then(() => {
                 document.getElementsByName('confirm_password')[0].focus();
             });
@@ -32,7 +32,7 @@ function EditPasswordPopup(props) {
                 await makeRequest.put("/auth/changepassword", input)
                 Swal.fire({
                     icon: 'success',
-                    title: 'แก้ไขข้อมูลสําเร็จ',
+                    title: 'เปลี่ยนรหัสผ่านสำเร็จ',
                 }).then(() => {
                     window.location.reload();
                 })

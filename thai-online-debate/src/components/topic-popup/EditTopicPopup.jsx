@@ -130,10 +130,9 @@ function EditTopicPopup(props) {
 
                     </div>
                     {/* tag row */}
-                    <div className="create-topic-tag-row">
+                    {/* <div className="create-topic-tag-row">
                             <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
                             <div className="input-tag-container">
-                                {/* display selected tag here */}
                                 <InputTag tagNames="hello world"/>
                                 <InputTag tagNames="tag test"/>
                                 <InputTag tagNames="tag"/>
@@ -141,10 +140,10 @@ function EditTopicPopup(props) {
                                 <InputTag tagNames="tag test"/>
 
                             </div>
-                    </div>
+                    </div> */}
 
                     {/* tag search row */}
-                    <div className="edit-topic-search-tag-row">
+                    {/* <div className="edit-topic-search-tag-row">
                             <p className='edit-topic-popup-label'>ค้นหาแท็ก</p>
                             
                             <input
@@ -162,7 +161,7 @@ function EditTopicPopup(props) {
                                 ) : (
                                     displayedItems.map((item, index) => 
                                     <div className='tag-choice-row'>
-                                        <div className="tag-choice-row-container">{/* <p key={index}>{item}</p> */}
+                                        <div className="tag-choice-row-container">
                                             <input type="checkbox" id="" name="" value=""/>
                                             <label for="vehicle1" key={index}>{item}</label><br></br>
                                         </div>
@@ -174,7 +173,7 @@ function EditTopicPopup(props) {
                                 )}
                             </div>
                                 
-                        </div>
+                        </div> */}
 
                     {/* button row */}
                     <div className="edit-topic-button-row">

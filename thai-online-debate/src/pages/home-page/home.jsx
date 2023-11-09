@@ -67,7 +67,7 @@ function Home() {
 
     const handleTagClicked = () => {
       Swal.fire({
-        icon: "error",
+        icon: "warning",
         title: "ขออภัย",
         text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
       });
