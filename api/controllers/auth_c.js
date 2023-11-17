@@ -48,9 +48,8 @@ export const login = (req,res)=>{
         console.log(checkPass)
         if(!checkPass) 
             return res.status(400).json("Wrong password or email");
-        const token = Jwt.sign({id:data[0].user_id},"secretkey");
+        const token = Jwt.sign({id:data[0].user_id,role:data[0].role_id},"secretkey");
         const {user_password, ...ot} = data[0];
-        
         res.cookie("accessToken", token, {httpOnly:true,})
         .status(200)
         .json(ot);

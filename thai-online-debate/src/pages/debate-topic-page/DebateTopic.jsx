@@ -118,17 +118,17 @@ function DebateTopic(props) {
   
   
   const handleAgreeComment = () => {
-    setSelectedAgreePopup(<AddAgreeComment onCloseClick={onCommentCloseClick}/>)
+    setSelectedAgreePopup(<AddAgreeComment onCloseClick={onCommentCloseClick} stance={topicData.dbt_agree}/>)
   }
   if(!!selectedAgreePopup){
-    popup = <AddAgreeComment onCloseClick={onCommentCloseClick}/>
+    popup = <AddAgreeComment onCloseClick={onCommentCloseClick} stance={topicData.dbt_agree}/>
   }
 
   const handleDisagreeComment = () => {
-    setSelectedDisagreePopup(<AddDisagreeComment onCloseClick={onCommentCloseClick}/>)
+    setSelectedDisagreePopup(<AddDisagreeComment onCloseClick={onCommentCloseClick} stance={topicData.dbt_disagree}/>)
   }
   if(!!selectedDisagreePopup){
-    popup = <AddDisagreeComment onCloseClick={onCommentCloseClick}/>
+    popup = <AddDisagreeComment onCloseClick={onCommentCloseClick} stance={topicData.dbt_disagree}/>
   }
   const handleEditTopic = () => {
     setOpen(false)
@@ -276,7 +276,7 @@ function DebateTopic(props) {
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                     <circle cx="6.5" cy="6.5" r="6.5" fill="#0DC7B1"/>
                   </svg>
-                  <p className='debate-topic-legend-text'>เห็นด้วย {Math.round(percentageAgree)}%</p>
+                  <p className='debate-topic-legend-text'>{topicData.dbt_agree} {Math.round(percentageAgree)}%</p>
                 </div>
 
                 {/* disagree legend */}
@@ -284,7 +284,7 @@ function DebateTopic(props) {
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                     <circle cx="6.5" cy="6.5" r="6.5" fill="#EB5757"/>
                   </svg>
-                  <p className='debate-topic-legend-text'>ไม่เห็นด้วย {Math.round(percentageDisAgree)}%</p>
+                  <p className='debate-topic-legend-text'>{topicData.dbt_disagree} {Math.round(percentageDisAgree)}%</p>
                 </div>
 
               </div>
@@ -318,7 +318,7 @@ function DebateTopic(props) {
             <div className="debate-topic-side-box">
               <div className="debate-topic-side-content-container">
                 <p className='debate-topic-side-stance-title'>
-                  ฝั่งที่เห็นด้วย
+                  ฝั่ง{topicData.dbt_agree}
                 </p>
                 <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
@@ -331,7 +331,7 @@ function DebateTopic(props) {
                 ))}
 
                 </div>
-                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นเพื่อเห็นด้วย</button>
+                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นเพื่อฝั่ง{topicData.dbt_agree}</button>
                 
               </div>
             </div>
@@ -340,7 +340,7 @@ function DebateTopic(props) {
             <div className="debate-topic-side-box">
               <div className="debate-topic-side-content-container">
                 <p className='debate-topic-side-stance-title'>
-                  ฝั่งที่ไม่เห็นด้วย
+                  ฝั่ง{topicData.dbt_disagree}
                 </p>
                 <div className="debate-topic-comment-scroll-box">
                 {commentDataDisagree.map((commentDataDisAgree) => (
@@ -353,7 +353,7 @@ function DebateTopic(props) {
                   ))}
 
                 </div>
-                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นเพื่อไม่เห็นด้วย</button>
+                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นเพื่อฝั่ง{topicData.dbt_disagree}</button>
                 
               </div>
             </div>

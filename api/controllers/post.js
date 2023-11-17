@@ -7,8 +7,9 @@ export const getTops = (req,res)=>{
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Token is expired Please logged Out!");
 
-  jwt.verify(token, "secretkey", (err) => {
+  jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
+    console.log(userInfo)
     const sql = 
     "SELECT debatetopic.dbt_id, debatetopic.dbt_title, COUNT(debatecomment.dbt_id) AS num_comments FROM debatetopic LEFT JOIN debatecomment ON debatetopic.dbt_id = debatecomment.dbt_id GROUP BY debatetopic.dbt_id, debatetopic.dbt_title, debatetopic.dbt_timestamp ORDER BY num_comments DESC, debatetopic.dbt_timestamp DESC LIMIT 12;"
   

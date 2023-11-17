@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './CreateTopicPopup.css'
 import closeButtonIcon from '../assets/icon/close.png'
 import UserNavbar, { createTopicForm } from '../components/Navbar/UserNavBar'
@@ -67,7 +67,7 @@ function CreateTopicPopup() {
     const createTopic = async (e) => {
         e.preventDefault()
         
-        if (!text_validation(topic.dbt_title,3,50)){
+        if (!text_validation(topic.dbt_title,8,50)){
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -100,8 +100,11 @@ function CreateTopicPopup() {
             })
         }
     };
-
-
+    const title = useRef(null);
+    const description = useRef(null);
+    useEffect(() => {
+        title.current.focus()
+    },[])
 
   return (
     <>
@@ -122,7 +125,7 @@ function CreateTopicPopup() {
                             <p className='create-topic-popup-label'>หัวข้อประเด็นโต้แย้ง</p>
 
                             <input type="text" className='create-topic-popup-topicname-input'
-                            onChange={handleChange} name="dbt_title" required
+                            onChange={handleChange} name="dbt_title" ref={title} required
                             />
                         
                         </div>
@@ -130,7 +133,7 @@ function CreateTopicPopup() {
                         <div className="create-topic-popup-topicdesc-row">
                             <p className='create-topic-popup-label'>คำอธิบายประเด็นโต้แย้ง</p>
                             <textarea className="create-topic-popup-topicdesc-input" 
-                            onChange={handleChange} required 
+                            onChange={handleChange} ref={description} required 
                             name="dbt_description" id="" cols="30" rows="5">
                                 
                                 
@@ -159,7 +162,7 @@ function CreateTopicPopup() {
 
                         </div>
                         {/* tag row */}
-                        {/* <div className="create-topic-tag-row">
+                        <div className="create-topic-tag-row">
                             <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
                             <div className="input-tag-container">
                                 <InputTag tagNames="hello world"/>
@@ -169,10 +172,10 @@ function CreateTopicPopup() {
                                 <InputTag tagNames="tag test"/>
 
                             </div>
-                        </div> */}
+                        </div>
 
                         {/* tag search row */}
-                        {/* <div className="create-topic-search-tag-row">
+                        <div className="create-topic-search-tag-row">
                             <p className='create-topic-popup-label'>ค้นหาแท็ก</p>
                             <input
                                 type="text"
@@ -201,7 +204,7 @@ function CreateTopicPopup() {
                                 )}
                             </div>
                                 
-                        </div> */}
+                        </div>
 
                         {/* button row */}
                         <div className="create-topic-button-row">

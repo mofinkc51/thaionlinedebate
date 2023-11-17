@@ -113,7 +113,7 @@ const handleTagClicked = () => {
         </div>
         <div className="comment-action-row">
           <button onClick={handleTagClicked} className="comment-like-button">ถูกใจ</button>
-          <button onClick={handleTagClicked} className="comment-reply-button">ตอบกลับ</button>
+          {/* <button onClick={handleTagClicked} className="comment-reply-button">ตอบกลับ</button> */}
           {/* <p className='comment-timestamp'>{dateAndTime.date}</p> */}
           <p
             className="comment-timestamp"

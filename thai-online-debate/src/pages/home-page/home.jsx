@@ -62,7 +62,6 @@ function Home() {
     useEffect(() => {
       getTopTopics();
       getTopicSearch();
-      console.log(items);
     }, []);
 
     const handleTagClicked = () => {
@@ -72,7 +71,6 @@ function Home() {
         text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
       });
     };
-
 
     return (
       <>
@@ -122,7 +120,7 @@ function Home() {
                       displayedItems.map((item, index) => 
                         <div className='debate-choice-row' key={index}>
                             <div className="debate-choice-row-container">
-                                <a href={`/topic/${item.dbt_id}`}>{item.dbt_title}</a>
+                                <a href={`/topic/${item.dbt_id}`} target="_blank" rel="noreferrer">{item.dbt_title}</a>
                             </div>           
                         </div>
                       )
