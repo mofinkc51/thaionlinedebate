@@ -113,13 +113,13 @@ const handleTagClicked = () => {
         </div>
         <div className="comment-action-row">
           <button onClick={handleTagClicked} className="comment-like-button">ถูกใจ</button>
-          <button onClick={handleTagClicked} className="comment-reply-button">ตอบกลับ</button>
-          {/* <p className='comment-timestamp'>{dateAndTime.date}</p> */}
+ 
           <p
             className="comment-timestamp"
             onMouseOver={() => setIsHovered(true)}
             onMouseOut={() => setIsHovered(false)}
           >
+            
             {isHovered ? dateAndTime.time : dateAndTime.date}
           </p>
         </div>
