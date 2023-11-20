@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import InputTag from './input-tag/InputTag';
 import { useNavigate } from 'react-router-dom';
 import { text_validation } from '../checked';
+import axios from 'axios';
 
 function CreateTopicPopup() {
     // search tag part
@@ -24,6 +25,7 @@ function CreateTopicPopup() {
         'เที่ยว CHINA'
 
     ];
+    
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -40,17 +42,18 @@ function CreateTopicPopup() {
 
 
     const [err, SetErr] = useState(null);
-    const [topic, setTopic] = useState({
-        dbt_title: "",
-        dbt_description: "",
-        dbt_agree: "เห็นด้วย",
-        dbt_disagree: "ไม่เห็นด้วย",
-    });
-
+    const [topic, setTopic] = useState(
+        JSON.parse(localStorage.getItem("topic")) ||
+        {
+            dbt_title: "",
+            dbt_description: "",
+            dbt_agree: "เห็นด้วย",
+            dbt_disagree: "ไม่เห็นด้วย",
+        }
+    );
     const handleChange = (e) => {
         setTopic((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-    
     const navigate = useNavigate();
 
     const navigateTopic = async () => {
@@ -84,7 +87,33 @@ function CreateTopicPopup() {
               }).then(() => {
                  document.getElementsByName('dbt_description')[0].focus();
               })
-        } try {
+        } 
+        if (!text_validation(topic.dbt_agree,3,40)){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: ("ฝั่งที่ 1 ควรมีความยาวระหว่าง " + 3 + " ถึง " + 40 + " เช่น เห็นด้วย")
+              }).then(() => {
+                 document.getElementsByName('dbt_agree')[0].focus();
+              })
+        } 
+        if (!text_validation(topic.dbt_disagree,3,40)){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: ("ฝั่งที่ 2 ควรมีความยาวระหว่าง " + 3 + " ถึง " + 40 + " เช่น ไม่เห็นด้วย")
+              }).then(() => {
+                 document.getElementsByName('dbt_disagree')[0].focus();
+              })
+        }
+        if (tags.length === 0 || tags.length > 5) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "กรุณาเลือกแท็ก 1 - 5 แท็ก"
+              })
+        }
+        try {
             await makeRequest.post('/posts', topic)
             Swal.fire({
                 icon: 'success',
@@ -102,9 +131,58 @@ function CreateTopicPopup() {
     };
     const title = useRef(null);
     const description = useRef(null);
+
+    const [tagsuggest, setTagseggest] = useState(
+        JSON.parse(localStorage.getItem("tagsuggest")) ||
+        []);
+
     useEffect(() => {
-        title.current.focus()
-    },[])
+        const fetchData = async () => {
+            try {
+                const response = await axios.post('https://api.aiforthai.in.th/tagsuggestion',
+                    `text=${topic.dbt_title}&numtag=10`,
+                    {
+                        headers: {
+                            'Apikey': 'OKXVty86JM5w4g7ve9EyJfEfEXVArVHE',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        }
+                    }
+                );
+
+                const responseData = response.data;
+                if (responseData && responseData.tags) {
+                    const tagArray = responseData.tags.map(tag => tag.tag);
+                    setTagseggest(tagArray);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const delay = setTimeout(() => {
+            fetchData();
+        }, 2000); // การเรียก fetchData 2 วินาที
+
+        return () => clearTimeout(delay); // เมื่อ component unmount ให้ล้าง timeout
+    }, [topic.dbt_title]);
+
+    const [tags, setTags] = useState(
+        JSON.parse(localStorage.getItem("tags")) ||
+        []);
+    const handleTagClick = (tag) => {
+        if (tags.includes(tag)) {
+            // ลบ tag when includes
+            setTags(tags.filter(t => t !== tag));
+          } else {
+            setTags([...tags, tag]);
+          }
+      };
+    
+    useEffect(() => {
+        localStorage.setItem('topic', JSON.stringify(topic));
+        localStorage.setItem('tags', JSON.stringify(tags));
+        localStorage.setItem('tagsuggest', JSON.stringify(tagsuggest));
+    },[topic,tags,tagsuggest]);
 
   return (
     <>
@@ -116,16 +194,17 @@ function CreateTopicPopup() {
                     <div className="create-topic-title-row">
                         <h2>ข้อมูลประเด็นโต้แย้ง</h2>
                         <button className='create-topic-close-button'><img 
-                        src={closeButtonIcon} alt="" onClick={createTopicForm} 
+                        src={closeButtonIcon} alt="กากบาท" onClick={createTopicForm} 
                         /></button>
                     </div>
                     {/* Topic name row */}
                     <form onSubmit={createTopic}>
                         <div className="create-topic-popup-topicname-row">
                             <p className='create-topic-popup-label'>หัวข้อประเด็นโต้แย้ง</p>
-
                             <input type="text" className='create-topic-popup-topicname-input'
-                            onChange={handleChange} name="dbt_title" ref={title} required
+                            onChange={handleChange} name="dbt_title" ref={title} 
+                            value={topic.dbt_title}
+                            required
                             />
                         
                         </div>
@@ -133,10 +212,11 @@ function CreateTopicPopup() {
                         <div className="create-topic-popup-topicdesc-row">
                             <p className='create-topic-popup-label'>คำอธิบายประเด็นโต้แย้ง</p>
                             <textarea className="create-topic-popup-topicdesc-input" 
-                            onChange={handleChange} ref={description} required 
-                            name="dbt_description" id="" cols="30" rows="5">
-                                
-                                
+                            onChange={handleChange} ref={description} 
+                            name="dbt_description" id="" cols="30" rows="5"
+                            value={topic.dbt_description}
+                            required 
+                            >
                             </textarea> 
                         </div>
                         {/* Stance row */}
@@ -144,33 +224,49 @@ function CreateTopicPopup() {
                             {/* Stance one */}
                             <div className="create-topic-stance">
                                 <p className='create-topic-popup-label'>ฝั่งที่ 1</p>
-
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_agree" value={topic.dbt_agree} required
+                                onChange={handleChange} name="dbt_agree" value={topic.dbt_agree}
+                                required
                                 />
-                            
                             </div>
                             {/* Stance two */}
                             <div className="create-topic-stance">
                                 <p className='create-topic-popup-label'>ฝั่งที่ 2</p>
-
                                 <input type="text" className='create-topic-popup-stance-input'
-                                onChange={handleChange} name="dbt_disagree" value={topic.dbt_disagree} required
+                                onChange={handleChange} name="dbt_disagree" value={topic.dbt_disagree} 
+                                required
                                 />
-                            
                             </div>
 
+                        </div>
+                        {/* แท็กที่เลือก */}
+                        <div className="create-topic-tag-row">
+                            <p className='create-topic-popup-label'>แท็กที่เลือก</p>
+                            <div className="input-tag-container">
+                            {tags.length === 0  ? (
+                                        <p style={{color: 'red'}}>กรุณาเลือกแท็ก 1 - 5 แท็ก</p>
+                                ) : (
+                                tags.map((tag) => (
+                                    <InputTag tagNames={tag} onClick={() => handleTagClick(tag)}/>
+                                ))
+                            )}
+
+                            </div>
                         </div>
                         {/* tag row */}
                         <div className="create-topic-tag-row">
                             <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
                             <div className="input-tag-container">
-                                <InputTag tagNames="hello world"/>
-                                <InputTag tagNames="tag test"/>
-                                <InputTag tagNames="tag"/>
-                                <InputTag tagNames="test test test"/>
-                                <InputTag tagNames="tag test"/>
-
+                                {tagsuggest.map((tag) => (
+                                    <button 
+                                    type="button"
+                                    className={`tag-button ${tags.includes(tag) ? 'active' : ''}`} 
+                                    onClick={() => handleTagClick(tag)}
+                                    >
+                                    {tag}
+                                    </button>
+                                ))
+                            }
                             </div>
                         </div>
 
@@ -190,17 +286,21 @@ function CreateTopicPopup() {
                                         <p>ไม่พบแท็กที่ค้นหา</p>
                                     </div>
                                 ) : (
-                                    displayedItems.map((item, index) => 
-                                    <div className='tag-choice-row'>
-                                        <div className="tag-choice-row-container">
-                                            <input type="checkbox" id="" name="" value=""/>
-                                            <label for="vehicle1" key={index}>{item}</label><br></br>
-                                        </div>
-
-                                        
+                                    displayedItems.map((tag, index) => 
+                                    <div className='tag-choice-row' key={index}>
+                                      <div className="tag-choice-row-container">
+                                        <input 
+                                          type="checkbox" 
+                                          id={`checkbox-${index}`} 
+                                          name={tag} 
+                                          value={tag}
+                                          checked={tags.includes(tag)}
+                                          onChange={() => handleTagClick(tag)}
+                                        />
+                                        <label htmlFor={`checkbox-${index}`}>{tag}</label><br/>
+                                      </div>
                                     </div>
-                                        
-                                    )
+                                  )
                                 )}
                             </div>
                                 
