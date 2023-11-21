@@ -9,12 +9,14 @@ import AdminManageAcitivity from './AdminManageActivity'
 import AdminManageProblem from './AdminManageProblem'
 
 
-function AdminMenu() {
+const AdminMenu = () => {
   const [activeMenu, setActiveMenu] = useState('manageUser'); 
 
   const handleMenuClick = (menu) => { 
     setActiveMenu(menu);
   };
+
+  
   
 
 
