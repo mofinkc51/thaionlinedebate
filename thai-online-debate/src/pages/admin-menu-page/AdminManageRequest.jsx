@@ -1,13 +1,42 @@
-import React from 'react'
-import './AdminManageRequest.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './AdminManageRequest.css';
 
-function AdminManageRequest() {
-    const requestData = {
-        requester: 'Nathat Kuanthanom',
-        dateTime: '13/05/2022 16.30 น',
-        topicRequested: '1. รัสเซียมีสิทธิรุกรานยูเครน',
-        reason: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad inventore harum quos iure ratione facilis optio provident quo alias distinctio!',
-    }
+function AdminManageRequest(props) {
+    const [requestData, setRequestData] = useState({
+        requester: '',
+        dateTime: '',
+        topicRequested: '',
+        reason: '',
+      });
+
+      const { drId } = props;
+
+      
+
+      useEffect(() => {
+        axios.get(`http://localhost:8800/api/admin/apvdownload/${drId}`)
+          .then((response) => {
+            const data = response.data;
+            if (data.length > 0) {
+              const requestData = data[0];
+              const utcDate = new Date(requestData.dr_timestamp);
+              const localDate = utcDate.toLocaleString(); // แปลงเป็นเวลาท้องถิ่น
+    
+              setRequestData({
+                requester: requestData.dr_requester,
+                dateTime: localDate, // ใช้เวลาที่แปลงแล้ว
+                topicRequested: requestData.dr_total_topic,
+                reason: requestData.dr_requisitioner,
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }, [drId]);
+
+    
   return (
     <>
         <div className="admin-manage-request-page-container">
@@ -28,7 +57,7 @@ function AdminManageRequest() {
             {/* topic requested row */}
             <div className="admin-manage-request-topic-requested-row">
                 <h4>ชุดข้อมูลที่ต้องการดาวน์โหลด</h4>
-                <p className='manage-request-text'>รัสเซียมีสิทธิรุกรานยูเครน</p>
+                <p className='manage-request-text'>{requestData.topicRequested}</p>
                 
             </div>
             {/* reason row */}
@@ -62,4 +91,4 @@ function AdminManageRequest() {
   )
 }
 
-export default AdminManageRequest
+export default AdminManageRequest;
