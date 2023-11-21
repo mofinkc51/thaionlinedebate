@@ -6,12 +6,14 @@ import deleteButtonIcon from '../../assets/icon/trash.png';
 
 
 function AdminManageRequestRow({ data, onEdit}) {
+    console.log('Data received in AdminManageRequestRow:', data);
     // Helper function to get the countdown from now until 7 days after the timestamp
     const navigate = useNavigate();
 
     const handleNavigateEdit = () => {
         console.log("edit button clicked", data);
         navigate(`/manage/main/request/${data.dr_id}`);
+        console.log('dr_id:', data.dr_id);
     };
 
     const getCountdownTime = (timestamp) => {
@@ -50,7 +52,7 @@ function AdminManageRequestRow({ data, onEdit}) {
 
     const handleEdit = () => {
         console.log("edit button clicked", data);
-        navigate(`/manage/main/request/${data.dr_id}`);  // <-- ใช้ navigate ที่นี่
+        navigate(`/manage/main/request/${data.dr_id}`);
     };
 
     const handleDelete = () => {
@@ -72,19 +74,19 @@ function AdminManageRequestRow({ data, onEdit}) {
 
     
 
-return (
+    return (
         <tr className='admin-manage-request-row'>
-            <td>{data.user_id}</td>
-            <td>{formatDate(data.dr_timestamp)}</td>
-            <td>{countdown}</td>
-            <td>{data.dr_total_topic}</td>
-            <td>{/* ที่นี่คุณต้องใส่โลจิกสำหรับสถานะ proof one */}</td>
-            <td className='request-header-manage'>
-                <button onClick={() => onEdit(data)}><img src={editButtonIcon} alt="Edit" /></button> {/* แก้ไขส่วนนี้ */}
-                <button onClick={handleDelete}><img src={deleteButtonIcon} alt="Delete" /></button>
-            </td>
+          <td>{data.user_name}</td>
+          <td>{formatDate(data.dr_timestamp)}</td>
+          <td>{countdown}</td>
+          <td>{data.dr_total_topic}</td>
+          <td>{/* proof one */}</td>
+          <td className='request-header-manage'>
+            <button onClick={() => onEdit(data)}><img src={editButtonIcon} alt="Edit" /></button>
+            <button onClick={handleDelete}><img src={deleteButtonIcon} alt="Delete" /></button>
+          </td>
         </tr>
-    );
-}
+      );
+    }
 
 export default AdminManageRequestRow;
