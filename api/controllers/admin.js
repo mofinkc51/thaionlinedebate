@@ -28,20 +28,21 @@ export const getAllUsers = (req, res) => {
 };
 
 export const getProblem = (req, res) => {
-    // Here we assume 'dbt_id' in the 'activity' table is the foreign key to the 'debatetopic' table.
-    const sql = "SELECT u.user_name ,rp.* FROM reportedproblem AS rp LEFT JOIN user AS u ON rp.user_id = u.user_id";
-  
-    db.query(sql, (err, data) => {
-      if (err) {
-        console.error("Error:", err);
-        return res.status(500).json(err);
-      }
-      if (data.length === 0) return res.status(404).json("Report not found");
-  
-      console.log("Data:", data);
-      return res.status(200).json(data);
-    });
-  };
+  // Here we assume 'dbt_id' in the 'activity' table is the foreign key to the 'debatetopic' table.
+  const sql = "SELECT u.user_name ,rp.* FROM reportedproblem AS rp LEFT JOIN user AS u ON rp.user_id = u.user_id WHERE rp.rp_check IS NULL OR rp.rp_check = false";
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json(err);
+    }
+    if (data.length === 0) return res.status(404).json("Report not found");
+
+    console.log("Data:", data);
+    return res.status(200).json(data);
+  });
+};
+
 
 
   
@@ -171,11 +172,9 @@ export const getApprovefromdr_id = (req, res) => {
 
 
 export const postActivity = async (req, res) => {
-  // รับข้อมูลจากตัวแปร req.body
   const { act_start_date, act_end_date, admin_email, dbt_title } = req.body;
 
   try {
-    // 1. ดึง admin_id โดยใช้ admin_email
     const adminIdResult = await new Promise((resolve, reject) => {
       const query = "SELECT admin_id FROM admin WHERE admin_email = ?";
       db.query(query, [admin_email], (err, results) => {
@@ -186,19 +185,17 @@ export const postActivity = async (req, res) => {
     });
 
     let dbtId;
-    // 2. สร้าง dbt_id ใหม่หรือดึงจากฐานข้อมูลถ้า dbt_title ถูกส่งมา
     if (dbt_title) {
       const dbtIdResult = await new Promise((resolve, reject) => {
         const query = "SELECT dbt_id FROM debatetopic WHERE dbt_title = ?";
         db.query(query, [dbt_title], (err, results) => {
           if (err) return reject(err);
-          if (results.length > 0) return resolve(results[0].dbt_id); // ใช้ dbt_id ที่มีอยู่
-          return resolve(null); // ถ้าไม่มี dbt_title นี้ คุณอาจจะต้องสร้างใหม่
+          if (results.length > 0) return resolve(results[0].dbt_id); 
+          return resolve(null);
         });
       });
 
       if (!dbtIdResult) {
-        // สร้าง dbt_id ใหม่หากไม่มี dbt_title นั้นอยู่
         dbtId = uuidv4();
         const insertDebateTopic = "INSERT INTO debatetopic (dbt_id, dbt_title) VALUES (?, ?)";
         await new Promise((resolve, reject) => {
@@ -211,14 +208,9 @@ export const postActivity = async (req, res) => {
         dbtId = dbtIdResult;
       }
     } else {
-      // หากไม่มี dbt_title คุณอาจจะต้องจัดการกับกรณีนี้ตามตรรกะของแอปพลิเคชันของคุณ
       return res.status(400).json({ message: "dbt_title is required" });
     }
-
-    // 3. สร้าง act_id ใหม่
     const act_id = uuidv4();
-
-    // 4. ตอนนี้คุณมี admin_id และ dbt_id แล้ว คุณสามารถใช้ค่าเหล่านี้ได้ต่อไป
     const sql = `
       INSERT INTO activity (act_id, act_start_date, act_end_date, admin_id, dbt_id) 
       VALUES (?, ?, ?, ?, ?)
@@ -235,4 +227,54 @@ export const postActivity = async (req, res) => {
     res.status(500).json({ message: "Error adding activity", error: error.message });
   }
 };
+
+export const reportupdateStatus = (req, res) => {
+  const rpId = req.body.rp_id;
+  const checkSql = 'SELECT rp_id FROM reportedproblem';
+  db.query(checkSql, [rpId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการค้นหาข้อมูล' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'ไม่พบ rp_id ที่ระบุในฐานข้อมูล' });
+    }
+    const updateSql = 'UPDATE reportedproblem SET rp_check = ? WHERE rp_id = ?';
+    db.query(updateSql, [true, rpId], (err, updateResults) => {
+      if (err) {
+        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตคอลัมน์' });
+      }
+
+      return res.json({ message: 'อัปเดตคอลัมน์ rp_check เรียบร้อยแล้ว' });
+    });
+  });
+};
+
+export const admindescription = (req, res) => {
+  const rpId = req.body.rp_id;
+  const adminDescription = req.body.admin_description;
+
+  const checkSql = 'SELECT rp_id FROM reportedproblem';
+  db.query(checkSql, [rpId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการค้นหาข้อมูล' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'ไม่พบ rp_id ที่ระบุในฐานข้อมูล' });
+    }
+
+    const updateSql = 'UPDATE reportedproblem SET rp_admindescription = ? WHERE rp_id = ?';
+    db.query(updateSql, [adminDescription, rpId], (err, updateResults) => {
+      if (err) {
+        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตคอลัมน์' });
+      }
+
+      return res.json({ message: 'อัปเดตคอลัมน์ rp_admindescription เรียบร้อยแล้ว' });
+    });
+  });
+};
+
+
+
+
+
 
