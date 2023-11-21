@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import AdminManageUserRow from '../../components/admin-manage-user-row/AdminManageUserRow';
-import searchIcon from '../../assets/icon/search.png'; // เพิ่ม import นี้
+import searchIcon from '../../assets/icon/search.png'; 
 import './AdminManageUser.css' ;
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AdminManageUser = () => {
-  const [filteredUsers, setFilteredUsers] = useState([]); // เพิ่มตัวแปรนี้
-    const [users, setUsers] = useState([]);
-    const [searchText, setSearchText] = useState(''); // State สำหรับเก็บข้อความค้นหา
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [searchText, setSearchText] = useState(''); // State สำหรับเก็บข้อความค้นหา
+  const navigate = useNavigate();
 
+  const handleInspectUser = (userId) => {
+    console.log('User ID:', userId);
+    navigate(`/profile/${userId}`);
+  };
+  
     
   useEffect(() => {
-    fetch('http://localhost:8800/api/admin/findall')
-      .then((response) => response.json())
-      .then((data) => {
-        setUsers(data);
+    axios.get('http://localhost:8800/api/admin/findall')
+      .then((response) => {
+        setUsers(response.data); // ใช้ response.data แทน data
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
-        
       });
   }, []);
 
   useEffect(() => {
-    // ใน useEffect นี้คุณสามารถกรองข้อมูลผู้ใช้ตามข้อความค้นหาที่ได้รับ
     const filteredUsers = users.filter((user) =>
       user.user_name.toLowerCase().includes(searchText.toLowerCase())
     );
-    // อัพเดทข้อมูลผู้ใช้ที่แสดงในตาราง
-    // โดยใช้ข้อมูลผู้ใช้ที่ถูกกรองเท่านั้น
+    console.log('Filtered users:', filteredUsers);
     setFilteredUsers(filteredUsers);
   }, [searchText, users]);
 
@@ -56,8 +60,8 @@ const AdminManageUser = () => {
         </tr>
         {/* table body */}
         {filteredUsers.map((user) => (
-          <AdminManageUserRow key={user.user_id} user={user} />
-        ))}
+  <AdminManageUserRow key={user.user_id} user={user} onInspect={handleInspectUser} />
+))}
       </table>
     </>
 
