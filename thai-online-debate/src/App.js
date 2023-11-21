@@ -37,6 +37,7 @@ import AdminNavBar from './components/Navbar/AdminNavBar';
 import EditCommentPopup from './components/topic-popup/EditTopicPopup';
 import DownloadList from './pages/download-list-page/DownloadList';
 
+
 function App() {
 
   const { currentUser } = useContext(AuthContext);
@@ -205,7 +206,7 @@ function App() {
       ),
     },
     {
-      path: "/manage/main/request",
+      path: "/manage/main/request/:dr_id",
       element: (
         <AdminRoute>
           <AdminManageRequest/> 
