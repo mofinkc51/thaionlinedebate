@@ -69,7 +69,7 @@ function CreateTopicPopup() {
     };
     const createTopic = async (e) => {
         e.preventDefault()
-        
+        setTopic({ ...topic, tags: tags })
         if (!text_validation(topic.dbt_title,8,50)){
             return Swal.fire({
                 icon: 'error',
@@ -119,6 +119,9 @@ function CreateTopicPopup() {
                 icon: 'success',
                 title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
             }).then(() => {
+                localStorage.removeItem("topic")
+                localStorage.removeItem("tagsuggest")
+                localStorage.removeItem("tags")
                 navigateTopic();
             });
         } catch (err) {
@@ -170,14 +173,26 @@ function CreateTopicPopup() {
         JSON.parse(localStorage.getItem("tags")) ||
         []);
     const handleTagClick = (tag) => {
+
         if (tags.includes(tag)) {
             // ลบ tag when includes
             setTags(tags.filter(t => t !== tag));
+          } else if (tags.length >= 5) {
+            return Swal.fire({
+                icon: 'info',
+                text: "คุณสามารถเลือกแท็กได้ไม่เกิน 5 แท็ก"
+            })
           } else {
             setTags([...tags, tag]);
           }
       };
-    
+      
+    useEffect(() => {
+        if (JSON.stringify(topic.tags) !== JSON.stringify(tags)) {
+            setTopic(currentTopic => ({ ...currentTopic, tags }));
+        }
+    }, [tags]);
+
     useEffect(() => {
         localStorage.setItem('topic', JSON.stringify(topic));
         localStorage.setItem('tags', JSON.stringify(tags));

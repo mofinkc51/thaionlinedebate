@@ -34,39 +34,69 @@ export const getTopic = (req,res)=>{
   });
 }
 
-export const addPost = (req,res)=>{
-    const token = req.cookies.accessToken;
-    
-    if (!token) 
-    return res.status(401).json("Not authenticatede!");
-    
-  
-    jwt.verify(token, "secretkey", (err, userInfo) => {
-      if (err) return res.status(403).json("Token is not valid!");
-  
-      const sql =
-        "INSERT INTO debatetopic (`dbt_id`,`dbt_title`,`dbt_description`,`dbt_timestamp`,`dbt_agree`,`dbt_disagree`, `user_id`) VALUES (?)";
-        const randomId = function(length = 6) {
-          return Math.random().toString(36).substring(2, length+2);
+export const addPost = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) 
+    return res.status(401).json("Not authenticated!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    const sqlInsertTopic =
+      "INSERT INTO debatetopic (`dbt_title`,`dbt_description`,`dbt_timestamp`,`dbt_agree`,`dbt_disagree`, `user_id`) VALUES (?)";
+    const valuesTopic = [
+      req.body.dbt_title,
+      req.body.dbt_description,
+      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+      req.body.dbt_agree,
+      req.body.dbt_disagree,
+      userInfo.id
+    ];
+    // First, insert into debatetopic
+    db.query(sqlInsertTopic, [valuesTopic], (err, data) => {
+      if (err) return res.status(500).json(err);
+      // Get the last inserted dbt_id
+      const dbt_id = data.insertId;
+      // Process each tag from the request
+      const tags = req.body.tags; // Your second dataset ["กฎหมายชาวบ้าน","Part Time",...]
+      console.log(dbt_id,tags)
+      // Function to handle tag insertion
+      const handleTagInsert = (tag, index, callback) => {
+        // Check if tag exists in the tag table first
+        db.query("SELECT tag_id FROM tag WHERE tag_title = ?", [tag], (err, data) => {
+          if (err) return callback(err);
+          if (data.length > 0) {
+            // Tag exists, use existing tag_id
+            return callback(null, data[0].tag_id);
+          } else {
+            // Tag does not exist, insert new tag
+            db.query("INSERT INTO tag (tag_title) VALUES (?)", [tag], (err, data) => {
+              if (err) return callback(err);
+              // Use new tag_id
+              return callback(null, data.insertId);
+            });
+          }
+        });
       };
 
-      const values = [
-        randomId(10),
-        req.body.dbt_title,
-        req.body.dbt_description,
-        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-        req.body.dbt_agree,
-        req.body.dbt_disagree,
-        userInfo.id
-    ];
-      db.query(sql,[values],(err, data) => {
-
+      // Function to handle insertion into debatetag table
+      const insertDebateTag = (tagId) => {
+        db.query("INSERT INTO debatetag (dbt_id, tag_id) VALUES (?, ?)", [dbt_id, tagId], (err, data) => {
           if (err) res.status(500).json(err);
-          return res.status(200).json("Topic has been created");
-        }
-      );
+        });
+      };
+
+      // Iterate over each tag and insert into debatetag table
+      tags.forEach((tag, index) => {
+        handleTagInsert(tag, index, (err, tagId) => {
+          if (err) return res.status(500).json(err);
+          insertDebateTag(tagId);
+        });
+      });
+
+      return res.status(200).json("Topic and tags have been created");
     });
-}
+  });
+};
+
 export const getLastTopic = (req,res)=>{
   const token = req.cookies.accessToken;
   if (!token) 
@@ -171,4 +201,18 @@ export const getSearch = (req,res)=>{
     if (data.length === 0) return res.status(404).json("Topic not found");
     return res.status(200).json(data);
   });
+}
+
+//SELECT tag_id, COUNT(dbt_id) AS tag_count FROM debatetag GROUP BY tag_id ORDER BY tag_count DESC LIMIT 5 
+export const getTags = (req,res)=>{
+  const sql = "SELECT tag.tag_title,debatetag.tag_id, COUNT(dbt_id) AS tag_count FROM debatetag LEFT JOIN tag ON debatetag.tag_id = tag.tag_id GROUP BY debatetag.tag_id ORDER BY tag_count DESC LIMIT 5;";
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    console.log(data);
+    return res.status(200).json(data);
+  });
+}
+export const getTagById = (req,res)=>{
+
+
 }
