@@ -1,13 +1,14 @@
-import React ,{useContext, useState}from 'react'
+import React ,{useContext, useEffect, useState}from 'react'
 import SignInNavbar from '../../components/Navbar/SignInNavbar'
 import './SignIn.css'
 import signinImg from '../../assets/signup.png'
-import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import Footer from '../../components/footer/Footer'
+import { makeRequest } from '../../axios'
 function SignIn() {
+
 
   const [inputs,setInputs] = useState({
     user_email:"",
@@ -35,6 +36,14 @@ function SignIn() {
       })
     }
   };
+  const logout_db = async () => {
+    await makeRequest.post("/auth/logout", "");
+    localStorage.removeItem("user");
+  }
+
+  useEffect(() => {
+    logout_db();
+  },[]);
 
   return (
     <>

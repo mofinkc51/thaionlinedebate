@@ -237,3 +237,13 @@
     background: #3B3B7A; /* Slightly lighter shade for hover */
     border-color: #FFF; /* Changing border color to white on hover */
 }
+.tag-button{
+    padding: 1px 5px 1px 5px;
+    border-radius: 10px;
+}
+.tag-button:hover{
+    background: #cfcfda;
+}
+.tag-button.active {
+    background: #cfcfda; /* เลือกสีที่คุณต้องการใช้เมื่อปุ่มถูกเลือก */
+  }
