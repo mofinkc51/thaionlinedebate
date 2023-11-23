@@ -62,7 +62,7 @@ function Home() {
     useEffect(() => {
       getTopTopics();
       getTopicSearch();
-      console.log(items);
+      getTags();
     }, []);
 
     const handleTagClicked = () => {
@@ -73,7 +73,15 @@ function Home() {
       });
     };
 
-
+    const [tags, setTags] = useState([]);
+    const getTags = async () => {
+      try {
+        const res = await makeRequest.get("/posts/tags");
+        return setTags(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     return (
       <>
         {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavbar />}
@@ -83,7 +91,13 @@ function Home() {
           <div className="tag-search-container">
             {/* tag container left side */}
             <div className="tag-bar-container">
-              <div className="tag-item" onClick={handleTagClicked}>
+              {tags.map((tag) => (
+                <div className="tag-item" onClick={handleTagClicked}>
+                  <p>{tag.tag_title}</p>  
+                </div>
+              ))}
+
+              {/* <div className="tag-item" onClick={handleTagClicked}>
                 <p>เทคโนโลยี</p>
               </div>
               <div className="tag-item" onClick={handleTagClicked}>
@@ -97,7 +111,7 @@ function Home() {
               </div>
               <div className="tag-item" onClick={handleTagClicked}>
                 <p>การทหาร</p>
-              </div>
+              </div> */}
             </div>
             {/* search box container right side */}
             <div className="search-bar-container">
@@ -122,7 +136,7 @@ function Home() {
                       displayedItems.map((item, index) => 
                         <div className='debate-choice-row' key={index}>
                             <div className="debate-choice-row-container">
-                                <a href={`/topic/${item.dbt_id}`}>{item.dbt_title}</a>
+                                <a href={`/topic/${item.dbt_id}`} target="_blank" rel="noreferrer">{item.dbt_title}</a>
                             </div>           
                         </div>
                       )

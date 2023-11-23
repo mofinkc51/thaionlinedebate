@@ -6,7 +6,7 @@ function InputTag(props) {
   return (
             <div className="input-tag-component">{/* One hardcoded tag for test */}
                 <span className="input-tag-component-text">{tagNames}</span>
-                <button className="input-tag-component-close-btn">&times;</button>
+                <button type="button" className="input-tag-component-close-btn" onClick={props.onClick}>&times;</button>
             </div>
   )
 }

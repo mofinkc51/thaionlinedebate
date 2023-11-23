@@ -23,7 +23,9 @@ function HistoryTopic(props) {
             {dateAndTime.date + " - " + dateAndTime.time}
           </p>
         <div className='history-topic-box'>
+          <a href={`/topic/${props.id}`}>
             <p className='history-topic-name'>{props.title}</p>
+          </a>
         </div>
     </div>
   )

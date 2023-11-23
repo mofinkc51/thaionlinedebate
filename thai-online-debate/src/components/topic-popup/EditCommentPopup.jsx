@@ -15,11 +15,11 @@ function EditCommentPopup(props) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!text_validation(commentData.dbc_comment,10,300)){
+        if (!text_validation(commentData.dbc_comment,3,150)){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+300+' ตัวอักษร'
+                text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+150+' ตัวอักษร'
             });
             return document.getElementsByName('dbc_comment')[0].focus();
         } try {

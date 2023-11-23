@@ -113,7 +113,6 @@ const handleTagClicked = () => {
         </div>
         <div className="comment-action-row">
           <button onClick={handleTagClicked} className="comment-like-button">ถูกใจ</button>
- 
           <p
             className="comment-timestamp"
             onMouseOver={() => setIsHovered(true)}
