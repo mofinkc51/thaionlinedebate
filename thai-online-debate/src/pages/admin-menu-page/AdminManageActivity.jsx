@@ -14,14 +14,14 @@ function AdminManageActivity() {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        // ทำการเปลี่ยน URL เป็น endpoint ของคุณที่ใช้เรียกข้อมูล
-        const response = await makeRequest.get('/admin/activity');
+        const response = await axios.get('http://localhost:8800/api/admin/activity');
         setActivities(response.data);
       } catch (error) {
         console.error('Error fetching activities:', error);
         // จัดการ error ตามที่ต้องการ
       }
     };
+
 
     fetchActivities();
   }, []); // ขึ้นอยู่กับ dependency array ที่ว่าง เพื่อให้เรียกข้อมูลเมื่อ component mount
