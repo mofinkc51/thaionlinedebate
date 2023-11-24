@@ -37,7 +37,7 @@ function AdminManageRequest(props) {
 
   const handleApproval = () => {
     // ส่งคำร้องการอนุมัติไปยังเซิร์ฟเวอร์
-    axios.post('http://localhost:8800/api/admin/adminapvdownload', { dr_id: drId })
+    axios.post('http://localhost:8800/api/admin/adminapvdownload', { dr_id: props })
       .then((response) => {
         // ทำอะไรก็ตามหลังจากสำเร็จ
         console.log('Approval request sent successfully');
@@ -99,9 +99,7 @@ function AdminManageRequest(props) {
         
           <button className='manage-request-cancel-button'>ยกเลิก</button>
         </div>
-        <div className="admin-manage-request-drId">
-          drId: {drId}
-        </div>
+        
       </div>
     </>
   )
