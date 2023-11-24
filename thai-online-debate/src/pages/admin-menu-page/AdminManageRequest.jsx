@@ -36,17 +36,12 @@ function AdminManageRequest(props) {
   }, [drId]);
 
   const handleApproval = () => {
-    // สร้างข้อมูลที่ต้องการส่งไปยังเซิร์ฟเวอร์
-    const requestDataToSend = {
-      drId: drId, // หรือจะใช้ drId ตรงๆ ก็ได้
-      // เพิ่มข้อมูลอื่น ๆ ที่ต้องการส่งไปยังเซิร์ฟเวอร์ในนี้
-    };
-  
-    // ส่งคำร้องการดาวน์โหลดไปยังเซิร์ฟเวอร์ผ่าน API ด้วย HTTP POST
-    axios.post('http://localhost:8800/api/admin/adminapvdownload', requestDataToSend)
+    // ส่งคำร้องการอนุมัติไปยังเซิร์ฟเวอร์
+    axios.post('http://localhost:8800/api/admin/adminapvdownload', { dr_id: drId })
       .then((response) => {
         // ทำอะไรก็ตามหลังจากสำเร็จ
         console.log('Approval request sent successfully');
+        console.log('dr_id ที่ส่งออกไป:', drId);
       })
       .catch((error) => {
         // จัดการกรณีเกิดข้อผิดพลาด
@@ -55,7 +50,7 @@ function AdminManageRequest(props) {
         console.log(error.response.data);
       });
   };
-  
+
 
   return (
     <>
@@ -68,7 +63,7 @@ function AdminManageRequest(props) {
           <div className="manage-request-requester-box">
             <h4>ชื่อผู้ร้อง</h4>
             <p className='manage-request-text'>{requestData.requester}</p>
-          </div>
+          </div> 
           <div className="manage-request-date-box">
             <h4>วัน-เวลา</h4>
             <p className='manage-request-text'>{requestData.dateTime}</p>
@@ -101,11 +96,13 @@ function AdminManageRequest(props) {
         {/* button row */}
         <div className="admin-manage-request-button-row">
           <button className='manage-request-confirm-button' onClick={handleApproval}>ยืนยัน</button>
+        
           <button className='manage-request-cancel-button'>ยกเลิก</button>
         </div>
-
+        <div className="admin-manage-request-drId">
+          drId: {drId}
+        </div>
       </div>
-
     </>
   )
 }
