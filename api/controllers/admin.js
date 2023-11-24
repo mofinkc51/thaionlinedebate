@@ -225,32 +225,40 @@ export const admindescription = (req, res) => {
 // ในไฟล์ controller/admin.js
 
 export const postApproval = async (req, res) => {
+  const { dr_id, admin_id } = req.body;
+  const drId = req.body.dr_id;
+
+  console.log('drId:', drId); // แสดงค่า drId ใน Console
+
+  const sql = `
+  INSERT INTO approval (dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status)
+  VALUES (?, (SELECT admin.admin_id FROM admin JOIN user ON admin.admin_email = user.user_email ), NOW(), ?, 'อนุมัติ')
+  `;
+
+  // ตรวจสอบว่า dr_id และ admin_id มีค่าหรือไม่
+  if (!dr_id || !admin_id) {
+    res.status(400).send('กรุณาระบุ dr_id และ admin_id');
+    return;
+  }
+
+  const ap_timestamp = new Date(); // สร้างวันที่และเวลาปัจจุบัน
+  const ap_download_expired_date = new Date();
+  ap_download_expired_date.setDate(ap_download_expired_date.getDate() + 7); // เพิ่ม 7 วันจากวันนี้
+
+  const ap_status = 'อนุมัติ';
+
   try {
-    // Get the drId from the request parameters
-    const { drId } = req.params;
-
-    // Check if drId is defined and not empty
-    if (drId) {
-      // If drId has a value, log it to the console
-      console.log('drId received:', drId);
-      
-      // Process the drId as needed (e.g., approve a request)
-      // You can replace this with your actual logic
-      const approvalResult = await approveRequest(drId);
-
-      // Send a success response with a message or result
-      res.json({ message: `Request with drId ${drId} approved successfully`, result: approvalResult });
-    } else {
-      // If drId is not defined or empty, send an error response
-      res.status(400).json({ error: 'drId is missing or empty' });
-    }
+    // ทำการ execute คำสั่ง SQL ด้วยข้อมูลที่ได้รับ
+    await db.query(sql, [dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status]);
+    res.status(200).send('บันทึกข้อมูลสำเร็จ');
   } catch (error) {
-    // Handle errors and send an error response if necessary
-    res.status(500).json({ error: 'An error occurred while processing the request' });
+    console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
+    res.status(500).send('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
   }
 };
 
-""
+
+
 
 
 
