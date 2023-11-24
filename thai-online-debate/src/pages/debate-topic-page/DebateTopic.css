@@ -273,7 +273,7 @@ debate-topic-option-image{
     width: 100%;
     height: 320px;
     /* border: 1px solid red; */
-    margin-top: 10px;
+    margin: 10px 0;
     overflow-y: auto;
     /* padding-right: 10px; */
 
@@ -335,9 +335,38 @@ debate-topic-option-image{
 }
 
   /* responsive part */
+  @media screen and (max-width: 970px){
+    .debate-topic-two-side-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px;
+    }
+    .debate-topic-side-box{
+        width: 100%;
+        max-width: 450px;
+        padding: 0 20px;
+    }
+
+    .debate-topic-meta-data-container{
+        padding: 22px;
+    }
+    .debate-topic-topic-description-title ,.debate-topic-progress-bar-title{
+        font-size: 16px;
+    }
+    .debate-topic-topic-name{
+        font-size: 22px;
+    }
+
+    .debate-topic-side-stance-title{
+        font-size: 22px;
+    }
+  }
+
+
   @media screen and (max-width: 800px) {
     .debate-topic-two-side-container{
     /* border: 1px solid #D13A3A; */
+        display: flex   ;
         flex-direction: column;
         align-items: center;
 
@@ -350,10 +379,8 @@ debate-topic-option-image{
 
     .debate-topic-meta-data-container{
         width: 100%;
-        margin: 20px auto 0 auto;
-
-        max-width: 390px;
-
+        margin: 30px auto 0 auto;
+        max-width: 450px;
         display: flex;
         justify-content: space-between;
     }
@@ -380,7 +407,28 @@ debate-topic-option-image{
 
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 510px){
+
+    .debate-topic-meta-data-container{
+        padding: 20px;
+    }
+    .debate-topic-side-box{
+        width: 100%;
+        padding: 0 20px;
+    }
+    .debate-topic-topic-name{
+        font-size: 20px;
+    }
+    .debate-topic-label{
+        font-size: 16px;
+    }
+
+    .debate-topic-side-stance-title{
+        font-size: 20px;
+    }
+  }
+
+  /* @media screen and (max-width: 400px) {
 
     .debate-topic-side-box{
         width: 100%;
@@ -389,7 +437,5 @@ debate-topic-option-image{
 
     .debate-topic-agree-button, .debate-topic-disagree-button{
         width: 100%;
-        /* max-width: 270px; */
-        /* margin: 10px auto 0 auto; */
     }
-  }
+  } */
