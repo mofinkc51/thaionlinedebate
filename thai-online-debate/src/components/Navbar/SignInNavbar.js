@@ -7,7 +7,7 @@ function SignInNavbar() {
                 <div class="nav-container">
                     <div class="nav-wrapper">
                         <div class="logo">
-                            <h3>TDBate</h3>
+                            <h3>Thai Online Debate</h3>
                         </div>
                         <ul class="nav-menu" id="myMenu">
                             <li><a href="">หน้าแรก</a></li>

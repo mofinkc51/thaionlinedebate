@@ -30,6 +30,12 @@ nav{
 
 }
 
+.nav-wrapper .logo h3{
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
 .nav-wrapper .logo a h3{
     font-size: 20px;
     font-weight: 700;
