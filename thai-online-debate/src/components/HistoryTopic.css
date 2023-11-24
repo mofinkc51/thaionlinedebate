@@ -25,6 +25,15 @@
     padding: 10px 15px;
 }
 
+.history-topic-box:hover{
+    background: #EFEFEF; /* Slightly darker shade for hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.history-topic-box a{
+    text-decoration: none;
+}
+
 .history-topic-name{
     color: #2C343D;
     /* font-family: Roboto; */
