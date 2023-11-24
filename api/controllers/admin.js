@@ -170,63 +170,11 @@ export const getApprovefromdr_id = (req, res) => {
   });
 };
 
-
 export const postActivity = async (req, res) => {
-  const { act_start_date, act_end_date, admin_email, dbt_title } = req.body;
-
-  try {
-    const adminIdResult = await new Promise((resolve, reject) => {
-      const query = "SELECT admin_id FROM admin WHERE admin_email = ?";
-      db.query(query, [admin_email], (err, results) => {
-        if (err) return reject(err);
-        if (results.length > 0) return resolve(results[0].admin_id);
-        return reject(new Error('Admin not found.'));
-      });
-    });
-
-    let dbtId;
-    if (dbt_title) {
-      const dbtIdResult = await new Promise((resolve, reject) => {
-        const query = "SELECT dbt_id FROM debatetopic WHERE dbt_title = ?";
-        db.query(query, [dbt_title], (err, results) => {
-          if (err) return reject(err);
-          if (results.length > 0) return resolve(results[0].dbt_id); 
-          return resolve(null);
-        });
-      });
-
-      if (!dbtIdResult) {
-        dbtId = uuidv4();
-        const insertDebateTopic = "INSERT INTO debatetopic (dbt_id, dbt_title) VALUES (?, ?)";
-        await new Promise((resolve, reject) => {
-          db.query(insertDebateTopic, [dbtId, dbt_title], (err, results) => {
-            if (err) return reject(err);
-            return resolve(results.insertId);
-          });
-        });
-      } else {
-        dbtId = dbtIdResult;
-      }
-    } else {
-      return res.status(400).json({ message: "dbt_title is required" });
-    }
-    const act_id = uuidv4();
-    const sql = `
-      INSERT INTO activity (act_id, act_start_date, act_end_date, admin_id, dbt_id) 
-      VALUES (?, ?, ?, ?, ?)
-    `;
-    await new Promise((resolve, reject) => {
-      db.query(sql, [act_id, act_start_date, act_end_date, adminIdResult, dbtId], (err, result) => {
-        if (err) return reject(err);
-        return resolve(result);
-      });
-    });
-
-    res.status(201).json({ message: "Activity added successfully", activityId: act_id });
-  } catch (error) {
-    res.status(500).json({ message: "Error adding activity", error: error.message });
-  }
+ 
 };
+
+
 
 export const reportupdateStatus = (req, res) => {
   const rpId = req.body.rp_id;
@@ -274,7 +222,44 @@ export const admindescription = (req, res) => {
 };
 
 
+// ในไฟล์ controller/admin.js
+
+export const postApproval = async (req, res) => {
+  try {
+    // Get the drId from the request parameters
+    const { drId } = req.params;
+
+    // Check if drId is defined and not empty
+    if (drId) {
+      // If drId has a value, log it to the console
+      console.log('drId received:', drId);
+      
+      // Process the drId as needed (e.g., approve a request)
+      // You can replace this with your actual logic
+      const approvalResult = await approveRequest(drId);
+
+      // Send a success response with a message or result
+      res.json({ message: `Request with drId ${drId} approved successfully`, result: approvalResult });
+    } else {
+      // If drId is not defined or empty, send an error response
+      res.status(400).json({ error: 'drId is missing or empty' });
+    }
+  } catch (error) {
+    // Handle errors and send an error response if necessary
+    res.status(500).json({ error: 'An error occurred while processing the request' });
+  }
+};
+
+""
 
 
 
 
+
+
+
+
+
+
+
+ 
