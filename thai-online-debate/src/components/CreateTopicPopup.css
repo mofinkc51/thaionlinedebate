@@ -238,12 +238,19 @@
     border-color: #FFF; /* Changing border color to white on hover */
 }
 .tag-button{
-    padding: 1px 5px 1px 5px;
-    border-radius: 10px;
+    font-size: 13px;
+    padding: 2px 8px;
+    border-radius: 15px;
+    color: #455A68;
+    background-color: #DCE3E7;
+    border: 1px solid #DCE3E7;
 }
 .tag-button:hover{
-    background: #cfcfda;
+    color: #225EAF;
+    background: #D4E5FA;
 }
 .tag-button.active {
-    background: #cfcfda; /* เลือกสีที่คุณต้องการใช้เมื่อปุ่มถูกเลือก */
+    color: #225EAF;
+    background: #D4E5FA;
+    border: 1px solid #225EAF; /* เลือกสีที่คุณต้องการใช้เมื่อปุ่มถูกเลือก */
   }
