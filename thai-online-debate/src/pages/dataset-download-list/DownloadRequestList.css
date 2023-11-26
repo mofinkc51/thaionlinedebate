@@ -1,8 +1,10 @@
 
 .download-request-page-container{
-    width: 894px;
+    width: 100%;
+    max-width: 895px;
     margin: 80px auto;
     /* border: 1px solid red; */
+    padding: 0 15px;
 }
 .download-request-title-row{
     display: flex;
@@ -28,6 +30,26 @@
     border: none;
     background: #624DE3;    
 
+}
+.download-request-down-button{
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+
+    width: 167px;
+    height: 31px;
+    /* padding: 8px 12px; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 8px;
+    color: #FFF;
+    border: none;
+    background: #624DE3; 
+    margin: 20px auto;
+    display: none;
 }
 .download-request-title{
     /* color: #000;
@@ -76,4 +98,29 @@ table {
 
   tr:nth-child(even) {
     background: #F7F6FE;
+  }
+
+  @media screen and (max-width: 700px){
+    .download-request-th-stance{
+        display: none;
+    }
+
+    .download-request-title-row button{
+       display: none;    
+    
+    }
+
+    .download-request-down-button{
+        display: block;
+    }
+  }
+
+  @media screen and (max-width: 450px){
+
+    .download-request-title{
+        font-size: 20px;
+    }
+    .download-request-th-number{
+        display: none;
+    }
   }
