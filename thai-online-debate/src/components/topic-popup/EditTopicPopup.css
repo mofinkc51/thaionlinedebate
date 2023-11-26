@@ -24,7 +24,8 @@
 
 
 .edit-topic-popup-box-container{
-    width: 385px;
+    width: 100%;
+    max-width: 385px;
     /* height: 360px; */
     /* border: 1px solid red; */
     margin: 0 auto;
@@ -255,3 +256,21 @@
     color: #9D0F15; /* A darker shade of the original text color to maintain readability */
 }
 
+
+@media screen and (max-width: 450px){
+
+    .edit-topic-popup-box{
+        padding: 30px;
+    }
+    .edit-topic-stance-row{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .edit-topic-stance{
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .edit-topic-popup-stance-input{
+        width: 100%;
+    }
+}
