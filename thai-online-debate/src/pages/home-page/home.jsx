@@ -65,18 +65,20 @@ function Home() {
       getTags();
     }, []);
 
-    const handleTagClicked = () => {
-      Swal.fire({
-        icon: "warning",
-        title: "ขออภัย",
-        text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
-      });
+    const handleTagClicked = async (e) => {
+      console.log(e)
+      try {
+        navigate(`/tag/${e}`);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     const [tags, setTags] = useState([]);
     const getTags = async () => {
       try {
         const res = await makeRequest.get("/posts/tags");
+        console.log(res.data);
         return setTags(res.data);
       } catch (err) {
         console.log(err);
@@ -92,7 +94,7 @@ function Home() {
             {/* tag container left side */}
             <div className="tag-bar-container">
               {tags.map((tag) => (
-                <div className="tag-item" onClick={handleTagClicked}>
+                <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
                   <p>{tag.tag_title}</p>  
                 </div>
               ))}

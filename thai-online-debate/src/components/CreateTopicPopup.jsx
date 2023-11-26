@@ -12,19 +12,9 @@ import axios from 'axios';
 function CreateTopicPopup() {
     // search tag part
 
-    const items = [
-        'การเมือง',
-        'การเมืองไทย',
-        'เที่ยวไทย',
-        'เที่ยวต่างประเทศ',
-        'เศรษฐกิจ',
-        'เที่ยว JAPAN',
-        'เที่ยว KOREA',
-        'เที่ยว USA',
-        'เที่ยว EUROPE',
-        'เที่ยว CHINA'
-
-    ];
+    const [items, setItems ]= useState([
+        
+    ]);
     
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -51,6 +41,17 @@ function CreateTopicPopup() {
             dbt_disagree: "ไม่เห็นด้วย",
         }
     );
+
+    const getAllTag = async () => {
+        try {
+            const res = await makeRequest.get('/posts/alltag');
+            const tagTitles = res.data.map(row => row.tag_title);
+            setItems(tagTitles);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    
     const handleChange = (e) => {
         setTopic((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
@@ -139,6 +140,25 @@ function CreateTopicPopup() {
         JSON.parse(localStorage.getItem("tagsuggest")) ||
         []);
 
+        
+        const [tags, setTags] = useState(
+            JSON.parse(localStorage.getItem("tags")) ||
+            []);
+            const handleTagClick = (tag) => {
+                
+        if (tags.includes(tag)) {
+            // ลบ tag when includes
+            setTags(tags.filter(t => t !== tag));
+        } else if (tags.length >= 5) {
+            return Swal.fire({
+                icon: 'info',
+                text: "คุณสามารถเลือกแท็กได้ไม่เกิน 5 แท็ก"
+            })
+        } else {
+            setTags([...tags, tag]);
+        }
+    };
+    //useEffect for get tagsuggest
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -168,37 +188,22 @@ function CreateTopicPopup() {
 
         return () => clearTimeout(delay); // เมื่อ component unmount ให้ล้าง timeout
     }, [topic.dbt_title]);
-
-    const [tags, setTags] = useState(
-        JSON.parse(localStorage.getItem("tags")) ||
-        []);
-    const handleTagClick = (tag) => {
-
-        if (tags.includes(tag)) {
-            // ลบ tag when includes
-            setTags(tags.filter(t => t !== tag));
-          } else if (tags.length >= 5) {
-            return Swal.fire({
-                icon: 'info',
-                text: "คุณสามารถเลือกแท็กได้ไม่เกิน 5 แท็ก"
-            })
-          } else {
-            setTags([...tags, tag]);
-          }
-      };
-      
+    //useEffect for set topic tag
     useEffect(() => {
         if (JSON.stringify(topic.tags) !== JSON.stringify(tags)) {
             setTopic(currentTopic => ({ ...currentTopic, tags }));
         }
     }, [tags]);
-
+    //useEffect for set localStorage
     useEffect(() => {
         localStorage.setItem('topic', JSON.stringify(topic));
         localStorage.setItem('tags', JSON.stringify(tags));
         localStorage.setItem('tagsuggest', JSON.stringify(tagsuggest));
     },[topic,tags,tagsuggest]);
-
+    //useEffect for get all tag
+    useEffect(() => {
+        getAllTag();
+    },[])
   return (
     <>
     <div className="showcreate" style={{display: 'none'}} >
@@ -238,7 +243,10 @@ function CreateTopicPopup() {
                         <div className="create-topic-stance-row">
                             {/* Stance one */}
                             <div className="create-topic-stance">
-                                <p className='create-topic-popup-label'>ฝั่งที่ 1</p>
+                                <p className='create-topic-popup-label'>
+                                    ฝั่งที่ 1
+                                    <span className="tooltip-icon" title="สามารถเปลี่ยน ฝั่งที่ 1 จาก เห็นด้วยเป็น อย่างอื่นเช่น น้ำปลาพริก">?</span>
+                                </p>
                                 <input type="text" className='create-topic-popup-stance-input'
                                 onChange={handleChange} name="dbt_agree" value={topic.dbt_agree}
                                 required
@@ -265,7 +273,6 @@ function CreateTopicPopup() {
                                     <InputTag tagNames={tag} onClick={() => handleTagClick(tag)}/>
                                 ))
                             )}
-
                             </div>
                         </div>
                         {/* tag row */}

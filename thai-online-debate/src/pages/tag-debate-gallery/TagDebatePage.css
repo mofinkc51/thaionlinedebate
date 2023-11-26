@@ -1,0 +1,46 @@
+
+.fav-debate-gallery-page-container{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* border: 1px solid red; */
+    padding-top: 4rem;
+
+}
+
+.fav-debate-gallery-title-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.fav-debate-gallery{
+    margin: 30px 0 0 0  ;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+/* sorting part */
+.fav-sort-component label{
+    font-size: 18px;
+    font-weight: 500;
+    margin-right: 1rem;
+
+}
+.fav-select{
+    border: none;
+    background-color: transparent;
+    /* text-align: end; */
+    margin-top: 0.5rem;
+    font-size: 18px;
+
+    
+}
+
+.fav-select option{
+    background-color: #fff;
+    color: #000;
+    /* text-align: end; */
+}

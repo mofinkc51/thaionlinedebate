@@ -212,7 +212,21 @@ export const getTags = (req,res)=>{
     return res.status(200).json(data);
   });
 }
-export const getTagById = (req,res)=>{
+export const getTopicByTag = (req,res)=>{
+  const tag_name = req.params.tag_name;
+  const sql = "SELECT tag.tag_id, debatetopic.dbt_id,debatetopic.dbt_title FROM tag  LEFT JOIN debatetag ON tag.tag_id = debatetag.tag_id  LEFT JOIN debatetopic ON debatetopic.dbt_id = debatetag.dbt_id WHERE tag.tag_title = ?; "
+  db.query(sql,tag_name, (err, data) => {
+    if (err) return res.status(500).json(err);
+    console.log(data);
+    return res.status(200).json(data);
+  })
+}
 
-
+export const getAllTag = (req,res)=>{
+  const sql = "SELECT tag_title FROM tag;"
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    console.log(data);
+    return res.status(200).json(data);
+  })
 }

@@ -16,6 +16,7 @@ import { BrowserRouter as  Router, Routes, Route , Switch,
   createBrowserRouter,
   RouterProvider,
   Navigate,
+  useParams,
 } from 'react-router-dom';
 import { AuthContext } from './context/authContext';
 import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
@@ -36,6 +37,7 @@ import AdminMenu from './pages/admin-menu-page/AdminMenu';
 import AdminNavBar from './components/Navbar/AdminNavBar';
 import EditCommentPopup from './components/topic-popup/EditTopicPopup';
 import DownloadList from './pages/download-list-page/DownloadList';
+import TagDebatePage from './pages/tag-debate-gallery/TagDebatePage';
 
 function App() {
 
@@ -65,7 +67,10 @@ function App() {
       return children;
   };
 
- 
+  function TagDebatePageWrapper() {
+    const { tagname } = useParams();
+    return <TagDebatePage tagname={tagname} />;
+  }
   const router = createBrowserRouter([
     {
       path: "/",
@@ -137,6 +142,14 @@ function App() {
       element: (
         <ProtectedRoute>
           <DownloadList/>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path : "/tag/:tagname",
+      element: (
+        <ProtectedRoute>
+          <TagDebatePageWrapper/>
         </ProtectedRoute>
       ),
     },
