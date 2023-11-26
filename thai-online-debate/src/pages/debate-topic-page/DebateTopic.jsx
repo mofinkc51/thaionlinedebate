@@ -190,26 +190,33 @@ function DebateTopic(props) {
 
   }
 
-  function addToDownloadList(dbt_id) {
+  async function addToDownloadList(topicData) {
     // ดึงรายการที่มีอยู่จาก localStorage
     let downloadList = JSON.parse(localStorage.getItem('downloadList')) || [];
     
     // ตรวจสอบว่า dbt_id นี้มีอยู่แล้วในรายการหรือไม่
-    if (!downloadList.includes(dbt_id)) {
+    if (!downloadList.includes(topicData.dbt_id)) {
       // เพิ่ม dbt_id ใหม่เข้าไปในรายการถ้ายังไม่มี
-      downloadList.push(dbt_id);
+      downloadList.push(topicData.dbt_id);
       // บันทึกกลับเข้า localStorage
       localStorage.setItem('downloadList', JSON.stringify(downloadList));
+    }
+    try {
+      const res = await makeRequest.post('/downloads/' ,topicData);
+      Swal.fire({
+        icon: 'success',
+        title: 'เพิ่มประเด็นโต้แย้งเรียบร้อย'
+      })
+      return res.data
+    } catch (err) {
+      console.log(err);
     }
   }
   
   const handleAddToDownload = () => {
     setOpen(false)
-    addToDownloadList(topicData.dbt_id)
-    Swal.fire({
-      icon: 'success',
-      title: 'เพิ่มประเด็นโต้แย้งเรียบร้อย'
-    })
+    addToDownloadList(topicData)
+
     // setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
   }
   // if(!!selectedAddtoDownloadPopup){
