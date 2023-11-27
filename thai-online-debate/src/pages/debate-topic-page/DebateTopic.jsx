@@ -203,13 +203,21 @@ function DebateTopic(props) {
     }
     try {
       const res = await makeRequest.post('/downloads/' ,topicData);
-      Swal.fire({
+      if (res.status === 200) 
+      return Swal.fire({
         icon: 'success',
-        title: 'เพิ่มประเด็นโต้แย้งเรียบร้อย'
+        title: res.data
       })
-      return res.data
+      else return Swal.fire({
+        icon: 'error',
+        title: res.data
+      })
+
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: err.response.data
+      })
     }
   }
   

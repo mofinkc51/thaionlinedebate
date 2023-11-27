@@ -3,7 +3,6 @@ import './DownloadFormPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'
 
 function DownloadFormPopup(props) {
-    const {onCloseClick} = props;
   return (
     <>
     <div className="download-form-bg-opacity">
@@ -12,7 +11,7 @@ function DownloadFormPopup(props) {
                 {/* request title row */}
                 <div className="download-form-title-row">
                     <h2>ส่งคำร้องขอการดาวน์โหลดชุดข้อมูล</h2>
-                    <button className='download-form-close-button' onClick={onCloseClick}><img src={closeButtonIcon} alt="" /></button>
+                    <button className='download-form-close-button' onClick={() => props.onCloseClick()}><img src={closeButtonIcon} alt="" /></button>
                 </div>
                 {/* request name row */}
                 <div className="download-form-popup-topicname-row">
@@ -41,7 +40,7 @@ function DownloadFormPopup(props) {
                 {/* button row */}
                 <div className="download-form-button-row">
                     <button className='download-form-confirm-button'>ยืนยัน</button>
-                    <button className='download-form-cancel-button' onClick={onCloseClick}>ยกเลิก</button>
+                    <button className='download-form-cancel-button' onClick={() => props.onCloseClick()}>ยกเลิก</button>
                 </div>
             </div>
         </div>
