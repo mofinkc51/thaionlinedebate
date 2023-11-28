@@ -45,10 +45,10 @@ function DownloadRequestList() {
         title: "กรุณาเพิ่มประเด็นโต้แย้งที่ต้องการดาวน์โหลดก่อน",
       });
     }
-    setSelectedRequestPopup(<DownloadFormPopup onCloseClick={onCloseClick} />);
+    setSelectedRequestPopup(<DownloadFormPopup onCloseClick={onCloseClick} refreshTopics={refreshTopics}/>);
   };
   if (!!selectedRequestPopup) {
-    popup = <DownloadFormPopup onCloseClick={onCloseClick} />;
+    popup = <DownloadFormPopup onCloseClick={onCloseClick} refreshTopics={refreshTopics} />;
   }
 
   const getDownloadDataApproved = async () => {

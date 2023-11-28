@@ -346,7 +346,7 @@ function DebateTopic(props) {
                 ))}
 
                 </div>
-                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นเพื่อฝั่ง{topicData.dbt_agree}</button>
+                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นสำหรับฝั่ง{topicData.dbt_agree}</button>
                 
               </div>
             </div>
@@ -368,7 +368,7 @@ function DebateTopic(props) {
                   ))}
 
                 </div>
-                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นเพื่อฝั่ง{topicData.dbt_disagree}</button>
+                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นสำหรับฝั่ง{topicData.dbt_disagree}</button>
                 
               </div>
             </div>

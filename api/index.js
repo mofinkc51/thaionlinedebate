@@ -27,17 +27,41 @@ app.use(cookieParser());
 
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "../thai-online-debate/src/assets/upload");
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + file.originalname);
-    },
+  destination: function (req, file, cb) {
+    cb(null, "../thai-online-debate/src/assets/upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  // อนุญาตไฟล์รูปภาพและ PDF เท่านั้น
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'application/pdf') {
+    console.log("File type is allowed");
+    cb(null, true);
+  } else {
+    console.log("File type is not allowed");
+    cb(null, false);
+    return cb(new Error('Only .jpeg, .png, .jpg, and .pdf format allowed!'));
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+app.post("/api/upload", upload.fields([{ name: 'image', maxCount: 1 }, { name: 'pdf', maxCount: 1 }]), (req, res) => {
+  const files = req.files;
+  if (!files || !files.image || !files.pdf) {
+    return res.status(400).json("ไฟล์ไม่ถูกต้อง");
+  }
+  console.log("Files uploaded successfully:", files);
+  res.status(200).json({
+    image: files.image[0].filename,
+    pdf: files.pdf[0].filename
   });
-  
-const upload = multer({ storage: storage });
-  
-app.post("/api/upload", upload.single("file"), (req, res) => {
+})
+const uploadProfile = multer({ storage: storage});
+app.post("/api/upload/profile", uploadProfile.single("file"), (req, res) => {
   const file = req.file;
   res.status(200).json(file.filename);
 });

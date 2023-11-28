@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UserNavBar from '../../components/Navbar/UserNavBar'
 import './DownloadList.css'
 import DownloadRow from '../../components/download-row/DownloadRow'
+import { makeRequest } from '../../axios';
 
 function DownloadList() {
+
+  const [downloadData, setDownloadData] = useState([]);
+  const getDownloadData = async () => {
+    try {
+      const res = await makeRequest.get("/downloads/pending");
+      setDownloadData(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getDownloadData();
+  }, []);
   return (
     <>
     <UserNavBar/>
@@ -21,11 +36,9 @@ function DownloadList() {
                 <th>ตรวจสอบ</th>
             </tr>
             {/* table body */}
-            {/* <DownloadRow/>
-            <DownloadRow/>
-            <DownloadRow/>
-
-            <DownloadRow/> */}
+            {downloadData.map((downloadData) => (
+            <DownloadRow data={downloadData} />
+          ))}
 
             
         </table>

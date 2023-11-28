@@ -11,12 +11,7 @@ import axios from 'axios';
 
 function CreateTopicPopup() {
     // search tag part
-
-    const [items, setItems ]= useState([
-        
-    ]);
-    
-
+    const [items, setItems ]= useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
     const filteredItems = searchTerm
@@ -27,9 +22,7 @@ function CreateTopicPopup() {
 
     // Get a maximum of 5 items
     const displayedItems = filteredItems.slice(0, 5);
-
     // end search tag part
-
 
     const [err, SetErr] = useState(null);
     const [topic, setTopic] = useState(
@@ -41,7 +34,6 @@ function CreateTopicPopup() {
             dbt_disagree: "ไม่เห็นด้วย",
         }
     );
-
     const getAllTag = async () => {
         try {
             const res = await makeRequest.get('/posts/alltag');

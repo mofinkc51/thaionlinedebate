@@ -48,17 +48,7 @@ function EditProfileData() {
     const [pic, setPic] = useState(null);
     const hiddenFileInput = useRef(null);
 
-    const upload = async (file) => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            const res = await makeRequest.post("/upload", formData);
-            return res.data;
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
+    
     const [userData,setUserData ]= useState({
         user_email: currentUser.user_email,
         user_id: currentUser.user_id,
@@ -68,8 +58,23 @@ function EditProfileData() {
     });
     const handleChange = (e) => {
         setUserData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-      };
+    };
     
+    const upload = async (file) => {
+        try {
+            const formData = new FormData();
+            formData.append("file", file)
+            console.log(formData);
+            const res = await makeRequest.post("/upload/profile", formData);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+            return Swal.fire({
+                icon: 'error',
+                title: err.response.data
+            })
+        }
+    };
     const handleSubmit = async (e) => { 
         e.preventDefault();
         let picUrl;
@@ -89,6 +94,7 @@ function EditProfileData() {
         } 
         
         try {
+            console.log(updatedUserData);
             await makeRequest.put(`/users/edit/${updatedUserData.user_id}`, updatedUserData)
             localStorage.setItem('user', JSON.stringify(updatedUserData));
             Swal.fire({
@@ -138,22 +144,6 @@ function EditProfileData() {
                 <div className="edit-profile-profile-label-row">
                     <p className='edit-profile-data-label'>รูปภาพโปรโฟล์</p>
                     {/* <button className='edit-profile-edit-button'>แก้ไขรูปภาพ</button> */}
-                    {/* <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด
-                    <input 
-                        type="file"
-                        ref={hiddenFileInput}
-                        accept="image/png, image/jpeg"
-                        style={{display:'none'}}
-                        onChange={(e) => setPic(e.target.files[0])} 
-                    />
-                    <input
-                        type="file"
-                        ref={hiddenFileInput}
-                        accept="image/png, image/jpeg"
-                        style={{ display: 'none' }}
-                        onChange={handleUpload}
-                    />
-                    </button> */}
                     <button onClick={handleClick} className='edit-profile-edit-button'>อัปโหลด</button>
                     <input
                         type="file"
