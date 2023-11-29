@@ -7,10 +7,21 @@ function AdminManageRequest(props) {
     requester: '',
     dateTime: '',
     topicRequested: '',
-    reason: '',
+    reason1: '',
+    reason2: '',
   });
 
   const { drId } = props;
+  const storedUserEmail = localStorage.getItem('user');
+  const userObject = JSON.parse(storedUserEmail);
+  const userEmail = userObject.user_email;
+  // console.log(userEmail)
+  
+ 
+
+  useEffect(() => {
+    setRequestData((prevData) => ({ ...prevData }));
+  }, []);
 
   useEffect(() => {
     axios
@@ -23,10 +34,11 @@ function AdminManageRequest(props) {
           const localDate = utcDate.toLocaleString();
 
           setRequestData({
-            requester: requestData.dr_requester,
+            requester: requestData.dr_id,
             dateTime: localDate,
             topicRequested: requestData.dr_total_topic,
-            reason: requestData.dr_requisitioner,
+            reason1: requestData.dr_proof_one,
+            reason2: requestData.dr_proof_two,
           });
         }
       })
@@ -36,21 +48,35 @@ function AdminManageRequest(props) {
   }, [drId]);
 
   const handleApproval = () => {
-    // ส่งคำร้องการอนุมัติไปยังเซิร์ฟเวอร์
-    axios.post('http://localhost:8800/api/admin/adminapvdownload', { dr_id: props })
+    // Extract dr_id from requestData.requester
+    const drId = requestData.requester;
+  
+    // Log the dr_id and userEmail before sending
+    console.log('dr_id before sending:', drId);
+    console.log('user_email before sending:', userEmail);
+  
+    // Send the approval request to the server with user_email
+    axios
+      .post('http://localhost:8800/api/admin/adminapvdownload', {
+        dr_id: drId,
+        user_email: userEmail,
+      })
       .then((response) => {
-        // ทำอะไรก็ตามหลังจากสำเร็จ
+        // Do something after a successful request
         console.log('Approval request sent successfully');
-        console.log('dr_id ที่ส่งออกไป:', drId);
+        console.log('dr_id sent:', drId);
       })
       .catch((error) => {
-        // จัดการกรณีเกิดข้อผิดพลาด
+        // Handle errors
         console.error('Error sending approval request:', error);
-        // แสดงข้อมูลเพิ่มเติมเกี่ยวกับข้อผิดพลาดจากเซิร์ฟเวอร์
+        // Log additional information about the error from the server
         console.log(error.response.data);
       });
   };
-
+  
+  
+  
+  
 
   return (
     <>
@@ -99,7 +125,6 @@ function AdminManageRequest(props) {
         
           <button className='manage-request-cancel-button'>ยกเลิก</button>
         </div>
-        
       </div>
     </>
   )
