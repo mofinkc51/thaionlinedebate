@@ -224,50 +224,49 @@ export const admindescription = (req, res) => {
 
 // ในไฟล์ controller/admin.js
 
-export const postApproval = async (req, res) => {
-  const { dr_id, admin_id } = req.body;
-  const drId = req.body.dr_id;
+export const postApproval = (req, res) => {
+  const { dr_id, user_email } = req.body;
 
-  console.log('drId:', drId); // แสดงค่า drId ใน Console
-
-  const sql = `
-  INSERT INTO approval (dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status)
-  VALUES (?, (SELECT admin.admin_id FROM admin JOIN user ON admin.admin_email = user.user_email ), NOW(), ?, 'อนุมัติ')
-  `;
-
-  // ตรวจสอบว่า dr_id และ admin_id มีค่าหรือไม่
-  if (!dr_id || !admin_id) {
-    res.status(400).send('กรุณาระบุ dr_id และ admin_id');
-    return;
-  }
-
-  const ap_timestamp = new Date(); // สร้างวันที่และเวลาปัจจุบัน
-  const ap_download_expired_date = new Date();
-  ap_download_expired_date.setDate(ap_download_expired_date.getDate() + 7); // เพิ่ม 7 วันจากวันนี้
-
-  const ap_status = 'อนุมัติ';
-
-  try {
-    // ทำการ execute คำสั่ง SQL ด้วยข้อมูลที่ได้รับ
-    await db.query(sql, [dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status]);
-    res.status(200).send('บันทึกข้อมูลสำเร็จ');
-  } catch (error) {
-    console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล:', error);
-    res.status(500).send('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-  }
-};
+  console.log('user_email received:', user_email);  // เพิ่มบรรทัดนี้เพื่อแสดงค่า user_email ใน console.log
+  console.log('dr_id received:', dr_id);
 
 
+  const selectAdminIdSql = 'SELECT * FROM admin';
 
+  db.query(selectAdminIdSql, (error, adminData) => {
+    if (error) {
+      console.error('เกิดข้อผิดพลาดในการดึงข้อมูล admin:', error);
+      return res.status(500).send('เกิดข้อผิดพลาดในการดึงข้อมูล admin');
+    }
 
+    // Find the admin_id where admin_email matches userEmail
+    const adminMatch = adminData.find((admin) => admin.admin_email === user_email);
 
+    if (!dr_id || !adminMatch) {
+      res.status(400).send('ข้อมูลไม่ถูกต้องหรือไม่พบ admin ที่เกี่ยวข้อง');
+      return;
+    }
 
+    const admin_id = adminMatch.admin_id;
 
-
-
-
-
-
-
-
+    const insertApprovalSql = `
+      INSERT INTO approval (dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status)
+      VALUES (?, ?, NOW(), ?, 'อนุมัติ')
+    `;
  
+    const ap_timestamp = new Date();
+    const ap_download_expired_date = new Date();
+    ap_download_expired_date.setDate(ap_download_expired_date.getDate() + 7);
+
+    const ap_status = 'อนุมัติ';
+
+    db.query(insertApprovalSql, [dr_id, admin_id, ap_download_expired_date, ap_status], (insertError) => {
+      if (insertError) {
+        console.error('เกิดข้อผิดพลาดในการแทรกข้อมูล approval:', insertError);
+        return res.status(500).send('เกิดข้อผิดพลาดในการแทรกข้อมูล approval');
+      }
+
+      res.status(200).send('บันทึกข้อมูลสำเร็จ');
+    });
+  });
+};
