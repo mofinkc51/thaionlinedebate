@@ -177,7 +177,7 @@
     border: none;
     background: transparent;
     /* color: #808080; */
-    font-size: 12px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -199,7 +199,7 @@
 
 .debate-choice-row-container a{
     /* border: 1px solid red; */
-
+    width: 100%;
     text-decoration: none;
     color: black;
 
@@ -230,7 +230,7 @@
     .tag-search-container{
         height: 100%;
         flex-direction:column-reverse;
-        gap: 10px;
+        gap: 15px;
     }
     /* tag box */
     .tag-bar-container{
@@ -265,6 +265,22 @@
 
     .search-bar-container button{
         display: none;
+    }
+
+    .debate-choice-drop-down {
+        width: 100%;
+        margin-left: 0;
+    }
+    .debate-choice-row{
+
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        padding: 12px 15px 12px 15px;
+        width: 100%;
+        text-decoration: none;
+        display: block;
+    
     }
 }
 
