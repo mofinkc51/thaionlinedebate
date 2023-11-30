@@ -271,7 +271,8 @@ footer{
     }
 
     .nav-vertical-menu li:hover{
-        background-color: #2a2a2a;
+      background: linear-gradient(90deg, #92C3FB 0%, rgba(146, 195, 251, 0.54) 45.35%, rgba(146, 195, 251, 0.00) 100%), rgba(216, 196, 251, 0.75);
+      border-radius: 5px;
     }
 
     .menu-active{
