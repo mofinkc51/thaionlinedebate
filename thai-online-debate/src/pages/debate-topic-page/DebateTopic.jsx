@@ -246,14 +246,15 @@ function DebateTopic(props) {
               {/* topic name */}
               <p className='debate-topic-topic-name'>{topicData.dbt_title}</p>
               {/* topic tag */}
-              {/* <p className='debate-topic-label'>แท็กที่เกี่ยวข้อง:</p> */}
-
-              {/* <div className='debate-topic-tag-container'>
+              
+              <p className='debate-topic-label'>แท็กที่เกี่ยวข้อง</p>
+              <div className='debate-topic-tag-container'>
+              
                 <TopicTag tagName="เทคโนโลยี"/>
-                <TopicTag tagName="เซมิคอนดัคเตอร์"/>
-                
+                <TopicTag tagName="IT"/>
+                <TopicTag tagName="ความเจริญ"/>
 
-              </div> */}
+              </div>
               {/* topic creator row */}
               <div className="debate-topic-creator-row">
                 <label className='debate-topic-label'>สร้างโดย: </label>
