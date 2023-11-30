@@ -247,3 +247,12 @@
 .tag-button.active {
     background: #cfcfda; /* เลือกสีที่คุณต้องการใช้เมื่อปุ่มถูกเลือก */
   }
+.tooltip-icon {
+    cursor: pointer;
+    margin-left: 15px;
+    font-weight: bold;
+    color: blue; /* หรือสีอื่นๆ ที่คุณต้องการ */
+    /* สไตล์เพิ่มเติมที่คุณต้องการ */
+  }
+  
+  

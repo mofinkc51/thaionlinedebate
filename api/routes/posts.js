@@ -1,6 +1,8 @@
 import express from "express";
-import { addPost , updatePost , deletePost , getTops ,
-    getTags,getTagById,getTopic,getFav,checkTopicCanEdit,
+import { addPost , updatePost , deletePost , 
+    getTops ,
+    getTags,getTopicByTag,getAllTag,
+    getTopic,getFav,checkTopicCanEdit,
     getLastTopic,getSearch} 
 from "../controllers/post.js";
 
@@ -26,6 +28,7 @@ router.get("/search",getSearch)
 //getTag
 router.get("/tags",getTags)
 //getTagById
-router.get("/tag/:tag_id",getTagById)
-
+router.get("/tag/:tag_name",getTopicByTag)
+//getalltag
+router.get("/alltag",getAllTag)
 export default router

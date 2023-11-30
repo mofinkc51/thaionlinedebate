@@ -14,7 +14,8 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (inputs) => {
     try {
       const res = await makeRequest.post("/auth/login", inputs);
-      setCurrentUser(res.data);
+      const {reset_token_expire,reset_token ,...userData} = res.data;
+      setCurrentUser(userData);
     } catch (err) {
       // Handle error
       Swal.fire({

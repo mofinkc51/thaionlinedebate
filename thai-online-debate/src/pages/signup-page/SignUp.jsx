@@ -24,7 +24,6 @@ function SignUp() {
   const handleChange = (e) => {
       setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}));
   };
-  console.log(inputs)
 
   const [error, SetErr] = useState(null);
 
@@ -61,8 +60,8 @@ function SignUp() {
                   icon: 'success',
                   title: 'สมัครสมาชิกเรียบร้อย',
               })
-              await login(inputs);
-                navigate('/');
+              .then(() =>  login(inputs)
+              .then(() => navigate('/')));
           } catch (err) {
               SetErr(err.response.data)
               Swal.fire({
