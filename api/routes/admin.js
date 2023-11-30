@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers , getActivity, getApprove, getProblem,  updateStatus, downloadRequest, getApprovefromdr_id, postActivity, reportupdateStatus, admindescription, postApproval} from "../controllers/admin.js";
+import { getAllUsers , getActivity, getApprove, getProblem,  updateStatus, downloadRequest, getApprovefromdr_id, postActivity, reportupdateStatus, admindescription, postApproval, approvalStatus} from "../controllers/admin.js";
 
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.post("/postactivity",postActivity)
 router.put("/reportproblem_status", reportupdateStatus);
 router.put("/rereportproblem_admindescription",admindescription)
 router.post("/adminapvdownload",postApproval)
+router.put("/approval_status",approvalStatus)
 
 
 
