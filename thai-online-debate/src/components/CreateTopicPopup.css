@@ -50,7 +50,6 @@
 /* for everyone */
 .create-topic-popup-label{
     color: #000;
-    font-family: Inter;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -93,7 +92,6 @@
     resize: none;
     padding: 5px 0 0 10px;
 
-
 }
 
 /* topic side and input box */
@@ -102,7 +100,6 @@
     display: flex;
     justify-content: space-between;
 
-    
 }
 
 .create-topic-stance{
@@ -131,6 +128,21 @@
     flex-wrap: wrap;
     gap: .5em;
     margin-bottom: 10px;
+}
+
+.input-tag-caution{
+    width: 100%;
+    /* border: 1px solid #225EAF; */
+    background-color: #D4E5FA;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0;
+}
+.input-tag-caution p{
+    color: #252958;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 

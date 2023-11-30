@@ -259,7 +259,9 @@ function CreateTopicPopup() {
                             <p className='create-topic-popup-label'>แท็กที่เลือก</p>
                             <div className="input-tag-container">
                             {tags.length === 0  ? (
-                                        <p style={{color: 'red'}}>กรุณาเลือกแท็ก 1 - 5 แท็ก</p>
+                                        <div className="input-tag-caution">
+                                            <p>กรุณาเลือกแท็ก 1 - 5 แท็ก</p>
+                                        </div>
                                 ) : (
                                 tags.map((tag) => (
                                     <InputTag tagNames={tag} onClick={() => handleTagClick(tag)}/>
