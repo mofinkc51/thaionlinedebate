@@ -51,51 +51,6 @@ function DownloadRequestList() {
     popup = <DownloadFormPopup onCloseClick={onCloseClick} refreshTopics={refreshTopics} />;
   }
 
-  const getDownloadDataApproved = async () => {
-    // ดึง dbt_id จาก localStorage
-    const downloadList = JSON.parse(localStorage.getItem("downloadList"));
-    if (!downloadList || downloadList.length === 0) {
-      return Swal.fire({
-        icon: "error",
-        title: "กรุณาเพิ่มประเด็นโต้แย้งที่ต้องการดาวน์โหลดก่อน",
-      });
-    }
-
-    const downloadListArray = []; // สร้าง array สำหรับเก็บข้อมูลที่จะดาวน์โหลด
-    try {
-      for (let i = 0; i < downloadList.length; i++) {
-        const resDBT = await makeRequest.get(`/posts/topic/${downloadList[i]}`);
-        const debate_topic_download = {
-          dbt_title: resDBT.data[0].dbt_title,
-          dbt_description: resDBT.data[0].dbt_description,
-          dbt_comment: [],
-        };
-
-        const res = await makeRequest.get("/downloads/approved", {
-          params: { dbt_id: downloadList[i] },
-        });
-        if (res.data.length > 0) {
-          debate_topic_download.dbt_comment = res.data;
-        }
-
-        downloadListArray.push([debate_topic_download]);
-      }
-      console.log(downloadListArray);
-      if (downloadListArray.length > 0) {
-        // ทำการดาวน์โหลดไฟล์เป็น Zip
-        downloadFilesAsZip(downloadListArray).then(() => {
-          localStorage.removeItem("downloadList");
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleDownload = () => {
-    getDownloadDataApproved();
-  };
-
   return (
     <>
       <UserNavBar />

@@ -53,7 +53,52 @@ export const getDownload = (req, res) => {
     });
   });
 };
+export const getDownloadDetail = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) {
+    return res.status(401).json("Not authenticated!");
+  }
 
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) {
+      return res.status(403).json("Token is not valid!");
+    }
+    const sql = "SELECT dr_name,dr_timestamp,dr_desc,dr_proof_one,dr_proof_two FROM downloadrequest WHERE dr_id = ?";
+    const dr_id = req.params.dr_id;
+    db.query(sql, [dr_id], (err, result) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      if (result.length === 0) {
+        return res.status(404).json("Download request not found.");
+      }
+      return res.status(200).json(result[0]);
+    })
+  })
+}
+export const getDownloadDetailDebate = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) {
+    return res.status(401).json("Not authenticated!");
+  }
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) {
+      return res.status(403).json("Token is not valid!");
+    }
+    const sql = "SELECT dbt_title,rd.dbt_id , dr.dr_id FROM requestdebate as rd JOIN  downloadrequest as dr ON rd.dr_id = dr.dr_id JOIN debatetopic ON debatetopic.dbt_id = rd.dbt_id WHERE rd.dr_id = ?";
+    const dr_id = req.params.dr_id;
+    db.query(sql, [dr_id], (err, result) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      if (result.length === 0) {
+        return res.status(404).json("Download request not found.");
+      }
+      return res.status(200).json(result);
+    })
+  })
+}
 export const updatePending = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) {
@@ -89,12 +134,17 @@ export const updatePending = (req, res) => {
           return res.status(400).json("All fields are required!");
         }
         const sql =
-          "UPDATE downloadrequest SET dr_name = ?, dr_desc = ?,dr_total_topic = ? ,dr_proof_one = ?, dr_proof_two = ?, dr_status = 'pending' WHERE dr_id = ?";
+          "UPDATE downloadrequest SET dr_timestamp = ?, dr_name = ?, dr_desc = ?,dr_total_topic = ? ,dr_proof_one = ?, dr_proof_two = ?, dr_status = 'pending' WHERE dr_id = ?";
 
-        // สมมติว่า db คือ instance ของ database connection
         db.query(
-          sql,
-          [dr_name, dr_desc,CountRq, dr_proof_one, dr_proof_two, dr_id],
+          sql,[
+            moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+          dr_name, 
+          dr_desc,CountRq, 
+          dr_proof_one, 
+          dr_proof_two, 
+          dr_id
+        ],
           (err, result) => {
             if (err) {
               return res
@@ -123,7 +173,7 @@ export const getDownloadPending = (req, res) => {
       return res.status(403).json("Token is not valid!");
     }
     const user_id = userInfo.id; // ดึง user_id จาก token
-    const sql = "SELECT dr_id,dr_timestamp,dr_total_topic,dr_status FROM downloadrequest WHERE user_id = ? AND dr_status = 'pending'";
+    const sql = "SELECT dr_id,dr_timestamp,dr_total_topic,dr_status FROM downloadrequest WHERE user_id = ? AND dr_status in ('approved', 'pending', 'rejected')";
     db.query(sql, [user_id], (err, result) => {
       if (err) {
         return res.status(500).json(err);
@@ -136,7 +186,6 @@ export const getDownloadPending = (req, res) => {
 export const getDownloadApproved = (req, res) => {
   console.log(req.query);
   let dbt_id = req.query.dbt_id;
-  // let dbt_ids = Object.values(req.query)
   if (dbt_id.length === 0) return res.status(401).json("No list download!");
   const sql =
     "SELECT dbc_comment as comment, dbc_stance as stance FROM debatecomment WHERE dbt_id=? ";

@@ -38,6 +38,8 @@ import AdminNavBar from './components/Navbar/AdminNavBar';
 import EditCommentPopup from './components/topic-popup/EditTopicPopup';
 import DownloadList from './pages/download-list-page/DownloadList';
 import TagDebatePage from './pages/tag-debate-gallery/TagDebatePage';
+import ResetPassword from './pages/reset-page/ResetPassword';
+import ChangePassword from './pages/changepassword-page/ChangePassword';
 
 function App() {
 
@@ -71,6 +73,12 @@ function App() {
     const { tagname } = useParams();
     return <TagDebatePage tagname={tagname} />;
   }
+
+  function ForgotPasswordWrapper() {
+    const { token } = useParams();
+    return <ChangePassword token={token} />;
+  }
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -160,6 +168,14 @@ function App() {
     {
       path: "/signup",
     element: <SignUp/>,
+    },
+    {
+      path: "/forgot-password",
+      element: <ResetPassword/>,
+    },
+    {
+      path: "/reset-password/:token",
+    element: <ForgotPasswordWrapper/>,
     },
     {
       path: "/manage/downloadrequest",

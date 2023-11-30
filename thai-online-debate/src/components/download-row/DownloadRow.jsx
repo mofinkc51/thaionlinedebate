@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "./DownloadRow.css";
+import DownloadDetailPopup from "../download-request-popup/DownloadDetailPopup";
 
 function DownloadRow(props) {
   const timestamp = props.data.dr_timestamp;
@@ -13,28 +14,38 @@ function DownloadRow(props) {
     minute: "2-digit",
     second: "2-digit",
   }).format(dateObject);
- // จะแสดงเป็น "วัน/เดือน/ปี เวลา" ตามรูปแบบที่ต้องการ
-
+  // จะแสดงเป็น "วัน/เดือน/ปี เวลา" ตามรูปแบบที่ต้องการ
+  
   const rowData = {
     date: formattedDate,
     timeRemaining: "6 วัน 23 ชั่วโมง",
     quantity: props.data.dr_total_topic,
     status: props.data.dr_status,
   };
-  const handleClick = () => {
-    console.log(Date.now());
+  const handleButtonClick = () => {
+    props.getDetail(props.data.dr_id);
   };
+  const downloadFile = () => {
+    props.getDownloadDataApproved(props.data.dr_id);
+  }
+
   return (
     <>
       <tr className="download-list-row">
         <td>{rowData.date}</td>
-        <td>{rowData.timeRemaining}</td>
+        <td>{rowData.status === "approved" ? rowData.timeRemaining : 
+         rowData.status === "rejected" ? "expired" : "waited"}</td>
         <td>{rowData.quantity}</td>
         <td>{rowData.status}</td>
         <td>
-          <button onClick={handleClick}>
-            <img src={rowData.status} alt="" />
+          <button onClick={handleButtonClick}>
+            details
           </button>
+          {rowData.status === "approved" ? (
+            <button onClick={downloadFile}>
+              Download
+            </button>)
+          : null}
         </td>
       </tr>
     </>
