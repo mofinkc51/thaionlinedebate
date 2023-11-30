@@ -1,18 +1,15 @@
 .tag-component{
-    margin: 5px 0;
-    height: 20px;
-    
-    max-width: 90px;
-
-    border-radius: 15px;
-    border: 1px solid #0C0D0D;
-    background: #FFF;
-    text-align: center;
+    background-color: #D4E5FA;
+    display: flex;
+    padding: .2em .75em;
+    border-radius: 20px;
+    align-items: center;
+    height: 26px;
+    align-items: center;
 }
 .tag-component-name{
-    color: #2C343D;
-    font-size: 12px;
-    font-style: normal;
+    font-size: 13px;
+    color: #225EAF;
 
 
 }
