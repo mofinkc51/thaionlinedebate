@@ -16,6 +16,7 @@ import { BrowserRouter as  Router, Routes, Route , Switch,
   createBrowserRouter,
   RouterProvider,
   Navigate,
+  useParams,
 } from 'react-router-dom';
 import { AuthContext } from './context/authContext';
 import EditProfileData from './pages/edit-profile-data-page/EditProfileData';
@@ -36,6 +37,9 @@ import AdminMenu from './pages/admin-menu-page/AdminMenu';
 import AdminNavBar from './components/Navbar/AdminNavBar';
 import EditCommentPopup from './components/topic-popup/EditTopicPopup';
 import DownloadList from './pages/download-list-page/DownloadList';
+import TagDebatePage from './pages/tag-debate-gallery/TagDebatePage';
+import ResetPassword from './pages/reset-page/ResetPassword';
+import ChangePassword from './pages/changepassword-page/ChangePassword';
 
 
 function App() {
@@ -66,7 +70,16 @@ function App() {
       return children;
   };
 
- 
+  function TagDebatePageWrapper() {
+    const { tagname } = useParams();
+    return <TagDebatePage tagname={tagname} />;
+  }
+
+  function ForgotPasswordWrapper() {
+    const { token } = useParams();
+    return <ChangePassword token={token} />;
+  }
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -142,12 +155,28 @@ function App() {
       ),
     },
     {
+      path : "/tag/:tagname",
+      element: (
+        <ProtectedRoute>
+          <TagDebatePageWrapper/>
+        </ProtectedRoute>
+      ),
+    },
+    {
       path: "/signin",
       element: <SignIn/>,
     },
     {
       path: "/signup",
     element: <SignUp/>,
+    },
+    {
+      path: "/forgot-password",
+      element: <ResetPassword/>,
+    },
+    {
+      path: "/reset-password/:token",
+    element: <ForgotPasswordWrapper/>,
     },
     {
       path: "/manage/downloadrequest",

@@ -1,54 +1,46 @@
 import React ,{useContext, useEffect, useState}from 'react'
 import SignInNavbar from '../../components/Navbar/SignInNavbar'
-import './SignIn.css'
+import './ResetPassword.css'
 import signinImg from '../../assets/signup.png'
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import Footer from '../../components/footer/Footer'
 import { makeRequest } from '../../axios'
-function SignIn() {
-
-
-  const [inputs,setInputs] = useState({
-    user_email:"",
-    user_password:"",
-  });
-  const handleChange = (e) => {
-    setInputs((prev)=>({ ...prev, [e.target.name]:e.target.value}))
-  };
-  const [err, SetErr] = useState(null);
-
-  const { login } = useContext(AuthContext);
-
+import RegisterNavbar from '../../components/Navbar/RegisterNavbar'
+function ResetPassword() {  
+  
   const navigate = useNavigate();
-
-  const login_button = async (e) => {
-    e.preventDefault();
-    try { 
-       await login(inputs);
-       navigate('/');
-    } catch (err) {
-      SetErr(err.response.data);
-      Swal.fire({
-        icon: 'error',
-        title: err.response.data,
-      })
-    }
+  const [err, SetErr] = useState(null);
+  const [inputs,setInputs] = useState({
+    user_email:""
+  });
+  const handleChange = (event) => {
+    setInputs(event.target.value);
   };
-  const logout_db = async () => {
-    await makeRequest.post("/auth/logout", "");
-    localStorage.removeItem("user");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const sendEmail = async (event) => {
+    event.preventDefault();
+    setIsButtonDisabled(true);
+
+    try { 
+      await makeRequest.post("/auth/reset-password", inputs);
+    } catch (err) {
+     SetErr(err.response.data);
+     Swal.fire({
+       icon: 'error',
+       title: err.response.data,
+     })
+    // ตั้งเวลาเพื่อเปิดใช้งานปุ่มอีกครั้งหลังจาก 30 วินาที
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 3000); // 30000 ms = 30 วินาที
+  };
   }
-
-  useEffect(() => {
-    logout_db();
-  },[]);
-
   return (
     <>
       {/* Navbar */}
-      <SignInNavbar/>
+      <RegisterNavbar/>
       {/* Page container  */}
       <div className='signin-container'>
           {/* flex */}
@@ -60,19 +52,16 @@ function SignIn() {
             {/* right container */}
             <div className='signin-right-container'>
               {/* heading text */}
-              <h1 class="signin-title">เข้าสู่ระบบ</h1>
+              <h1 class="signin-title">ลืมรหัสผ่าน</h1>
               {/* form container */}
-              <form onSubmit={login_button}>
+              <form onSubmit={sendEmail}>
               <div className='signin-form-container'>
-                <p class="sigin-label">อีเมล</p>
+                <p class="sigin-label">กรุณากรอกอีเมล</p>
                 <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>
-                <p class="sigin-label">รหัสผ่าน</p>
-                <input type="password" class="signin-textfield" name="user_password" onChange={handleChange} required/>
                 {/* buttone div */}
                 <div className='signin-button-container'>
-                  <button class="signin-button">เข้าสู่ระบบ</button>
+                  <button class="signin-button" disabled={isButtonDisabled}>ส่งลิงก์เปลี่ยนรหัสผ่าน</button>
                 </div>
-                <a href="/forgot-password">ลืมรหัสผ่าน</a>
               </div>
               </form>
             </div>
@@ -84,4 +73,4 @@ function SignIn() {
   )
 }
 
-export default SignIn;
+export default ResetPassword;

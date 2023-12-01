@@ -48,7 +48,6 @@ function EditTopicPopup(props) {
                 title: 'Oops...',
                 text: 'หัวข้อประเด็นโต้แย้งต้องมีความยาวอย่างน้อย '+ 8 +' ตัวอักษรและไม่เกิน '+50+' ตัวอักษร'
             }).then(() => {
-                // ใช้ ref เพื่อกำหนด focus
                 titleInputRef.current.focus();
             });
             return;
@@ -59,7 +58,6 @@ function EditTopicPopup(props) {
                 title: 'Oops...',
                 text: 'คำอธิบายประเด็นโต้แย้งต้องมีความยาวอย่างน้อย '+ 10 +' ตัวอักษรและไม่เกิน '+500+' ตัวอักษร'
             }).then(() => {
-                // ใช้ ref เพื่อกำหนด focus
                 descInputRef.current.focus();
             });
             return;

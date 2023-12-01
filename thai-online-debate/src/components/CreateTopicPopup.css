@@ -14,7 +14,8 @@
   }
 
 .create-topic-popup-box{
-    width: 480px;
+    width: 100%;
+    max-width: 480px;
     padding: 30px 0;
     /* height: 600px; */
     border-radius: 10px;
@@ -25,7 +26,8 @@
 }
 
 .create-topic-popup-box-container{
-    width: 385px;
+    width: 100%;
+    max-width: 385px;
     /* border: 1px solid red; */
     margin: 0 auto;
 }
@@ -48,7 +50,6 @@
 /* for everyone */
 .create-topic-popup-label{
     color: #000;
-    font-family: Inter;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -57,6 +58,8 @@
     margin-bottom: 5px;
 
 }
+
+
 
 /* topic name and topic name input box */
 
@@ -91,7 +94,6 @@
     resize: none;
     padding: 5px 0 0 10px;
 
-
 }
 
 /* topic side and input box */
@@ -100,7 +102,6 @@
     display: flex;
     justify-content: space-between;
 
-    
 }
 
 .create-topic-stance{
@@ -129,6 +130,21 @@
     flex-wrap: wrap;
     gap: .5em;
     margin-bottom: 10px;
+}
+
+.input-tag-caution{
+    width: 100%;
+    /* border: 1px solid #225EAF; */
+    background-color: #D4E5FA;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0;
+}
+.input-tag-caution p{
+    color: #252958;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 
@@ -237,3 +253,48 @@
     background: #3B3B7A; /* Slightly lighter shade for hover */
     border-color: #FFF; /* Changing border color to white on hover */
 }
+.tag-button{
+    font-size: 13px;
+    padding: 2px 8px;
+    border-radius: 15px;
+    color: #455A68;
+    background-color: #DCE3E7;
+    border: 1px solid #DCE3E7;
+}
+.tag-button:hover{
+    color: #225EAF;
+    background: #D4E5FA;
+}
+.tag-button.active {
+    color: #225EAF;
+    background: #D4E5FA;
+    border: 1px solid #225EAF; /* เลือกสีที่คุณต้องการใช้เมื่อปุ่มถูกเลือก */
+  }
+
+@media screen and (max-width: 450px){
+
+    .create-topic-popup-box{
+        padding: 30px;
+    }
+    .create-topic-stance-row{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .create-topic-stance{
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .create-topic-popup-stance-input{
+        width: 100%;
+    }
+}
+
+.tooltip-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    font-weight: bold;
+    color: red; /* หรือสีอื่นๆ ที่คุณต้องการ */
+    /* สไตล์เพิ่มเติมที่คุณต้องการ */
+  }
+  
+  

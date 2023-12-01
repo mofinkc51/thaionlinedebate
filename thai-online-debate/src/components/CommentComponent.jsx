@@ -22,7 +22,9 @@ function CommentComponent(props) {
     dbc_comment: props.comment,
     user_pic: props.user_pic,
     timestamp: props.timestamp,
+    user_id : props.user_id
   };
+  console.log(commentData)
   const convertTimestamp = (timestamp) => {
     const dateObj = new Date(timestamp);
     const dbc_date = dateObj.toISOString().split("T")[0];
@@ -104,22 +106,23 @@ const handleTagClicked = () => {
     <>
       <div className="comment-component">
         <div className="debate-topic-comment-content">
+          <a href={`/profile/${commentData.user_id}`} className="debate-topic-comment-user">
           <img
             className="debate-topic-comment-user-img"
             src={require('../assets/upload/'+commentData.user_pic)}
             alt=""
           />
+          </a>
           <div className="debate-topic-comment-text">{commentData.dbc_comment}</div>
         </div>
         <div className="comment-action-row">
           <button onClick={handleTagClicked} className="comment-like-button">ถูกใจ</button>
-          <button onClick={handleTagClicked} className="comment-reply-button">ตอบกลับ</button>
-          {/* <p className='comment-timestamp'>{dateAndTime.date}</p> */}
           <p
             className="comment-timestamp"
             onMouseOver={() => setIsHovered(true)}
             onMouseOut={() => setIsHovered(false)}
           >
+            
             {isHovered ? dateAndTime.time : dateAndTime.date}
           </p>
         </div>

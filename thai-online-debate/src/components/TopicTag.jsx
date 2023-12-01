@@ -6,9 +6,12 @@ function TopicTag(props) {
     
   return (
     <>
-    <div className="tag-component">
+      <div className="tag-component">{/* One hardcoded tag for test */}
+        <span className="tag-component-name">{tagName}</span>
+      </div>
+    {/* <div className="tag-component">
         <p className='tag-component-name'>{tagName}</p>
-    </div>
+    </div> */}
     </>
   )
 }

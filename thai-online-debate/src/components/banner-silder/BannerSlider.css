@@ -1,23 +1,28 @@
 /* ImageSlider.css */
 
+.slider-container{
+  padding: 0 30px;
+}
+
 .slider {
     position: relative;
-    /* position: relative; */
     width: 100%;
     height: auto;
-    max-width: 930px;
-    border-radius: 10px !important;
-
+    max-width: 990px;
+    
     max-height: 240px;
     overflow: hidden;
     margin-top: 30px;
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
+  
+
     /* padding: 0 30px; */
     /* border: 1px solid #0C0D0D; */
   }
   .slides {
+    
     width: 100%;
     height: auto;
     /* height: 350px; */
@@ -42,9 +47,12 @@
     width: 100%;
     height: auto;
     max-height: 240px;
+    border-radius: 10px !important;
+
   }
   
   .navigation-manual {
+    padding: 0 30px;
     bottom: 20px;
     /* border: 1px solid red;   */
     position: absolute;

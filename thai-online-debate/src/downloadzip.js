@@ -20,41 +20,62 @@ function jsonToXML(jsonData) {
   }
   return xml;
 }
+  // dataArray.forEach((data, index) => {
+  //   // Create a JSON file for each data set
+  //   const jsonData = JSON.stringify(data, null, 2);
+  //   zip.file(`labeled-debate-topic-${index + 1}.json`, jsonData);
 
-async function downloadFilesAsZip(dataArray) {
-  const zip = new JSZip();
+  //   // Create a CSV file for each data set
+  //   const headers = Object.keys(data[0]);
+  //   const csvData = data.map((item) =>
+  //     headers.map((header) => `"${item[header]}"`).join(',')
+  //   );
+  //   const csvContent = [headers.join(','), ...csvData].join('\n');
+  //   zip.file(`labeled-debate-topic-${index + 1}.csv`, csvContent);
 
-  dataArray.forEach((data, index) => {
-    // Create a JSON file for each data set
-    const jsonData = JSON.stringify(data, null, 2);
-    zip.file(`labeled-debate-topic-${index + 1}.json`, jsonData);
+  //   // Create an XML file for each data set
+  //   const xmlContent = jsonToXML(data);
+  //   zip.file(`labeled-debate-topic-${index + 1}.xml`, xmlContent);
+  // });
 
-    // Create a CSV file for each data set
-    const headers = Object.keys(data[0]);
-    const csvData = data.map((item) =>
-      headers.map((header) => `"${item[header]}"`).join(',')
-    );
-    const csvContent = [headers.join(','), ...csvData].join('\n');
-    zip.file(`labeled-debate-topic-${index + 1}.csv`, csvContent);
-
-    // Create an XML file for each data set
-    const xmlContent = jsonToXML(data);
-    zip.file(`labeled-debate-topic-${index + 1}.xml`, xmlContent);
-  });
-
-  // Generate the zip content
-  const content = await zip.generateAsync({ type: 'blob' });
-
-  // Create a URL and trigger the download
-  const url = URL.createObjectURL(content);
-  const a = document.createElement('a');
-  a.style.display = 'none';
-  a.href = url;
-  a.download = 'dataset.zip'; // You can customize the zip file name
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
+  async function downloadFilesAsZip(dataArray) {
+    const zip = new JSZip();
+  
+    dataArray.forEach((data, index) => {
+      // Create a JSON file for each data set
+      const jsonData = JSON.stringify(data, null, 2);
+      zip.file(`debate-topic-${index + 1}.json`, jsonData);
+  
+      // Create an XML file for each data set
+      const xmlContent = jsonToXML(data);
+      zip.file(`debate-topic-${index + 1}.xml`, xmlContent);
+  
+      // Check if the data.dbt_comment is valid for CSV creation
+      if (data.dbt_comment && data.dbt_comment.length > 0) {
+        const headers = Object.keys(data.dbt_comment[0]);
+        const csvData = data.dbt_comment.map((item) =>
+          headers.map((header) => `"${item[header]}"`).join(',')
+        );
+        const csvContent = [headers.join(','), ...csvData].join('\n');
+        zip.file(`debate-topic-${index + 1}-comments.csv`, csvContent);
+      } else {
+        console.error('Invalid data for CSV creation:', data);
+      }
+    });
+  
+    // Generate the zip content
+    const content = await zip.generateAsync({ type: 'blob' });
+  
+    // Create a URL and trigger the download
+    const url = URL.createObjectURL(content);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'debate-data.zip'; // Customize the zip file name
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+  
 export default downloadFilesAsZip;

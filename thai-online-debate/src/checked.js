@@ -1,6 +1,17 @@
 import Swal from 'sweetalert2'
 
-
+export function special_char(text) {
+    if (!/^[a-zA-Z0-9\sก-๙!@#$%^&*()-_+{}\[\]:;<>,.?~\\/]*$/.test(text)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'กรุณากรอกข้อมูลที่เป็นตัวอักษรภาษาอังกฤษ ภาษาไทย หรือตัวเลขเท่านั้น'
+          })
+        return false;
+    } else {
+        return true;
+    }
+}
 export function user_validation(username, min ,max) {
     var username_len = username.length;
     if (username_len == 0 || username_len < min || username_len > max) {

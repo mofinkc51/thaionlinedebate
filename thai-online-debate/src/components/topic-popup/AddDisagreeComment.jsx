@@ -21,11 +21,11 @@ function AddAgreeComment(props) {
 
   const addCommentDisAgree = async (e) => {
     e.preventDefault();
-    if (!text_validation(dataComment.dbc_comment,3,300)){
+    if (!text_validation(dataComment.dbc_comment,3,150)){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+300+' ตัวอักษร'
+            text: 'ข้อความโต้แย้งต้องมีความยาวอย่างน้อย '+ 3 +' ตัวอักษรและไม่เกิน '+150+' ตัวอักษร'
         });
         return document.getElementsByName('dbc_comment')[0].focus();
     }
@@ -41,7 +41,7 @@ function AddAgreeComment(props) {
         <div className="add-comment-bg-opacity">
             <div className="add-comment-popup-box">
                 <div className="add-comment-popup-container">
-                    <h2>เพิ่มข้อความโต้แย้งฝั่งไม่เห็นด้วย</h2>
+                    <h2>เพิ่มข้อความโต้แย้งฝั่ง{props.stance}</h2>
                     <form onSubmit={addCommentDisAgree}>
                         <label htmlFor='comment-input'></label>
                         <textarea className="add-comment-popup-input" 

@@ -1,7 +1,8 @@
 import { db } from "../connect.js"
 import bcrypt from "bcryptjs"
 import Jwt from "jsonwebtoken";
-
+import nodemailer from "nodemailer";
+import crypto from "crypto";
 export const register = (req,res)=>{
     //check user
 
@@ -51,7 +52,6 @@ export const login = (req, res) => {
             const sqlCheckAdmin = "SELECT * FROM admin WHERE admin_email = ?";
             db.query(sqlCheckAdmin, [userData[0].user_email], (err, adminData) => {
                 if (err) return res.status(500).json(err);
-
                 if (adminData.length === 0) {
                     // ผู้ใช้มี role_id เป็น admin แต่ไม่มีข้อมูลในตาราง admin, ทำการเพิ่มข้อมูล
                     const sqlInsertAdmin = "INSERT INTO admin (admin_id, admin_email, admin_username, admin_phonenum) VALUES (?, ?, ?, ?)";
@@ -123,4 +123,94 @@ export const checktoken = (req,res)=>{
         return res.status(200).json("Token is valid");
     } 
 };
- 
+export const forgotPassword = (req, res) => {
+    const { user_email } = req.body;
+    console.log(user_email)
+    // ตรวจสอบว่ามีอีเมลล์นี้ในฐานข้อมูลหรือไม่
+    db.query('SELECT user_name FROM user WHERE user_email = ?', [user_email], (err, data) => {
+        if (err) {
+            return res.status(500).json({ message: "Error in database operation" });
+        }
+
+        if (data.length === 0) {
+            return res.status(404).json("User not found" );
+        }
+
+        // สร้าง token สำหรับรีเซ็ตรหัสผ่าน
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const hashedToken = bcrypt.hashSync(resetToken, bcrypt.genSaltSync(10));
+
+        // กำหนดเวลาหมดอายุสำหรับ token
+        const expireDate = new Date();
+        expireDate.setMinutes(expireDate.getMinutes() + 30); // อายุหมดอายุหลังจาก 30 นาที
+
+        // อัปเดตข้อมูลในฐานข้อมูล
+        db.query('UPDATE user SET reset_token = ?, reset_token_expire = ? WHERE user_email = ?',
+            [hashedToken, expireDate, user_email], (updateErr, updateData) => {
+                if (updateErr) {
+                    console.log(updateErr);
+                    return res.status(500).json({ message: "Error updating user data" });
+                }
+
+                // ส่งอีเมลล์พร้อมลิงก์รีเซ็ตรหัสผ่าน
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    host: 'smtp.gmail.com',
+                    port: 587,
+                    secure: false,
+                    auth: {
+                        user: 'thaionlinedebate.staff@gmail.com',
+                        pass: 'gozd fzlw awvl eeye'
+                    },
+                });
+                const mailOptions = {
+                    from: 'thaionlinedebate.staff@gmail.com',
+                    to: user_email,
+                    subject: 'Password Reset Link',
+                    html: `<p>To reset your password, please click on this <a href="http://localhost:3000/reset-password/${resetToken}">link</a>. This link will expire in 30 minutes.</p>`
+                };
+
+                transporter.sendMail(mailOptions, (mailErr, info) => {
+                    if (mailErr) {
+                        console.log(mailErr);
+                        return res.status(500).json({ message: "Error sending email" });
+                    }
+                    console.log("Email sent: " + info.response);
+                    res.status(200).json({ message: "Reset password link sent to email" });
+                });
+            }
+        );
+    });
+}
+
+export const resetPassword = (req, res) => {
+    const { resetToken } = req.params;
+    const { new_password } = req.body;
+
+    // ดึงข้อมูลผู้ใช้ทั้งหมดที่มี reset token ยังไม่หมดอายุ
+    const sqlSelect = "SELECT * FROM user WHERE reset_token_expire > NOW()";
+    db.query(sqlSelect, (err, users) => {
+        if (err) {
+            return res.status(500).json({ message: "Error in database operation", error: err });
+        }
+
+        // หา user ที่มี token ที่ตรงกัน
+        const user = users.find(user => bcrypt.compareSync(resetToken, user.reset_token));
+        if (!user) {
+            return res.status(404).json("Invalid or expired token");
+        }
+
+        // ถ้า token ตรงกับ user คนใดคนหนึ่ง, อัปเดตรหัสผ่านใหม่
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(new_password, salt);
+        const sqlUpdate = "UPDATE user SET user_password=?, reset_token=NULL, reset_token_expire=NULL WHERE user_id=?";
+        
+        db.query(sqlUpdate, [hashedPassword, user.user_id], (updateErr, updateData) => {
+            if (updateErr) {
+                return res.status(500).json({ message: "Error updating password", error: updateErr });
+            }
+            res.status(200).json({ message: "Password has been reset successfully" });
+        });
+    });
+};
+

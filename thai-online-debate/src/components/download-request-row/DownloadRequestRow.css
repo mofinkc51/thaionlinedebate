@@ -21,3 +21,16 @@
 
     margin: 5px;
 }
+
+@media screen and (max-width: 700px){
+    .download-request-row-stance{
+        display: none;
+    }
+  }
+
+  @media screen and (max-width: 450px){
+    .download-request-row-number{
+        display: none;
+    }
+  }
+

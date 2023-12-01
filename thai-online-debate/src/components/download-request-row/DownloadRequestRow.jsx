@@ -2,6 +2,7 @@ import React from 'react'
 import './DownloadRequestRow.css'
 import deleteButtonIcon from '../../assets/icon/trash.svg'
 import editButtonIcon from '../../assets/icon/edit.svg'
+import { makeRequest } from '../../axios'
 function DownloadRequestRow(props) {
     const rowData = {
         topicName: props.data.dbt_title,
@@ -10,11 +11,14 @@ function DownloadRequestRow(props) {
         commentQuantity: props.data.count,
         dbt_id : props.data.dbt_id
     }
-    const deleteLocalStorage = () => {
-        let downloadList = JSON.parse(localStorage.getItem('downloadList'));
-        downloadList = downloadList.filter(item => item !== rowData.dbt_id);
-        localStorage.setItem('downloadList', JSON.stringify(downloadList));
-
+    const deleteLocalStorage = async () => {
+        console.log(rowData.dbt_id)
+        try {
+            const res = await makeRequest.delete(`/downloads/${rowData.dbt_id}`);
+            console.log(res.data);
+        } catch (err) {
+            console.log(err);
+        }
         props.refresh();
     }
 
@@ -22,9 +26,9 @@ function DownloadRequestRow(props) {
     <>
         <tr className='download-request-row'>
             <td>{rowData.topicName}</td>
-            <td>{rowData.stanceOne}</td>
-            <td>{rowData.stanceTwo}</td>
-            <td>{rowData.commentQuantity}</td>
+            <td className='download-request-row-stance'>{rowData.stanceOne}</td>
+            <td className='download-request-row-stance'>{rowData.stanceTwo}</td>
+            <td className='download-request-row-number'>{rowData.commentQuantity}</td>
             <td>
                 {/* <button><img src={editButtonIcon} alt="" /></button> */}
                 <button onClick={deleteLocalStorage} ><img src={deleteButtonIcon}alt="" /></button>
