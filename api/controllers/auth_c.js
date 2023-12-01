@@ -39,31 +39,50 @@ export const register = (req,res)=>{
     });
 }; 
 
-export const login = (req,res)=>{
-    const sql = "SELECT * FROM user WHERE user_email = ?"
-    db.query(sql,[req.body.user_email], (err,data)=>{
-        if(err) return res.status(500).json(err)
-        if(data.length === 0) return res.status(404).json("User not found");
-        console.log(data[0].user_email)
-        const checkPass = bcrypt.compareSync(req.body.user_password, data[0].user_password);
-        console.log(checkPass)
-        if(!checkPass) 
+export const login = (req, res) => {
+    const sql = "SELECT * FROM user WHERE user_email = ?";
+    db.query(sql, [req.body.user_email], (err, userData) => {
+        if (err) return res.status(500).json(err);
+        if (userData.length === 0) return res.status(404).json("User not found");
+        const checkPass = bcrypt.compareSync(req.body.user_password, userData[0].user_password);
+        if (!checkPass) 
             return res.status(400).json("Wrong password or email");
-        const token = Jwt.sign({id:data[0].user_id,role:data[0].role_id},"secretkey");
-        const {user_password, ...ot} = data[0];
-        res.cookie("accessToken", token, {httpOnly:true,})
-        .status(200)
-        .json(ot);
-        console.log(ot)
+        if (userData[0].role_id === 'admin') {
+            // ตรวจสอบในตาราง admin
+            const sqlCheckAdmin = "SELECT * FROM admin WHERE admin_email = ?";
+            db.query(sqlCheckAdmin, [userData[0].user_email], (err, adminData) => {
+                if (err) return res.status(500).json(err);
+                if (adminData.length === 0) {
+                    // ผู้ใช้มี role_id เป็น admin แต่ไม่มีข้อมูลในตาราง admin, ทำการเพิ่มข้อมูล
+                    const sqlInsertAdmin = "INSERT INTO admin (admin_id, admin_email, admin_username, admin_phonenum, admin_password) VALUES (?, ?, ?, ?, ?)";
+                    db.query(sqlInsertAdmin, [userData[0].user_id, userData[0].user_email, userData[0].user_name, userData[0].user_phonenum,userData[0].user_password], (err, insertResult) => {
+                        if (err) {
+                            console.error("Error while inserting into admin table:", err);
+                            return res.status(500).json(err);
+                        }
+                        console.log("Admin data inserted successfully, result:", insertResult);
+                    });
+                }
+            });
+        }
 
+        // สร้าง token และส่งข้อมูลผู้ใช้กลับ (รวมถึงขั้นตอนอื่นๆที่ทำในฟังก์ชันเดิม)
+        const token = Jwt.sign({ id: userData[0].user_id, role_id: userData[0].role_id }, "secretkey");
+        const { user_password, ...ot } = userData[0];
+
+        res.cookie("accessToken", token, { httpOnly: true })
+            .status(200) 
+            .json(ot);
     });
-
 };
+
+
+
 
 export const changePassword = (req, res) => {
     const sqlSelect = "SELECT * FROM user WHERE user_id = ?";
     db.query(sqlSelect, [req.body.user_id], (err, data) => {
-        if (err) return res.status(500).json(err);
+        if (err) return res.status(500).json(err); 
         if (data.length === 0) return res.status(404).json("User not found");
 
         const checkPass = bcrypt.compareSync(req.body.user_password, data[0].user_password);
@@ -103,7 +122,6 @@ export const checktoken = (req,res)=>{
         return res.status(200).json("Token is valid");
     } 
 };
-
 export const forgotPassword = (req, res) => {
     const { user_email } = req.body;
     console.log(user_email)

@@ -19,3 +19,17 @@
 .request-header-manage{
     /* width: 140px; */
 }
+
+.back-button {
+    float: right; /* ย้ายปุ่มไปทางขวา */
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* เพิ่ม CSS สำหรับไอคอนของรูปภาพ */
+  .back-icon {
+    width: 20px; /* ปรับขนาดของไอคอนตามความต้องการ */
+    height: 20px;
+    margin-left: 5px; /* เพิ่มระยะห่างระหว่างปุ่มและไอคอน */
+  }

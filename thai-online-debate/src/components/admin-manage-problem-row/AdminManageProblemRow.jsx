@@ -3,8 +3,10 @@ import './AdminManageProblemRow.css';
 import checkButtonIcon from '../../assets/icon/check.png';
 import deleteButtonIcon from '../../assets/icon/trash.png';
 
-function AdminManageProblemRow({ problem, onEditClick }) {
-  const { user_name, rp_timestamp, rp_description, rp_status } = problem;
+function AdminManageProblemRow({ problem, onEditClick, onDelete }) {
+  const { user_name, rp_timestamp, rp_description, rp_status, rp_id } = problem;
+
+  // console.log('rp_id:', rp_id); // ใส่ console.log เพื่อดูค่า rp_id
 
   return (
     <tr className='admin-manage-problem-row'>
@@ -20,7 +22,7 @@ function AdminManageProblemRow({ problem, onEditClick }) {
       <td>{rp_status}</td>
       <td>
         <button onClick={onEditClick}><img src={checkButtonIcon} alt="" /></button>
-        <button><img src={deleteButtonIcon} alt="" /></button>
+        <button onClick={() => onDelete(rp_id)}><img src={deleteButtonIcon} alt="" /></button> 
       </td>
     </tr>
   );
