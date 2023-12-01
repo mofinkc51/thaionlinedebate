@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./DownloadRow.css";
 import DownloadDetailPopup from "../download-request-popup/DownloadDetailPopup";
-
+import { MdOutlineFileDownload } from "react-icons/md";
+import inspectIcon from "../../assets/icon/inspect.png";
+import downloadIcon from "../../assets/icon/download.png";
 function DownloadRow(props) {
   const timestamp = props.data.dr_timestamp;
   const dateObject = new Date(timestamp);
@@ -38,14 +40,17 @@ function DownloadRow(props) {
         <td>{rowData.quantity}</td>
         <td>{rowData.status}</td>
         <td>
-          <button onClick={handleButtonClick}>
-            details
-          </button>
-          {rowData.status === "approved" ? (
-            <button onClick={downloadFile}>
-              Download
-            </button>)
-          : null}
+          <div className="download-row-button-row">
+            <button onClick={handleButtonClick} className="download-row-inspect-button">
+              <img src= {inspectIcon} alt="" />
+            </button>
+            {rowData.status === "approved" ? (
+              <button onClick={downloadFile} className="download-row-download-button">
+                <img src= {downloadIcon} alt="" />
+                
+              </button>)
+            : null}
+          </div>
         </td>
       </tr>
     </>
