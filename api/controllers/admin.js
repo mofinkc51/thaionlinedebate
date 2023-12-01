@@ -48,9 +48,10 @@ export const getProblem = (req, res) => {
   
   export const getApprove = (req, res) => {
     const sql = `
-        SELECT dr.*, u.user_name 
+         SELECT dr.*, u.user_name 
         FROM downloadrequest dr
         JOIN user u ON dr.user_id = u.user_id
+        WHERE dr.dr_status = 0 OR dr.dr_status IS NULL;
     `;
   
     db.query(sql, (err, data) => {
@@ -62,7 +63,7 @@ export const getProblem = (req, res) => {
             return res.status(404).json("Requests not found");
         }
   
-        console.log("Data:", data);
+        // console.log("Data:", data);
         return res.status(200).json(data);
     });
 };
@@ -170,9 +171,76 @@ export const getApprovefromdr_id = (req, res) => {
   });
 };
 
-export const postActivity = async (req, res) => {
- 
+
+
+
+export const postActivity = (req, res) => { 
+  const { topicName, topicDesc, startDate, endDate, stanceOne, stanceTwo, userId } = req.body;
+
+  if (!topicName || !topicDesc || !startDate || !endDate || !stanceOne || !stanceTwo || !userId) {
+    return res.status(400).json({ message: 'Missing required data' });
+  }
+
+  const getMaxDbtIdQuery = 'SELECT MAX(dbt_id) AS maxDbtId FROM debatetopic';
+  const getMaxActIdQuery = 'SELECT MAX(act_id) AS maxActId FROM activity';
+
+  db.query(getMaxDbtIdQuery, (err, dbtResult) => {
+    if (err) {
+      console.error('Error executing SQL for debate topic ID:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    db.query(getMaxActIdQuery, (err, actResult) => {
+      if (err) {
+        console.error('Error executing SQL for activity ID:', err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+
+      const maxDbtId = dbtResult[0].maxDbtId || 0;
+      const maxActId = actResult[0].maxActId || 0;
+
+      const nextActId = maxActId + 1;
+
+      const sql = `
+        INSERT INTO debatetopic (dbt_id, dbt_title, dbt_description, dbt_timestamp, dbt_agree, dbt_disagree, user_id)
+        VALUES (?, ?, ?, NOW(), ?, ?, ?);
+      `;
+
+      const sql2 = `
+        INSERT INTO activity (act_id, act_start_date, act_end_date, admin_id, dbt_id)
+        VALUES (?, ?, ?, ?, ?);
+      `;
+
+      db.query(
+        sql,
+        [maxDbtId + 1, topicName, topicDesc, stanceOne, stanceTwo, userId],
+        (err, insertResult) => {
+          if (err) {
+            console.error('Error executing SQL for debatetopic insertion:', err);
+            return res.status(500).json({ message: 'Internal server error' });
+          }
+
+          db.query(
+            sql2,
+            [nextActId, startDate, endDate, 1, maxDbtId + 1],
+            (err, insertResult) => {
+              if (err) {
+                console.error('Error executing SQL for activity insertion:', err);
+                return res.status(500).json({ message: 'Internal server error' });
+              }
+
+              return res.status(201).json({ message: 'Activity posted successfully' });
+            }
+          );
+        }
+      );
+    });
+  });
 };
+
+
+
+
 
 
 
@@ -222,13 +290,11 @@ export const admindescription = (req, res) => {
 };
 
 
-// ในไฟล์ controller/admin.js
-
 export const postApproval = (req, res) => {
   const { dr_id, user_email } = req.body;
 
-  console.log('user_email received:', user_email);  // เพิ่มบรรทัดนี้เพื่อแสดงค่า user_email ใน console.log
-  console.log('dr_id received:', dr_id);
+  // console.log('user_email received:', user_email);
+  // console.log('dr_id received:', dr_id);
 
 
   const selectAdminIdSql = 'SELECT * FROM admin';
@@ -239,7 +305,6 @@ export const postApproval = (req, res) => {
       return res.status(500).send('เกิดข้อผิดพลาดในการดึงข้อมูล admin');
     }
 
-    // Find the admin_id where admin_email matches userEmail
     const adminMatch = adminData.find((admin) => admin.admin_email === user_email);
 
     if (!dr_id || !adminMatch) {
@@ -270,3 +335,55 @@ export const postApproval = (req, res) => {
     });
   });
 };
+
+export const approvalStatus = (req, res) => {
+  const drId = req.body.dr_id;
+  const checkSql = 'SELECT dr_id FROM downloadrequest ';
+  db.query(checkSql, [drId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการค้นหาข้อมูล' });
+    }
+    
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'ไม่พบ dr_id ที่ระบุในฐานข้อมูล' });
+    }
+    
+    const updateSql = 'UPDATE downloadrequest SET dr_status = ? WHERE dr_id = ?';
+    
+    db.query(updateSql, [1, drId], (err, updateResults) => {
+      if (err) {
+        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตคอลัมน์' });
+      }
+
+      return res.json({ message: 'อัปเดตคอลัมน์ dr_status เรียบร้อยแล้ว' });
+    });
+  });
+};
+
+export const getdbtdataforEditactivity = (req, res) => {
+  const dbt_id = req.params.dbt_id; // ดึงค่า dbt_id จาก request parameters
+
+  // ต่อไปนี้คือ SQL ที่ใช้รับข้อมูลโดยใช้ dbt_id
+  const sql = `
+    SELECT dbt_description, dbt_agree, dbt_disagree 
+    FROM debatetopic 
+    WHERE dbt_id = ${dbt_id}
+  `;
+
+  // ทำการ query ด้วย SQL ของคุณ
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    // ตรวจสอบว่ามีข้อมูลหรือไม่
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+
+    // ส่งข้อมูลกลับไปยัง client
+    res.json(result[0]);
+  });
+};
+
