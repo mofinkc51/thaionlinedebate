@@ -3,8 +3,8 @@ import { addPost , updatePost , deletePost ,
     getTops ,
     getTags,getTopicByTag,getAllTag,
     getTopic,getFav,checkTopicCanEdit,
-    getLastTopic,getSearch} 
-from "../controllers/post.js";
+    getLastTopic,getSearch,getTagByDebate
+} from "../controllers/post.js";
 
 const router = express.Router()
 //get top 3 topic
@@ -31,4 +31,8 @@ router.get("/tags",getTags)
 router.get("/tag/:tag_name",getTopicByTag)
 //getalltag
 router.get("/alltag",getAllTag)
+//getTagByDebate
+router.get("/tag/debate/:dbt_id",getTagByDebate)
+
+
 export default router

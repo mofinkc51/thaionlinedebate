@@ -76,7 +76,7 @@ function DownloadList() {
   
         newDownloadListArray.push(debate_topic_download);
       }
-  
+      console.log("dlarray",newDownloadListArray);
       if (newDownloadListArray.length > 0) {
         setDownloadListArray(newDownloadListArray); // อัปเดต state ทีเดียวหลังจากการวนลูปเสร็จ
         console.log(downloadListArray)

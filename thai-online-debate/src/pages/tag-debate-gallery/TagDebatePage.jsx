@@ -52,6 +52,7 @@ function TagDebatePage(props) {
     setDebate(currentDebate => handleSort(currentDebate, newSortType));
   };
 
+  console.log(debate);
 
   //const tagname = window.location.pathname.split("/").pop();
   const getTagTopics = async () => {
@@ -93,13 +94,18 @@ function TagDebatePage(props) {
             </div>
         </div>
         <div className="fav-debate-gallery">
-        {debate.map((debate) => (
+          {debate.length === 0 || (debate[0] && debate[0].dbt_id === null) ? (
+            <h3>ไม่พบข้อมูล</h3>
+          ) : (
+            debate.map((debateItem) => (
               <TopicComponent 
-              topicname={debate.dbt_title} 
-              id={debate.dbt_id}
-              refresh={refreshTopics}
+                key={debateItem.dbt_id} // เพิ่ม key สำหรับการ optimize render
+                topicname={debateItem.dbt_title} 
+                id={debateItem.dbt_id}
+                refresh={refreshTopics}
               />
-            ))}
+            ))
+          )}
         </div>
     </div>
     </>

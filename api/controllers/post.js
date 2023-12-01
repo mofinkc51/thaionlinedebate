@@ -225,3 +225,12 @@ export const getAllTag = (req,res)=>{
     return res.status(200).json(data);
   })
 }
+
+export const getTagByDebate = (req,res)=>{
+  const dbt_id = req.params.dbt_id
+  const sql = "SELECT tag.tag_title FROM tag LEFT JOIN debatetag ON tag.tag_id = debatetag.tag_id WHERE debatetag.dbt_id = ?;"
+  db.query(sql,dbt_id, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  })
+}
