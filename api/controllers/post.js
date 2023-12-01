@@ -9,7 +9,6 @@ export const getTops = (req,res)=>{
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-    console.log(userInfo)
     const sql = 
     "SELECT debatetopic.dbt_id, debatetopic.dbt_title, COUNT(debatecomment.dbt_id) AS num_comments FROM debatetopic LEFT JOIN debatecomment ON debatetopic.dbt_id = debatecomment.dbt_id GROUP BY debatetopic.dbt_id, debatetopic.dbt_title, debatetopic.dbt_timestamp ORDER BY num_comments DESC, debatetopic.dbt_timestamp DESC LIMIT 12;"
   
@@ -57,7 +56,6 @@ export const addPost = (req, res) => {
       const dbt_id = data.insertId;
       // Process each tag from the request
       const tags = req.body.tags; // Your second dataset ["กฎหมายชาวบ้าน","Part Time",...]
-      console.log(dbt_id,tags)
       // Function to handle tag insertion
       const handleTagInsert = (tag, index, callback) => {
         // Check if tag exists in the tag table first
@@ -208,11 +206,22 @@ export const getTags = (req,res)=>{
   const sql = "SELECT tag.tag_title,debatetag.tag_id, COUNT(dbt_id) AS tag_count FROM debatetag LEFT JOIN tag ON debatetag.tag_id = tag.tag_id GROUP BY debatetag.tag_id ORDER BY tag_count DESC LIMIT 5;";
   db.query(sql, (err, data) => {
     if (err) return res.status(500).json(err);
-    console.log(data);
     return res.status(200).json(data);
   });
 }
-export const getTagById = (req,res)=>{
+export const getTopicByTag = (req,res)=>{
+  const tag_name = req.params.tag_name;
+  const sql = "SELECT tag.tag_id, debatetopic.dbt_id,debatetopic.dbt_title FROM tag  LEFT JOIN debatetag ON tag.tag_id = debatetag.tag_id  LEFT JOIN debatetopic ON debatetopic.dbt_id = debatetag.dbt_id WHERE tag.tag_title = ?; "
+  db.query(sql,tag_name, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  })
+}
 
-
+export const getAllTag = (req,res)=>{
+  const sql = "SELECT tag_title FROM tag;"
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  })
 }

@@ -190,26 +190,41 @@ function DebateTopic(props) {
 
   }
 
-  function addToDownloadList(dbt_id) {
+  async function addToDownloadList(topicData) {
     // ดึงรายการที่มีอยู่จาก localStorage
     let downloadList = JSON.parse(localStorage.getItem('downloadList')) || [];
     
     // ตรวจสอบว่า dbt_id นี้มีอยู่แล้วในรายการหรือไม่
-    if (!downloadList.includes(dbt_id)) {
+    if (!downloadList.includes(topicData.dbt_id)) {
       // เพิ่ม dbt_id ใหม่เข้าไปในรายการถ้ายังไม่มี
-      downloadList.push(dbt_id);
+      downloadList.push(topicData.dbt_id);
       // บันทึกกลับเข้า localStorage
       localStorage.setItem('downloadList', JSON.stringify(downloadList));
+    }
+    try {
+      const res = await makeRequest.post('/downloads/' ,topicData);
+      if (res.status === 200) 
+      return Swal.fire({
+        icon: 'success',
+        title: res.data
+      })
+      else return Swal.fire({
+        icon: 'error',
+        title: res.data
+      })
+
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: err.response.data
+      })
     }
   }
   
   const handleAddToDownload = () => {
     setOpen(false)
-    addToDownloadList(topicData.dbt_id)
-    Swal.fire({
-      icon: 'success',
-      title: 'เพิ่มประเด็นโต้แย้งเรียบร้อย'
-    })
+    addToDownloadList(topicData)
+
     // setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
   }
   // if(!!selectedAddtoDownloadPopup){
@@ -332,7 +347,7 @@ function DebateTopic(props) {
                 ))}
 
                 </div>
-                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นเพื่อฝั่ง{topicData.dbt_agree}</button>
+                <button className='debate-topic-agree-button' onClick={handleAgreeComment}>แสดงความคิดเห็นสำหรับฝั่ง{topicData.dbt_agree}</button>
                 
               </div>
             </div>
@@ -354,7 +369,7 @@ function DebateTopic(props) {
                   ))}
 
                 </div>
-                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นเพื่อฝั่ง{topicData.dbt_disagree}</button>
+                <button className='debate-topic-disagree-button' onClick={handleDisagreeComment}>แสดงความคิดเห็นสำหรับฝั่ง{topicData.dbt_disagree}</button>
                 
               </div>
             </div>

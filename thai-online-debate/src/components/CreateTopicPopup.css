@@ -286,3 +286,13 @@
         width: 100%;
     }
 }
+
+.tooltip-icon {
+    cursor: pointer;
+    margin-left: 15px;
+    font-weight: bold;
+    color: blue; /* หรือสีอื่นๆ ที่คุณต้องการ */
+    /* สไตล์เพิ่มเติมที่คุณต้องการ */
+  }
+  
+  
