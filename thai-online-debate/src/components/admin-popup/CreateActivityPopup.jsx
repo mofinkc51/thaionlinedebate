@@ -3,7 +3,7 @@ import './CreateActivityPopup.css';
 import closeButtonIcon from '../../assets/icon/close.png';
 import axios from 'axios';
 
-function CreateActivityPopup({ closePopup }) {
+const CreateActivityPopup = ({ closePopup, onCreate }) => {
   const [formData, setFormData] = useState({
     topicName: '',
     topicDesc: '',
@@ -16,7 +16,6 @@ function CreateActivityPopup({ closePopup }) {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Retrieve user_id from local storage
     const userDataString = localStorage.getItem('user');
     const userData = JSON.parse(userDataString);
     const userIdFromLocalStorage = userData ? userData.user_id : null;
@@ -28,31 +27,36 @@ function CreateActivityPopup({ closePopup }) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  
 
-  const handleCreate = async () => {
+  const handleCreate = async (e) => {
     try {
-      // Ensure userId is available
+      e.preventDefault();
+  
       if (!userId) {
         console.error('User ID not found in local storage.');
         return;
       }
-
-      // Send data to the server along with userId
-      const dataToSend = { ...formData, userId };
+  
+      // เพิ่ม dbt_description เพื่อรับค่า topicDesc
+      const dataToSend = { ...formData, userId, dbt_description: formData.topicDesc };
       const response = await axios.post('http://localhost:8800/api/admin/postactivity', dataToSend);
-
-      // Log the server response
-      console.log('Create activity response:', response.data);
-
-      // Additional logic or handling based on the server response can be added here
-
-      // Close the popup
+  
+      console.log('Create activity response:', formData);
+  
+      // ทำการตรวจสอบค่า activities ที่ได้รับผ่านฟังก์ชันที่ส่งมาจาก AdminManageActivity
+      if (onCreate) {
+        onCreate(response.data);
+      } else {
+        console.error('onCreate function not provided.');
+      }
+  
       closePopup();
     } catch (error) {
       console.error('Error creating activity:', error);
-      // Handle errors appropriately
     }
   };
+  
 
   return (
     <>
@@ -152,6 +156,6 @@ function CreateActivityPopup({ closePopup }) {
       </div>
     </>
   );
-}
+};
 
 export default CreateActivityPopup;
