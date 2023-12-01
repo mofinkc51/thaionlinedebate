@@ -237,7 +237,7 @@ function CreateTopicPopup() {
                             <div className="create-topic-stance">
                                 <p className='create-topic-popup-label'>
                                     ฝั่งที่ 1
-                                    <span className="tooltip-icon" title="สามารถเปลี่ยน ฝั่งที่ 1 จาก เห็นด้วยเป็น อย่างอื่นเช่น น้ำปลาพริก">?</span>
+                                    <span className="tooltip-icon" title="สามารถเปลี่ยน ฝั่งที่ 1 จาก เห็นด้วยเป็น อย่างอื่นเช่น ฝั่ง เห็นชอบ">?</span>
                                 </p>
                                 <input type="text" className='create-topic-popup-stance-input'
                                 onChange={handleChange} name="dbt_agree" value={topic.dbt_agree}
@@ -256,7 +256,9 @@ function CreateTopicPopup() {
                         </div>
                         {/* แท็กที่เลือก */}
                         <div className="create-topic-tag-row">
-                            <p className='create-topic-popup-label'>แท็กที่เลือก</p>
+                            <p className='create-topic-popup-label'>แท็กที่เลือก
+                            <span className="tooltip-icon" title="">?</span>
+                            </p>
                             <div className="input-tag-container">
                             {tags.length === 0  ? (
                                         <div className="input-tag-caution">
@@ -271,7 +273,9 @@ function CreateTopicPopup() {
                         </div>
                         {/* tag row */}
                         <div className="create-topic-tag-row">
-                            <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง</p>
+                            <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง 
+                                <span className="tooltip-icon" title="เมื่อผู้ใช้ทำการกรอกหัวข้อประเด็นโต้แย้ง ระบบจะแนะนำแท็กที่เกี่ยวข้องกับประเด็นโต้แย้ง">?</span>
+                            </p>
                             <div className="input-tag-container">
                                 {tagsuggest.map((tag) => (
                                     <button 
