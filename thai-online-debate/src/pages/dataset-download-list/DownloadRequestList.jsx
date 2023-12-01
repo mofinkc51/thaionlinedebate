@@ -38,6 +38,8 @@ function DownloadRequestList() {
     getDownloadData();
   }, []);
 
+      ]
+      
   const handleRequestClick = () => {
     if (!downloadData || downloadData.length === 0) {
       return Swal.fire({
@@ -80,7 +82,7 @@ function DownloadRequestList() {
         <button className='download-request-down-button'onClick={handleRequestClick}>ส่งคำร้องการดาวน์โหลด</button>
         
     </div>
-    {popup}
+    {selectedRequestPopup}
     {/* <DownloadFormPopup onCloseClick={onCloseClick}/> */}
     </>
   );

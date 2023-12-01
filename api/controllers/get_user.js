@@ -1,7 +1,7 @@
 import { db } from "../connect.js";
 
 export const getAllUsers = (req, res) => {
-  const sql = "SELECT user_name,user_email FROM user";
+  const sql = "SELECT user_name,user_email,user_id FROM user";
 
   db.query(sql, (err, data) => {
     if (err) {

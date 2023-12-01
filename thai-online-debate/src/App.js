@@ -41,6 +41,7 @@ import TagDebatePage from './pages/tag-debate-gallery/TagDebatePage';
 import ResetPassword from './pages/reset-page/ResetPassword';
 import ChangePassword from './pages/changepassword-page/ChangePassword';
 
+
 function App() {
 
   const { currentUser } = useContext(AuthContext);
@@ -234,7 +235,7 @@ function App() {
       ),
     },
     {
-      path: "/manage/main/request",
+      path: "/manage/main/request/:dr_id",
       element: (
         <AdminRoute>
           <AdminManageRequest/> 
