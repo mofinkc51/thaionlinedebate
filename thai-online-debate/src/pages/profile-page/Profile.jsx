@@ -8,11 +8,12 @@ import { AuthContext } from '../../context/authContext';
 import AdminNavBar from '../../components/Navbar/AdminNavBar'
 import { useLocation } from 'react-router-dom'
 
-function Profile() {
-    const user_id = window.location.pathname.split("/").pop();
+function Profile(props) {
+    const { user_id } = props;
     const  [userData , setUserData]  = useState({});
     const [countData, setCountData] = useState({});
     const [historyData, setHistoryData] = useState([]);
+    const [debateData, setDebateData] = useState([]);
     const getProfile = async () => {
         try {
             const res = await makeRequest.get(`/users/find/${user_id}`);
@@ -40,10 +41,19 @@ function Profile() {
     const personal_link = () => {
         window.location.href = "/profile/me";
     }
+    const getDebateByuser = async () => {
+        try {
+            const res = await makeRequest.get(`/posts/debate/${user_id}`);
+            setDebateData(res.data);
+        } catch(err) {
+            console.log(err);
+        }
+    }
     useEffect(() => {
         getProfile();
         getUserCount();
         getHistory();
+        getDebateByuser();
     },[])
     const profileImageSrc = userData.user_pic ? require("../../assets/upload/" + userData.user_pic) : profileImg;
     const { currentUser } = useContext(AuthContext);
@@ -94,12 +104,14 @@ function Profile() {
 
             {/* right side history */}
             <div className="profile-right-side-box">
-                <p className='profile-topic-history-title'>ประวัติประเด็นโต้แย้ง</p>
+                <p className='profile-topic-history-title'>ประวัติประเด็นโต้แย้งที่เคยร่วม</p>
                 {historyData.map((historyData)=>(
                     <HistoryTopic id={historyData.dbt_id} title={historyData.dbt_title} timestamp={historyData.timestamp}/>
-
                 ))}
-
+                <p className='profile-topic-history-title'>ประเด็นโต้แย้งที่สร้าง</p>
+                {debateData.map((debateData)=>(
+                    <HistoryTopic id={debateData.dbt_id} title={debateData.dbt_title} timestamp={debateData.dbt_timestamp}/>
+                ))}
             </div>
         </div>
     </>
