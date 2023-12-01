@@ -25,10 +25,10 @@ const AdminMenu = () => {
     <AdminNavBar />
       <AdminSidemenu onMenuClick={handleMenuClick} />
       <div className="admin-menu-content-container">
-        {activeMenu === 'manageUser' && <AdminManageUser />}
+        {/* {activeMenu === 'manageUser' && <AdminManageUser />} */}
         {activeMenu === 'downloadRequest' && <AdminDownloadRequestList />}
         {activeMenu === 'manageactivity' && <AdminManageAcitivity />}
-        {activeMenu === 'manageProblem' && <AdminManageProblem />}
+        {/* {activeMenu === 'manageProblem' && <AdminManageProblem />} */}
       </div>
     </>
     
