@@ -95,8 +95,10 @@ function Home() {
             {/* tag container left side */}
             <div className="tag-bar-container">
               {tags.map((tag) => (
-                <div className="tag-item" onClick={handleTagClicked}>
+                <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
                   <span className="tag-item-span">{tag.tag_title}</span>
+                
+                </div>
                 
                   
               ))}

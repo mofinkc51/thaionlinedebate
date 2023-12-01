@@ -8,3 +8,92 @@
     text-align: left;
     padding: 8px;
   }
+
+  .download-row-button-row{
+    display: flex;
+    align-items: center;
+  }
+  .download-row-inspect-button, .download-row-download-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    margin: 0 5px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .download-row-download-button img, .download-row-inspect-button img{
+    width: 30px;
+    height: 30px;
+    
+  }
+
+  .download-row-status-box-approved{
+    max-width: fit-content;
+    background-color: #EBF9F1;
+    display: flex;
+    padding: .2em .75em;
+    border-radius: 20px;
+    align-items: center;
+    height: 26px;
+    align-items: center;
+  }
+
+  .download-row-status-box-approved p{
+    color: #1F9254;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .download-row-status-box-pending{
+    max-width: fit-content;
+    background: #FEF2E5;
+    display: flex;
+    padding: .2em .75em;
+    border-radius: 20px;
+    align-items: center;
+    height: 26px;
+    align-items: center;
+  }
+
+  .download-row-status-box-pending p{
+    color: #CD6200;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .download-row-status-box-rejected{
+    max-width: fit-content;
+    background-color: #FBE7E8;
+    display: flex;
+    padding: .2em .75em;
+    border-radius: 20px;
+    align-items: center;
+    height: 26px;
+    align-items: center;
+  }
+
+  .download-row-status-box-rejected p{
+    color: #A30D11;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+
+  @media screen and (max-width: 655px) {
+    .download-list-td-quantity{
+        display: none;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .download-list-td-time{
+        display: none;
+    }
+  }

@@ -1,8 +1,10 @@
 
 .download-list-page-container{
-    width: 894px;
+    width: 100%;
+    max-width: 894px;
     margin: 80px auto;
     /* border: 1px solid red; */
+    padding: 0 15px;
 }
 .download-list-title-row{
     display: flex;
@@ -65,4 +67,22 @@ table {
 
   tr:nth-child(even) {
     background: #F7F6FE;
+  }
+
+  @media screen and (max-width: 655px) {
+    .download-list-th-quantity{
+        display: none;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .download-list-th-time{
+        display: none;
+    }
+    .download-list-title{
+        font-size: 20px;
+    }
+    .download-list-td-date{
+        font-size: 14px;
+    }
   }

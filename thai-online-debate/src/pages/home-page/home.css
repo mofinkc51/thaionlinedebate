@@ -237,7 +237,7 @@
         width: 100%;
         max-width: 100%;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: flex-start;
         /* gap: 10px; */
     }
     /* search */
