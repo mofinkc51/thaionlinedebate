@@ -76,9 +76,8 @@ function DownloadRequestList() {
             {downloadData.map((downloadData) => (
                 <DownloadRequestRow data={downloadData} refresh={refreshTopics}/>
             ))}
-          ))}
         </table>
-        <button className='download-request-down-button'onClick={handleDownload}>ส่งคำร้องการดาวน์โหลด</button>
+        <button className='download-request-down-button'onClick={handleRequestClick}>ส่งคำร้องการดาวน์โหลด</button>
         
     </div>
     {popup}

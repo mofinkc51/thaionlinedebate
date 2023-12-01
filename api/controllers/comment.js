@@ -4,7 +4,7 @@ import moment from "moment";
 
 export const getComment = (req, res) => {
   const dbt_id = req.params.dbt_id;
-  const sql = "SELECT dc.*, u.user_pic FROM debatecomment AS dc JOIN user AS u ON dc.user_id = u.user_id WHERE dc.dbt_id=? AND dc.dbc_stance=? ORDER BY dc.dbc_timestamp DESC;";
+  const sql = "SELECT dc.*, u.user_pic ,dc.user_id FROM debatecomment AS dc JOIN user AS u ON dc.user_id = u.user_id WHERE dc.dbt_id=? AND dc.dbc_stance=? ORDER BY dc.dbc_timestamp DESC;";
   const stance = req.query;
   if (!dbt_id) return res.status(400).json("dbt_id is required");
   db.query(sql, [dbt_id, stance.dbc_stance], (err, data) => {
