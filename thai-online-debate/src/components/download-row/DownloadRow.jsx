@@ -31,14 +31,30 @@ function DownloadRow(props) {
     props.getDownloadDataApproved(props.data.dr_id);
   }
 
+  // color status
+
+const getStatusText = (status) => {
+  switch (status) {
+    case 'approved':
+      return <div className="download-row-status-box-approved"><p>อนุมัติแล้ว</p></div>;
+    case 'pending':
+      return <div className="download-row-status-box-pending"><p>รออนุมัติ</p></div>;
+    case 'rejected':
+      return <div className="download-row-status-box-rejected"><p>ไม่อนุมัติ</p></div>;
+    // Add more cases for other statuses if needed
+    default:
+      return 'Unknown'; // Default text
+  }
+};
+
   return (
     <>
       <tr className="download-list-row">
-        <td>{rowData.date}</td>
-        <td>{rowData.status === "approved" ? rowData.timeRemaining : 
-         rowData.status === "rejected" ? "expired" : "waited"}</td>
-        <td>{rowData.quantity}</td>
-        <td>{rowData.status}</td>
+        <td className="download-list-td-date">{rowData.date}</td>
+        <td className="download-list-td-time">{rowData.status === "approved" ? rowData.timeRemaining : 
+         rowData.status === "rejected" ? "N/A" : "N/A"}</td>
+        <td className="download-list-td-quantity">{rowData.quantity}</td>
+        <td><div>{getStatusText(rowData.status)}</div></td>
         <td>
           <div className="download-row-button-row">
             <button onClick={handleButtonClick} className="download-row-inspect-button">
