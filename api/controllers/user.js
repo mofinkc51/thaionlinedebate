@@ -19,7 +19,7 @@ export const getUser = (req, res) => {
 //
 export const getUserCount = (req, res) => {
   const user_id = req.params.user_id;
-  const sql = "SELECT ? AS u,(SELECT COUNT(*) FROM debatetopic WHERE user_id = u) AS debate_count,(SELECT COUNT(*) FROM debatecomment WHERE user_id = u) AS comment_count,(SELECT COUNT(*) FROM favoritetopic WHERE user_id = u) AS fav_count;"
+  const sql = "SELECT ? AS u,(SELECT COUNT(*) FROM debatetopic WHERE user_id = u) AS debate_count,(SELECT COUNT(*) FROM debatecomment WHERE user_id = u) AS comment_count,(SELECT SUM(dbc_total_like) FROM debatecomment WHERE user_id = u) AS fav_count;"
   
   db.query(sql, user_id, (err, data) => {
     if (err) return res.status(500).json(err);
