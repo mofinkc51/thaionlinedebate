@@ -129,6 +129,10 @@
 .comment-like-button:hover{
     color: #FF6B00;
 }
+.comment-like-button.liked {
+    color: red; 
+  }
+  
 .comment-reply-button{
     margin: 0 10px;
 

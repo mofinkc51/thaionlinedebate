@@ -32,37 +32,49 @@ function Home() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  // const filteredItems = searchTerm
-  //   ? items.filter((item) =>
-  //       item.dbt_title.toLowerCase().includes(searchTerm.toLowerCase())
-  //     )
-  //   : items;
-
-  // Get a maximum of 5 items
-  // const displayedItems = filteredItems.slice(0, 5);
-  // end search tag part
   const navigate = useNavigate();
+
+  const getTopicSearch = async () => {
+    try {
+      const res = await makeRequest.get("/posts/search");
+      return setItems(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const [allTags, setAllTags] = useState([]);
 
   const filteredItems = searchTerm
-  ? items
-      .filter((item) =>
-        item.dbt_title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .map((item) => ({ ...item, href: `/topic/${item.dbt_id}` })) // สร้าง property href สำหรับ items
-  : items;
+    ? items
+        .filter((item) =>
+          item.dbt_title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .map((item) => ({ ...item, href: `/topic/${item.dbt_id}` })) // สร้าง property href สำหรับ items
+    : items;
 
-const filteredTags = searchTerm
-  ? allTags
-      .filter((tag) =>
-        tag.tag_title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .map((tag) => ({ dbt_title: `#${tag.tag_title}`, href: `/tag/${tag.tag_title}` })) // สร้าง property href สำหรับ tags
-  : allTags;
+  const filteredTags = searchTerm
+    ? allTags
+        .filter((tag) =>
+          tag.tag_title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .map((tag) => ({
+          dbt_title: `#${tag.tag_title}`,
+          href: `/tag/${tag.tag_title}`,
+        })) // สร้าง property href สำหรับ tags
+    : allTags;
 
-// รวม filteredItems และ filteredTags
-const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0, 5);
+  // รวม filteredItems และ filteredTags
+  const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0,5);
+  
+  const handleTagClicked = async (e) => {
+    console.log(e);
+    try {
+      navigate(`/tag/${e}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getTopTopics = async () => {
     try {
       const res = await makeRequest.get("/posts/tops");
@@ -73,54 +85,63 @@ const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0, 5);
       }
       console.log(err);
     }
-    return (
-      <>
-        {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavbar />}
-        {/* page-container */}
-        <div className="homepage-container">
-          {/* Tag bar and search box container is here */}
-          <div className="tag-search-container">
-            {/* tag container left side */}
-            <div className="tag-bar-container">
-              {tags.map((tag) => (
-                <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
-                  <span className="tag-item-span">{tag.tag_title}</span>
-                
-                </div>
-                
-                  
-              ))}
-                
-            </div>
-            {/* search box container right side */}
-            <div className="search-bar-container">
-              <button>
-                <img src={searchButton} />
-              </button>
-              <input
-                type="text"
-                placeholder="ค้นหา"
-                className="search-box"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
-              <div className='debate-choice-drop-down'>
-                {searchTerm && displayedItems.length === 0 ? (
-                  <div className="debate-choice-row">
-                      <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
-                    </div>
-                    ) : (
-                      searchTerm &&
-                      displayedItems.map((item, index) => 
-                        <div className='debate-choice-row' key={index}>
-                            <div className="debate-choice-row-container">
-                                <a href={`/topic/${item.dbt_id}`} target="_blank" rel="noreferrer">{item.dbt_title}</a>
-                            </div>           
-                        </div>
-                      )
-                    )}
-                    </div>
+  };
+  const getTags = async () => {
+    try {
+      const res = await makeRequest.get("/posts/tags");
+      console.log(res.data);
+      return setTags(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const getAllTags = async () => {
+    try {
+      const res = await makeRequest.get("/posts/alltag");
+      return setAllTags(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getTopTopics();
+    getTopicSearch();
+    getTags();
+    getAllTags();
+  }, []);
+
+  return (
+    <>
+      {currentUser.role_id === "admin" ? <AdminNavBar /> : <UserNavbar />}
+      {/* page-container */}
+      <div className="homepage-container">
+        {/* Tag bar and search box container is here */}
+        <div className="tag-search-container">
+          {/* tag container left side */}
+          <div className="tag-bar-container">
+            {tags.map((tag) => (
+              <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
+                <span className="tag-item-span">{tag.tag_title}</span>
+              </div>
+            ))}
+          </div>
+          {/* search box container right side */}
+          <div className="search-bar-container">
+            <button>
+              <img src={searchButton} />
+            </button>
+            <input
+              type="text"
+              placeholder="ค้นหา"
+              className="search-box"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
+            <div className="debate-choice-drop-down">
+              {searchTerm && combinedFilteredResults.length === 0 ? (
+                <div className="debate-choice-row">
+                  <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
                 </div>
               ) : (
                 searchTerm &&
@@ -152,7 +173,6 @@ const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0, 5);
 
         {/* Popular topic */}
         <h2 className="popular-title">Popular Topic</h2>
-
         <div className="popular-topic-container">
           {/* <h2 className='popular-title'>Popular Topic</h2> */}
           <div className="popular-topic-grid">
@@ -163,9 +183,6 @@ const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0, 5);
                 refresh={getTopTopics}
               />
             ))}
-            {/* <TopicComponent topicname={debate[0].dbt_title} getTops={showTopic}/>
-              <TopicComponent topicname={debate[1].dbt_title} getTops={showTopic}/>
-              <TopicComponent topicname={debate[2].dbt_title} getTops={showTopic}/> */}
           </div>
         </div>
       </div>

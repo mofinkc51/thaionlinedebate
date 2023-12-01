@@ -219,18 +219,17 @@ function DebateTopic(props) {
   if (!!selectedAddtofavPopup) {
     popup = <AddToFavPopup onCloseClick={onCommentCloseClick} />;
   }
-
+  function onCommentCloseClick() {
+    popup = null;
+    setSelectedAgreePopup(null);
+    setSelectedDisagreePopup(null);
+    setSelectedEditPopup(null);
+    setSelectedAddtofavPopup(null);
+    setSelectedAddtoDownloadPopup(null);
+    setSelectedReportPopup(null);
+    setOpen(false);
+  }
   async function addToDownloadList(topicData) {
-    // ดึงรายการที่มีอยู่จาก localStorage
-    let downloadList = JSON.parse(localStorage.getItem("downloadList")) || [];
-
-    // ตรวจสอบว่า dbt_id นี้มีอยู่แล้วในรายการหรือไม่
-    if (!downloadList.includes(topicData.dbt_id)) {
-      // เพิ่ม dbt_id ใหม่เข้าไปในรายการถ้ายังไม่มี
-      downloadList.push(topicData.dbt_id);
-      // บันทึกกลับเข้า localStorage
-      localStorage.setItem("downloadList", JSON.stringify(downloadList));
-    }
     try {
       const res = await makeRequest.post("/downloads/", topicData);
       if (res.status === 200)
@@ -254,39 +253,24 @@ function DebateTopic(props) {
   const handleAddToDownload = () => {
     setOpen(false);
     addToDownloadList(topicData);
-
-    // setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
   };
-  // if(!!selectedAddtoDownloadPopup){
-  //   popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
-  // }
+  const [selectedCommentData, setSelectedCommentData] = useState(null);
 
-  const handleReportTopic = () => {
-    setOpen(false);
-    setSelectedReportPopup(
-      <ReportTopicPopup onCloseClick={onCommentCloseClick} data={topicData} />
-    );
+  const handleReportTopic = (commentData) => {
+    setSelectedCommentData(commentData); 
+    setOpen(true); 
   };
-  if (!!selectedReportPopup) {
-    popup = (
-      <ReportTopicPopup onCloseClick={onCommentCloseClick} data={topicData} />
-    );
-  }
+  if (open && selectedCommentData) {
+      // ตรวจสอบว่าควรแสดงป็อปอัปหรือไม่
+      popup = (
+        <ReportTopicPopup onCloseClick={onCommentCloseClick} data={selectedCommentData} />
+      );
+    }
 
-  function onCommentCloseClick() {
-    popup = null;
-    setSelectedAgreePopup(null);
-    setSelectedDisagreePopup(null);
-    setSelectedEditPopup(null);
-    setSelectedAddtofavPopup(null);
-    setSelectedAddtoDownloadPopup(null);
-    setSelectedReportPopup(null);
-  }
   const [topicTag, setTopicTag] = useState([]);
   const getTagByDebate = async () => {
     try {
       const res = await makeRequest.get(`/posts/tag/debate/${topicData.dbt_id}`)
-      console.log(res.data)
       setTopicTag(res.data)
     } catch (err) {
       console.log(err);
@@ -417,11 +401,9 @@ function DebateTopic(props) {
               <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
                   <CommentComponent
-                    comment={commentDataAgree.dbc_comment}
-                    id={commentDataAgree.dbc_id}
-                    timestamp={commentDataAgree.dbc_timestamp}
-                    user_pic={commentDataAgree.user_pic}
-                    user_id={commentDataAgree.user_id}
+                    data={commentDataAgree}
+                    handleReportTopic={() => handleReportTopic(commentDataAgree)}
+                    key={index}
                   />
                 ))}
               </div>
@@ -441,13 +423,11 @@ function DebateTopic(props) {
                 ฝั่ง{topicData.dbt_disagree}
               </p>
               <div className="debate-topic-comment-scroll-box">
-                {commentDataDisagree.map((commentDataDisAgree) => (
+                {commentDataDisagree.map((commentDataDisAgree, index) => (
                   <CommentComponent
-                    comment={commentDataDisAgree.dbc_comment}
-                    id={commentDataDisAgree.dbc_id}
-                    timestamp={commentDataDisAgree.dbc_timestamp}
-                    user_pic={commentDataDisAgree.user_pic}
-                    user_id={commentDataDisAgree.user_id}
+                    data={commentDataDisAgree}
+                    handleReportTopic={() => handleReportTopic(commentDataDisAgree)}
+                    key={index}
                   />
                 ))}
               </div>
