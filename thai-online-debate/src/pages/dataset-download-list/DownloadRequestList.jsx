@@ -37,8 +37,6 @@ function DownloadRequestList() {
   useEffect(() => {
     getDownloadData();
   }, []);
-
-      ]
       
   const handleRequestClick = () => {
     if (!downloadData || downloadData.length === 0) {

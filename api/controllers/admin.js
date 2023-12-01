@@ -2,7 +2,6 @@ import { db } from "../connect.js";
 import { createHash } from 'crypto';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { v4 as uuidv4 } from 'uuid';
 
 export const getAllUsers = (req, res) => {
   const sql = "SELECT user_name,user_email,user_id,user_status FROM user";

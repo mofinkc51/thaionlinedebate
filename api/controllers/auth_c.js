@@ -54,13 +54,12 @@ export const login = (req, res) => {
                 if (err) return res.status(500).json(err);
                 if (adminData.length === 0) {
                     // ผู้ใช้มี role_id เป็น admin แต่ไม่มีข้อมูลในตาราง admin, ทำการเพิ่มข้อมูล
-                    const sqlInsertAdmin = "INSERT INTO admin (admin_id, admin_email, admin_username, admin_phonenum) VALUES (?, ?, ?, ?)";
-                    db.query(sqlInsertAdmin, [userData[0].user_id, userData[0].user_email, userData[0].user_username, userData[0].user_phonenum], (err, insertResult) => {
+                    const sqlInsertAdmin = "INSERT INTO admin (admin_id, admin_email, admin_username, admin_phonenum, admin_password) VALUES (?, ?, ?, ?, ?)";
+                    db.query(sqlInsertAdmin, [userData[0].user_id, userData[0].user_email, userData[0].user_name, userData[0].user_phonenum,userData[0].user_password], (err, insertResult) => {
                         if (err) {
                             console.error("Error while inserting into admin table:", err);
                             return res.status(500).json(err);
                         }
-
                         console.log("Admin data inserted successfully, result:", insertResult);
                     });
                 }
@@ -68,7 +67,7 @@ export const login = (req, res) => {
         }
 
         // สร้าง token และส่งข้อมูลผู้ใช้กลับ (รวมถึงขั้นตอนอื่นๆที่ทำในฟังก์ชันเดิม)
-        const token = Jwt.sign({ id: userData[0].user_id }, "secretkey");
+        const token = Jwt.sign({ id: userData[0].user_id, role_id: userData[0].role_id }, "secretkey");
         const { user_password, ...ot } = userData[0];
 
         res.cookie("accessToken", token, { httpOnly: true })
