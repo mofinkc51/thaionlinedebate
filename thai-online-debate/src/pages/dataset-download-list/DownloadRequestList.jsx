@@ -62,23 +62,27 @@ function DownloadRequestList() {
           <button onClick={handleRequestClick}>ส่งคำร้องการดาวน์โหลด</button>
         </div>
         <table>
-          {/* table header  */}
-          <tr className="download-request-table-header">
-            <th>หัวข้อประเด็นโต้แย้ง</th>
-            <th>ฝั่งที่ 1</th>
-            <th>ฝั่งที่ 2</th>
-            <th>จำนวนข้อความโต้แย้ง</th>
-            <th>จัดการ</th>
-          </tr>
 
-          {/* table body */}
-          {downloadData.map((downloadData) => (
-            <DownloadRequestRow data={downloadData} refresh={refreshTopics} />
+            {/* table header  */}
+            <tr className='download-request-table-header'>
+                <th>หัวข้อประเด็นโต้แย้ง</th>
+                <th className='download-request-th-stance'>ฝั่งที่ 1</th>
+                <th className='download-request-th-stance'>ฝั่งที่ 2</th>
+                <th className='download-request-th-number'>จำนวนข้อความโต้แย้ง</th>
+                <th>จัดการ</th>
+            </tr>
+            
+            {/* table body */}
+            {downloadData.map((downloadData) => (
+                <DownloadRequestRow data={downloadData} refresh={refreshTopics}/>
+            ))}
           ))}
         </table>
-      </div>
-      {popup}
-      {/* <DownloadFormPopup onCloseClick={onCloseClick}/> */}
+        <button className='download-request-down-button'onClick={handleDownload}>ส่งคำร้องการดาวน์โหลด</button>
+        
+    </div>
+    {popup}
+    {/* <DownloadFormPopup onCloseClick={onCloseClick}/> */}
     </>
   );
 }

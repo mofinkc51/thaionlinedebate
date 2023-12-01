@@ -1,11 +1,11 @@
 
 .input-tag-component{
-    background-color: rgb(218, 216, 216);
+    background-color: #D4E5FA;
     display: flex;
     padding: .2em .75em;
     border-radius: 20px;
     align-items: center;
-    height: 23px;
+    height: 26px;
     align-items: center;
 
     /* height: 100%;
@@ -13,15 +13,16 @@
 }
 
 .input-tag-component span{
-    font-size: 12px;;
+    font-size: 13px;
+    color: #225EAF;
 
 }
 .input-tag-component-close-btn{
     height: 15px;
     width: 15px;
     
-    background-color: rgb(48, 48, 48);
-    color: #fff;
+    background-color: #0e3975;
+    color: white;
     border-radius: 50%;
     display: inline-flex;
     justify-content: center;

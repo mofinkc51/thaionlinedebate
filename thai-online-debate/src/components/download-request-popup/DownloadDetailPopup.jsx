@@ -1,3 +1,4 @@
+
 import React, { Children, useEffect, useState } from 'react'
 import './DownloadDetailPopup.css'
 import closeButtonIcon from '../../assets/icon/close.png'

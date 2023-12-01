@@ -26,9 +26,9 @@ function DownloadRequestRow(props) {
     <>
         <tr className='download-request-row'>
             <td>{rowData.topicName}</td>
-            <td>{rowData.stanceOne}</td>
-            <td>{rowData.stanceTwo}</td>
-            <td>{rowData.commentQuantity}</td>
+            <td className='download-request-row-stance'>{rowData.stanceOne}</td>
+            <td className='download-request-row-stance'>{rowData.stanceTwo}</td>
+            <td className='download-request-row-number'>{rowData.commentQuantity}</td>
             <td>
                 {/* <button><img src={editButtonIcon} alt="" /></button> */}
                 <button onClick={deleteLocalStorage} ><img src={deleteButtonIcon}alt="" /></button>

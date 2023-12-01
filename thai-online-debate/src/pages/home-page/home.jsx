@@ -11,6 +11,7 @@ import { AuthContext } from '../../context/authContext'
 import searchButton from "../../assets/icon/search.png";
 import BannerSlider from "../../components/banner-silder/BannerSlider";
 import Swal from "sweetalert2";
+import DownloadDetailPopup from '../../components/download-request-popup/DownloadDetailPopup'
 
 function Home() {
   const { currentUser } = useContext(AuthContext);
@@ -94,26 +95,12 @@ function Home() {
             {/* tag container left side */}
             <div className="tag-bar-container">
               {tags.map((tag) => (
-                <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
-                  <p>{tag.tag_title}</p>  
-                </div>
+                <div className="tag-item" onClick={handleTagClicked}>
+                  <span className="tag-item-span">{tag.tag_title}</span>
+                
+                  
               ))}
-
-              {/* <div className="tag-item" onClick={handleTagClicked}>
-                <p>เทคโนโลยี</p>
-              </div>
-              <div className="tag-item" onClick={handleTagClicked}>
-                <p>สังคม</p>
-              </div>
-              <div className="tag-item" onClick={handleTagClicked}>
-                <p>การศึกษา</p>
-              </div>
-              <div className="tag-item" onClick={handleTagClicked}>
-                <p>การเมือง</p>
-              </div>
-              <div className="tag-item" onClick={handleTagClicked}>
-                <p>การทหาร</p>
-              </div> */}
+                
             </div>
             {/* search box container right side */}
             <div className="search-bar-container">
@@ -122,7 +109,7 @@ function Home() {
               </button>
               <input
                 type="text"
-                placeholder="ค้นหาประเด็นโต้แย้ง"
+                placeholder="ค้นหา"
                 className="search-box"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -172,6 +159,7 @@ function Home() {
               <TopicComponent topicname={debate[2].dbt_title} getTops={showTopic}/> */}
             </div>
           </div>
+
         </div>
         <div id="create-topic-popup" display="none">
           <CreateTopicPopup />

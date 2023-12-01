@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-logo">
           {/* <img src="/path-to-your-logo.png" alt="Flowbite Logo" /> */}
-          <h3>TDbate</h3>
+          <h3>Thai Online Debate</h3>
           {/* <span>Flowbite</span> */}
         </div>
         <div className="footer-links    ">

@@ -22,25 +22,28 @@ const BannerSlider = () => {
   }, [images.length]);
 
   return (
-    <div className="slider">
-      <div className="slides">
-        {images.map((image, index) => (
-          <div key={index} className={`slide ${selected === index + 1 ? 'active' : ''}`}>
-            <img src={image} alt="" style={{ width: '100%' }} />
-          </div>
-        ))}
-        {/* <div className="navigation-auto">
-          {images.map((_, index) => (
-            <div key={index} className={`auto-btn ${selected === index + 1 ? 'active' : ''}`}></div>
+    <div className="slider-container">
+      <div className="slider">
+        <div className="slides">
+          {images.map((image, index) => (
+            <div key={index} className={`slide ${selected === index + 1 ? 'active' : ''}`}>
+              <img src={image} alt="" style={{ width: '100%' }} />
+            </div>
           ))}
-        </div> */}
-      </div>
-      <div className="navigation-manual">
-        {images.map((_, index) => (
-          <label key={index} className={`manual-btn ${selected === index + 1 ? 'active' : ''}`} onClick={() => setSelected(index + 1)}></label>
-        ))}
+          {/* <div className="navigation-auto">
+            {images.map((_, index) => (
+              <div key={index} className={`auto-btn ${selected === index + 1 ? 'active' : ''}`}></div>
+            ))}
+          </div> */}
+        </div>
+        <div className="navigation-manual">
+          {images.map((_, index) => (
+            <label key={index} className={`manual-btn ${selected === index + 1 ? 'active' : ''}`} onClick={() => setSelected(index + 1)}></label>
+          ))}
+        </div>
       </div>
     </div>
+    
   );
 };
 
