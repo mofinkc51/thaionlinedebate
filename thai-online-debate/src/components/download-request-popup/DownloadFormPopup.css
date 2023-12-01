@@ -14,8 +14,10 @@
   }
 
 .download-form-popup-box{
-    width: 480px;
-    height: 380px;
+    width: 100%;
+    max-width: 480px;
+    min-height: 380px;
+    padding: 30px 30px;
     border-radius: 10px;
     background: #FFF;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
@@ -24,7 +26,8 @@
 }
 
 .download-form-popup-box-container{
-    width: 385px;
+    width: 100%;
+    max-width: 385px;
     /* border: 1px solid red; */
     margin: 0 auto;
 }
@@ -102,18 +105,19 @@
 }
 
 .download-form-popup-proof-input{
-    width: 200px;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .download-form-proof-text{
-    
+    min-width: 140px;
     color: #000;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-right: 20px;
 }
 
 .download-form-upload-proof-button{
@@ -127,6 +131,17 @@
     text-decoration-line: underline;
     border: none;
     background-color: transparent;
+}
+
+.download-row-upload-filename{
+    margin-left: 20px;
+    min-width: 140px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    /* margin-right: 20px; */
 }
 
 
@@ -159,4 +174,20 @@
     background: #FBE7E8;
     border: none;
     margin-left: 4px;
+}
+
+.download-form-button-label input{
+    display: none;
+}
+.download-form-button-label{
+    cursor: pointer;
+    color: #97C4FB;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    /* line-height: 30.8px;  */
+    text-decoration-line: underline;
+    border: none;
+    background-color: transparent;
 }

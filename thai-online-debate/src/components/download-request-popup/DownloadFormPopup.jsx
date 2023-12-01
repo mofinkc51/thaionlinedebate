@@ -13,6 +13,7 @@ function DownloadFormPopup(props) {
         dr_proof_one_Data: null, // บัตรประชาชน
         dr_proof_two_Data: null, // เอกสารจากต้นสังกัด
     });
+    const [fileNames, setFileNames] = useState({ dr_proof_one: "", dr_proof_two: "" });
   
     const handleChange = (e) => {
         setDrData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -20,6 +21,10 @@ function DownloadFormPopup(props) {
   
     const handleFileChange = (e) => {
         setDrData((prev) => ({ ...prev, [e.target.name]: e.target.files[0] }));
+        const { name, files } = e.target;
+        if (files.length > 0) {
+            setFileNames(prev => ({ ...prev, [name]: files[0].name }));
+        }
     };
   
     const handleSubmit = async (e) => {
@@ -87,13 +92,22 @@ function DownloadFormPopup(props) {
                     <label className='download-form-popup-label'>หลักฐานการนำข้อมูลไปใช้</label><br/>
                     <div className='download-form-popup-proof-input'>
                         <label className='download-form-proof-text'>บัตรประชาชน</label>
-                        <input type="file" name="dr_proof_one_Data" onChange={handleFileChange} accept=".png, .jpg, .jpeg" />
-                    
+                        <label className='download-form-button-label'>
+                            อัปโหลด
+                            <input type="file" name="dr_proof_one_Data" onChange={handleFileChange} accept=".png, .jpg, .jpeg"/>
+                        </label>
+                        <p className='download-row-upload-filename'>{fileNames.dr_proof_one_Data}</p>
+
                     </div>
                     <div className='download-form-popup-proof-input'>
                         <label className='download-form-proof-text'>เอกสารยืนยันจากต้นสังกัด</label>
-                        <input type="file" name="dr_proof_two_Data" onChange={handleFileChange} accept=".pdf" />
+                        <label className='download-form-button-label'>
+                            อัปโหลด
+                            <input type="file" name="dr_proof_two_Data" onChange={handleFileChange} accept=".pdf"/>
+                        </label>
+                        <p className='download-row-upload-filename'>{fileNames.dr_proof_two_Data}</p>
                     </div>
+                    
                 </div>
 
                 {/* button row */}

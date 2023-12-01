@@ -100,8 +100,8 @@ function DownloadList() {
             {/* table header  */}
             <tr className='download-list-table-header'>
                 <th>วัน-เวลา</th>
-                <th>เวลาคงเหลือ</th>
-                <th>จำนวนประเด็นโต้แย้ง</th>
+                <th className='download-list-th-time'>เวลาคงเหลือ</th>
+                <th className='download-list-th-quantity'>จำนวนประเด็นโต้แย้ง</th>
                 <th>สถานะ</th>
                 <th>ตรวจสอบ</th>
             </tr>

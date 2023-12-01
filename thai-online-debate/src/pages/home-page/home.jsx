@@ -73,86 +73,54 @@ const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0, 5);
       }
       console.log(err);
     }
-  };
-
-  const getTopicSearch = async () => {
-    try {
-      const res = await makeRequest.get("/posts/search");
-      return setItems(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getTopTopics();
-    getTopicSearch();
-    getTags();
-    getAllTags();
-  }, []);
-
-  const handleTagClicked = async (e) => {
-    console.log(e);
-    try {
-      navigate(`/tag/${e}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getTags = async () => {
-    try {
-      const res = await makeRequest.get("/posts/tags");
-      console.log(res.data);
-      return setTags(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getAllTags = async () => {
-    try {
-      const res = await makeRequest.get("/posts/alltag");
-      return setAllTags(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  return (
-    <>
-      {currentUser.role_id === "admin" ? <AdminNavBar /> : <UserNavbar />}
-      {/* page-container */}
-      <div className="homepage-container">
-        {/* Tag bar and search box container is here */}
-        <div className="tag-search-container">
-          {/* tag container left side */}
-          <div className="tag-bar-container">
-            {tags.map((tag) => (
-              <div
-                className="tag-item"
-                onClick={() => handleTagClicked(tag.tag_title)}
-              >
-                <span className="tag-item-span">{tag.tag_title}</span>
-              </div>
-            ))}
-          </div>
-          {/* search box container right side */}
-          <div className="search-bar-container">
-            <button>
-              <img src={searchButton} />
-            </button>
-            <input
-              type="text"
-              placeholder="ค้นหา"
-              className="search-box"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
-            <div className="debate-choice-drop-down">
-              {searchTerm && combinedFilteredResults.length === 0 ? (
-                <div className="debate-choice-row">
-                  <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
+    return (
+      <>
+        {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavbar />}
+        {/* page-container */}
+        <div className="homepage-container">
+          {/* Tag bar and search box container is here */}
+          <div className="tag-search-container">
+            {/* tag container left side */}
+            <div className="tag-bar-container">
+              {tags.map((tag) => (
+                <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
+                  <span className="tag-item-span">{tag.tag_title}</span>
+                
+                </div>
+                
+                  
+              ))}
+                
+            </div>
+            {/* search box container right side */}
+            <div className="search-bar-container">
+              <button>
+                <img src={searchButton} />
+              </button>
+              <input
+                type="text"
+                placeholder="ค้นหา"
+                className="search-box"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {/* <input type="text" className='search-box' placeholder='ค้นหาประเด็นโต้แย้ง'/> */}
+              <div className='debate-choice-drop-down'>
+                {searchTerm && displayedItems.length === 0 ? (
+                  <div className="debate-choice-row">
+                      <p>ไม่พบประเด็นโต้แย้งที่ค้นหา</p>
+                    </div>
+                    ) : (
+                      searchTerm &&
+                      displayedItems.map((item, index) => 
+                        <div className='debate-choice-row' key={index}>
+                            <div className="debate-choice-row-container">
+                                <a href={`/topic/${item.dbt_id}`} target="_blank" rel="noreferrer">{item.dbt_title}</a>
+                            </div>           
+                        </div>
+                      )
+                    )}
+                    </div>
                 </div>
               ) : (
                 searchTerm &&

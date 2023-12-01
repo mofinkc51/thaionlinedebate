@@ -59,6 +59,8 @@
 
 }
 
+
+
 /* topic name and topic name input box */
 
 .create-topic-popup-topicname-row{
@@ -289,9 +291,9 @@
 
 .tooltip-icon {
     cursor: pointer;
-    margin-left: 15px;
+    margin-left: 5px;
     font-weight: bold;
-    color: blue; /* หรือสีอื่นๆ ที่คุณต้องการ */
+    color: red; /* หรือสีอื่นๆ ที่คุณต้องการ */
     /* สไตล์เพิ่มเติมที่คุณต้องการ */
   }
   

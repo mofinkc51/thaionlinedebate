@@ -87,7 +87,7 @@ function UserNavBar() {
                         <li><a href="/profile/${currentUser.user_id}">โปรไฟล์</a></li>
                         <li><a href="/fav">รายการประเด็นโต้แย้งที่ชื่นชอบ</a></li>
                         <li><a href="/downloadrequest">ส่งคำร้องการดาวน์โหลด</a></li>
-                        <li><a href="#" onClick={handleTagClicked}>ประวัติคำร้องขอชุดข้อมูล</a></li>
+                        <li><a href="/historydownload">ประวัติคำร้องขอชุดข้อมูล</a></li>
                         <li><a href="/" onClick={logout}>ออกจากระบบ</a></li>
                     </ul>
                     {/* default menu */}
