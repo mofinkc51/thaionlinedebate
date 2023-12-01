@@ -4,7 +4,7 @@ import React ,{ useContext }from 'react'
 import { AuthContext } from '../../context/authContext';
 import { makeRequest } from "../../axios";
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
@@ -40,6 +40,7 @@ function AdminNavBar() {
         localStorage.removeItem("user");
         navigator("/signin");
     }
+    const location = useLocation();
 
   return (
     <>
@@ -51,7 +52,9 @@ function AdminNavBar() {
                     </div>
                     <ul class="nav-menu" id="myMenu">
                         <li><a href="/">หน้าแรก</a></li>
-                        <li><a onClick={createTopicForm}>สร้าง</a></li>
+                        {location.pathname === "/" && (
+                            <li className="nav-menu-home"><a onClick={createTopicForm}>สร้าง</a></li>
+                        )}
                         <li><a href="/manage/main">เมนู</a></li>
                         <div class="nav-dropdown">
                             <li className='nav-dropdown'><a class="nav-dropbtn" href="">{currentUser.user_name} ▼</a></li> 

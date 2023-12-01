@@ -213,3 +213,13 @@ export const resetPassword = (req, res) => {
     });
 };
 
+export const adminChecked = (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) 
+    return res.status(401).json("Not authenticated!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid!");
+        if (userInfo.role_id == "admin") return res.status(200).json("true");
+        return res.status(200).json("false");
+    })
+}

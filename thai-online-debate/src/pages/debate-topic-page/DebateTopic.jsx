@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./DebateTopic.css";
-import UserNavbar from "../../components/Navbar/UserNavBar";
+import UserNavBar from "../../components/Navbar/UserNavBar";
 import TopicTag from "../../components/TopicTag";
 import optionButtonIcon from "../../assets/icon/more-vertical.png";
 import userImg from "../../assets/profile.png";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 import ReportTopicPopup from "../../components/topic-popup/ReportTopicPopup";
+import AdminNavBar from "../../components/Navbar/AdminNavBar";
 
 function DebateTopic(props) {
   const [open, setOpen] = useState(false);
@@ -29,8 +30,7 @@ function DebateTopic(props) {
   let popup = null;
 
   const navigate = useNavigate();
-  const topicId = window.location.pathname.split("/").pop();
-
+  const { dbt_id } = props;
   let stance = {
     dbc_stance: 0,
   };
@@ -50,7 +50,7 @@ function DebateTopic(props) {
   const getCommentAgree = async () => {
     stance.dbc_stance = 0;
     try {
-      const res = await makeRequest.get(`/comments/${topicId}`, {
+      const res = await makeRequest.get(`/comments/${dbt_id}`, {
         params: stance,
       });
       setCommentDataAgree(res.data);
@@ -62,7 +62,7 @@ function DebateTopic(props) {
   const getCommentDisagree = async () => {
     stance.dbc_stance = 1;
     try {
-      const res = await makeRequest.get(`/comments/${topicId}`, {
+      const res = await makeRequest.get(`/comments/${dbt_id}`, {
         params: stance,
       });
       setCommentDataDisagree(res.data);
@@ -74,7 +74,7 @@ function DebateTopic(props) {
   const getTopicData = async () => {
     try {
       await Promise.all([getCommentAgree(), getCommentDisagree()]);
-      const res = await makeRequest.get("/posts/topic/" + topicId);
+      const res = await makeRequest.get("/posts/topic/" + dbt_id);
       setTopicData({
         dbt_id: res.data[0].dbt_id,
         dbt_title: res.data[0].dbt_title,
@@ -103,7 +103,7 @@ function DebateTopic(props) {
   const [canEditDelete, setCanEditDelete] = useState(false);
   const checkEditTopic = async () => {
     try {
-      const res = await makeRequest.get("/posts/checkedit/" + topicId);
+      const res = await makeRequest.get("/posts/checkedit/" + dbt_id);
       if (res.data === "true") {
         setCanEditDelete(true);
       }
@@ -183,7 +183,7 @@ function DebateTopic(props) {
         cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await makeRequest.delete(`/posts/${topicId}`);
+          await makeRequest.delete(`/posts/${dbt_id}`);
           Swal.fire({
             title: "ลบประเด็นโต้แย้งเรียบร้อย!",
             icon: "success",
@@ -201,7 +201,7 @@ function DebateTopic(props) {
   };
   const handleAddToFav = async () => {
     try {
-      const res = await makeRequest.post("/likes/fav", { dbt_id: topicId });
+      const res = await makeRequest.post("/likes/fav", { dbt_id: dbt_id });
       Swal.fire({
         icon: "success",
         title: res.data,
@@ -285,9 +285,25 @@ function DebateTopic(props) {
       console.log(err);
     }
   };
+  const [isAdmin, setIsAdmin] = useState(false);
+  const checkadmin = async () => {
+    try {
+      const res = await makeRequest.get("/auth/admin-checked")
+      if (res.data === "true") {
+        setIsAdmin(true)
+      }
+      console.log(res.data)
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    checkadmin()
+  }, [])
   return (
     <>
-      <UserNavbar />
+      {isAdmin ? <AdminNavBar /> : <UserNavBar />}
       {/* page container */}
       <div className="debate-topic-page-container">
         {/* topic meta data box */}
@@ -412,6 +428,7 @@ function DebateTopic(props) {
                   <CommentComponent
                     data={commentDataAgree}
                     handleReportTopic={() => handleReportTopic(commentDataAgree)}
+                    dbt_id={dbt_id}
                     key={index}
                   />
                 ))}
@@ -436,6 +453,7 @@ function DebateTopic(props) {
                   <CommentComponent
                     data={commentDataDisAgree}
                     handleReportTopic={() => handleReportTopic(commentDataDisAgree)}
+                    dbt_id={dbt_id}
                     key={index}
                   />
                 ))}

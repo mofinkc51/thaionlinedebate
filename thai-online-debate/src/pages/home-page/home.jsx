@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import UserNavbar, { createTopic } from "../../components/Navbar/UserNavBar";
+import UserNavBar, { createTopic } from "../../components/Navbar/UserNavBar";
 import "./home.css";
 import bbImg from "../../assets/billboard-1.png";
 import TopicComponent from "../../components/TopicComponent";
@@ -110,9 +110,27 @@ function Home() {
     getAllTags();
   }, []);
 
+  //check admin
+  const [isAdmin, setIsAdmin] = useState(false);
+  const checkadmin = async () => {
+    try {
+      const res = await makeRequest.get("/auth/admin-checked")
+      if (res.data === "true") {
+        setIsAdmin(true)
+      }
+      console.log(res.data)
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    checkadmin()
+  }, [])
+
   return (
     <>
-      {currentUser.role_id === "admin" ? <AdminNavBar /> : <UserNavbar />}
+      {isAdmin ? <AdminNavBar /> : <UserNavBar />}
       {/* page-container */}
       <div className="homepage-container">
         {/* Tag bar and search box container is here */}

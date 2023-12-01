@@ -58,10 +58,25 @@ function Profile(props) {
     const profileImageSrc = userData.user_pic ? require("../../assets/upload/" + userData.user_pic) : profileImg;
     const { currentUser } = useContext(AuthContext);
     const location = useLocation();
+    const [isAdmin, setIsAdmin] = useState(false);
+    const checkadmin = async () => {
+      try {
+        const res = await makeRequest.get("/auth/admin-checked")
+        if (res.data === "true") {
+          setIsAdmin(true)
+        }
+        console.log(res.data)
+        return res.data
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    useEffect(() => {
+      checkadmin()
+    }, [])
   return (
     <>  
-    
-        {currentUser.role_id === 'admin' ? <AdminNavBar /> : <UserNavBar />}
+        {isAdmin ? <AdminNavBar /> : <UserNavBar />}
         <div className="profile-page-container">
             {/* left side profile data */}
             <div className="profile-left-side-box">
