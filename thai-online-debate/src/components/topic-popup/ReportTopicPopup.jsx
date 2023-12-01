@@ -5,12 +5,15 @@ import Swal from 'sweetalert2'
 import { makeRequest } from '../../axios';
 
 function ReportTopicPopup(props) {
-    const onCloseClick = props.onCloseClick;
     const inputRef = useRef();
+    const { onCloseClick, data } = props;
     const [reportData, setReportData] = useState({
-        rp_description: "",
-        dbt_id: props.data.dbt_id ,
+      rp_description: "",
+      dbt_id: data.dbt_id,
+      dbc_id: data.dbc_id
     });
+    // ต่อไปคือฟังก์ชัน onSubmit ที่ไม่เปลี่ยนแปลง
+    
 
     const handleChange = (e) => {
         setReportData((prev)=>({...prev, [e.target.name]:e.target.value}));
