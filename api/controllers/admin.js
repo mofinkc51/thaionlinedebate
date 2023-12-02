@@ -30,7 +30,12 @@ export const getAllUsers = (req, res) => {
 
 export const getProblem = (req, res) => {
   // Here we assume 'dbt_id' in the 'activity' table is the foreign key to the 'debatetopic' table.
-  const sql = "SELECT u.user_name ,rp.* FROM reportedproblem AS rp LEFT JOIN user AS u ON rp.user_id = u.user_id WHERE rp.rp_check IS NULL OR rp.rp_check = false";
+  const sql = `
+    SELECT u.user_name, rp.* 
+    FROM reportedproblem AS rp 
+    LEFT JOIN user AS u ON rp.user_id = u.user_id
+    ORDER BY rp.rp_status DESC, rp_timestamp DESC;
+  `;
 
   db.query(sql, (err, data) => {
     if (err) {
@@ -38,16 +43,11 @@ export const getProblem = (req, res) => {
       return res.status(500).json(err);
     }
     if (data.length === 0) return res.status(404).json("Report not found");
-
-    console.log("Data:", data);
     return res.status(200).json(data);
   });
 };
 
-
-
-  
-  export const getApprove = (req, res) => {
+export const getDownloadRequest = (req, res) => {
     const sql = `
          SELECT dr.*, u.user_name 
         FROM downloadrequest dr
@@ -220,40 +220,20 @@ export const downloadRequest = (req, res) => {
   });
 };
 
-export const getApprovefromdr_id = (req, res) => {
+export const getApproval = (req, res) => {
 
-  const drId = req.params.dr_id;
-  const sql = `
-      SELECT dr.*, u.user_name 
-      FROM downloadrequest dr
-      JOIN user u ON dr.user_id = u.user_id
-      WHERE dr.dr_id = ?
-  `;
+  const sql = `SELECT *FROM approval `;
 
-  db.query(sql, [drId], (err, data) => {
-      if (err) {
-          console.error("Error:", err);
-          return res.status(500).json(err);
-      }
+  db.query(sql, (err, data) => {
+      if (err) return res.status(500).json(err);
+
       if (data.length === 0) {
-          return res.status(404).json("Request not found");
+          return res.status(404).json("Approval not found");
       }
-
       console.log("Data:", data);
       return res.status(200).json(data);
   });
 };
-
-
-
-
-
-
-
-
-
-
-
 
 export const reportupdateStatus = (req, res) => {
   const rpId = req.body.rp_id;
@@ -277,100 +257,141 @@ export const reportupdateStatus = (req, res) => {
 };
 
 export const admindescription = (req, res) => {
-  const rpId = req.body.rp_id;
-  const adminDescription = req.body.admin_description;
+  const {rp_id ,adminNote} = req.body;
+  const success = "success";
+  const checkSql = 'UPDATE reportedproblem SET rp_status = ? ,rp_admin_note = ? WHERE rp_id = ?';
 
-  const checkSql = 'SELECT rp_id FROM reportedproblem';
-  db.query(checkSql, [rpId], (err, results) => {
+  db.query(checkSql, [success,adminNote,rp_id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการค้นหาข้อมูล' });
     }
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'ไม่พบ rp_id ที่ระบุในฐานข้อมูล' });
-    }
-
-    const updateSql = 'UPDATE reportedproblem SET rp_admindescription = ? WHERE rp_id = ?';
-    db.query(updateSql, [adminDescription, rpId], (err, updateResults) => {
-      if (err) {
-        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตคอลัมน์' });
-      }
-
       return res.json({ message: 'อัปเดตคอลัมน์ rp_admindescription เรียบร้อยแล้ว' });
     });
-  });
 };
 
 
 export const postApproval = (req, res) => {
   const { dr_id, user_email } = req.body;
 
-  // console.log('user_email received:', user_email);
-  // console.log('dr_id received:', dr_id);
-
-
-  const selectAdminIdSql = 'SELECT * FROM admin';
-
-  db.query(selectAdminIdSql, (error, adminData) => {
-    if (error) {
-      console.error('เกิดข้อผิดพลาดในการดึงข้อมูล admin:', error);
-      return res.status(500).send('เกิดข้อผิดพลาดในการดึงข้อมูล admin');
+  // Check if dr_id already exists in the approval table
+  const checkApprovalSql = 'SELECT * FROM approval WHERE dr_id = ?';
+  
+  db.query(checkApprovalSql, [dr_id], (checkError, approvalData) => {
+    if (checkError) {
+      console.error('Error checking approval data:', checkError);
+      return res.status(500).send('Error checking approval data');
     }
 
-    const adminMatch = adminData.find((admin) => admin.admin_email === user_email);
-
-    if (!dr_id || !adminMatch) {
-      res.status(400).send('ข้อมูลไม่ถูกต้องหรือไม่พบ admin ที่เกี่ยวข้อง');
-      return;
+    // If dr_id exists in approval table, send a message indicating so
+    if (approvalData.length > 0) {
+      return res.status(409).send('ไม่สามารถอนุมัติได้ เนื่องจากมีการอนุมัติแล้ว');
     }
 
-    const admin_id = adminMatch.admin_id;
+    // If dr_id does not exist, proceed to get admin details
+    const selectAdminIdSql = 'SELECT * FROM admin';
 
-    const insertApprovalSql = `
-      INSERT INTO approval (dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status)
-      VALUES (?, ?, NOW(), ?, 'อนุมัติ')
-    `;
- 
-    const ap_timestamp = new Date();
-    const ap_download_expired_date = new Date();
-    ap_download_expired_date.setDate(ap_download_expired_date.getDate() + 7);
-
-    const ap_status = 'อนุมัติ';
-
-    db.query(insertApprovalSql, [dr_id, admin_id, ap_download_expired_date, ap_status], (insertError) => {
-      if (insertError) {
-        console.error('เกิดข้อผิดพลาดในการแทรกข้อมูล approval:', insertError);
-        return res.status(500).send('เกิดข้อผิดพลาดในการแทรกข้อมูล approval');
+    db.query(selectAdminIdSql, (error, adminData) => {
+      if (error) {
+        console.error('Error retrieving admin data:', error);
+        return res.status(500).send('Error retrieving admin data');
       }
 
-      res.status(200).send('บันทึกข้อมูลสำเร็จ');
+      const adminMatch = adminData.find((admin) => admin.admin_email === user_email);
+
+      if (!adminMatch) {
+        return res.status(400).send('No matching admin found');
+      }
+
+      const admin_id = adminMatch.admin_id;
+
+      // Prepare and execute the insertion into approval table
+      const insertApprovalSql = `
+        INSERT INTO approval (dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status)
+        VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'approved')
+      `;
+
+      db.query(insertApprovalSql, [dr_id, admin_id], (insertError) => {
+        if (insertError) {
+          console.error('Error inserting approval data:', insertError);
+          return res.status(500).send('Error inserting approval data');
+        }
+
+        // Update the download request status to 'approved'
+        const updateDownloadRequestSql = 'UPDATE downloadrequest SET dr_status = ? WHERE dr_id = ?';
+
+        db.query(updateDownloadRequestSql, ['approved', dr_id], (updateError) => {
+          if (updateError) {
+            console.error('Error updating download request status:', updateError);
+            return res.status(500).send('Error updating download request status');
+          }
+
+          // Send a successful response
+          res.status(200).send('Approval data inserted and download request status updated successfully');
+        });
+      });
     });
   });
 };
+export const postRejected = (req, res) => {
+  const { dr_id, user_email } = req.body;
 
-export const approvalStatus = (req, res) => {
-  const drId = req.body.dr_id;
-  const checkSql = 'SELECT dr_id FROM downloadrequest ';
-  db.query(checkSql, [drId], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการค้นหาข้อมูล' });
+  // Check if dr_id already exists in the approval table
+  const checkApprovalSql = 'SELECT * FROM approval WHERE dr_id = ?';
+  
+  db.query(checkApprovalSql, [dr_id], (checkError, approvalData) => {
+    if (checkError) {
+      console.error('Error checking approval data:', checkError);
+      return res.status(500).send('Error checking approval data');
     }
-    
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'ไม่พบ dr_id ที่ระบุในฐานข้อมูล' });
+    // If dr_id exists in approval table, send a message indicating so
+    if (approvalData.length > 0) {
+      return res.status(409).send('ไม่สามารถปฐิเสธอนุมัติได้ เนื่องจากมีการอนุมัติแล้ว');
     }
-    
-    const updateSql = 'UPDATE downloadrequest SET dr_status = ? WHERE dr_id = ?';
-    
-    db.query(updateSql, [1, drId], (err, updateResults) => {
-      if (err) {
-        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตคอลัมน์' });
+    // If dr_id does not exist, proceed to get admin details
+    const selectAdminIdSql = 'SELECT * FROM admin';
+
+    db.query(selectAdminIdSql, (error, adminData) => {
+      if (error) {
+        console.error('Error retrieving admin data:', error);
+        return res.status(500).send('Error retrieving admin data');
       }
 
-      return res.json({ message: 'อัปเดตคอลัมน์ dr_status เรียบร้อยแล้ว' });
+      const adminMatch = adminData.find((admin) => admin.admin_email === user_email);
+
+      if (!adminMatch) {
+        return res.status(400).send('No matching admin found');
+      }
+
+      const admin_id = adminMatch.admin_id;
+
+      // Prepare and execute the insertion into approval table
+      const insertApprovalSql = `
+        INSERT INTO approval (dr_id, admin_id, ap_timestamp, ap_download_expired_date, ap_status)
+        VALUES (?, ?, NOW(), NOW(), 'rejected')
+      `;
+
+      db.query(insertApprovalSql, [dr_id, admin_id], (insertError) => {
+        if (insertError) {
+          console.error('Error inserting approval data:', insertError);
+          return res.status(500).send('Error inserting approval data');
+        }
+
+        // Update the download request status to 'approved'
+        const updateDownloadRequestSql = 'UPDATE downloadrequest SET dr_status = ? WHERE dr_id = ?';
+
+        db.query(updateDownloadRequestSql, ['rejected', dr_id], (updateError) => {
+          if (updateError) {
+            console.error('Error updating download request status:', updateError);
+            return res.status(500).send('Error updating download request status');
+          }
+
+          // Send a successful response
+          res.status(200).send('Approval data inserted and download request status updated successfully');
+        });
+      });
     });
   });
 };
-
 export const editActivity = (req, res) => {
 
   const { dbt_title, dbt_description, dbt_agree, dbt_disagree,act_end_date, act_start_date,dbt_id } = req.body;

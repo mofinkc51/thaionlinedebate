@@ -24,7 +24,6 @@ function DownloadDetailPopup(props) {
         dr_proof_two: props.data.dr_proof_two
     }
     const downloadFile = (url, filename) => {
-        // สร้างอิลิเมนต์ลิงก์
         const link = document.createElement('a');
         link.href = url;
         link.download = filename; // กำหนดชื่อไฟล์สำหรับดาวน์โหลด

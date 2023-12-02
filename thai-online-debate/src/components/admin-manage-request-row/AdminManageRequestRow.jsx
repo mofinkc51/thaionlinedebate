@@ -5,26 +5,19 @@ import editButtonIcon from '../../assets/icon/edit.png';
 import deleteButtonIcon from '../../assets/icon/trash.png';
 import DeleteRequestPopup from '../admin-popup/DeleteRequestPopup';
 
-function AdminManageRequestRow({ data, onEdit }) {
+function AdminManageRequestRow({ id, data, onEdit, approveData,getDetail}) {
   const [isDeletePopupVisible, setDeletePopupVisible] = useState(false);
   const navigate = useNavigate();
 
-  const handleNavigateEdit = () => {
-    console.log("edit button clicked", data);
-    navigate(`/manage/main/request/${data.dr_id}`);
-    console.log('dr_id:', data.dr_id);
-  };
-
   const getCountdownTime = (timestamp) => {
     const createdAt = new Date(timestamp);
-    const sevenDaysLater = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const sevenDaysLater = new Date(createdAt.getTime());
     const now = new Date();
     const timeRemaining = sevenDaysLater - now;
 
     if (timeRemaining < 0) {
       return 'หมดเวลา';
     }
-
     let seconds = Math.floor((timeRemaining / 1000) % 60);
     let minutes = Math.floor((timeRemaining / 1000 / 60) % 60);
     let hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
@@ -38,35 +31,17 @@ function AdminManageRequestRow({ data, onEdit }) {
     return `${days} วัน ${hours} ชั่วโมง ${minutes} นาที `;
   };
 
-  const [countdown, setCountdown] = useState(() => getCountdownTime(data.dr_timestamp));
-
+  const [countdown, setCountdown] = useState();
   useEffect(() => {
+    if (!approveData) {
+      return;
+    }
     const intervalId = setInterval(() => {
-      setCountdown(getCountdownTime(data.dr_timestamp));
+      setCountdown(getCountdownTime(approveData.ap_download_expired_date));
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [data.dr_timestamp]);
-
-  const handleEdit = () => {
-    console.log("edit button clicked", data);
-    navigate(`/manage/main/request/${data.dr_id}`);
-  };
-
-  const handleDelete = () => {
-    console.log("delete button clicked", data);
-    setDeletePopupVisible(true);
-  };
-
-  const handleCancelDelete = () => {
-    setDeletePopupVisible(false);
-  };
-
-  const handleConfirmDelete = (deletedData) => {
-    console.log('Deleting request:', deletedData);
-    // Perform the actual delete action here
-    setDeletePopupVisible(false); // Close the popup after deletion
-  };
+  }, [approveData]);
 
   // Helper function to format the timestamp
   const formatDate = (timestamp) => {
@@ -76,28 +51,26 @@ function AdminManageRequestRow({ data, onEdit }) {
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear() + 543; // Add 543 for the Buddhist calendar year
-    return `${day} ${month} ${year}`;
-  };
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
 
+    return `${day} ${month} ${year} - ${hours}:${minutes}`;
+  };
+  const EditAndGetDetail = (data) => {
+    onEdit(data)
+    getDetail(data.dr_id)
+  }
   return (
     <tr className='admin-manage-request-row'>
-      <td>{data.user_name}</td>
+      <td>{data.dr_name}</td>
       <td>{formatDate(data.dr_timestamp)}</td>
-      <td>{countdown}</td>
+      <td>{approveData ?
+            countdown :
+            "N/A"}</td>
       <td>{data.dr_total_topic}</td>
-      <td>{/* proof one */}</td>
+      <td>{data.dr_status}</td>
       <td className='request-header-manage'>
-        <button onClick={() => onEdit(data)}><img src={editButtonIcon} alt="Edit" /></button>
-        <button onClick={handleDelete}><img src={deleteButtonIcon} alt="Delete" /></button>
-
-        {/* Render the DeleteRequestPopup if isVisible state is true */}
-        {isDeletePopupVisible && (
-          <DeleteRequestPopup
-            data={data}
-            onClose={handleCancelDelete}
-            onDelete={handleConfirmDelete}
-          />
-        )}
+        <button onClick={() => EditAndGetDetail(data)}><img src={editButtonIcon} alt="Edit" /></button>
       </td>
     </tr>
   );

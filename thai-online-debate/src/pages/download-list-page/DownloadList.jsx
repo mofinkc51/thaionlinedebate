@@ -13,7 +13,6 @@ function DownloadList() {
     try {
       const res = await makeRequest.get("/downloads/pending");
       setDownloadData(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -22,9 +21,8 @@ function DownloadList() {
     getDownloadData();
   }, []);
 
-  const [downloadDetail, setDownloadDetail] = useState({
+  const [downloadDetail, setDownloadDetail] = useState({})
 
-  })
   const [detailDebate, setDetailDebate] = useState([])
   let popup = null;
   const [downloadDetailPopup, setDownloadDetailPopup] = useState(null);
@@ -76,10 +74,8 @@ function DownloadList() {
   
         newDownloadListArray.push(debate_topic_download);
       }
-      console.log("dlarray",newDownloadListArray);
       if (newDownloadListArray.length > 0) {
         setDownloadListArray(newDownloadListArray); // อัปเดต state ทีเดียวหลังจากการวนลูปเสร็จ
-        console.log(downloadListArray)
         downloadFilesAsZip(downloadListArray);
       }
     } catch (err) {

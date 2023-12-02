@@ -8,7 +8,7 @@ export const addReport = (req,res)=>{
     const dbc_id = req.body.dbc_id;
     const rp_description = req.body.rp_description;
     const rp_type = req.body.rp_type;
-    const status = "รอตรวจสอบ"
+    const status = "pending"
     const sql = "INSERT INTO reportedproblem (`rp_description`,`rp_timestamp`,`rp_status` ,`dbt_id`,`dbc_id`, `user_id`,`rp_type`) VALUES (?)"
     
     jwt.verify(token, "secretkey", (err, userInfo) => {

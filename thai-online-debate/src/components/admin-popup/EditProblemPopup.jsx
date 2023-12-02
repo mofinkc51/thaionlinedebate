@@ -3,9 +3,10 @@ import closeButtonIcon from '../../assets/icon/close.png';
 import axios from 'axios'; // Import Axios
 
 import './EditProblemPopup.css';
+import { makeRequest } from '../../axios';
 
 function EditProblemPopup({ onClose, problem, onConfirm }) {
-  const [editDescription, setEditDescription] = useState();
+  const [adminNote, setAdminNote] = useState();
   const [isPopupVisible, setPopupVisible] = useState(true);
 
   const handleClosePopup = () => {
@@ -13,22 +14,23 @@ function EditProblemPopup({ onClose, problem, onConfirm }) {
     if (onClose) onClose();
   };
 
-  const handleConfirmClick = () => {
-    // Send the updated description to the server
-    axios.put('http://localhost:8800/api/admin/rereportproblem_admindescription', {
-      rp_id: problem.rp_id,
-      admin_description: editDescription
-    })
-      .then((response) => {
-        // Handle the response or perform any necessary actions
-        // For example, you can close the popup or update the UI.
-        if (onConfirm) onConfirm();
-      })
-      .catch((error) => {
-        console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
-        // Handle the error, e.g., display an error message to the user
+  const handleConfirmClick = async () => {
+    try {
+      // Assuming makeRequest.put exists and works similarly to makeRequest.get
+      const response = await makeRequest.put('admin/rereportproblem_admindescription', {
+        rp_id: problem.rp_id,
+        adminNote: adminNote
       });
+  
+      // Handle the response or perform any necessary actions
+      // For example, you can close the popup or update the UI.
+      if (onConfirm) onConfirm();
+    } catch (error) {
+      console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
+      // Handle the error, e.g., display an error message to the user
+    }
   };
+  
   
 
   useEffect(() => {
@@ -60,8 +62,9 @@ function EditProblemPopup({ onClose, problem, onConfirm }) {
                 className="edit-problem-popup-problemdesc-input"
                 cols="30"
                 rows="5"
-                value={editDescription}
-                onChange={(e) => setEditDescription(e.target.value)}
+                name='adminNote'
+                value={adminNote}
+                onChange={(e) => setAdminNote(e.target.value)}
               ></textarea>
             </div>
             <div className="edit-problem-button-row">
