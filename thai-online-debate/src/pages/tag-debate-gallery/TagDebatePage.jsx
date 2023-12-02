@@ -5,6 +5,7 @@ import UserNavBarDrop from '../../components/Navbar/UserNavBarDrop'
 import TopicComponent from '../../components/TopicComponent'
 import { makeRequest } from '../../axios'
 import { Navigate, useNavigate } from 'react-router-dom'
+import AdminNavBar from '../../components/Navbar/AdminNavBar'
 
 function TagDebatePage(props) {
   const tagname = props.tagname;
@@ -76,10 +77,25 @@ function TagDebatePage(props) {
   useEffect(() => {
     getTagTopics();
   }, [sortType]);
-
+    //check admin
+    const [isAdmin, setIsAdmin] = useState(false);
+    const checkadmin = async () => {
+      try {
+        const res = await makeRequest.get("/auth/admin-checked")
+        if (res.data === "true") {
+          setIsAdmin(true)
+        }
+        return res.data
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    useEffect(() => {
+      checkadmin()
+    }, [])
   return (
     <>
-    <UserNavBar/>
+    {isAdmin ? <AdminNavBar /> : <UserNavBar />}
     {/* <UserNavBarDrop/> */}
     <div className="fav-debate-gallery-page-container">
         <div className="fav-debate-gallery-title-row">

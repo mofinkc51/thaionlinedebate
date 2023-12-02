@@ -1,5 +1,8 @@
 import express from "express";
-import { login,register,logout,checktoken ,changePassword,resetPassword,forgotPassword} from "../controllers/auth_c.js";
+import { login,register,logout,checktoken,
+    changePassword,resetPassword,forgotPassword,
+    adminChecked
+} from "../controllers/auth_c.js";
 
 const router = express.Router()
 
@@ -10,5 +13,5 @@ router.get("/token",checktoken)
 router.put("/changepassword",changePassword)
 router.post("/reset-password",forgotPassword)
 router.post("/reset-password/:resetToken", resetPassword);
-
+router.get("/admin-checked",adminChecked)
 export default router

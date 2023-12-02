@@ -12,7 +12,12 @@ function DownloadRequestRow(props) {
         dbt_id : props.data.dbt_id
     }
     const deleteLocalStorage = async () => {
-        console.log(rowData.dbt_id)
+        console.log(rowData.dbt_id)        
+        let downloadList = JSON.parse(localStorage.getItem('downloadList'));
+        downloadList = downloadList.filter(item => item !== rowData.dbt_id);
+        localStorage.setItem('downloadList', JSON.stringify(downloadList));
+
+        props.refresh();
         try {
             const res = await makeRequest.delete(`/downloads/${rowData.dbt_id}`);
             console.log(res.data);

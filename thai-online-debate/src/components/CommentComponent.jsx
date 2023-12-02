@@ -15,6 +15,8 @@ function CommentComponent(props) {
 
   const [liked, setLiked] = useState(false);
 
+  const { dbt_id } = props;
+
   const [dateAndTime, setdateAndTime] = useState({
     date: "",
     time: "",
@@ -47,11 +49,10 @@ function CommentComponent(props) {
 
   const [canEditDelete, setCanEditDelete] = useState(false);
 
-  const topicId = window.location.pathname.split("/").pop();
   const checkEditComment = async () => {
     try {
-      const res = await makeRequest.get(`/comments/checkedit/${props.id}`, {
-        params: { dbt_id: topicId },
+      const res = await makeRequest.get(`/comments/checkedit/${props.data.dbc_id}`, {
+        params: { dbt_id: dbt_id },
       });
       if (res.data === "true") {
         setCanEditDelete(true);

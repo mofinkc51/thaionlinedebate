@@ -35,7 +35,7 @@ function UserNavBar() {
             if (result.isConfirmed) {
                 logout_db()
             }
-          })
+          }) 
     }
     const logout_db = async () => {
         await makeRequest.post("/auth/logout", "");

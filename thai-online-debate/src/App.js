@@ -70,6 +70,10 @@ function App() {
       return children;
   };
 
+  function DebateTopicWrapper() {
+    const { dbt_id } = useParams();
+    return <DebateTopic dbt_id={dbt_id} />;
+  }
   function TagDebatePageWrapper() {
     const { tagname } = useParams();
     return <TagDebatePage tagname={tagname} />;
@@ -126,10 +130,10 @@ function App() {
       ),
     },
     {
-      path : "/topic/:id",
+      path : "/topic/:dbt_id",
       element: (
         <ProtectedRoute>
-          <DebateTopic/>
+          <DebateTopicWrapper/>
         </ProtectedRoute>
       ),
     },

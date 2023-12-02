@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import inspectIcon from '../../assets/icon/inspect.png';
 import './AdminManageUserRow.css';
+import { makeRequest } from '../../axios';
 function AdminManageUserRow({ user, onInspect }) {
   const { user_id , user_name, user_email, user_status } = user; 
   const [status, setStatus] = useState(user_status);
 
   const handleStatusChange = async (e) => {
-    const newStatus = e.target.value === "ปกติ" ? 'active' : 'not-active';
+    const newStatus = e.target.value === "ปกติ" ? 'active' : 'suspended';
     setStatus(newStatus);
 
     // สร้าง object สำหรับส่งไปยัง API
@@ -17,28 +18,21 @@ function AdminManageUserRow({ user, onInspect }) {
     };
 
     try {
-      // ส่ง request ไปยัง server เพื่ออัปเดตสถานะ
-      const response = await fetch('http://localhost:8800/api/admin/updatestatus', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updateStatusPayload)
-      });
-
-      if (!response.ok) {
-        throw new Error('Error updating user status');
+      // Assuming makeRequest.put is similar to makeRequest.get but for PUT requests
+      const response = await makeRequest.put('admin/updatestatus', updateStatusPayload);
+    
+      // Assuming response structure is similar to that in makeRequest.get
+      if (response && response.data) {
+        // Update state in frontend or notify about the changes
+        console.log('Status updated successfully:', response.data);
+      } else {
+        throw new Error('No response data received');
       }
-
-      // อ่านข้อมูล response (ถ้ามี)
-      const responseData = await response.json();
-
-      // สามารถอัปเดต state ใน frontend หรือทำการแจ้งเตือนถึงการเปลี่ยนแปลง
-      console.log('Status updated successfully:', responseData);
     } catch (error) {
-      // จัดการกับข้อผิดพลาดที่อาจเกิดขึ้น
+      // Handle any errors that might occur
       console.error('Failed to update status:', error);
     }
+    
   };
 
   return (
@@ -48,7 +42,7 @@ function AdminManageUserRow({ user, onInspect }) {
       <td>
         <select value={status === 'active' ? 'ปกติ' : 'บัญชีถูกระงับ'} onChange={handleStatusChange}>
           <option value="ปกติ">ปกติ</option>
-          <option value="บัญชีถูกระงับ">บัญชีถูกระงับ</option>
+          <option value="บัญชีถูกระงับ" >บัญชีถูกระงับ</option>
         </select>
       </td>
       <td>

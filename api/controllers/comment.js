@@ -54,9 +54,11 @@ export const getCanComment = (req, res) => {
   const dbc_id = req.params.dbc_id;
   const dbt_id = req.query.dbt_id;
   const token = req.cookies.accessToken;
+  
   if (!token) return res.status(401).json("Not authenticatede!");
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
+    if (userInfo.role_id === 'admin') return res.status(200).json("true");
     const sql =
       "SELECT dbc_id FROM debatecomment WHERE dbc_id = ? AND dbt_id=? AND user_id=?";
     db.query(sql,[dbc_id,dbt_id,userInfo.id],(err, data) => {
@@ -74,19 +76,34 @@ export const updateComment = (req, res) => {
   return res.status(401).json("Not authenticatede!");
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-    const sql =
+    if (userInfo.role_id === 'admin') {
+      const sql =
+      "UPDATE debatecomment SET dbc_comment=?,dbc_timestamp=? WHERE dbc_id=?"
+      db.query(sql,[
+        req.body.dbc_comment,
+        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        req.body.dbc_id
+      ],(err, data) => {
+          if (err) res.status(500).json(err);
+          if (data.affectedRows > 0) return res.json("Updated!");
+          return res.status(403).json("You can update only your comment!");
+        }
+      );
+    } else {
+      const sql =
       "UPDATE debatecomment SET dbc_comment=?,dbc_timestamp=? WHERE dbc_id=?"
     db.query(sql,[
       req.body.dbc_comment,
       moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       req.body.dbc_id
     ],(err, data) => {
-        console.log(req.body.dbt_id,userInfo.id)
         if (err) res.status(500).json(err);
         if (data.affectedRows > 0) return res.json("Updated!");
         return res.status(403).json("You can update only your comment!");
       }
     );
+    }
+
   });
 }
 

@@ -7,9 +7,10 @@ export const addReport = (req,res)=>{
     const dbt_id = req.body.dbt_id;
     const dbc_id = req.body.dbc_id;
     const rp_description = req.body.rp_description;
-    console.log(dbt_id,dbc_id)
-    const status = "รอตรวจสอบ"
-    const sql = "INSERT INTO reportedproblem ( `rp_description`,`rp_timestamp`,`rp_status` ,`dbt_id`,`dbc_id`, `user_id`) VALUES (?)"
+    const rp_type = req.body.rp_type;
+    const status = "pending"
+    const sql = "INSERT INTO reportedproblem (`rp_description`,`rp_timestamp`,`rp_status` ,`dbt_id`,`dbc_id`, `user_id`,`rp_type`) VALUES (?)"
+
     
     jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid!");

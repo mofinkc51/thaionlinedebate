@@ -4,7 +4,7 @@ import { addPost , updatePost , deletePost ,
     getTags,getTopicByTag,getAllTag,
     getTopic,getFav,checkTopicCanEdit,
     getLastTopic,getSearch,getTagByDebate,
-    getDebateByUser
+    getDebateByUser,getActivityTopic
 } from "../controllers/post.js";
 
 const router = express.Router()
@@ -36,6 +36,7 @@ router.get("/tag/:tag_name",getTopicByTag)
 router.get("/alltag",getAllTag)
 //getTagByDebate
 router.get("/tag/debate/:dbt_id",getTagByDebate)
-
+//get activity
+router.get("/activity",getActivityTopic)
 
 export default router

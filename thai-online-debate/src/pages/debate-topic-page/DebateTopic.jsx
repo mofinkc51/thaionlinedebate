@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./DebateTopic.css";
-import UserNavbar from "../../components/Navbar/UserNavBar";
+import UserNavBar from "../../components/Navbar/UserNavBar";
 import TopicTag from "../../components/TopicTag";
 import optionButtonIcon from "../../assets/icon/more-vertical.png";
 import userImg from "../../assets/profile.png";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 import ReportTopicPopup from "../../components/topic-popup/ReportTopicPopup";
+import AdminNavBar from "../../components/Navbar/AdminNavBar";
 
 function DebateTopic(props) {
   const [open, setOpen] = useState(false);
@@ -29,8 +30,7 @@ function DebateTopic(props) {
   let popup = null;
 
   const navigate = useNavigate();
-  const topicId = window.location.pathname.split("/").pop();
-
+  const { dbt_id } = props;
   let stance = {
     dbc_stance: 0,
   };
@@ -50,7 +50,7 @@ function DebateTopic(props) {
   const getCommentAgree = async () => {
     stance.dbc_stance = 0;
     try {
-      const res = await makeRequest.get(`/comments/${topicId}`, {
+      const res = await makeRequest.get(`/comments/${dbt_id}`, {
         params: stance,
       });
       setCommentDataAgree(res.data);
@@ -62,7 +62,7 @@ function DebateTopic(props) {
   const getCommentDisagree = async () => {
     stance.dbc_stance = 1;
     try {
-      const res = await makeRequest.get(`/comments/${topicId}`, {
+      const res = await makeRequest.get(`/comments/${dbt_id}`, {
         params: stance,
       });
       setCommentDataDisagree(res.data);
@@ -74,7 +74,7 @@ function DebateTopic(props) {
   const getTopicData = async () => {
     try {
       await Promise.all([getCommentAgree(), getCommentDisagree()]);
-      const res = await makeRequest.get("/posts/topic/" + topicId);
+      const res = await makeRequest.get("/posts/topic/" + dbt_id);
       setTopicData({
         dbt_id: res.data[0].dbt_id,
         dbt_title: res.data[0].dbt_title,
@@ -103,7 +103,7 @@ function DebateTopic(props) {
   const [canEditDelete, setCanEditDelete] = useState(false);
   const checkEditTopic = async () => {
     try {
-      const res = await makeRequest.get("/posts/checkedit/" + topicId);
+      const res = await makeRequest.get("/posts/checkedit/" + dbt_id);
       if (res.data === "true") {
         setCanEditDelete(true);
       }
@@ -158,17 +158,6 @@ function DebateTopic(props) {
       />
     );
   }
-  const handleEditTopic = () => {
-    setOpen(false);
-    setSelectedEditPopup(
-      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} />
-    );
-  };
-  if (!!selectedEditPopup) {
-    popup = (
-      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} />
-    );
-  }
   const handleDeleteTopic = async (e) => {
     e.preventDefault();
     try {
@@ -183,7 +172,7 @@ function DebateTopic(props) {
         cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await makeRequest.delete(`/posts/${topicId}`);
+          await makeRequest.delete(`/posts/${dbt_id}`);
           Swal.fire({
             title: "ลบประเด็นโต้แย้งเรียบร้อย!",
             icon: "success",
@@ -201,7 +190,7 @@ function DebateTopic(props) {
   };
   const handleAddToFav = async () => {
     try {
-      const res = await makeRequest.post("/likes/fav", { dbt_id: topicId });
+      const res = await makeRequest.post("/likes/fav", { dbt_id: dbt_id });
       Swal.fire({
         icon: "success",
         title: res.data,
@@ -228,23 +217,35 @@ function DebateTopic(props) {
     setOpen(false);
   }
   async function addToDownloadList(topicData) {
-    try {
-      const res = await makeRequest.post("/downloads/", topicData);
-      if (res.status === 200)
+    if (isAdmin) {
+      let downloadList = JSON.parse(localStorage.getItem('downloadList')) || [];
+      if (!downloadList.includes(topicData.dbt_id)) {
+        downloadList.push(topicData.dbt_id);
+        // บันทึกกลับเข้า localStorage
+        localStorage.setItem('downloadList', JSON.stringify(downloadList));
         return Swal.fire({
           icon: "success",
-          title: res.data,
-        });
-      else
-        return Swal.fire({
+          title: "เพิ่มเรียบร้อย",
+        })
+      } }
+      else { try {
+        const res = await makeRequest.post("/downloads/", topicData);
+        if (res.status === 200)
+          return Swal.fire({
+            icon: "success",
+            title: res.data,
+          });
+        else
+          return Swal.fire({
+            icon: "error",
+            title: res.data,
+          });
+      } catch (err) {
+        Swal.fire({
           icon: "error",
-          title: res.data,
+          title: err.response.data,
         });
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: err.response.data,
-      });
+      }
     }
   }
 
@@ -258,10 +259,13 @@ function DebateTopic(props) {
   const [selectedCommentData, setSelectedCommentData] = useState(null);
   const handleReportTopic = (commentData) => {
     setSelectedCommentData(commentData);
-    setOpen(true);
+    setSelectedReportPopup(<ReportTopicPopup 
+      onCloseClick={onCommentCloseClick} 
+      data={selectedCommentData}
+    />);
+    setOpen(false);
   };
-  if (open && selectedCommentData) {
-    // ตรวจสอบว่าควรแสดงป็อปอัปหรือไม่
+  if (!!selectedReportPopup) {
     popup = (
       <ReportTopicPopup
         onCloseClick={onCommentCloseClick}
@@ -278,6 +282,7 @@ function DebateTopic(props) {
     setSelectedAddtofavPopup(null);
     setSelectedAddtoDownloadPopup(null);
     setSelectedReportPopup(null);
+    // setSelectedCommentData(null);
     setOpen(false);
   }
   const [topicTag, setTopicTag] = useState([]);
@@ -286,15 +291,41 @@ function DebateTopic(props) {
       const res = await makeRequest.get(
         `/posts/tag/debate/${topicData.dbt_id}`
       );
-      console.log(res.data);
       setTopicTag(res.data);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const handleEditTopic = () => {
+    setOpen(false);
+    setSelectedEditPopup(
+      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} tag={topicTag}/>
+    );
+  };
+  if (!!selectedEditPopup) {
+    popup = (
+      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} tag={topicTag}/>
+    );
+  }
+  const [isAdmin, setIsAdmin] = useState(false);
+  const checkadmin = async () => {
+    try {
+      const res = await makeRequest.get("/auth/admin-checked")
+      if (res.data === "true") {
+        setIsAdmin(true)
+      }
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    checkadmin()
+  }, [])
   return (
     <>
-      <UserNavbar />
+      {isAdmin ? <AdminNavBar /> : <UserNavBar />}
       {/* page container */}
       <div className="debate-topic-page-container">
         {/* topic meta data box */}
@@ -400,7 +431,7 @@ function DebateTopic(props) {
                   <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
                 </div>
               )}
-              <button onClick={handleReportTopic}>รายงานปัญหา</button>
+              <button onClick={() => handleReportTopic(topicData)}>รายงานปัญหา</button>
             </div>
           </div>
         </div>
@@ -419,6 +450,7 @@ function DebateTopic(props) {
                   <CommentComponent
                     data={commentDataAgree}
                     handleReportTopic={() => handleReportTopic(commentDataAgree)}
+                    dbt_id={dbt_id}
                     key={index}
                   />
                 ))}
@@ -443,6 +475,7 @@ function DebateTopic(props) {
                   <CommentComponent
                     data={commentDataDisAgree}
                     handleReportTopic={() => handleReportTopic(commentDataDisAgree)}
+                    dbt_id={dbt_id}
                     key={index}
                   />
                 ))}

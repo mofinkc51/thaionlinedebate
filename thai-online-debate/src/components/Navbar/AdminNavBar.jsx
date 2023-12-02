@@ -7,7 +7,6 @@ import Swal from 'sweetalert2'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FaAngleDown} from 'react-icons/fa6'
 
-
 export const createTopicForm = () => {
     var x = document.getElementsByClassName("showcreate");
     if (x[0].style.display === "none") {
