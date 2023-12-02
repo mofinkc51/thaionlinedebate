@@ -32,7 +32,21 @@ export const getTopic = (req,res)=>{
     return res.status(200).json(data);
   });
 }
-
+export const getDebateByUser = (req,res)=>{
+  const user_id = req.params.user_id;
+  const token = req.cookies.accessToken;
+  if (!token) 
+    return res.status(401).json("Not authenticated!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    const sql = "SELECT dbt_id, dbt_title,dbt_timestamp FROM debatetopic WHERE user_id = ?";
+    db.query(sql, user_id, (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.length === 0) return res.status(404).json("Topic not found");
+      return res.status(200).json(data);
+    })
+  })
+}
 export const addPost = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) 

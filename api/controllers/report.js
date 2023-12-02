@@ -13,7 +13,6 @@ export const addReport = (req,res)=>{
     
     jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid!");
-  
         const values = [
           rp_description,
           moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),

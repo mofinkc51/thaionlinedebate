@@ -98,7 +98,7 @@ function DebateTopic(props) {
 
   useEffect(() => {
     getTagByDebate();
-  },[topicData]);
+  }, [topicData]);
 
   const [canEditDelete, setCanEditDelete] = useState(false);
   const checkEditTopic = async () => {
@@ -213,8 +213,6 @@ function DebateTopic(props) {
       });
     }
     setOpen(false);
-
-    // setSelectedAddtofavPopup(<AddToFavPopup onCloseClick={onCommentCloseClick}/>)
   };
   if (!!selectedAddtofavPopup) {
     popup = <AddToFavPopup onCloseClick={onCommentCloseClick} />;
@@ -254,24 +252,42 @@ function DebateTopic(props) {
     setOpen(false);
     addToDownloadList(topicData);
   };
+  // if(!!selectedAddtoDownloadPopup){
+  //   popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>
+  // }
   const [selectedCommentData, setSelectedCommentData] = useState(null);
-
   const handleReportTopic = (commentData) => {
-    setSelectedCommentData(commentData); 
-    setOpen(true); 
+    setSelectedCommentData(commentData);
+    setOpen(true);
   };
   if (open && selectedCommentData) {
-      // ตรวจสอบว่าควรแสดงป็อปอัปหรือไม่
-      popup = (
-        <ReportTopicPopup onCloseClick={onCommentCloseClick} data={selectedCommentData} />
-      );
-    }
+    // ตรวจสอบว่าควรแสดงป็อปอัปหรือไม่
+    popup = (
+      <ReportTopicPopup
+        onCloseClick={onCommentCloseClick}
+        data={selectedCommentData}
+      />
+    );
+  }
 
+  function onCommentCloseClick() {
+    popup = null;
+    setSelectedAgreePopup(null);
+    setSelectedDisagreePopup(null);
+    setSelectedEditPopup(null);
+    setSelectedAddtofavPopup(null);
+    setSelectedAddtoDownloadPopup(null);
+    setSelectedReportPopup(null);
+    setOpen(false);
+  }
   const [topicTag, setTopicTag] = useState([]);
   const getTagByDebate = async () => {
     try {
-      const res = await makeRequest.get(`/posts/tag/debate/${topicData.dbt_id}`)
-      setTopicTag(res.data)
+      const res = await makeRequest.get(
+        `/posts/tag/debate/${topicData.dbt_id}`
+      );
+      console.log(res.data);
+      setTopicTag(res.data);
     } catch (err) {
       console.log(err);
     }

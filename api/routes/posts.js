@@ -3,7 +3,8 @@ import { addPost , updatePost , deletePost ,
     getTops ,
     getTags,getTopicByTag,getAllTag,
     getTopic,getFav,checkTopicCanEdit,
-    getLastTopic,getSearch,getTagByDebate
+    getLastTopic,getSearch,getTagByDebate,
+    getDebateByUser
 } from "../controllers/post.js";
 
 const router = express.Router()
@@ -13,6 +14,8 @@ router.get("/tops", getTops);
 router.get("/topic/:dbt_id", getTopic);
 //get fav topic by userid
 router.get("/fav", getFav);
+//get topic by user
+router.get("/debate/:user_id", getDebateByUser)
 //add topic
 router.post("/", addPost);
 //edit topic 

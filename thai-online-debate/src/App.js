@@ -75,11 +75,14 @@ function App() {
     return <TagDebatePage tagname={tagname} />;
   }
 
+  function ProfileWrapper() {
+    const { user_id } = useParams();
+    return <Profile user_id={user_id} />;
+  }
   function ForgotPasswordWrapper() {
     const { token } = useParams();
     return <ChangePassword token={token} />;
   }
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -90,10 +93,10 @@ function App() {
       ),
     },
     {
-      path: "/profile/:id",
+      path: "/profile/:user_id",
       element: (
         <ProtectedRoute>
-          <Profile/>
+          <ProfileWrapper/>
         </ProtectedRoute>
       ),
     },
