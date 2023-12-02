@@ -4,7 +4,7 @@ import "./CommentComponent.css";
 import optionButton from "../assets/icon/more-vertical.png";
 import { makeRequest } from "../axios";
 import EditCommentPopup from "./topic-popup/EditCommentPopup";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function CommentComponent(props) {
   const [isHovered, setIsHovered] = useState(false);

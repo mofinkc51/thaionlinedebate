@@ -109,6 +109,7 @@ function AdminDownloadRequestList() {
           </tbody>
         </table>
       )}
+)}
     </div>
   );
 }

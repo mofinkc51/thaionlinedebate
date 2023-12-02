@@ -116,7 +116,6 @@ export const deleteComment= (req,res) => {
 
     const sql =
       "DELETE FROM debatecomment WHERE dbc_id=?";
-
     db.query(sql,dbc_id,(err, data) => {
         if (err) res.status(500).json(err);
         if (data.length === 0) return res.status(404).json("cant delete comment");
@@ -125,3 +124,55 @@ export const deleteComment= (req,res) => {
     );
   });
 }
+export const toggleLikeComment = (req, res) => {
+  const dbc_id = req.params.dbc_id;
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not authenticated!");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const sqlCheckLike = `
+      SELECT * FROM comment_likes WHERE dbc_id = ? AND user_id = ?
+    `;
+    db.query(sqlCheckLike, [dbc_id, userInfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+
+      if (data.length === 0) {
+        // If like does not exist, insert like
+        const sqlInsertLike = `
+          INSERT INTO comment_likes (dbc_id, user_id) VALUES (?, ?)
+        `;
+        db.query(sqlInsertLike, [dbc_id, userInfo.id], (err, insertResult) => {
+          if (err) return res.status(500).json(err);
+
+          // Update total likes
+          const sqlUpdateTotalLike = `
+            UPDATE debatecomment SET dbc_total_like = dbc_total_like + 1 WHERE dbc_id = ?
+          `;
+          db.query(sqlUpdateTotalLike, [dbc_id], (err, updateResult) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json("Like added.");
+          });
+        });
+      } else {
+        // If like exists, remove like
+        const sqlRemoveLike = `
+          DELETE FROM comment_likes WHERE dbc_id = ? AND user_id = ?
+        `;
+        db.query(sqlRemoveLike, [dbc_id, userInfo.id], (err, deleteResult) => {
+          if (err) return res.status(500).json(err);
+
+          // Update total likes
+          const sqlUpdateTotalLike = `
+            UPDATE debatecomment SET dbc_total_like = dbc_total_like - 1 WHERE dbc_id = ?
+          `;
+          db.query(sqlUpdateTotalLike, [dbc_id], (err, updateResult) => {
+            if (err) return res.status(500).json(err);
+            return res.status(201).json("Like removed.");
+          });
+        });
+      }
+    });
+  });
+};

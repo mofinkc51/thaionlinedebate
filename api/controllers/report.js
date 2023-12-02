@@ -10,6 +10,7 @@ export const addReport = (req,res)=>{
     const rp_type = req.body.rp_type;
     const status = "pending"
     const sql = "INSERT INTO reportedproblem (`rp_description`,`rp_timestamp`,`rp_status` ,`dbt_id`,`dbc_id`, `user_id`,`rp_type`) VALUES (?)"
+
     
     jwt.verify(token, "secretkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid!");
@@ -19,8 +20,7 @@ export const addReport = (req,res)=>{
           status,
           dbt_id,
           dbc_id,
-          userInfo.id,
-          rp_type
+          userInfo.id
       ];
         db.query(sql,[values],(err, data) => {
             if (err) res.status(500).json(err);
