@@ -17,18 +17,30 @@ function AdminManageProblemRow({ problem, onEditClick }) {
     };
     return new Date(dateString).toLocaleString('th-TH', options);
   };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'จัดการแล้ว':
+        return <div className="download-row-status-box-approved"><p>ดำเนินการแล้ว</p></div>;
+      case 'รอตรวจสอบ':
+        return <div className="download-row-status-box-pending"><p>รอตรวจสอบ</p></div>;
+      // Add more cases for other statuses if needed
+      default:
+        return <div className="download-row-status-box-rejected"><p>unknown</p></div>;; // Default text
+    }
+  };
   return (
     <tr className='admin-manage-problem-row'>
       <td className='admin-manage-problem-topic-name'>
-        <p>{user_name}</p>
+        <p className='admin-manage-problem-row-p'>{user_name}</p>
       </td>
       <td>
-        <p>{formatDate(rp_timestamp)}</p>
+        <p className='admin-manage-problem-row-p'>{formatDate(rp_timestamp)}</p>
       </td>
       <td className='admin-manage-problem-desc'>
-        <p>{rp_description}</p>
+        <p className='admin-manage-problem-row-p'>{rp_description}</p>
       </td>
-      <td>{rp_status}</td>
+      <td><div>{getStatusText(rp_status)}</div></td>
       <td>
         <button onClick={onEditClick}><img src={checkButtonIcon} alt="" /></button>
       </td>
