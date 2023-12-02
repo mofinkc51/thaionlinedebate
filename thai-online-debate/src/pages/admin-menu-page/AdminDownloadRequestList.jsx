@@ -38,7 +38,10 @@ function AdminDownloadRequestList() {
       console.error(error);
     }
   };
-
+  const refreshData = () => {
+    getDownloadData();
+    getApprovedData();
+  }
   useEffect(() => {
     getDownloadData();
     getApprovedData();
@@ -78,6 +81,7 @@ function AdminDownloadRequestList() {
             data={editingRequest}
             debate={detailDebate}
             drId={editingRequest.dr_id}
+            refresh={refreshData}
           />
         </>
       ) : (
