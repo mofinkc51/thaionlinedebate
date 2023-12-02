@@ -170,7 +170,6 @@ function EditProfileData() {
                 <form onSubmit={handleSubmit}>
                     <div className="edit-profile-profile-label-row">
                         <p className='edit-profile-data-label'>ชื่อบัญชีผู้ใช้</p>
-                        <button className='edit-profile-edit-button'>บันทึก</button>
                     </div>
 
                     <input className='edit-profile-textfield' type="text"  
@@ -202,8 +201,8 @@ function EditProfileData() {
 
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">
-                    <p className='edit-profile-data-label'>รหัสผ่าน</p>
                     <button type="button" onClick={changePassWord} className='edit-profile-edit-button'>เปลี่ยนรหัสผ่าน</button>
+                    <button className='edit-profile-edit-button'>บันทึก</button>
                     {showEditPasswordPopup && <EditPasswordPopup onClose={handleEditPasswordPopupClose} user_id = {currentUser.user_id}/>}
                 </div>
 

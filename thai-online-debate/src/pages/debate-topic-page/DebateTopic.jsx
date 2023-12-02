@@ -217,7 +217,16 @@ function DebateTopic(props) {
   if (!!selectedAddtofavPopup) {
     popup = <AddToFavPopup onCloseClick={onCommentCloseClick} />;
   }
-
+  function onCommentCloseClick() {
+    popup = null;
+    setSelectedAgreePopup(null);
+    setSelectedDisagreePopup(null);
+    setSelectedEditPopup(null);
+    setSelectedAddtofavPopup(null);
+    setSelectedAddtoDownloadPopup(null);
+    setSelectedReportPopup(null);
+    setOpen(false);
+  }
   async function addToDownloadList(topicData) {
     try {
       const res = await makeRequest.post("/downloads/", topicData);
@@ -242,8 +251,6 @@ function DebateTopic(props) {
   const handleAddToDownload = () => {
     setOpen(false);
     addToDownloadList(topicData);
-
-    // setSelectedAddtoDownloadPopup(<AddToDownloadPopup onCloseClick={onCommentCloseClick}/>)
   };
   // if(!!selectedAddtoDownloadPopup){
   //   popup = <AddToDownloadPopup onCloseClick={onCommentCloseClick}/>

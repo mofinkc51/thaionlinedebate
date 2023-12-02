@@ -1,5 +1,8 @@
 import express from "express";
-import { addComment , getComment ,getCanComment,updateComment,deleteComment} from "../controllers/comment.js";
+import { addComment , getComment ,getCanComment,
+    updateComment,deleteComment,toggleLikeComment
+
+} from "../controllers/comment.js";
 
 const router = express.Router()
 //get comment by id
@@ -12,5 +15,6 @@ router.get("/checkedit/:dbc_id",getCanComment)
 router.put("/edit/:dbc_id",updateComment)
 //delete comment 
 router.delete("/:dbc_id",deleteComment)
-
+//comment likes
+router.post("/like/:dbc_id",toggleLikeComment)
 export default router;
