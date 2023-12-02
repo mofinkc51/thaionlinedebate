@@ -104,15 +104,21 @@ function Profile(props) {
 
             {/* right side history */}
             <div className="profile-right-side-box">
-                <p className='profile-topic-history-title'>ประวัติประเด็นโต้แย้งที่เคยร่วม</p>
-                {historyData.map((historyData)=>(
-                    <HistoryTopic id={historyData.dbt_id} title={historyData.dbt_title} timestamp={historyData.timestamp}/>
-                ))}
+                
                 <p className='profile-topic-history-title'>ประเด็นโต้แย้งที่สร้าง</p>
                 {debateData.map((debateData)=>(
                     <HistoryTopic id={debateData.dbt_id} title={debateData.dbt_title} timestamp={debateData.dbt_timestamp}/>
                 ))}
             </div>
+            <div className="profile-right-side-box">
+                <p className='profile-topic-history-title'>ประวัติประเด็นโต้แย้งที่มีส่วนร่วม</p>
+                {historyData.map((historyData)=>(
+                    <HistoryTopic id={historyData.dbt_id} title={historyData.dbt_title} timestamp={historyData.timestamp}/>
+                ))}
+                
+            </div>
+
+            
         </div>
     </>
   )
