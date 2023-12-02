@@ -208,23 +208,35 @@ function DebateTopic(props) {
   }
 
   async function addToDownloadList(topicData) {
-    try {
-      const res = await makeRequest.post("/downloads/", topicData);
-      if (res.status === 200)
+    if (isAdmin) {
+      let downloadList = JSON.parse(localStorage.getItem('downloadList')) || [];
+      if (!downloadList.includes(topicData.dbt_id)) {
+        downloadList.push(topicData.dbt_id);
+        // บันทึกกลับเข้า localStorage
+        localStorage.setItem('downloadList', JSON.stringify(downloadList));
         return Swal.fire({
           icon: "success",
-          title: res.data,
-        });
-      else
-        return Swal.fire({
+          title: "เพิ่มเรียบร้อย",
+        })
+      } }
+      else { try {
+        const res = await makeRequest.post("/downloads/", topicData);
+        if (res.status === 200)
+          return Swal.fire({
+            icon: "success",
+            title: res.data,
+          });
+        else
+          return Swal.fire({
+            icon: "error",
+            title: res.data,
+          });
+      } catch (err) {
+        Swal.fire({
           icon: "error",
-          title: res.data,
+          title: err.response.data,
         });
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: err.response.data,
-      });
+      }
     }
   }
 
@@ -239,7 +251,6 @@ function DebateTopic(props) {
   // }
   const [selectedCommentData, setSelectedCommentData] = useState(null);
   const handleReportTopic = (commentData) => {
-    console.log(commentData);
     setSelectedCommentData(commentData);
     setSelectedReportPopup(<ReportTopicPopup 
       onCloseClick={onCommentCloseClick} 
@@ -273,7 +284,6 @@ function DebateTopic(props) {
       const res = await makeRequest.get(
         `/posts/tag/debate/${topicData.dbt_id}`
       );
-      console.log(res.data);
       setTopicTag(res.data);
     } catch (err) {
       console.log(err);
@@ -298,7 +308,6 @@ function DebateTopic(props) {
       if (res.data === "true") {
         setIsAdmin(true)
       }
-      console.log(res.data)
       return res.data
     } catch (err) {
       console.log(err)

@@ -427,7 +427,7 @@ export const editActivity = (req, res) => {
       UPDATE activity SET act_start_date =?, act_end_date = ? WHERE dbt_id = ?
     `;
       db.query(sqlUpdateActivity, [act_start_date, act_end_date, dbt_id], (err, data) => {
-        if (err) return res.status(500).json(err) && console.log("act error");
+        if (err) return res.status(500).json(err) && console.log(err);
         if (!tags || tags.length === 0) {
           return res.status(200).json("Topic updated without tags");
         }

@@ -5,7 +5,7 @@ import axios from 'axios'; // Import Axios
 import './EditProblemPopup.css';
 import { makeRequest } from '../../axios';
 
-function EditProblemPopup({ onClose, problem, onConfirm }) {
+function EditProblemPopup({ onClose, problem, onConfirm ,refreshProblems}) {
   const [adminNote, setAdminNote] = useState();
   const [isPopupVisible, setPopupVisible] = useState(true);
 
@@ -20,7 +20,9 @@ function EditProblemPopup({ onClose, problem, onConfirm }) {
       const response = await makeRequest.put('admin/rereportproblem_admindescription', {
         rp_id: problem.rp_id,
         adminNote: adminNote
-      });
+      }).then(() => {
+        refreshProblems();
+      })
   
       // Handle the response or perform any necessary actions
       // For example, you can close the popup or update the UI.

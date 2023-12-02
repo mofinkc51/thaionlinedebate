@@ -43,7 +43,9 @@ function AdminManageProblem() {
   useEffect(() => {
     getUserData();
   },[]);
-
+  const refreshProblems = () => {
+    getUserData();
+  }
 
   //sort state and function
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -115,6 +117,7 @@ return (
           problem={selectedProblem}
           onClose={() => setSelectedProblem(null)}
           onConfirm={handleProblemEdit}
+          refreshProblems={refreshProblems}
         />
       )}
       {deletePopupOpen && (

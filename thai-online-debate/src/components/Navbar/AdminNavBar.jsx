@@ -48,7 +48,7 @@ function AdminNavBar() {
             <div class="nav-container">
                 <div class="nav-wrapper">
                     <div class="logo">
-                        <h3>TDBate</h3>
+                        <a href="/"><h3>Thai Online Debate</h3></a>
                     </div>
                     <ul class="nav-menu" id="myMenu">
                         <li><a href="/">หน้าแรก</a></li>

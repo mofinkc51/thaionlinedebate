@@ -68,7 +68,6 @@ function Home() {
   const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0,5);
   
   const handleTagClicked = async (e) => {
-    console.log(e);
     try {
       navigate(`/tag/${e}`);
     } catch (err) {
@@ -89,7 +88,6 @@ function Home() {
   const getTags = async () => {
     try {
       const res = await makeRequest.get("/posts/tags");
-      console.log(res.data);
       return setTags(res.data);
     } catch (err) {
       console.log(err);
@@ -108,26 +106,34 @@ function Home() {
     getTopicSearch();
     getTags();
     getAllTags();
+    getActivity();
   }, []);
 
-  //check admin
-  const [isAdmin, setIsAdmin] = useState(false);
-  const checkadmin = async () => {
+  const [activity, setActivity] = useState([])
+  const getActivity = async () => {
     try {
-      const res = await makeRequest.get("/auth/admin-checked")
-      if (res.data === "true") {
-        setIsAdmin(true)
-      }
-      console.log(res.data)
-      return res.data
+      const res = await makeRequest.get("/posts/activity")
+      return setActivity(res.data)
     } catch (err) {
       console.log(err)
     }
   }
-  useEffect(() => {
-    checkadmin()
-  }, [])
-
+    //check admin
+    const [isAdmin, setIsAdmin] = useState(false);
+    const checkadmin = async () => {
+      try {
+        const res = await makeRequest.get("/auth/admin-checked")
+        if (res.data === "true") {
+          setIsAdmin(true)
+        }
+        return res.data
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    useEffect(() => {
+      checkadmin()
+    }, [])
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -187,7 +193,29 @@ function Home() {
             <img src={bbImg} alt="" className='billboard-img'/>
           </div> */}
         <BannerSlider />
-        {/*  */}
+        {/*  */}          
+        {/* activity */}
+          {/* <h2 className='popular-title'>Popular Topic</h2> */}
+          {activity.length > 0 ? (
+            <>
+              <h2 className="popular-title">Activity</h2>
+              <div className="popular-topic-container">
+                <div className="popular-topic-grid">
+                  {activity.map((debate) => (
+                    <TopicComponent
+                      topicname={debate.dbt_title}
+                      id={debate.dbt_id}
+                      refresh={getTopTopics}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+            </>
+          )}
+
 
         {/* Popular topic */}
         <h2 className="popular-title">Popular Topic</h2>
@@ -203,6 +231,7 @@ function Home() {
             ))}
           </div>
         </div>
+
       </div>
       <div id="create-topic-popup" display="none">
         <CreateTopicPopup />

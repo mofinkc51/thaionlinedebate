@@ -5,7 +5,7 @@ import moment from "moment";
 
 export const getDownload = (req, res) => {
   const token = req.cookies.accessToken;
-
+  console.log(req.params)
   if (!token) {
     return res.status(401).json("Not authenticated!");
   }
@@ -53,6 +53,22 @@ export const getDownload = (req, res) => {
     });
   });
 };
+export const getDownloadAdmin = (req,res)=>{
+  let dbt_ids = Object.values(req.query)
+  const token = req.cookies.accessToken;
+  if (dbt_ids.length === 0)
+  dbt_ids = ""
+  if (!token) 
+  return res.status(401).json("Not authenticatede!");
+  const sql = "SELECT debatetopic.dbt_id,dbt_title,COUNT(debatecomment.dbt_id) AS count , dbt_agree,dbt_disagree FROM debatetopic LEFT JOIN debatecomment ON debatetopic.dbt_id = debatecomment.dbt_id WHERE debatetopic.dbt_id IN (?) GROUP BY debatetopic.dbt_id, debatetopic.dbt_title ";
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    db.query(sql,[dbt_ids],(err, data) => {
+      if (err) res.status(500).json(err);
+      return res.status(200).json(data);
+    })
+  })
+} 
 export const getDownloadDetail = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) {

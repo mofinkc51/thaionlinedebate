@@ -39,7 +39,7 @@ function EditActivityPopup({ activity, onClose, refresh}) {
 
   const handleSubmit = async (e) => {
       e.preventDefault()
-      setTopicData({ ...topicData, tags: tags, dbt_id: activity.dbt_id})
+      setTopicData({ ...topicData, tags: tags, dbt_id: activity.dbt_id, act_end_date: activity.act_end_date, act_end_date: activity.act_end_date })
       if (!text_validation(topicData.dbt_title,8,50)){
           return Swal.fire({
               icon: 'error',
@@ -82,9 +82,15 @@ function EditActivityPopup({ activity, onClose, refresh}) {
               title: 'Oops...',
               text: "กรุณาเลือกแท็ก 1 - 5 แท็ก"
             })
-      }
+      }      
+      if (tags.length === 0 || tags.length > 5) {
+        return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "กรุณาเลือกแท็ก 1 - 5 แท็ก"
+          })
+    }
       try {
-          console.log("before put", topicData);
           await makeRequest.put(`admin/editactivity`, topicData);
           Swal.fire({
               icon: 'success',
@@ -155,7 +161,6 @@ function EditActivityPopup({ activity, onClose, refresh}) {
     const getAllTag = async () => {
       try {
         const res = await makeRequest.get("/posts/alltag");
-        console.log(res.data);
         const tagTitles = res.data.map((row) => row.tag_title);
         setItems(tagTitles);
       } catch (err) {
@@ -192,24 +197,24 @@ function EditActivityPopup({ activity, onClose, refresh}) {
     const fetchData = async () => {
       await getTopicData();
       await getTagByDebate();
-      // setDefualtTag(); // เรียกเมื่อข้อมูลถูกโหลด
     };
     fetchData();
   }, []);
   
   useEffect(() => {
-    // อัปเดตข้อมูล topic ทุกครั้งที่ tags เปลี่ยนแปลง
     setTopicData(currentTopic => ({ ...currentTopic, tags }));
   }, [tags]);
 
   useEffect(() => {
-    setTopicData(currentTopic => ({
-      ...currentTopic,
-      act_start_date: activity.act_start_date
-    }));
-    console.log("update act")
-  }, [activity]);
-  
+    if (!topicData.act_end_date || !topicData.act_start_date) {
+      setTopicData(currentTopic => ({
+            ...currentTopic,
+            act_start_date: toLocalDateTime(activity.act_start_date),
+            act_end_date: toLocalDateTime(activity.act_end_date)
+          }));
+    }
+  }, [topicData]);
+
   const handleTagClick = (tag) => {
       if (tags.includes(tag)) {
           // ลบ tag when includes

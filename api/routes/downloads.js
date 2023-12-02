@@ -1,12 +1,13 @@
 import express from "express";
 import { getDownload,addDownload,deleteDownload,updatePending,
     getDownloadPending,getDownloadDetail,getDownloadDetailDebate,
-    getDownloadApproved
+    getDownloadApproved,getDownloadAdmin
 } from "../controllers/download.js";
 
 const router = express.Router()
 
 router.get("/", getDownload)
+router.get("/admin", getDownloadAdmin)
 router.post("/", addDownload)
 router.delete("/:dbt_id", deleteDownload)
 router.put("/", updatePending)

@@ -60,12 +60,10 @@ export const login = (req, res) => {
                             console.error("Error while inserting into admin table:", err);
                             return res.status(500).json(err);
                         }
-                        console.log("Admin data inserted successfully, result:", insertResult);
                     });
                 }
             });
         }
-
         // สร้าง token และส่งข้อมูลผู้ใช้กลับ (รวมถึงขั้นตอนอื่นๆที่ทำในฟังก์ชันเดิม)
         const token = Jwt.sign({ id: userData[0].user_id, role_id: userData[0].role_id }, "secretkey");
         const { user_password, ...ot } = userData[0];
@@ -174,7 +172,6 @@ export const forgotPassword = (req, res) => {
                         console.log(mailErr);
                         return res.status(500).json({ message: "Error sending email" });
                     }
-                    console.log("Email sent: " + info.response);
                     res.status(200).json({ message: "Reset password link sent to email" });
                 });
             }

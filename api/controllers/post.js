@@ -32,6 +32,29 @@ export const getTopic = (req,res)=>{
     return res.status(200).json(data);
   });
 }
+
+export const getActivityTopic = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Token is expired Please logged Out!");
+
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    // คำสั่ง SQL สำหรับเลือกข้อมูลจาก debatetopic ที่ตรงกับเงื่อนไขที่กำหนด
+    const sql = `
+      SELECT dt.dbt_id, dt.dbt_title 
+      FROM debatetopic dt 
+      INNER JOIN activity act ON dt.dbt_id = act.dbt_id 
+      WHERE CURRENT_DATE BETWEEN act.act_start_date AND act.act_end_date;
+    `;
+
+    db.query(sql, (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data);
+    });
+  });
+};
+
 export const getDebateByUser = (req,res)=>{
   const user_id = req.params.user_id;
   const token = req.cookies.accessToken;
@@ -148,7 +171,7 @@ export const checkTopicCanEdit = (req,res)=>{
   if (!token) return res.status(401).json("Not authenticatede!");
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-
+    if (userInfo.role_id === "admin") return res.status(200).json("true");
     const sql =
       "SELECT * FROM debatetopic WHERE dbt_id=? AND user_id=?";
 
@@ -168,8 +191,9 @@ export const updatePost = (req,res)=>{
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
+
     const sql =
-      "UPDATE debatetopic SET dbt_title=?,dbt_description=?,dbt_agree=?,dbt_disagree=? WHERE dbt_id=? AND user_id=?;"
+      "UPDATE debatetopic SET dbt_title=?,dbt_description=?,dbt_agree=?,dbt_disagree=? WHERE dbt_id=?;"
 
     db.query(sql,[
       dbt_title,
@@ -177,7 +201,6 @@ export const updatePost = (req,res)=>{
       dbt_agree,
       dbt_disagree,
       dbt_id,
-      userInfo.id,
     ],(err, data) => {
       if (err) return res.status(500).json(err) && console.log(err);
 
@@ -186,7 +209,6 @@ export const updatePost = (req,res)=>{
       }
       // Assuming tags are an array of tag_titles to be linked with the dbt_id
       const tags = req.body.tags;
-      console.log("Tags:", tags);
       if (!tags || tags.length === 0) {
         return res.status(200).json("Topic updated without tags");
       }
@@ -235,16 +257,25 @@ export const deletePost = (req,res)=>{
   if (!token) return res.status(401).json("Not authenticatede!");
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-
-    const sql =
-      "DELETE FROM debatetopic WHERE dbt_id=? AND user_id=?";
-
-    db.query(sql,[dbt_id,userInfo.id],(err, data) => {
+    if (userInfo.role_id === "admin") {
+      const sql =
+      "DELETE FROM debatetopic WHERE dbt_id=?";
+      db.query(sql,[dbt_id],(err, data) => {
         if (err) res.status(500).json(err);
         if (data.length === 0) return res.status(404).json("cant delete topic");
         return res.status(200).json("deleted topic");
-      }
-    );
+      });
+    }
+    else {
+      const sql =
+        "DELETE FROM debatetopic WHERE dbt_id=? AND user_id=?";
+      db.query(sql,[dbt_id,userInfo.id],(err, data) => {
+          if (err) res.status(500).json(err);
+          if (data.length === 0) return res.status(404).json("cant delete topic");
+          return res.status(200).json("deleted topic");
+        }
+      );
+    };
   });
 }
 export const getSearch = (req,res)=>{

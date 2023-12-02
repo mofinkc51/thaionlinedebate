@@ -5,6 +5,7 @@ import DownloadRow from '../../components/download-row/DownloadRow'
 import { makeRequest } from '../../axios';
 import DownloadDetailPopup from '../../components/download-request-popup/DownloadDetailPopup';
 import downloadFilesAsZip from '../../downloadzip';
+import AdminNavBar from '../../components/Navbar/AdminNavBar';
 
 function DownloadList() {
 
@@ -82,12 +83,25 @@ function DownloadList() {
       console.log(err);
     }
   };
-  
-
-
+      //check admin
+      const [isAdmin, setIsAdmin] = useState(false);
+      const checkadmin = async () => {
+        try {
+          const res = await makeRequest.get("/auth/admin-checked")
+          if (res.data === "true") {
+            setIsAdmin(true)
+          }
+          return res.data
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      useEffect(() => {
+        checkadmin()
+      }, [])
   return (
     <>
-    <UserNavBar/>
+    {isAdmin ? <AdminNavBar /> : <UserNavBar />}
     <div className="download-list-page-container">
         <div className="download-list-title-row">
             <h2 className='download-list-title'>ประวัติรายการประเด็นโต้แย้งที่ต้องการดาวน์โหลด</h2>
