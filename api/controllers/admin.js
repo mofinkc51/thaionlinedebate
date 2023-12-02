@@ -2,6 +2,8 @@ import { db } from "../connect.js";
 import { createHash } from 'crypto';
 import express from 'express';
 import bodyParser from 'body-parser';
+import jwt from "jsonwebtoken";
+import moment from "moment";
 
 export const getAllUsers = (req, res) => {
   const sql = "SELECT user_name,user_email,user_id,user_status FROM user";
@@ -70,9 +72,10 @@ export const getProblem = (req, res) => {
 
   export const getActivity = (req, res) => {
     const sql = `
-      SELECT a.*, d.dbt_title 
+      SELECT  d.dbt_title,a.act_id,a.act_start_date,a.act_end_date,user.user_name,d.dbt_id
       FROM activity a 
       LEFT JOIN debatetopic d ON a.dbt_id = d.dbt_id
+      LEFT JOIN user ON d.user_id = user.user_id
     `;
   
     db.query(sql, (err, data) => {
@@ -87,6 +90,77 @@ export const getProblem = (req, res) => {
     });
   };
 
+  export const postActivity = (req, res) => { 
+    const { dbt_title, dbt_description, dbt_agree, dbt_disagree,act_end_date, act_start_date } = req.body;
+    console.log(req.body);
+    const token = req.cookies.accessToken;
+    if (!token) 
+      return res.status(401).json("Not authenticated!");
+    jwt.verify(token, "secretkey", (err, userInfo) => {
+      if (err) return res.status(403).json("Token is not valid!");
+      const sqlInsertTopic =
+        "INSERT INTO debatetopic (`dbt_title`,`dbt_description`,`dbt_timestamp`,`dbt_agree`,`dbt_disagree`, `user_id`) VALUES (?)";
+      const valuesTopic = [
+        dbt_title,
+        dbt_description,
+        moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+        dbt_agree,
+        dbt_disagree,
+        userInfo.id
+      ];
+      // First, insert into debatetopic
+      db.query(sqlInsertTopic, [valuesTopic], (err, data) => {
+        if (err) return res.status(500).json(err);
+        // Get the last inserted dbt_id
+        const dbt_id = data.insertId;
+        // Process each tag from the request
+        const tags = req.body.tags;
+  
+         // Insert activity information into activity table
+          const sqlInsertActivity = `
+          INSERT INTO activity (act_start_date, act_end_date, admin_id, dbt_id) VALUES (?, ?, ?, ?)
+        `;
+        db.query(sqlInsertActivity, [act_start_date, act_end_date, userInfo.id, dbt_id], (err, data) => {
+          if (err) return res.status(500).json(err);
+  
+          // Process tags if the activity was successfully inserted
+  
+          // Function to handle tag insertion
+          const handleTagInsert = (tag, index, callback) => {
+            // Check if tag exists in the tag table first
+            db.query("SELECT tag_id FROM tag WHERE tag_title = ?", [tag], (err, data) => {
+              if (err) return callback(err);
+              if (data.length > 0) {
+                // Tag exists, use existing tag_id
+                return callback(null, data[0].tag_id);
+              } else {
+                // Tag does not exist, insert new tag
+                db.query("INSERT INTO tag (tag_title) VALUES (?)", [tag], (err, data) => {
+                  if (err) return callback(err);
+                  // Use new tag_id
+                  return callback(null, data.insertId);
+                });
+              }
+            });
+          };
+          // Function to handle insertion into debatetag table
+          const insertDebateTag = (tagId) => {
+            db.query("INSERT INTO debatetag (dbt_id, tag_id) VALUES (?, ?)", [dbt_id, tagId], (err, data) => {
+              if (err) res.status(500).json(err);
+            });
+          };
+          // Iterate over each tag and insert into debatetag table
+          tags.forEach((tag, index) => {
+            handleTagInsert(tag, index, (err, tagId) => {
+              if (err) return res.status(500).json(err);
+              insertDebateTag(tagId);
+            });
+          });
+          return res.status(200).json("Topic and tags have been created");
+        });
+      });
+    });
+  };
 export const updateStatus = (req, res) => {
   const { user_id, user_status } = req.body;
   if (!user_id || !user_status) {
@@ -173,69 +247,7 @@ export const getApprovefromdr_id = (req, res) => {
 
 
 
-export const postActivity = (req, res) => { 
-  const { topicName, topicDesc, startDate, endDate, stanceOne, stanceTwo, userId } = req.body;
 
-  if (!topicName || !topicDesc || !startDate || !endDate || !stanceOne || !stanceTwo || !userId) {
-    return res.status(400).json({ message: 'Missing required data' });
-  }
-
-  const getMaxDbtIdQuery = 'SELECT MAX(dbt_id) AS maxDbtId FROM debatetopic';
-  const getMaxActIdQuery = 'SELECT MAX(act_id) AS maxActId FROM activity';
-
-  db.query(getMaxDbtIdQuery, (err, dbtResult) => {
-    if (err) {
-      console.error('Error executing SQL for debate topic ID:', err);
-      return res.status(500).json({ message: 'Internal server error' });
-    }
-
-    db.query(getMaxActIdQuery, (err, actResult) => {
-      if (err) {
-        console.error('Error executing SQL for activity ID:', err);
-        return res.status(500).json({ message: 'Internal server error' });
-      }
-
-      const maxDbtId = dbtResult[0].maxDbtId || 0;
-      const maxActId = actResult[0].maxActId || 0;
-
-      const nextActId = maxActId + 1;
-
-      const sql = `
-        INSERT INTO debatetopic (dbt_id, dbt_title, dbt_description, dbt_timestamp, dbt_agree, dbt_disagree, user_id)
-        VALUES (?, ?, ?, NOW(), ?, ?, ?);
-      `;
-
-      const sql2 = `
-        INSERT INTO activity (act_id, act_start_date, act_end_date, admin_id, dbt_id)
-        VALUES (?, ?, ?, ?, ?);
-      `;
-
-      db.query(
-        sql,
-        [maxDbtId + 1, topicName, topicDesc, stanceOne, stanceTwo, userId],
-        (err, insertResult) => {
-          if (err) {
-            console.error('Error executing SQL for debatetopic insertion:', err);
-            return res.status(500).json({ message: 'Internal server error' });
-          }
-
-          db.query(
-            sql2,
-            [nextActId, startDate, endDate, 1, maxDbtId + 1],
-            (err, insertResult) => {
-              if (err) {
-                console.error('Error executing SQL for activity insertion:', err);
-                return res.status(500).json({ message: 'Internal server error' });
-              }
-
-              return res.status(201).json({ message: 'Activity posted successfully' });
-            }
-          );
-        }
-      );
-    });
-  });
-};
 
 
 
@@ -359,30 +371,101 @@ export const approvalStatus = (req, res) => {
   });
 };
 
-export const getdbtdataforEditactivity = (req, res) => {
-  const dbt_id = req.params.dbt_id; // ดึงค่า dbt_id จาก request parameters
+export const editActivity = (req, res) => {
 
-  // ต่อไปนี้คือ SQL ที่ใช้รับข้อมูลโดยใช้ dbt_id
-  const sql = `
-    SELECT dbt_description, dbt_agree, dbt_disagree 
-    FROM debatetopic 
-    WHERE dbt_id = ${dbt_id}
-  `;
+  const { dbt_title, dbt_description, dbt_agree, dbt_disagree,act_end_date, act_start_date,dbt_id } = req.body;
+  console.log(dbt_title, dbt_description, dbt_agree, dbt_disagree,act_end_date, act_start_date,dbt_id)
 
-  // ทำการ query ด้วย SQL ของคุณ
-  db.query(sql, (err, result) => {
-    if (err) {
-      console.error('Error querying database:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
+  const token = req.cookies.accessToken;
+  if (!token) 
+  return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
 
-    // ตรวจสอบว่ามีข้อมูลหรือไม่
-    if (result.length === 0) {
-      return res.status(404).json({ error: 'Data not found' });
-    }
+    const sql =
+      "UPDATE debatetopic SET dbt_title=?,dbt_description=?,dbt_agree=?,dbt_disagree=? WHERE dbt_id=? AND user_id=?;"
 
-    // ส่งข้อมูลกลับไปยัง client
-    res.json(result[0]);
+    db.query(sql,[
+      dbt_title,
+      dbt_description,
+      dbt_agree,
+      dbt_disagree,
+      dbt_id,
+      userInfo.id,
+    ],(err, data) => {
+      if (err) return res.status(500).json(err) && console.log(err);
+
+      if (data.affectedRows === 0) {
+        return res.status(403).json("You can update only your post!");
+      }
+      // Assuming tags are an array of tag_titles to be linked with the dbt_id
+      const tags = req.body.tags;
+      console.log("Tags:", tags);
+      // Insert activity information into activity table
+      const sqlUpdateActivity = `
+      UPDATE activity SET act_start_date =?, act_end_date = ? WHERE dbt_id = ?
+    `;
+      db.query(sqlUpdateActivity, [act_start_date, act_end_date, dbt_id], (err, data) => {
+        if (err) return res.status(500).json(err) && console.log("act error");
+        if (!tags || tags.length === 0) {
+          return res.status(200).json("Topic updated without tags");
+        }
+        // Delete old tags from debatetag table
+        db.query("DELETE FROM debatetag WHERE dbt_id=?", [dbt_id], (deleteErr, deleteData) => {
+          if (deleteErr) return res.status(500).json(deleteErr);
+          // Function to handle tag insertion
+          const handleTagInsert = (tag, index, callback) => {
+            // Check if tag exists in the tag table first
+            db.query("SELECT tag_id FROM tag WHERE tag_title = ?", [tag], (err, data) => {
+              if (err) return callback(err);
+              if (data.length > 0) {
+                // Tag exists, use existing tag_id
+                return callback(null, data[0].tag_id);
+              } else {
+                // Tag does not exist, insert new tag
+                db.query("INSERT INTO tag (tag_title) VALUES (?)", [tag], (err, data) => {
+                  if (err) return callback(err) && console.log(err);
+                  // Use new tag_id
+                  console.log("Tag inserted:", tag);
+                  return callback(null, data.insertId);
+                });
+              }
+            });
+          };
+          // Function to handle insertion into debatetag table
+          const insertDebateTag = (tagId) => {
+            db.query("INSERT INTO debatetag (dbt_id, tag_id) VALUES (?, ?)", [dbt_id, tagId], (err, data) => {
+              if (err) res.status(500).json(err);
+            });
+          };
+          tags.forEach((tag, index) => {
+            handleTagInsert(tag, index, (err, tagId) => {
+              if (err) return res.status(500).json(err);
+              console.log("Tag ID:", tagId);
+              insertDebateTag(tagId);
+            });
+          });
+          return res.status(200).json("Topic and tags have been updated");
+        });
+      });
+    });
   });
 };
 
+export const deleteActivity = (req,res)=>{
+  const dbt_id = req.params.dbt_id;
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not authenticatede!");
+  jwt.verify(token, "secretkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const sql =
+      "DELETE FROM debatetopic WHERE dbt_id=?";
+      db.query(sql,[dbt_id],(err, data) => {
+        if (err) res.status(500).json(err);
+        if (data.length === 0) return res.status(404).json("cant delete topic");
+        return res.status(200).json("deleted topic");
+      }
+    );
+  });
+}

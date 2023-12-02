@@ -4,23 +4,23 @@ import './AdminManageActivity.css';
 import AdminManageActivityRow from '../../components/admin-manage-activity-row/AdminManageActivityRow';
 import CreateActivityPopup from '../../components/admin-popup/CreateActivityPopup';
 import EditActivityPopup from '../../components/admin-popup/EditActivityPopup';
+import { makeRequest } from '../../axios';
 
 const AdminManageActivity = () => {
   const [activities, setActivities] = useState([]);
   const [showCreatePopup, setShowCreatePopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
-
+  
+  const fetchActivities = async () => {
+    try {
+      const response = await makeRequest.get('/admin/activity');
+      setActivities(response.data);
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+    }
+  };
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await axios.get('http://localhost:8800/api/admin/activity');
-        setActivities(response.data);
-      } catch (error) {
-        console.error('Error fetching activities:', error);
-      }
-    };
-
     fetchActivities();
   }, []);
 
@@ -36,11 +36,8 @@ const AdminManageActivity = () => {
     }
   };
 
-  const handleEdit = (editedData) => {
-    const updatedActivities = activities.map((activity) =>
-      activity.act_id === editedData.act_id ? editedData : activity
-    );
-    setActivities(updatedActivities);
+  const handleEdit = () => {
+    fetchActivities();
   };
 
   return (
@@ -61,7 +58,7 @@ const AdminManageActivity = () => {
         </tr>
 
         {activities.map((activity) => (
-          <AdminManageActivityRow key={activity.act_id} activity={activity} onEdit={() => {setSelectedActivity(activity); setShowEditPopup(true);}} />
+          <AdminManageActivityRow key={activity.act_id} activity={activity} onEdit={handleEdit} closePopup={() => setShowEditPopup(false)} />
         ))}
       </table>
 

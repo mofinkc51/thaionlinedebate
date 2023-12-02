@@ -158,17 +158,6 @@ function DebateTopic(props) {
       />
     );
   }
-  const handleEditTopic = () => {
-    setOpen(false);
-    setSelectedEditPopup(
-      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} />
-    );
-  };
-  if (!!selectedEditPopup) {
-    popup = (
-      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} />
-    );
-  }
   const handleDeleteTopic = async (e) => {
     e.preventDefault();
     try {
@@ -250,11 +239,15 @@ function DebateTopic(props) {
   // }
   const [selectedCommentData, setSelectedCommentData] = useState(null);
   const handleReportTopic = (commentData) => {
+    console.log(commentData);
     setSelectedCommentData(commentData);
-    setOpen(true);
+    setSelectedReportPopup(<ReportTopicPopup 
+      onCloseClick={onCommentCloseClick} 
+      data={selectedCommentData}
+    />);
+    setOpen(false);
   };
-  if (open && selectedCommentData) {
-    // ตรวจสอบว่าควรแสดงป็อปอัปหรือไม่
+  if (!!selectedReportPopup) {
     popup = (
       <ReportTopicPopup
         onCloseClick={onCommentCloseClick}
@@ -271,6 +264,7 @@ function DebateTopic(props) {
     setSelectedAddtofavPopup(null);
     setSelectedAddtoDownloadPopup(null);
     setSelectedReportPopup(null);
+    // setSelectedCommentData(null);
     setOpen(false);
   }
   const [topicTag, setTopicTag] = useState([]);
@@ -285,6 +279,18 @@ function DebateTopic(props) {
       console.log(err);
     }
   };
+
+  const handleEditTopic = () => {
+    setOpen(false);
+    setSelectedEditPopup(
+      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} tag={topicTag}/>
+    );
+  };
+  if (!!selectedEditPopup) {
+    popup = (
+      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} tag={topicTag}/>
+    );
+  }
   const [isAdmin, setIsAdmin] = useState(false);
   const checkadmin = async () => {
     try {
@@ -409,7 +415,7 @@ function DebateTopic(props) {
                   <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
                 </div>
               )}
-              <button onClick={handleReportTopic}>รายงานปัญหา</button>
+              <button onClick={() => handleReportTopic(topicData)}>รายงานปัญหา</button>
             </div>
           </div>
         </div>

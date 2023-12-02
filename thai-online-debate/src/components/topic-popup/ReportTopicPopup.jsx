@@ -13,7 +13,7 @@ function ReportTopicPopup(props) {
     dbc_id: data.dbc_id,
     rp_type: "",
   });
-
+  console.log(data)
   const handleChange = (e) => {
     setReportData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -46,7 +46,6 @@ function ReportTopicPopup(props) {
       });
     }
   };
-  console.log(reportData);
   return (
     <>
       <div className="report-topic-bg-opacity">

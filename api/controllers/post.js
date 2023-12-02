@@ -66,10 +66,8 @@ export const addPost = (req, res) => {
     // First, insert into debatetopic
     db.query(sqlInsertTopic, [valuesTopic], (err, data) => {
       if (err) return res.status(500).json(err);
-      // Get the last inserted dbt_id
       const dbt_id = data.insertId;
-      // Process each tag from the request
-      const tags = req.body.tags; // Your second dataset ["กฎหมายชาวบ้าน","Part Time",...]
+      const tags = req.body.tags;
       // Function to handle tag insertion
       const handleTagInsert = (tag, index, callback) => {
         // Check if tag exists in the tag table first
@@ -163,6 +161,7 @@ export const checkTopicCanEdit = (req,res)=>{
   });
 }
 export const updatePost = (req,res)=>{
+  const { dbt_title, dbt_description, dbt_agree, dbt_disagree,dbt_id } = req.body;
   const token = req.cookies.accessToken;
   if (!token) 
   return res.status(401).json("Not authenticatede!");
@@ -173,20 +172,62 @@ export const updatePost = (req,res)=>{
       "UPDATE debatetopic SET dbt_title=?,dbt_description=?,dbt_agree=?,dbt_disagree=? WHERE dbt_id=? AND user_id=?;"
 
     db.query(sql,[
-      req.body.dbt_title,
-      req.body.dbt_description,
-      req.body.dbt_agree,
-      req.body.dbt_disagree,
-      req.body.dbt_id,
+      dbt_title,
+      dbt_description,
+      dbt_agree,
+      dbt_disagree,
+      dbt_id,
       userInfo.id,
     ],(err, data) => {
-        if (err) res.status(500).json(err);
-        if (data.affectedRows > 0) return res.json("Updated!");
+      if (err) return res.status(500).json(err) && console.log(err);
+
+      if (data.affectedRows === 0) {
         return res.status(403).json("You can update only your post!");
       }
-    );
+      // Assuming tags are an array of tag_titles to be linked with the dbt_id
+      const tags = req.body.tags;
+      console.log("Tags:", tags);
+      if (!tags || tags.length === 0) {
+        return res.status(200).json("Topic updated without tags");
+      }
+      // Delete old tags from debatetag table
+      db.query("DELETE FROM debatetag WHERE dbt_id=?", [req.body.dbt_id], (deleteErr, deleteData) => {
+        if (deleteErr) return res.status(500).json(deleteErr);
+        // Function to handle tag insertion
+        const handleTagInsert = (tag, index, callback) => {
+          // Check if tag exists in the tag table first
+          db.query("SELECT tag_id FROM tag WHERE tag_title = ?", [tag], (err, data) => {
+            if (err) return callback(err);
+            if (data.length > 0) {
+              // Tag exists, use existing tag_id
+              return callback(null, data[0].tag_id);
+            } else {
+              // Tag does not exist, insert new tag
+              db.query("INSERT INTO tag (tag_title) VALUES (?)", [tag], (err, data) => {
+                if (err) return callback(err);
+                // Use new tag_id
+                return callback(null, data.insertId);
+              });
+            }
+          });
+        };
+        // Function to handle insertion into debatetag table
+        const insertDebateTag = (tagId) => {
+          db.query("INSERT INTO debatetag (dbt_id, tag_id) VALUES (?, ?)", [dbt_id, tagId], (err, data) => {
+            if (err) res.status(500).json(err);
+          });
+        };
+        tags.forEach((tag, index) => {
+          handleTagInsert(tag, index, (err, tagId) => {
+            if (err) return res.status(500).json(err);
+            insertDebateTag(tagId);
+          });
+        });
+        return res.status(200).json("Topic and tags have been updated");
+      });
+    });
   });
-}
+};
 
 export const deletePost = (req,res)=>{
   const dbt_id = req.params.dbt_id;

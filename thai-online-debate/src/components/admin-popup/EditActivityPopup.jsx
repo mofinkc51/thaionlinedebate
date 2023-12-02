@@ -1,54 +1,230 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState , useRef, useEffect } from 'react';
 import closeButtonIcon from '../../assets/icon/close.png';
+import { text_validation } from '../../checked';
+import Swal from 'sweetalert2';
+import { makeRequest } from '../../axios';
 import axios from 'axios';
+import InputTag from '../input-tag/InputTag';
+function EditActivityPopup({ activity, onClose, refresh}) {
+  const [items, setItems ]= useState([]);
 
-function EditActivityPopup({ activity, onClose, onEdit }) {
-  const [additionalData, setAdditionalData] = useState({
-    topicDesc: '',
-    stanceOne: '',
-    stanceTwo: '',
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredItems = searchTerm
+      ? items.filter((item) =>
+          item.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      : [];
+  // Get a maximum of 5 items
+  const displayedItems = filteredItems.slice(0, 5);
+  // end search tag part
+  const [topicData, setTopicData] = useState({
   });
+  // const [topicData, setTopicData] = useState({
+  //     dbt_title: activity.dbt_title,
+  //     dbt_description: activity.dbt_description,
+  //     dbt_agree: activity.dbt_agree,
+  //     dbt_disagree: activity.dbt_disagree,
+  //     dbt_id: activity.dbt_id
+  // });
+  // เริ่มต้น tags state โดยใช้ function ที่คำนวณค่าจาก props ครั้งเดียว
+  const [tags, setTags] = useState([]);
+
+  const handleChange = (e) => {
+      setTopicData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  
+  const titleInputRef = useRef(null);
+  const descInputRef = useRef(null);
+
+  const handleSubmit = async (e) => {
+      e.preventDefault()
+      setTopicData({ ...topicData, tags: tags, dbt_id: activity.dbt_id})
+      if (!text_validation(topicData.dbt_title,8,50)){
+          return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: ("หัวข้อประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 8 + " ถึง " + 50)
+            }).then(() => {
+                document.getElementsByName('dbt_title')[0].focus()
+            })
+      }
+      if (!text_validation(topicData.dbt_description,10,500)){
+          return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: ("คำอธิบายประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 10 + " ถึง " + 500)
+            }).then(() => {
+              document.getElementsByName('dbt_description')[0].focus();
+            })
+      } 
+      if (!text_validation(topicData.dbt_agree,3,40)){
+          return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: ("ฝั่งที่ 1 ควรมีความยาวระหว่าง " + 3 + " ถึง " + 40 + " เช่น เห็นด้วย")
+            }).then(() => {
+              document.getElementsByName('dbt_agree')[0].focus();
+            })
+      } 
+      if (!text_validation(topicData.dbt_disagree,3,40)){
+          return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: ("ฝั่งที่ 2 ควรมีความยาวระหว่าง " + 3 + " ถึง " + 40 + " เช่น ไม่เห็นด้วย")
+            }).then(() => {
+              document.getElementsByName('dbt_disagree')[0].focus();
+            })
+      }
+      if (tags.length === 0 || tags.length > 5) {
+          return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: "กรุณาเลือกแท็ก 1 - 5 แท็ก"
+            })
+      }
+      try {
+          console.log("before put", topicData);
+          await makeRequest.put(`admin/editactivity`, topicData);
+          Swal.fire({
+              icon: 'success',
+              title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
+          }).then(() => {
+              refresh();
+              onClose();
+              // window.location.reload()
+          })
+      } catch (err) {
+          Swal.fire({
+              icon: 'error',
+              title: err.response.data,
+          })
+      }
+  };
+
+  const toLocalDateTime = (isoString) => {
+    const date = new Date(isoString);
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+    return adjustedDate.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm format
+  };
+  const now = new Date();
+  const currentDate = now.toISOString().substring(0, 16);
+
+  // คำนวณวันที่ปัจจุบันบวก 7 วัน
+  const oneWeekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const oneWeekFromNowDate = oneWeekFromNow.toISOString().substring(0, 16);
+
+  const [tagsuggest, setTagseggest] = useState([]);
+  
+  //useEffect for get tagsuggest
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await axios.post('https://api.aiforthai.in.th/tagsuggestion',
+                  `text=${topicData.dbt_title}&numtag=10`,
+                  {
+                      headers: {
+                          'Apikey': 'OKXVty86JM5w4g7ve9EyJfEfEXVArVHE',
+                          'Content-Type': 'application/x-www-form-urlencoded',
+                      }
+                  }
+              );
+
+              const responseData = response.data;
+              if (responseData && responseData.tags) {
+                  const tagArray = responseData.tags.map(tag => tag.tag);
+                  setTagseggest(tagArray);
+              }
+          } catch (error) {
+              console.error(error);
+          }
+      };
+
+      const delay = setTimeout(() => {
+          fetchData();
+      }, 2000); // การเรียก fetchData 2 วินาที
+
+      return () => clearTimeout(delay); // เมื่อ component unmount ให้ล้าง timeout
+  }, [topicData.dbt_title]);
 
   useEffect(() => {
-    console.log('Activity prop changed:', activity);
-  
-    // Fetch additional data using Axios
-    const fetchAdditionalData = async () => {
+      getAllTag();
+    }, []);
+
+    const getAllTag = async () => {
       try {
-        // Log the dbt_id for debugging
-        console.log('Fetching data for dbt_id:', activity.dbt_id);
-  
-        const response = await axios.get(`http://localhost:8800/api/admin/activity_get_for_edit/${activity.dbt_id}`);
-        // Assuming the backend response structure is { dbt_description, dbt_agree, dbt_disagree }
-        setAdditionalData({
-          topicDesc: response.data.dbt_description || '',
-          stanceOne: response.data.dbt_agree || '',
-          stanceTwo: response.data.dbt_disagree || '',
-        });
-      } catch (error) {
-        console.error('Error fetching additional data:', error);
+        const res = await makeRequest.get("/posts/alltag");
+        console.log(res.data);
+        const tagTitles = res.data.map((row) => row.tag_title);
+        setItems(tagTitles);
+      } catch (err) {
+        console.log(err);
       }
     };
+
+    const getTopicData = async () => {
+      try {
+        const res = await makeRequest.get("/posts/topic/" + activity.dbt_id);
+        setTopicData(res.data[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const getTagByDebate = async () => {
+      try {
+        const res = await makeRequest.get(
+          `/posts/tag/debate/${activity.dbt_id}`
+        );
+        const tagTitles = res.data.map((row) => row.tag_title);
+        setTags(tagTitles);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+  // const setDefualtTag = () => {
+  //   setTags(topicTag.map(t => t.tag_title))
+  // }
+
+  useEffect(() => {
+    // ใช้ useEffect นี้เพื่อโหลดข้อมูลจากเซิร์ฟเวอร์และตั้งค่า tags เริ่มต้น
+    const fetchData = async () => {
+      await getTopicData();
+      await getTagByDebate();
+      // setDefualtTag(); // เรียกเมื่อข้อมูลถูกโหลด
+    };
+    fetchData();
+  }, []);
   
-    fetchAdditionalData();
+  useEffect(() => {
+    // อัปเดตข้อมูล topic ทุกครั้งที่ tags เปลี่ยนแปลง
+    setTopicData(currentTopic => ({ ...currentTopic, tags }));
+  }, [tags]);
+
+  useEffect(() => {
+    setTopicData(currentTopic => ({
+      ...currentTopic,
+      act_start_date: activity.act_start_date
+    }));
+    console.log("update act")
   }, [activity]);
-
-  // Combine both sets of data for the form
-  const formData = {
-    topicName: activity?.dbt_title || '',
-    startDate: activity?.act_start_date || '',
-    endDate: activity?.act_end_date || '',
-    ...additionalData,
-    // Add your logic to populate other form fields if needed
+  
+  const handleTagClick = (tag) => {
+      if (tags.includes(tag)) {
+          // ลบ tag when includes
+          setTags(tags.filter(t => t !== tag));
+      } else if (tags.length >= 5) {
+          // จำกัดจำนวนแท็กที่เลือกได้
+          Swal.fire({
+              icon: 'info',
+              text: "คุณสามารถเลือกแท็กได้ไม่เกิน 5 แท็ก"
+          });
+      } else {
+          // เพิ่มแท็กใหม่
+          setTags([...tags, tag]);
+      }
   };
-
-  // Handle form submission
-  const handleEdit = () => {
-    // Perform validation or additional logic if needed
-    // Call the onEdit prop with the updated form data
-    onEdit(formData);
-  };
-
   return (
     <>
       <div className='create-activity-bg-opacity'>
@@ -68,8 +244,9 @@ function EditActivityPopup({ activity, onClose, onEdit }) {
                 <input
                   type='text'
                   className='create-activity-popup-topicname-input'
-                  value={formData.topicName}
-                  onChange={(e) => setAdditionalData({ ...additionalData, topicName: e.target.value })}
+                  name="dbt_title"
+                  value={topicData.dbt_title} onChange={handleChange} required
+                  ref={titleInputRef}
                 />
               </div>
               {/* Topic desc row */}
@@ -77,10 +254,10 @@ function EditActivityPopup({ activity, onClose, onEdit }) {
                 <label className='create-activity-popup-label'>คำอธิบายกิจกรรมโต้แย้ง</label>
                 <textarea
                   className='create-activity-popup-topicdesc-input'
-                  value={formData.topicDesc}
-                  onChange={(e) => setAdditionalData({ ...additionalData, topicDesc: e.target.value })}
-                  cols='30'
-                  rows='5'
+                  name="dbt_description" id="" cols="30" rows="5" 
+                  value={topicData.dbt_description} 
+                  onChange={handleChange} required
+                  ref={descInputRef}
                 ></textarea>
               </div>
               {/* date row */}
@@ -91,8 +268,11 @@ function EditActivityPopup({ activity, onClose, onEdit }) {
                   <input
                     type='datetime-local'
                     className='create-activity-popup-start-date'
-                    value={formData.startDate}
-                    onChange={(e) => setAdditionalData({ ...additionalData, startDate: e.target.value })}
+                    value={topicData.act_start_date ? toLocalDateTime(topicData.act_start_date) : toLocalDateTime(activity.act_start_date)}
+                    name="act_start_date"
+                    onChange={handleChange}
+                    min={currentDate} // กำหนดค่าน้อยสุดให้เป็นวันปัจจุบัน
+                    
                   />
                 </div>
                 {/* end date */}
@@ -101,8 +281,11 @@ function EditActivityPopup({ activity, onClose, onEdit }) {
                   <input
                     type='datetime-local'
                     className='create-activity-popup-end-date'
-                    value={formData.endDate}
-                    onChange={(e) => setAdditionalData({ ...additionalData, endDate: e.target.value })}
+                    name="act_end_date"
+                    value={topicData.act_end_date ? toLocalDateTime(topicData.act_end_date) : toLocalDateTime(activity.act_end_date)}
+                    onChange={handleChange}
+                    min={oneWeekFromNowDate} // กำหนดค่าน้อยสุดให้เป็นวันปัจจุบันบวก 7 วัน
+
                   />
                 </div>
               </div>
@@ -114,8 +297,8 @@ function EditActivityPopup({ activity, onClose, onEdit }) {
                   <input
                     type='text'
                     className='create-activity-popup-stance-input'
-                    value={formData.stanceOne}
-                    onChange={(e) => setAdditionalData({ ...additionalData, stanceOne: e.target.value })}
+                    name='dbt_agree'
+                    value={topicData.dbt_agree} onChange={handleChange} required
                   />
                 </div>
                 {/* Stance two */}
@@ -124,19 +307,83 @@ function EditActivityPopup({ activity, onClose, onEdit }) {
                   <input
                     type='text'
                     className='create-activity-popup-stance-input'
-                    value={formData.stanceTwo}
-                    onChange={(e) => setAdditionalData({ ...additionalData, stanceTwo: e.target.value })}
+                    name='dbt_disagree'
+                    value={topicData.dbt_disagree} onChange={handleChange} required
                   />
                 </div>
               </div>
               {/* tag row */}
-              <div className='create-activity-tag-row'>
-                <label className='create-activity-popup-label'>แท็กที่เกี่ยวข้อง</label>
-                <div className='create-activity-tag-box'></div>
-              </div>
+              <div className="create-topic-tag-row">
+                            <p className='create-topic-popup-label'>แท็กที่เลือก
+                            <span className="tooltip-icon" title="">?</span>
+                            </p>
+                            <div className="input-tag-container">
+                            {tags.length === 0  ? (
+                                        <div className="input-tag-caution">
+                                            <p>กรุณาเลือกแท็ก 1 - 5 แท็ก</p>
+                                        </div>
+                                ) : (
+                                tags.map((tag) => (
+                                    <InputTag tagNames={tag} onClick={() => handleTagClick(tag)}/>
+                                ))
+                            )}
+                            </div>
+                        </div>
+                        {/* tag row */}
+                        <div className="create-topic-tag-row">
+                            <p className='create-topic-popup-label'>แท็กที่เกี่ยวข้อง 
+                                <span className="tooltip-icon" title="เมื่อผู้ใช้ทำการกรอกหัวข้อประเด็นโต้แย้ง ระบบจะแนะนำแท็กที่เกี่ยวข้องกับประเด็นโต้แย้ง">?</span>
+                            </p>
+                            <div className="input-tag-container">
+                                {tagsuggest.map((tag) => (
+                                    <button 
+                                    type="button"
+                                    className={`tag-button ${tags.includes(tag) ? 'active' : ''}`} 
+                                    onClick={() => handleTagClick(tag)}
+                                    >
+                                    {tag}
+                                    </button>
+                                ))
+                            }
+                            </div>
+                        </div>
+                        {/* tag search row */}
+                        <div className="create-topic-search-tag-row">
+                            <p className='create-topic-popup-label'>ค้นหาแท็ก</p>
+                            <input
+                                type="text"
+                                placeholder=""
+                                className='create-topic-popup-tagsearch-input'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <div className='tag-choice-drop-down'>
+                                {displayedItems.length === 0 && searchTerm ? (
+                                    <div className="tag-choice-row">
+                                        <p>ไม่พบแท็กที่ค้นหา</p>
+                                    </div>
+                                ) : (
+                                    displayedItems.map((tag, index) => 
+                                    <div className='tag-choice-row' key={index}>
+                                      <div className="tag-choice-row-container">
+                                        <input 
+                                          type="checkbox" 
+                                          id={`checkbox-${index}`} 
+                                          name={tag} 
+                                          value={tag}
+                                          checked={tags.includes(tag)}
+                                          onChange={() => handleTagClick(tag)}
+                                        />
+                                        <label htmlFor={`checkbox-${index}`}>{tag}</label><br/>
+                                      </div>
+                                    </div>
+                                  )
+                                )}
+                            </div>
+                        </div>
               {/* button row */}
               <div className='create-activity-button-row'>
-                <button className='create-activity-confirm-button' onClick={handleEdit}>
+                <button className='create-activity-confirm-button' onClick={handleSubmit}>
                   แก้ไข
                 </button>
                 <button className='create-activity-close-button' onClick={onClose}>
