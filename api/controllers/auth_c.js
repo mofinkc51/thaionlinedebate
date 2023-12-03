@@ -44,6 +44,9 @@ export const login = (req, res) => {
     db.query(sql, [req.body.user_email], (err, userData) => {
         if (err) return res.status(500).json(err);
         if (userData.length === 0) return res.status(404).json("User not found");
+        if (userData[0].user_status === 'suspended') {
+            return res.status(403).json("บัญชีของท่านถูกระงับ โปรดติดต่อเจ้าหน้าที่ หรือ ฝ่ายซัพพอร์ต");
+        }
         const checkPass = bcrypt.compareSync(req.body.user_password, userData[0].user_password);
         if (!checkPass) 
             return res.status(400).json("Wrong password or email");
