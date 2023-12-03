@@ -109,9 +109,10 @@ function AdminDownloadRequestList() {
           </tbody>
         </table>
       )}
-)}
+
     </div>
   );
 }
 
 export default AdminDownloadRequestList;
+ 
