@@ -5,8 +5,15 @@ import bodyParser from 'body-parser';
 import jwt from "jsonwebtoken";
 import moment from "moment";
 
+// api/controllers/admin.js
+
 export const getAllUsers = (req, res) => {
-  const sql = "SELECT user_name,user_email,user_id,user_status FROM user";
+  const searchKeyword = req.query.search;
+
+  let sql = "SELECT user_name, user_email, user_id, user_status FROM user";
+  if (searchKeyword) {
+    sql += ` WHERE user_name LIKE '%${searchKeyword}%' OR user_email LIKE '%${searchKeyword}%'`;
+  }
 
   db.query(sql, (err, data) => {
     if (err) {
@@ -27,6 +34,7 @@ export const getAllUsers = (req, res) => {
     return res.status(200).json(users);
   });
 };
+
 
 export const getProblem = (req, res) => {
   // Here we assume 'dbt_id' in the 'activity' table is the foreign key to the 'debatetopic' table.
@@ -160,7 +168,7 @@ export const getDownloadRequest = (req, res) => {
   
           return res.status(200).json("หัวข้อและแท็กถูกสร้างเรียบร้อยแล้ว");
         } else {
-          return res.status(400).json("แท็กต้องเป็นอาร์เรย์");
+          // return res.status(400).json("แท็กต้องเป็นอาร์เรย์");
         }
       });
     });
@@ -263,7 +271,7 @@ export const reportupdateStatus = (req, res) => {
 
 export const admindescription = (req, res) => {
   const {rp_id ,adminNote} = req.body;
-  const success = "success";
+  const success = "จัดการแล้ว";
   const checkSql = 'UPDATE reportedproblem SET rp_status = ? ,rp_admin_note = ? WHERE rp_id = ?';
 
   db.query(checkSql, [success,adminNote,rp_id], (err, results) => {
