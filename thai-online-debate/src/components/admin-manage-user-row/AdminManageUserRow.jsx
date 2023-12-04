@@ -40,7 +40,7 @@ function AdminManageUserRow({ user, onInspect }) {
       <td>{user_name}</td>
       <td>{user_email}</td>
       <td>
-        <select id='drop-down-user-status' value={status === 'active' ? 'ปกติ' : 'บัญชีถูกระงับ' } style={{ backgroundColor: status === 'active' ? '#EBF9F1' : '#FBE7E8' }} onChange={handleStatusChange}>
+        <select id='drop-down-user-status' value={status === 'active' ? 'ปกติ' : 'บัญชีถูกระงับ' } style={{ backgroundColor: status === 'active' ? '#EBF9F1' : '#FBE7E8', color: status === 'active' ? '#1F9254' : '#A30D11'}} onChange={handleStatusChange}>
           <option value="ปกติ">ปกติ</option>
           <option value="บัญชีถูกระงับ" >บัญชีถูกระงับ</option>
         </select>
