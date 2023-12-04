@@ -99,39 +99,40 @@ export const getDownloadRequest = (req, res) => {
   };
 
   export const postActivity = (req, res) => { 
-    const { dbt_title, dbt_description, dbt_agree, dbt_disagree, act_end_date, act_start_date } = req.body;
+    const { dbt_title, dbt_description, dbt_agree, dbt_disagree,act_end_date, act_start_date } = req.body;
     console.log(req.body);
     const token = req.cookies.accessToken;
-  
     if (!token) 
       return res.status(401).json("ไม่มีการตรวจสอบสิทธิ์!");
-  
     jwt.verify(token, "secretkey", (err, userInfo) => {
       if (err) return res.status(403).json("Token ไม่ถูกต้อง!");
-  
       const sqlInsertTopic =
         "INSERT INTO debatetopic (`dbt_title`,`dbt_description`,`dbt_timestamp`,`dbt_agree`,`dbt_disagree`, `user_id`) VALUES (?)";
       const valuesTopic = [
         dbt_title,
-        dbt_description,
+        dbt_description, 
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         dbt_agree,
         dbt_disagree,
         userInfo.id
       ];
-  
       // First, insert into debatetopic
       db.query(sqlInsertTopic, [valuesTopic], (err, data) => {
         if (err) return res.status(500).json(err);
-  
         // Get the last inserted dbt_id
         const dbt_id = data.insertId;
-  
-        // Process tags if the activity was successfully inserted
+        // Process each tag from the request
         const tags = req.body.tags;
   
-        // Check if tags is an array before iterating
-        if (Array.isArray(tags)) {
+         // Insert activity information into activity table
+          const sqlInsertActivity = `
+          INSERT INTO activity (act_start_date, act_end_date, admin_id, dbt_id) VALUES (?, ?, ?, ?)
+        `;
+        db.query(sqlInsertActivity, [act_start_date, act_end_date, userInfo.id, dbt_id], (err, data) => {
+          if (err) return res.status(500).json(err);
+  
+          // Process tags if the activity was successfully inserted
+  
           // Function to handle tag insertion
           const handleTagInsert = (tag, index, callback) => {
             // Check if tag exists in the tag table first
@@ -150,29 +151,24 @@ export const getDownloadRequest = (req, res) => {
               }
             });
           };
-  
           // Function to handle insertion into debatetag table
           const insertDebateTag = (tagId) => {
             db.query("INSERT INTO debatetag (dbt_id, tag_id) VALUES (?, ?)", [dbt_id, tagId], (err, data) => {
               if (err) res.status(500).json(err);
             });
           };
-  
-          // Iterate over each tag and insert into debatetag table
+          console.log("check tag +>>>>",tags)
           tags.forEach((tag, index) => {
             handleTagInsert(tag, index, (err, tagId) => {
-              if (err) return res.status(500).json(err);
+              if (err) return res.status(500).json(err);  
               insertDebateTag(tagId);
             });
           });
-  
           return res.status(200).json("หัวข้อและแท็กถูกสร้างเรียบร้อยแล้ว");
-        } else {
-          // return res.status(400).json("แท็กต้องเป็นอาร์เรย์");
-        }
+        });
       });
     });
-  };
+  }; 
   
 export const updateStatus = (req, res) => {
   const { user_id, user_status } = req.body;
@@ -197,14 +193,14 @@ export const updateStatus = (req, res) => {
 };
 
 const crypto = ('crypto');
-
+ 
 function generateDrId() {
   const currentDate = (new Date()).valueOf().toString();
-  const random = Math.random().toString();
+  const random = Math.random().toString(); 
   return createHash('sha1').update(currentDate + random).digest('hex');
 }
 
-export const downloadRequest = (req, res) => {
+export const downloadRequest = (req, res) => { 
   const { dr_total_topic, dr_proof_one, dr_proof_two, userIdFromClient } = req.body;
   
   // สร้าง dr_id ใหม่
