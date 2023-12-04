@@ -16,7 +16,10 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
     act_end_date: "",
     dbt_agree: "เห็นด้วย",
     dbt_disagree: "ไม่เห็นด้วย",
+    tags: [],
   });
+
+
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
   const [items, setItems] = useState([]);
@@ -154,6 +157,7 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
               })
         }
         try {
+            console.log("check tag from font-end>>>>>>",tags)
             await makeRequest.post('admin/postactivity', actData)
             Swal.fire({
                 icon: 'success',
@@ -169,6 +173,14 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
             })
         }
   };
+
+  useEffect(() => {
+    if (tags && tags.length > 0) {
+      const uniqueTags = [...new Set(tags)];
+      setActData((prev) => ({ ...prev, tags: uniqueTags }));
+    }
+  }, [tags]);
+
   // คำนวณวันและเวลาปัจจุบัน
   const now = new Date();
   const currentDate = now.toISOString().substring(0, 16);
