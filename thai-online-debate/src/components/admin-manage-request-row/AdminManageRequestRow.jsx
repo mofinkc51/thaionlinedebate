@@ -60,6 +60,20 @@ function AdminManageRequestRow({ id, data, onEdit, approveData,getDetail}) {
     onEdit(data)
     getDetail(data.dr_id)
   }
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'approved':
+        return <div className="download-row-status-box-approved"><p>อนุมัติแล้ว</p></div>;
+      case 'pending':
+        return <div className="download-row-status-box-pending"><p>รออนุมัติ</p></div>;
+      case 'rejected':
+        return <div className="download-row-status-box-rejected"><p>ไม่อนุมัติ</p></div>;
+      // Add more cases for other statuses if needed
+      default:
+        return 'Unknown'; // Default text
+    }
+  };
   return (
     <tr className='admin-manage-request-row'>
       <td>{data.dr_name}</td>
@@ -68,7 +82,7 @@ function AdminManageRequestRow({ id, data, onEdit, approveData,getDetail}) {
             countdown :
             "N/A"}</td>
       <td>{data.dr_total_topic}</td>
-      <td>{data.dr_status}</td>
+      <td><div>{getStatusText(data.dr_status)}</div></td>
       <td className='request-header-manage'>
         <button onClick={() => EditAndGetDetail(data)}><img src={editButtonIcon} alt="Edit" /></button>
       </td>

@@ -20,5 +20,13 @@
     border: none;
     flex-shrink: 0;
     border-radius: 22px;
-    background: #EBF9F1;
+    /* background: #EBF9F1; */
+}
+
+.user-active{
+    background-color: #00BFA6;
+}
+
+.user-suspend{
+    background-color: #FF8A65;
 }

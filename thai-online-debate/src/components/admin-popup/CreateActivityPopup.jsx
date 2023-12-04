@@ -205,25 +205,25 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
                 </button>
               </div>
 
-              <div className="create-activity-popup-dbt_title-row">
+              <div className="create-activity-popup-topicname-row">
                 <label className="create-activity-popup-label">
                   หัวข้อกิจกรรมโต้แย้ง
                 </label>
                 <input
                   type="text"
-                  className="create-activity-popup-dbt_title-input"
+                  className="create-activity-popup-topicname-input"
                   name="dbt_title"
                   value={actData.dbt_title}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="create-activity-popup-dbt_description-row">
+              <div className="ccreate-activity-popup-topicdesc-row">
                 <label className="create-activity-popup-label">
                   คำอธิบายกิจกรรมโต้แย้ง
                 </label>
                 <textarea
-                  className="create-activity-popup-dbt_description-input"
+                  className="create-activity-popup-topicdesc-input"
                   name="dbt_description"
                   value={actData.dbt_description}
                   onChange={handleChange}
@@ -343,7 +343,7 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
                 <input
                   type="text"
                   placeholder=""
-                  className="create-actData-popup-tagsearch-input"
+                  className="create-activity-popup-tagsearch-input"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />

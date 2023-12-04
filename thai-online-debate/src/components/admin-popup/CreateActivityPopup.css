@@ -12,9 +12,11 @@
 }
 
 .create-activity-popup-box{
-    width: 480px;
-    height: 485px;
+    width: 100%;
+    max-width: 480px;
+    min-height: 485px;
     border-radius: 10px;
+    padding: 30px;
     background: #FFF;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
     display: flex;
@@ -23,7 +25,8 @@
 
 
 .create-activity-popup-box-container{
-    width: 385px;
+    width: 100%;
+    max-width: 385px;
     /* height: 360px; */
     /* border: 1px solid red; */
     margin: 0 auto;
@@ -70,6 +73,8 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;
+    padding-left: 10px;
+
 
 }
 
@@ -86,6 +91,8 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;   
+    padding: 5px 0 0 10px;
+
 
 }
 
@@ -120,6 +127,7 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.50);
     background: #FFF;
+    padding-left: 10px;
     /* border: 1px solid red; */
 }
 
@@ -139,6 +147,20 @@
     display: flex;
     justify-content: center;
 
+}
+
+/* seach tag */
+.create-activity-search-tag-row{
+    margin-bottom: 10px;
+}
+.create-activity-popup-tagsearch-input{
+    width: 184px;
+    height: 33px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF;
+    /* border: 1px solid red; */
+    padding-left: 10px;
 }
 
 .create-activity-confirm-button{
