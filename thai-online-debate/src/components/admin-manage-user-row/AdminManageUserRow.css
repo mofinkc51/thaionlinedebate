@@ -1,6 +1,6 @@
 .admin-manage-user-row{
     height: 60px;
-
+    border-bottom: 1px solid #ddd;
 }
 
 .admin-manage-user-row td button{
