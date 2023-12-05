@@ -198,7 +198,7 @@ function Home() {
           {/* <h2 className='popular-title'>Popular Topic</h2> */}
           {activity.length > 0 ? (
             <>
-              <h2 className="popular-title">Activity</h2>
+              <h2 className="popular-title">กิจกรรมโต้แย้ง</h2>
               <div className="popular-topic-container">
                 <div className="popular-topic-grid">
                   {activity.map((debate) => (
@@ -218,7 +218,7 @@ function Home() {
 
 
         {/* Popular topic */}
-        <h2 className="popular-title">Popular Topic</h2>
+        <h2 className="popular-title">ประเด็นโต้แย้งยอดนิยม</h2>
         <div className="popular-topic-container">
           {/* <h2 className='popular-title'>Popular Topic</h2> */}
           <div className="popular-topic-grid">
