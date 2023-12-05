@@ -49,13 +49,36 @@
     margin-bottom: 20px;
 }
 
+.admin-manage-activity-scroll-box{
+    /* border: 1px solid red; */
+    width: 100%;
+    height: 640px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 /* table */
 .activity-table-header-topic-name{
-    width: 170px;
+    width: 200px;
+
 }
 
 .activity-table-header-time{
     width: 150px;
-    /* border: 1px solid red; */
 
+}
+.activity-table-header-creator{
+    width: 160px;
+
+
+}
+
+.activity-table-header-status{
+    width: 130px;
+    text-align: center;
+}
+
+.activity-table-header-manage{
+    width: 100px;
+    text-align: center;
 }

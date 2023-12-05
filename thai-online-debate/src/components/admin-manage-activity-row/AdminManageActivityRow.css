@@ -1,6 +1,6 @@
 .admin-manage-activity-row{
     height: 60px;
-
+    border-bottom: 1px solid #ddd;
 }
 
 .admin-manage-activity-topic-name{
@@ -19,9 +19,20 @@
 }
 
 
+.admin-manage-activity-row-status div{
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+}
+
 .admin-manage-activity-row td button{
     cursor: pointer;
     background: transparent;
     border: none;
     padding: 5px 2.5px 0px 2.5px;
+}
+
+.admin-manage-activity-row-manage div{
+    display: flex;
+    justify-content: center;
 }

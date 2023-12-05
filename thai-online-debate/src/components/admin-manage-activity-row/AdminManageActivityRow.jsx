@@ -93,15 +93,18 @@ function AdminManageActivityRow({ activity , onEdit }) {
         <td><p className='admin-manage-activity-row-p'>{activity ? formatDate(activity.act_start_date) : 'Loading...'}</p></td>
         <td><p className='admin-manage-activity-row-p'>{activity ? formatDate(activity.act_end_date) : 'Loading...'}</p></td>
         <td><p className='admin-manage-activity-row-p'>{activity ? activity.user_name : 'Loading...'}</p></td>
-        <td>
+        <td className='admin-manage-activity-row-status'>
           <div>
           {activity ? getActivityStatus(activity.act_start_date, activity.act_end_date) : 'Loading...'}
 
           </div>
         </td>
-        <td>
+        <td className='admin-manage-activity-row-manage'>
+          <div>
           <button onClick={handleEditButtonClick}><img src={editButtonIcon} alt="Edit" /></button>
           <button onClick={handleDeleteTopic}><img src={deleteButtonIcon} alt="Delete" /></button>
+          </div>
+          
         </td>
       </tr>
 
