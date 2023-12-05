@@ -81,17 +81,20 @@ const AdminManageUser = () => {
           />
         </div>
       </div>
-      <table className='admin-manage-user-table'>
-        <tr className='admin-manage-user-table-header'>
-          <th onClick={() => handleHeaderClick('user_name')}>ชื่อผู้ใช้ {renderSortArrow('user_name')}</th>
-          <th onClick={() => handleHeaderClick('user_email')}>อีเมล {renderSortArrow('user_email')}</th>
-          <th onClick={() => handleHeaderClick('user_status')}>สถานะ {renderSortArrow('user_status')}</th>
-          <th>ตรวจสอบ</th>
-        </tr>
-        {sortedusers.map((user) => (
-          <AdminManageUserRow key={user.user_id} user={user} onInspect={handleInspectUser} />
-        ))}
-      </table>
+      <div className="admin-manage-user-scrollable">
+        <table className='admin-manage-user-table'>
+          <tr className='admin-manage-user-table-header'>
+            <th className='admin-manage-user-header-name' onClick={() => handleHeaderClick('user_name')}>ชื่อผู้ใช้ {renderSortArrow('user_name')}</th>
+            <th className='admin-manage-user-header-email' onClick={() => handleHeaderClick('user_email')}>อีเมล {renderSortArrow('user_email')}</th>
+            <th className='admin-manage-user-header-status' onClick={() => handleHeaderClick('user_status')}>สถานะ {renderSortArrow('user_status')}</th>
+            <th className='admin-manage-user-header-action'>ตรวจสอบ</th>
+          </tr>
+          {sortedusers.map((user) => (
+            <AdminManageUserRow key={user.user_id} user={user} onInspect={handleInspectUser} />
+          ))}
+        </table>
+      </div>
+      
     </>
   );
 };

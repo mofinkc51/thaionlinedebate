@@ -44,10 +44,43 @@ height: 16px;
 }
 
 
-table {
+.admin-manage-user-table {
     border-collapse: collapse;
     width: 100%;
+
   }
+  
+
+.admin-manage-user-scrollable{
+    height: 640px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.admin-manage-user-table-header{
+    width: 900px;
+}
+
+.admin-manage-user-header-name{
+    /* width: 30%; */
+    width: 270px;
+    /* border: 1px solid red; */
+}
+
+.admin-manage-user-header-email{
+    width: 35%;
+    /* border: 1px solid red; */
+}
+.admin-manage-user-header-status{
+    width: 20%;
+    /* border: 1px solid red; */
+}
+
+.admin-manage-user-header-action{
+    width: 15%;
+    text-align: center;
+    /* border: 1px solid red; */
+}
 
 
  th {

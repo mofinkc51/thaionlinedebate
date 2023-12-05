@@ -30,3 +30,23 @@
 .user-suspend{
     background-color: #FF8A65;
 }
+
+.admin-manage-user-row-name{
+    width: 30%;
+}
+
+.admin-manage-user-row-email{
+    width: 35%;
+}
+.admin-manage-user-row-status{
+    width: 20%;
+}
+
+.admin-manage-user-row-action{
+    width: 15%;
+}
+.admin-manage-user-row-action div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

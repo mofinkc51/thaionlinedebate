@@ -37,16 +37,19 @@ function AdminManageUserRow({ user, onInspect }) {
 
   return (
     <tr className='admin-manage-user-row'>
-      <td>{user_name}</td>
-      <td>{user_email}</td>
-      <td>
+      <td className='admin-manage-user-row-name'>{user_name}</td>
+      <td className='admin-manage-user-row-email'>{user_email}</td>
+      <td className='admin-manage-user-row-status'>
         <select id='drop-down-user-status' value={status === 'active' ? 'ปกติ' : 'บัญชีถูกระงับ' } style={{ backgroundColor: status === 'active' ? '#EBF9F1' : '#FBE7E8', color: status === 'active' ? '#1F9254' : '#A30D11'}} onChange={handleStatusChange}>
           <option value="ปกติ">ปกติ</option>
           <option value="บัญชีถูกระงับ" >บัญชีถูกระงับ</option>
         </select>
       </td>
-      <td>
+      <td className='admin-manage-user-row-action'>
+        <div>
         <button onClick={() => onInspect(user_id)}><img src={inspectIcon} alt="Inspect" /></button>
+
+        </div>
       </td>
     </tr>
   );
