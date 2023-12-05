@@ -76,15 +76,18 @@ function AdminManageRequestRow({ id, data, onEdit, approveData,getDetail}) {
   };
   return (
     <tr className='admin-manage-request-row'>
-      <td>{data.dr_name}</td>
-      <td>{formatDate(data.dr_timestamp)}</td>
-      <td>{approveData ?
+      <td className='admin-manage-request-row-name'>{data.dr_name}</td>
+      <td className='admin-manage-request-row-date'>{formatDate(data.dr_timestamp)}</td>
+      <td className='admin-manage-request-row-remain'>{approveData ?
             countdown :
             "N/A"}</td>
-      <td>{data.dr_total_topic}</td>
-      <td><div>{getStatusText(data.dr_status)}</div></td>
-      <td className='request-header-manage'>
-        <button onClick={() => EditAndGetDetail(data)}><img src={editButtonIcon} alt="Edit" /></button>
+      <td className='admin-manage-request-row-quantity'><div>{data.dr_total_topic}</div></td>
+      <td className='admin-manage-request-row-status'><div>{getStatusText(data.dr_status)}</div></td>
+      <td className='admin-manage-request-row-manage'>
+        <div>
+          <button onClick={() => EditAndGetDetail(data)}><img src={editButtonIcon} alt="Edit" /></button>
+          
+        </div>
       </td>
     </tr>
   );

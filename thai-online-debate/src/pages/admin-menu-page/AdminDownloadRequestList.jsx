@@ -85,7 +85,8 @@ function AdminDownloadRequestList() {
           />
         </>
       ) : (
-        <table className="admin-download-request-table">
+        <div className="admin-download-request-table-scroll">
+          <table className="admin-download-request-table">
           {/* ... */}
           {/* table header  */}
           <tr className="admin-manage-request-table-header">
@@ -93,7 +94,7 @@ function AdminDownloadRequestList() {
             <th className="request-header-date">วัน-เวลา</th>
             <th>เวลาคงเหลือ</th>
             <th className="request-header-topic-quantity">จำนวนประเด็นโต้แย้ง</th>
-            <th>สถานะ</th>
+            <th className="request-header-topic-status">สถานะ</th>
             <th className="request-header-manage">จัดการ</th>
           </tr>
           <tbody>
@@ -108,6 +109,8 @@ function AdminDownloadRequestList() {
             ))}
           </tbody>
         </table>
+        </div>
+        
       )}
 
     </div>

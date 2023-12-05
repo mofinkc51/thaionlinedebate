@@ -1,23 +1,43 @@
+
+.admin-download-request-table-scroll{
+    margin-top: 20px;
+    height: 640px;
+    overflow-y: scroll;
+}
+
+
+
 /* for manage user page */
 .admin-download-request-title-row{
-
+    
 }
 
 .admin-download-request-table{
-    margin-top: 20px;
-
+    /* margin-top: 20px; */
+    
 }
 
 .request-header-requester-name{
-    width: 170px;
+    width: 180px;
 }
 
 .request-header-topic-quantity{
+    text-align: center;
     /* width: 150px; */
+    /* border: 1px solid salmon; */
+}
+
+.request-header-topic-status{
+    text-align: center;
+    /* width: 150px; */
+    /* border: 1px solid salmon; */
+
 }
 
 .request-header-manage{
+    text-align: center;
     /* width: 140px; */
+    /* border: 1px solid salmon; */
 }
 
 .back-button {
