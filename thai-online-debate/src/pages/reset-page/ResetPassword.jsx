@@ -66,7 +66,7 @@ function ResetPassword() {
                 <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>
                 {/* buttone div */}
                 <div className='signin-button-container'>
-                  <button class="signin-button" disabled={isButtonDisabled}>ส่งลิงก์เปลี่ยนรหัสผ่าน</button>
+                  <button className="forgot-button" disabled={isButtonDisabled}>ส่งลิงก์เปลี่ยนรหัสผ่าน</button>
                 </div>
               </div>
               </form>

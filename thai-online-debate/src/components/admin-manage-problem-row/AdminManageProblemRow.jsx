@@ -40,9 +40,12 @@ function AdminManageProblemRow({ problem, onEditClick }) {
       <td className='admin-manage-problem-desc'>
         <p className='admin-manage-problem-row-p'>{rp_description}</p>
       </td>
-      <td><div>{getStatusText(rp_status)}</div></td>
-      <td>
-        <button onClick={onEditClick}><img src={checkButtonIcon} alt="" /></button>
+      <td className='admin-manage-problem-row-status'><div>{getStatusText(rp_status)}</div></td>
+      <td className='admin-manage-problem-row-manage'>
+        <div>
+          <button onClick={onEditClick}><img src={checkButtonIcon} alt="" /></button>
+
+        </div>
       </td>
     </tr>
   );

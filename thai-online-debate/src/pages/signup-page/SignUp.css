@@ -51,6 +51,15 @@
     
 
 }
+
+.signup-label:after {
+    content:" *";
+    color: red;
+  }
+
+.signup-label-phone{
+
+}
 .signup-textfield{
     width: 306px;
     height: 55px;
@@ -66,7 +75,16 @@
 }
 
 .signup-button-container{
-    margin-top: 9px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 250px;
+    width: 100%;
+}
+
+.signup-button-container a{
+    font-size: 20px;
 }
 
 .signup-button{
@@ -167,6 +185,9 @@
     .signup-button{
         width: 90px;
         height: 44px;
+        font-size: 14px;
+    }
+    .signup-button-container a{
         font-size: 14px;
     }
 }
