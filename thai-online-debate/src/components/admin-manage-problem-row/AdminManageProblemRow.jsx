@@ -20,9 +20,9 @@ function AdminManageProblemRow({ problem, onEditClick }) {
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'จัดการแล้ว':
+      case 'success':
         return <div className="download-row-status-box-approved"><p>ดำเนินการแล้ว</p></div>;
-      case 'รอตรวจสอบ':
+      case 'pending':
         return <div className="download-row-status-box-pending"><p>รอตรวจสอบ</p></div>;
       // Add more cases for other statuses if needed
       default:

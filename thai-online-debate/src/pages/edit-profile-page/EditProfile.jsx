@@ -4,8 +4,8 @@ import profileImg from '../../assets/profile.png'
 import React ,{ useContext ,useRef,useState}from 'react'
 import { AuthContext } from '../../context/authContext';
 import { makeRequest } from '../../axios';
+import { userPicPath } from '../../userPicPath';
 function EditProfile() {
-    
     const { currentUser } = useContext(AuthContext);
   return (
     <>
@@ -21,7 +21,7 @@ function EditProfile() {
 
                 {/* image row */}              
                 <div className="edit-profile-profile-image-row">
-                    <img src={require('../../assets/upload/'+currentUser.user_pic)} className='edit-profile-profile-img' />
+                    <img src={userPicPath+currentUser.user_pic} className='edit-profile-profile-img' />
                     {/* <p className='edit-profile-profile-img-desc'>ไฟล์นามสกุล jpg, png <br/>ขนาดไฟล์ไม่เกิน 2 MB </p> */}
                 </div>
 
@@ -45,7 +45,7 @@ function EditProfile() {
                     <p className='edit-profile-data-label'>อีเมล</p>
                 </div>
                 <p>{currentUser.user_email}</p>
-
+                
                 {/* password label row */}
                 <div className="edit-profile-profile-label-row">
                     {/* <p className='edit-profile-data-label'>รหัสผ่าน</p> */}

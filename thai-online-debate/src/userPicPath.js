@@ -1,0 +1,1 @@
+export const userPicPath = "http://localhost:8800/uploads/"

@@ -11,10 +11,12 @@ export const getAllUsers = (req, res) => {
   const searchKeyword = req.query.search;
 
   let sql = "SELECT user_name, user_email, user_id, user_status FROM user";
+
   if (searchKeyword) {
     sql += ` WHERE user_name LIKE '%${searchKeyword}%' OR user_email LIKE '%${searchKeyword}%'`;
   }
 
+  sql += " ORDER BY user_status ASC, user_id DESC";
   db.query(sql, (err, data) => {
     if (err) {
       console.log("Error:", err);
@@ -22,8 +24,7 @@ export const getAllUsers = (req, res) => {
     }
 
     if (data.length === 0) {
-      console.log("No users found");
-      return res.status(404).json("No users found");
+      return res.status(204).json("No users found");
     }
 
     const users = data.map(user => {
@@ -42,7 +43,8 @@ export const getProblem = (req, res) => {
     SELECT u.user_name, rp.* 
     FROM reportedproblem AS rp 
     LEFT JOIN user AS u ON rp.user_id = u.user_id
-    ORDER BY rp.rp_status DESC, rp_timestamp DESC;
+    WHERE rp.rp_status = 'pending'
+    ORDER BY rp.rp_status DESC, rp_timestamp DESC
   `;
 
   db.query(sql, (err, data) => {
@@ -50,7 +52,7 @@ export const getProblem = (req, res) => {
       console.error("Error:", err);
       return res.status(500).json(err);
     }
-    if (data.length === 0) return res.status(404).json("Report not found");
+    if (data.length === 0) return res.status(401).json("No Report");
     return res.status(200).json(data);
   });
 };
@@ -266,15 +268,17 @@ export const reportupdateStatus = (req, res) => {
 };
 
 export const admindescription = (req, res) => {
-  const {rp_id ,adminNote} = req.body;
-  const success = "จัดการแล้ว";
+  console.log("ree")
+  const {rp_id ,rp_admin_note} = req.body;
+  console.log(rp_id,rp_admin_note);
+  const success = "success";
   const checkSql = 'UPDATE reportedproblem SET rp_status = ? ,rp_admin_note = ? WHERE rp_id = ?';
 
-  db.query(checkSql, [success,adminNote,rp_id], (err, results) => {
+  db.query(checkSql, [success,rp_admin_note,rp_id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการค้นหาข้อมูล' });
     }
-      return res.json({ message: 'อัปเดตคอลัมน์ rp_admindescription เรียบร้อยแล้ว' });
+      return res.json({ message: 'อัปเดตคอลัมน์ rp_status เรียบร้อยแล้ว' });
     });
 };
 

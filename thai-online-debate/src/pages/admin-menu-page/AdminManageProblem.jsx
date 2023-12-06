@@ -21,7 +21,8 @@ function AdminManageProblem() {
   
   const getUserData = async () => {
     try {
-      const response = await makeRequest.get('admin/reportproblem')
+      const response = await makeRequest.get('/admin/reportproblem')
+      console.log(response.data);
       setProblems(response.data);
     } catch (error) {
       console.error(error);

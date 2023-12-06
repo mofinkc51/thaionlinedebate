@@ -24,7 +24,6 @@ function AdminDownloadRequestList() {
     try {
       const res = await makeRequest.get("/admin/downloadrequest");
       setRequests(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +32,6 @@ function AdminDownloadRequestList() {
     try {
       const res = await makeRequest.get("/admin/getApproval");
       setApprovedData(res.data);
-      console.log(" Approved data: ", res.data);
     } catch (error) {
       console.error(error);
     }

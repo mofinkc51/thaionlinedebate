@@ -23,18 +23,24 @@ function ResetPassword() {
     event.preventDefault();
     setIsButtonDisabled(true);
 
-    try { 
-      await makeRequest.post("/auth/reset-password", inputs);
+    try {
+      console.log(inputs)
+      await makeRequest.post("/auth/reset-password", {user_email:inputs});
+      Swal.fire({
+        icon: 'success',
+        title: 'ส่งอีเมลลืมรหัสผ่านเรียบร้อยแล้ว',
+        showConfirmButton: false
+      })
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 30000);
     } catch (err) {
      SetErr(err.response.data);
      Swal.fire({
        icon: 'error',
        title: err.response.data,
      })
-    // ตั้งเวลาเพื่อเปิดใช้งานปุ่มอีกครั้งหลังจาก 30 วินาที
-    setTimeout(() => {
-      setIsButtonDisabled(false);
-    }, 3000); // 30000 ms = 30 วินาที
+    
   };
   }
   return (

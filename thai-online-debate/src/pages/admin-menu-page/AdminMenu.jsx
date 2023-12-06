@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminMenu.css'
 import AdminNavBar from '../../components/Navbar/AdminNavBar'
 import AdminSidemenu from '../../components/admin-sidemenu/AdminSidemenu'
@@ -7,6 +7,8 @@ import AdminDownloadRequestList from './AdminDownloadRequestList'
 import AdminManageRequest from './AdminManageRequest'
 import AdminManageAcitivity from './AdminManageActivity'
 import AdminManageProblem from './AdminManageProblem'
+import { makeRequest } from '../../axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const AdminMenu = () => {
@@ -15,7 +17,21 @@ const AdminMenu = () => {
   const handleMenuClick = (menu) => { 
     setActiveMenu(menu);
   };
-
+  const navigate = useNavigate();
+  const checkadmin = async () => {
+    try {
+      const res = await makeRequest.get("/auth/admin-checked")
+      if (res.data === "false") {
+        navigate("/signin");
+      }
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    checkadmin()
+  }, [])
   return (
     <>
     <AdminNavBar />

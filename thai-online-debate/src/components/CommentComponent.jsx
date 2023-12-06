@@ -5,6 +5,7 @@ import optionButton from "../assets/icon/more-vertical.png";
 import { makeRequest } from "../axios";
 import EditCommentPopup from "./topic-popup/EditCommentPopup";
 import Swal from "sweetalert2";
+import { userPicPath } from "../userPicPath";
 
 function CommentComponent(props) {
   const [isHovered, setIsHovered] = useState(false);
@@ -130,7 +131,7 @@ function CommentComponent(props) {
           >
             <img
               className="debate-topic-comment-user-img"
-              src={require("../assets/upload/" + commentData.user_pic)}
+              src={userPicPath + commentData.user_pic}
               alt=""
             />
           </a>

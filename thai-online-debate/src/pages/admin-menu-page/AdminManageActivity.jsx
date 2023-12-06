@@ -65,7 +65,7 @@ const AdminManageActivity = () => {
       </div>
       
 
-      {showCreatePopup && <CreateActivityPopup closePopup={() => setShowCreatePopup(false)} onCreate={handleCreate} />}
+      {showCreatePopup && <CreateActivityPopup closePopup={() => setShowCreatePopup(false)} onCreate={handleEdit} />}
       {/* Include EditActivityPopup component with necessary props */}
       {showEditPopup && <EditActivityPopup closePopup={() => setShowEditPopup(false)} onEdit={handleEdit} selectedActivity={selectedActivity} />}
     </>

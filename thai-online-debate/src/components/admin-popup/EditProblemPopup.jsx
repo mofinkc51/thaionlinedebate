@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import closeButtonIcon from '../../assets/icon/close.png';
 import axios from 'axios'; // Import Axios
-
+import Swal from 'sweetalert2';
 import './EditProblemPopup.css';
 import { makeRequest } from '../../axios';
 
 function EditProblemPopup({ onClose, problem, onConfirm ,refreshProblems}) {
-  const [adminNote, setAdminNote] = useState();
+  const [rp_admin_note, SetAdmin_note] = useState();
   const [isPopupVisible, setPopupVisible] = useState(true);
 
   const handleClosePopup = () => {
@@ -15,29 +15,27 @@ function EditProblemPopup({ onClose, problem, onConfirm ,refreshProblems}) {
   };
 
   const handleConfirmClick = async () => {
-    try {
-      // Assuming makeRequest.put exists and works similarly to makeRequest.get
-      const response = await makeRequest.put('admin/rereportproblem_admindescription', {
-        rp_id: problem.rp_id,
-        adminNote: adminNote
-      }).then(() => {
-        refreshProblems();
+    if (!rp_admin_note) {
+      Swal.fire( {
+        icon: 'error',
+        title: 'กรุณาใส่รายละเอียดการแก้ไขปัญหา',
       })
-  
-      // Handle the response or perform any necessary actions
-      // For example, you can close the popup or update the UI.
-      if (onConfirm) onConfirm();
+      return
+    }
+    try {
+      const response = await makeRequest.put('/admin/rereportproblem_admindescription', {
+        rp_id : problem.rp_id,
+        rp_admin_note : rp_admin_note
+      })
+      onConfirm();
+      refreshProblems();
     } catch (error) {
       console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล:', error);
       // Handle the error, e.g., display an error message to the user
     }
   };
   
-  
 
-  useEffect(() => {
-    // You may include any initial data loading or additional useEffect logic here
-  }, []);
 
   if (!isPopupVisible) {
     return null;
@@ -64,9 +62,9 @@ function EditProblemPopup({ onClose, problem, onConfirm ,refreshProblems}) {
                 className="edit-problem-popup-problemdesc-input"
                 cols="30"
                 rows="5"
-                name='adminNote'
-                value={adminNote}
-                onChange={(e) => setAdminNote(e.target.value)}
+                name='rp_admin_note'
+                value={rp_admin_note}
+                onChange={(e) => SetAdmin_note(e.target.value)}
               ></textarea>
             </div>
             <div className="edit-problem-button-row">

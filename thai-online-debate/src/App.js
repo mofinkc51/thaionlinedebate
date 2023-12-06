@@ -46,15 +46,6 @@ function App() {
 
   const { currentUser } = useContext(AuthContext);
   
-  /*useEffect(() => {
-    if (currentUser && currentUser.role_id === "admin") {
-      console.log("Current user:ตรงกัน");
-    }
-    else{
-      console.log("ไม่ตรงกัน")
-    }
-  }, [currentUser]);*/
-
   const ProtectedRoute = ({ children }) => {
     if (!currentUser ) {
       return <Navigate to="/signin"/>;
@@ -63,13 +54,6 @@ function App() {
     return children;
   };
   
-  const AdminRoute = ({ children }) => {
-    if (currentUser.role_id === "admin ") { 
-      return <Navigate to="/"/>;
-    }
-      return children;
-  };
-
   function DebateTopicWrapper() {
     const { dbt_id } = useParams();
     return <DebateTopic dbt_id={dbt_id} />;
@@ -188,81 +172,81 @@ function App() {
     {
       path: "/manage/downloadrequest",
       element: (
-        <AdminRoute>
+         
           <AdminDownloadRequestList/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/activity",
       element: (
-        <AdminRoute>
+         
           <AdminManageActivity/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/activity/row",
       element: (
-        <AdminRoute>
+         
           <AdminManageActivityRow/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main/user",
       element: (
-        <AdminRoute>
+         
           <AdminManageUser/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main/user/row",
       element: (
-        <AdminRoute>
+         
           <AdminManageUserRow/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main/problem",
       element: (
-        <AdminRoute>
+         
           <AdminManageProblem/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main/problem/row",
       element: (
-        <AdminRoute>
+         
           <AdminManageProblemRow/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main/request/:dr_id",
       element: (
-        <AdminRoute>
+         
           <AdminManageRequest/> 
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main/request/row",
       element: (
-        <AdminRoute>
+         
           <AdminManageRequestRow/>
-        </AdminRoute>
+         
       ),
     },
     {
       path: "/manage/main",
       element: (
-        <AdminRoute>
+         
           <AdminMenu/>
-        </AdminRoute>
+         
       ),
     },
   ]);

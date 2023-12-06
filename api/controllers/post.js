@@ -45,7 +45,7 @@ export const getActivityTopic = (req, res) => {
       SELECT dt.dbt_id, dt.dbt_title 
       FROM debatetopic dt 
       INNER JOIN activity act ON dt.dbt_id = act.dbt_id 
-      WHERE CURRENT_DATE BETWEEN act.act_start_date AND act.act_end_date;
+      WHERE NOW() BETWEEN act.act_start_date AND act.act_end_date
     `;
 
     db.query(sql, (err, data) => {
@@ -62,7 +62,7 @@ export const getDebateByUser = (req,res)=>{
     return res.status(401).json("Not authenticated!");
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-    const sql = "SELECT dbt_id, dbt_title,dbt_timestamp FROM debatetopic WHERE user_id = ?";
+    const sql = "SELECT dbt_id, dbt_title,dbt_timestamp FROM debatetopic WHERE user_id = ? ORDER BY dbt_timestamp DESC";
     db.query(sql, user_id, (err, data) => {
       if (err) return res.status(500).json(err);
       if (data.length === 0) return res.status(404).json("Topic not found");

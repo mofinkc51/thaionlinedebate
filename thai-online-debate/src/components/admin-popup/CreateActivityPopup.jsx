@@ -163,6 +163,7 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
                 icon: 'success',
                 title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
             })
+            onCreate()
             closePopup();
           } catch (err) {
             console.log(err);
