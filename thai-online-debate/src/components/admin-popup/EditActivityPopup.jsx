@@ -10,6 +10,13 @@ function EditActivityPopup({ activity, onClose, refresh}) {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const toSqlDateTime = (isoString) => {
+    const date = new Date(isoString);
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+    return adjustedDate.toISOString().slice(0, 19).replace('T', ' '); // MySQL format
+};
+
   const filteredItems = searchTerm
       ? items.filter((item) =>
           item.toLowerCase().includes(searchTerm.toLowerCase())
@@ -39,7 +46,7 @@ function EditActivityPopup({ activity, onClose, refresh}) {
 
   const handleSubmit = async (e) => {
       e.preventDefault()
-      setTopicData({ ...topicData, tags: tags, dbt_id: activity.dbt_id, act_end_date: activity.act_end_date, act_end_date: activity.act_end_date })
+      setTopicData({ ...topicData, tags: tags, dbt_id: activity.dbt_id, act_end_date: activity.act_end_date, act_end_date:toSqlDateTime(activity.act_end_date) })
       if (!text_validation(topicData.dbt_title,8,50)){
           return Swal.fire({
               icon: 'error',

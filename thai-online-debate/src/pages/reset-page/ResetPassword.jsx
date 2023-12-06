@@ -23,18 +23,24 @@ function ResetPassword() {
     event.preventDefault();
     setIsButtonDisabled(true);
 
-    try { 
-      await makeRequest.post("/auth/reset-password", inputs);
+    try {
+      console.log(inputs)
+      await makeRequest.post("/auth/reset-password", {user_email:inputs});
+      Swal.fire({
+        icon: 'success',
+        title: 'ส่งอีเมลลืมรหัสผ่านเรียบร้อยแล้ว',
+        showConfirmButton: false
+      })
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 30000);
     } catch (err) {
      SetErr(err.response.data);
      Swal.fire({
        icon: 'error',
        title: err.response.data,
      })
-    // ตั้งเวลาเพื่อเปิดใช้งานปุ่มอีกครั้งหลังจาก 30 วินาที
-    setTimeout(() => {
-      setIsButtonDisabled(false);
-    }, 3000); // 30000 ms = 30 วินาที
+    
   };
   }
   return (
@@ -60,7 +66,7 @@ function ResetPassword() {
                 <input type="email" class="signin-textfield" name="user_email" id="exampleInputEmail1" aria-describedby="emailHelp"onChange={handleChange} required/>
                 {/* buttone div */}
                 <div className='signin-button-container'>
-                  <button class="signin-button" disabled={isButtonDisabled}>ส่งลิงก์เปลี่ยนรหัสผ่าน</button>
+                  <button className="forgot-button" disabled={isButtonDisabled}>ส่งลิงก์เปลี่ยนรหัสผ่าน</button>
                 </div>
               </div>
               </form>

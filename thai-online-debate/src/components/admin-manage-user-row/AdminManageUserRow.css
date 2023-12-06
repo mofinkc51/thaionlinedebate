@@ -1,6 +1,6 @@
 .admin-manage-user-row{
     height: 60px;
-
+    border-bottom: 1px solid #ddd;
 }
 
 .admin-manage-user-row td button{
@@ -20,5 +20,33 @@
     border: none;
     flex-shrink: 0;
     border-radius: 22px;
-    background: #EBF9F1;
+    /* background: #EBF9F1; */
+}
+
+.user-active{
+    background-color: #00BFA6;
+}
+
+.user-suspend{
+    background-color: #FF8A65;
+}
+
+.admin-manage-user-row-name{
+    width: 30%;
+}
+
+.admin-manage-user-row-email{
+    width: 35%;
+}
+.admin-manage-user-row-status{
+    width: 20%;
+}
+
+.admin-manage-user-row-action{
+    width: 15%;
+}
+.admin-manage-user-row-action div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

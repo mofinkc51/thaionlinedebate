@@ -99,6 +99,9 @@ table {
   tr:nth-child(even) {
     background: #F7F6FE;
   }
+  tr:nth-child(odd) {
+    background: #fff;
+  }
 
   @media screen and (max-width: 700px){
     .download-request-th-stance{

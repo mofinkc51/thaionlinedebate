@@ -25,6 +25,13 @@
     margin-bottom: 20px;
 }
 
+.admin-manage-problem-scroll-box{
+    /* border: 1px solid red;s */
+    width: 100%;
+    height: 640px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 /* table */
 .activity-table-header-topic-name{
     width: 170px;
@@ -34,4 +41,29 @@
     width: 150px;
     /* border: 1px solid red; */
 
+}
+
+.admin-manage-problem-header-name{
+    /* width: 30%; */
+    width: 230px;
+    /* border: 1px solid red; */
+}
+.admin-manage-problem-header-date{
+    /* width: 30%; */
+    width: 160px;
+    /* border: 1px solid red; */
+}
+
+.admin-manage-problem-header-desc{
+    /* width: 30%; */
+    width: 250px;
+    /* border: 1px solid red; */
+}
+
+.admin-manage-problem-header-status{
+    text-align: center;
+}
+
+.admin-manage-problem-header-manage{
+    text-align: center;
 }

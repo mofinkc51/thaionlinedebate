@@ -60,17 +60,34 @@ function AdminManageRequestRow({ id, data, onEdit, approveData,getDetail}) {
     onEdit(data)
     getDetail(data.dr_id)
   }
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'approved':
+        return <div className="download-row-status-box-approved"><p>อนุมัติแล้ว</p></div>;
+      case 'pending':
+        return <div className="download-row-status-box-pending"><p>รออนุมัติ</p></div>;
+      case 'rejected':
+        return <div className="download-row-status-box-rejected"><p>ไม่อนุมัติ</p></div>;
+      // Add more cases for other statuses if needed
+      default:
+        return 'Unknown'; // Default text
+    }
+  };
   return (
     <tr className='admin-manage-request-row'>
-      <td>{data.dr_name}</td>
-      <td>{formatDate(data.dr_timestamp)}</td>
-      <td>{approveData ?
+      <td className='admin-manage-request-row-name'>{data.dr_name}</td>
+      <td className='admin-manage-request-row-date'>{formatDate(data.dr_timestamp)}</td>
+      <td className='admin-manage-request-row-remain'>{approveData ?
             countdown :
             "N/A"}</td>
-      <td>{data.dr_total_topic}</td>
-      <td>{data.dr_status}</td>
-      <td className='request-header-manage'>
-        <button onClick={() => EditAndGetDetail(data)}><img src={editButtonIcon} alt="Edit" /></button>
+      <td className='admin-manage-request-row-quantity'><div>{data.dr_total_topic}</div></td>
+      <td className='admin-manage-request-row-status'><div>{getStatusText(data.dr_status)}</div></td>
+      <td className='admin-manage-request-row-manage'>
+        <div>
+          <button onClick={() => EditAndGetDetail(data)}><img src={editButtonIcon} alt="Edit" /></button>
+          
+        </div>
       </td>
     </tr>
   );

@@ -7,7 +7,7 @@ import { makeRequest } from '../../axios'
 import { AuthContext } from '../../context/authContext';
 import AdminNavBar from '../../components/Navbar/AdminNavBar'
 import { useLocation } from 'react-router-dom'
-
+import { userPicPath } from '../../userPicPath'
 function Profile(props) {
     const { user_id } = props;
     const  [userData , setUserData]  = useState({});
@@ -19,7 +19,7 @@ function Profile(props) {
             const res = await makeRequest.get(`/users/find/${user_id}`);
             setUserData(res.data);
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     };
     const getUserCount = async () => {
@@ -27,7 +27,7 @@ function Profile(props) {
             const res = await makeRequest.get(`/users/count/${user_id}`);
             setCountData(res.data);
         } catch(err) {
-            console.log(err);
+            console.error(err);
         }
     }
     const getHistory = async () => {
@@ -35,7 +35,7 @@ function Profile(props) {
             const res = await makeRequest.get(`/users/history/${user_id}`);
             setHistoryData(res.data);
         } catch(err) {
-            console.log(err);
+            console.error(err);
         }
     }
     const personal_link = () => {
@@ -46,7 +46,7 @@ function Profile(props) {
             const res = await makeRequest.get(`/posts/debate/${user_id}`);
             setDebateData(res.data);
         } catch(err) {
-            console.log(err);
+            console.error(err);
         }
     }
     useEffect(() => {
@@ -55,7 +55,7 @@ function Profile(props) {
         getHistory();
         getDebateByuser();
     },[])
-    const profileImageSrc = userData.user_pic ? require("../../assets/upload/" + userData.user_pic) : profileImg;
+    const profileImageSrc = userData.user_pic ? userPicPath+userData.user_pic : profileImg;
     const { currentUser } = useContext(AuthContext);
     const location = useLocation();
     const [isAdmin, setIsAdmin] = useState(false);
@@ -65,10 +65,9 @@ function Profile(props) {
         if (res.data === "true") {
           setIsAdmin(true)
         }
-        console.log(res.data)
         return res.data
       } catch (err) {
-        console.log(err)
+        console.error(err)
       }
     }
     useEffect(() => {

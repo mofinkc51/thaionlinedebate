@@ -33,11 +33,11 @@ function AdminManageActivityRow({ activity , onEdit }) {
     const end = new Date(end_date);
   
     if (now < start) {
-      return 'รอดำเนินการ'; // สถานะก่อนวันเริ่มต้น
+      return <div className="download-row-status-box-pending"><p>รอดำเนินการ</p></div>; // สถานะก่อนวันเริ่มต้น
     } else if (now >= start && now <= end) {
-      return 'กำลังดำเนินการ'; // สถานะระหว่างวันเริ่มต้นและสิ้นสุด
+      return <div className="download-row-status-box-approved"><p>กำลังดำเนินการ</p></div>;; // สถานะระหว่างวันเริ่มต้นและสิ้นสุด
     } else {
-      return 'หมดเวลา'; // สถานะหลังจากวันสิ้นสุด
+      return <div className="download-row-status-box-rejected"><p>สิ้นสุดแล้ว</p></div>; // สถานะหลังจากวันสิ้นสุด
     }
   };
   const handleDeleteTopic = async (e) => {
@@ -71,19 +71,40 @@ function AdminManageActivityRow({ activity , onEdit }) {
       });
     }
   };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'approved':
+        return <div className="download-row-status-box-approved"><p>กำลังดำเนินการ</p></div>;
+      case 'pending':
+        return <div className="download-row-status-box-pending"><p>รอดำเนินการ</p></div>;
+      case 'rejected':
+        return <div className="download-row-status-box-rejected"><p>สิ้นสุดแล้ว</p></div>;
+      // Add more cases for other statuses if needed
+      default:
+        return 'Unknown'; // Default text
+    }
+  }
+
   return (
     <>
       <tr className='admin-manage-activity-row'>
         <td className='admin-manage-activity-topic-name'><p>{activity ? activity.dbt_title : 'Loading...'}</p></td>
-        <td><p>{activity ? formatDate(activity.act_start_date) : 'Loading...'}</p></td>
-        <td><p>{activity ? formatDate(activity.act_end_date) : 'Loading...'}</p></td>
-        <td><p>{activity ? activity.user_name : 'Loading...'}</p></td>
-        <td>
-        {activity ? getActivityStatus(activity.act_start_date, activity.act_end_date) : 'Loading...'}
+        <td><p className='admin-manage-activity-row-p'>{activity ? formatDate(activity.act_start_date) : 'Loading...'}</p></td>
+        <td><p className='admin-manage-activity-row-p'>{activity ? formatDate(activity.act_end_date) : 'Loading...'}</p></td>
+        <td><p className='admin-manage-activity-row-p'>{activity ? activity.user_name : 'Loading...'}</p></td>
+        <td className='admin-manage-activity-row-status'>
+          <div>
+          {activity ? getActivityStatus(activity.act_start_date, activity.act_end_date) : 'Loading...'}
+
+          </div>
         </td>
-        <td>
+        <td className='admin-manage-activity-row-manage'>
+          <div>
           <button onClick={handleEditButtonClick}><img src={editButtonIcon} alt="Edit" /></button>
           <button onClick={handleDeleteTopic}><img src={deleteButtonIcon} alt="Delete" /></button>
+          </div>
+          
         </td>
       </tr>
 

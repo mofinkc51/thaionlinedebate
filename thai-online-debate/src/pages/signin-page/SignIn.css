@@ -70,7 +70,18 @@
 
 .signin-button-container{
     margin: 9px 0;
+
 }
+.signin-button-container a{
+    text-decoration: none;
+    color: #252958;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
 
 .signin-button{
     width: 113px;

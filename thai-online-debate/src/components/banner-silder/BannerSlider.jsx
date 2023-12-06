@@ -9,9 +9,10 @@ const BannerSlider = () => {
   const [selected, setSelected] = useState(1);
   
   const images = [
-    banner_open_house,
-    banner_evaluation,
-    banner_one
+    banner_one,
+    banner_two,
+    banner_evaluation
+
   ]
 
   useEffect(() => {

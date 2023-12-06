@@ -1,5 +1,6 @@
 .admin-manage-request-row{
     height: 60px;
+    border-bottom: 1px solid #ddd;
 }
 
 .admin-manage-request-row td button{
@@ -12,4 +13,30 @@
 .admin-manage-request-row td{
     text-align: left;
     padding: 8px;
+}
+
+.admin-manage-request-row-name{
+    width: 180px;
+}
+
+.admin-manage-request-row-date{
+    width: 190px;
+}
+.admin-manage-request-row-quantity{
+    width: 150px;
+}
+.admin-manage-request-row-quantity div{
+    text-align: center;
+}
+
+.admin-manage-request-row-status div{
+    display: flex;
+    justify-content: center;
+
+}
+
+.admin-manage-request-row-manage div{
+    display: flex;
+    justify-content: center;
+    
 }

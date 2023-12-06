@@ -5,7 +5,6 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 export const register = (req,res)=>{
     //check user
-
     const sql = "SELECT * FROM user WHERE user_email = ?"
 
     db.query(sql,[req.body.user_email], (err,data)=>{
@@ -44,6 +43,9 @@ export const login = (req, res) => {
     db.query(sql, [req.body.user_email], (err, userData) => {
         if (err) return res.status(500).json(err);
         if (userData.length === 0) return res.status(404).json("User not found");
+        if (userData[0].user_status === 'suspended') {
+            return res.status(403).json("บัญชีของท่านถูกระงับ โปรดติดต่อเจ้าหน้าที่ หรือ ฝ่ายซัพพอร์ต");
+        }
         const checkPass = bcrypt.compareSync(req.body.user_password, userData[0].user_password);
         if (!checkPass) 
             return res.status(400).json("Wrong password or email");
@@ -122,9 +124,9 @@ export const checktoken = (req,res)=>{
 };
 export const forgotPassword = (req, res) => {
     const { user_email } = req.body;
-    console.log(user_email)
     // ตรวจสอบว่ามีอีเมลล์นี้ในฐานข้อมูลหรือไม่
-    db.query('SELECT user_name FROM user WHERE user_email = ?', [user_email], (err, data) => {
+    const sql = 'SELECT user_email FROM user WHERE user_email = ?';
+    db.query(sql, [user_email], (err, data) => {
         if (err) {
             return res.status(500).json({ message: "Error in database operation" });
         }
@@ -218,5 +220,23 @@ export const adminChecked = (req, res) => {
         if (err) return res.status(403).json("Token is not valid!");
         if (userInfo.role_id == "admin") return res.status(200).json("true");
         return res.status(200).json("false");
+    })
+}
+
+export const suspendAccount = (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) 
+    return res.status(401).json("Not authenticated!");
+    Jwt.verify(token, "secretkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid!");
+        const user_id = userInfo.id
+        console.log(user_id)
+        const sqlUpdate = "UPDATE user SET user_status=? WHERE user_id=?";
+        db.query(sqlUpdate, ["suspended", user_id], (updateErr, updateData) => {
+            if (updateErr) {
+                return res.status(500).json({ message: "Error updating user status", error: updateErr });
+            }
+            res.status(200).json({ message: "Account has been suspended successfully" });
+        })
     })
 }

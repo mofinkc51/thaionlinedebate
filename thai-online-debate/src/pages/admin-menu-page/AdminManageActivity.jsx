@@ -47,22 +47,25 @@ const AdminManageActivity = () => {
         <button onClick={() => setShowCreatePopup(true)}>สร้างกิจกรรมโต้แย้ง</button>
       </div>
 
-      <table className='admin-download-activity-table'>
-        <tr className='admin-manage-activity-table-header'>
-          <th className='activity-table-header-topic-name'>ชื่อกิจกรรมโต้แย้ง</th>
-          <th className='activity-table-header-time'>วัน-เวลาที่เริ่ม</th>
-          <th className='activity-table-header-time'>วัน-เวลาที่สิ้นสุด</th>
-          <th>สร้างโดย</th>
-          <th>สถานะ</th>
-          <th>จัดการ</th>
-        </tr>
+      <div className="admin-manage-activity-scroll-box">
+        <table className='admin-download-activity-table'>
+          <tr className='admin-manage-activity-table-header'>
+            <th className='activity-table-header-topic-name'>ชื่อกิจกรรมโต้แย้ง</th>
+            <th className='activity-table-header-time'>วัน-เวลาที่เริ่ม</th>
+            <th className='activity-table-header-time'>วัน-เวลาที่สิ้นสุด</th>
+            <th className='activity-table-header-creator'>สร้างโดย</th>
+            <th className='activity-table-header-status'>สถานะ</th>
+            <th className='activity-table-header-manage'>จัดการ</th>
+          </tr>
 
-        {activities.map((activity) => (
-          <AdminManageActivityRow key={activity.act_id} activity={activity} onEdit={handleEdit} closePopup={() => setShowEditPopup(false)} />
-        ))}
-      </table>
+          {activities.map((activity) => (
+            <AdminManageActivityRow key={activity.act_id} activity={activity} onEdit={handleEdit} closePopup={() => setShowEditPopup(false)} />
+          ))}
+        </table>
+      </div>
+      
 
-      {showCreatePopup && <CreateActivityPopup closePopup={() => setShowCreatePopup(false)} onCreate={handleCreate} />}
+      {showCreatePopup && <CreateActivityPopup closePopup={() => setShowCreatePopup(false)} onCreate={handleEdit} />}
       {/* Include EditActivityPopup component with necessary props */}
       {showEditPopup && <EditActivityPopup closePopup={() => setShowEditPopup(false)} onEdit={handleEdit} selectedActivity={selectedActivity} />}
     </>

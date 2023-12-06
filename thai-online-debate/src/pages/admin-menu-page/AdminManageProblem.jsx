@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import AdminManageProblemRow from '../../components/admin-manage-problem-row/AdminManageProblemRow';
 import EditProblemPopup from '../../components/admin-popup/EditProblemPopup';
 import DeleteProblemPopup from '../../components/admin-popup/DeleteProblemPopup';
+import './AdminManageProblem.css';
 import axios from 'axios';
 import { makeRequest } from '../../axios';
 
@@ -21,7 +22,8 @@ function AdminManageProblem() {
   
   const getUserData = async () => {
     try {
-      const response = await makeRequest.get('admin/reportproblem')
+      const response = await makeRequest.get('/admin/reportproblem')
+      console.log(response.data);
       setProblems(response.data);
     } catch (error) {
       console.error(error);
@@ -91,27 +93,30 @@ return (
       <div className="admin-manage-activity-title-row">
         <h2 className='admin-manage-activity-title'>จัดการปัญหา</h2>
       </div>
-      <table className='admin-download-activity-table'>
-        {/* table header  */}
-        <thead>
-          <tr className='admin-manage-activity-table-header'>
-            <th onClick={() => handleHeaderClick('user_name')}>ชื่อผู้ร้อง {renderSortArrow('user_name')}</th>
-            <th onClick={() => handleHeaderClick('rp_timestamp')}>วัน-เวลา {renderSortArrow('rp_timestamp')}</th>
-            <th onClick={() => handleHeaderClick('rp_description')}>รายละเอียดปัญหา {renderSortArrow('rp_description')}</th>
-            <th onClick={() => handleHeaderClick('rp_status')}>สถานะ {renderSortArrow('rp_status')}</th>
-            <th>จัดการ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedProblems.map((problem) => (
-            <AdminManageProblemRow
-              key={problem.rp_id}
-              problem={problem}
-              onEditClick={() => handleEditProblemClick(problem)}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className='admin-manage-problem-scroll-box'>
+        <table className='admin-download-activity-table'>
+          {/* table header  */}
+          <thead>
+            <tr className='admin-manage-activity-table-header'>
+              <th className='admin-manage-problem-header-name' onClick={() => handleHeaderClick('user_name')}>ชื่อผู้ร้อง {renderSortArrow('user_name')}</th>
+              <th className='admin-manage-problem-header-date' onClick={() => handleHeaderClick('rp_timestamp')}>วัน-เวลา {renderSortArrow('rp_timestamp')}</th>
+              <th className='admin-manage-problem-header-desc' onClick={() => handleHeaderClick('rp_description')}>รายละเอียดปัญหา {renderSortArrow('rp_description')}</th>
+              <th className='admin-manage-problem-header-status' onClick={() => handleHeaderClick('rp_status')}>สถานะ {renderSortArrow('rp_status')}</th>
+              <th className='admin-manage-problem-header-manage'>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedProblems.map((problem) => (
+              <AdminManageProblemRow
+                key={problem.rp_id}
+                problem={problem}
+                onEditClick={() => handleEditProblemClick(problem)}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
       {selectedProblem && (
         <EditProblemPopup
           problem={selectedProblem}

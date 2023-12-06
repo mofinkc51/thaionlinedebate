@@ -8,7 +8,7 @@ import { addPost , updatePost , deletePost ,
 } from "../controllers/post.js";
 
 const router = express.Router()
-//get top 3 topic
+//get tops topic
 router.get("/tops", getTops);
 //gettopic by id
 router.get("/topic/:dbt_id", getTopic);

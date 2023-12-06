@@ -24,7 +24,6 @@ function AdminDownloadRequestList() {
     try {
       const res = await makeRequest.get("/admin/downloadrequest");
       setRequests(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +32,6 @@ function AdminDownloadRequestList() {
     try {
       const res = await makeRequest.get("/admin/getApproval");
       setApprovedData(res.data);
-      console.log(" Approved data: ", res.data);
     } catch (error) {
       console.error(error);
     }
@@ -85,7 +83,8 @@ function AdminDownloadRequestList() {
           />
         </>
       ) : (
-        <table className="admin-download-request-table">
+        <div className="admin-download-request-table-scroll">
+          <table className="admin-download-request-table">
           {/* ... */}
           {/* table header  */}
           <tr className="admin-manage-request-table-header">
@@ -93,7 +92,7 @@ function AdminDownloadRequestList() {
             <th className="request-header-date">วัน-เวลา</th>
             <th>เวลาคงเหลือ</th>
             <th className="request-header-topic-quantity">จำนวนประเด็นโต้แย้ง</th>
-            <th>สถานะ</th>
+            <th className="request-header-topic-status">สถานะ</th>
             <th className="request-header-manage">จัดการ</th>
           </tr>
           <tbody>
@@ -108,10 +107,13 @@ function AdminDownloadRequestList() {
             ))}
           </tbody>
         </table>
+        </div>
+        
       )}
-)}
+
     </div>
   );
 }
 
 export default AdminDownloadRequestList;
+ 

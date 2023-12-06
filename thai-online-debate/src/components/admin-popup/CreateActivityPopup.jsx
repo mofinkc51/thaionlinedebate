@@ -16,7 +16,10 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
     act_end_date: "",
     dbt_agree: "เห็นด้วย",
     dbt_disagree: "ไม่เห็นด้วย",
+    tags: [],
   });
+
+
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
   const [items, setItems] = useState([]);
@@ -154,11 +157,13 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
               })
         }
         try {
+            console.log("check tag from font-end>>>>>>",tags)
             await makeRequest.post('admin/postactivity', actData)
             Swal.fire({
                 icon: 'success',
                 title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
             })
+            onCreate()
             closePopup();
           } catch (err) {
             console.log(err);
@@ -169,6 +174,14 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
             })
         }
   };
+
+  useEffect(() => {
+    if (tags && tags.length > 0) {
+      const uniqueTags = [...new Set(tags)];
+      setActData((prev) => ({ ...prev, tags: uniqueTags }));
+    }
+  }, [tags]);
+
   // คำนวณวันและเวลาปัจจุบัน
   const now = new Date();
   const currentDate = now.toISOString().substring(0, 16);
@@ -193,25 +206,25 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
                 </button>
               </div>
 
-              <div className="create-activity-popup-dbt_title-row">
+              <div className="create-activity-popup-topicname-row">
                 <label className="create-activity-popup-label">
                   หัวข้อกิจกรรมโต้แย้ง
                 </label>
                 <input
                   type="text"
-                  className="create-activity-popup-dbt_title-input"
+                  className="create-activity-popup-topicname-input"
                   name="dbt_title"
                   value={actData.dbt_title}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="create-activity-popup-dbt_description-row">
+              <div className="ccreate-activity-popup-topicdesc-row">
                 <label className="create-activity-popup-label">
                   คำอธิบายกิจกรรมโต้แย้ง
                 </label>
                 <textarea
-                  className="create-activity-popup-dbt_description-input"
+                  className="create-activity-popup-topicdesc-input"
                   name="dbt_description"
                   value={actData.dbt_description}
                   onChange={handleChange}
@@ -331,7 +344,7 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
                 <input
                   type="text"
                   placeholder=""
-                  className="create-actData-popup-tagsearch-input"
+                  className="create-activity-popup-tagsearch-input"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />

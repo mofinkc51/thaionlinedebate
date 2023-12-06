@@ -20,9 +20,11 @@ export const addReport = (req,res)=>{
           status,
           dbt_id,
           dbc_id,
-          userInfo.id
+          userInfo.id,
+          rp_type
       ];
         db.query(sql,[values],(err, data) => {
+            if (err) console.log(err)
             if (err) res.status(500).json(err);
             return res.status(200).json("Topic has been created");
           }

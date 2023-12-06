@@ -105,7 +105,6 @@ function ReportTopicPopup(props) {
               <button
                 className="report-topic-confirm-button"
                 onClick={onSubmit}
-                disabled={!reportData.rp_description || !reportData.rp_type}
               >
                 รายงาน
               </button>

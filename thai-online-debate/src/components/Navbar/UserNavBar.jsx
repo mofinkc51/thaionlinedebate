@@ -45,14 +45,6 @@ function UserNavBar() {
     }
     const location = useLocation();
 
-    const handleTagClicked = () => {
-        Swal.fire({
-          icon: "error",
-          title: "ขออภัย",
-          text: "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน"
-        });
-      };
-
       function toggleHam() {
         const x = document.querySelector(".ham-menu");
         x.classList.toggle("change");
