@@ -109,7 +109,7 @@ function SignUp() {
                 placeholder="อีเมล"
                 required
               />
-              <p class="signup-label">เบอร์โทรศัพท์</p>
+              <p class="signup-label-phone">เบอร์โทรศัพท์</p>
               <input
                 type="number"
                 name="user_phonenum"
@@ -158,6 +158,7 @@ function SignUp() {
               {/* buttone div */}
               <div className="signup-button-container">
                 <button class="signup-button">ลงทะเบียน</button>
+                <a href="/signin">มีปัญชีอยู่แล้ว</a>
               </div>
             </form>
             <div className="signup-form-container"></div>
