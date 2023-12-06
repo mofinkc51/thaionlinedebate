@@ -91,3 +91,33 @@ input::-webkit-inner-spin-button {
 .edit-profile-profile-img-desc{
     margin: auto;
 }
+
+.edit-profile-suspend-row{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    /* border: 1px solid #97C4FB; */
+    
+}
+
+.edit-profile-suspend-button{
+    /* make button clear */
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    color: #A30D11;
+    background-color: #FBE7E8;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 30.8px; /* 192.5% */
+    /* text-decoration-line: underline; */
+}
+
+.edit-profile-suspend-button:hover{
+    background-color: #FBCDD0;
+}

@@ -132,56 +132,7 @@ function EditProfileData() {
   const changePassWord = () => {
     setShowEditPasswordPopup(true);
   };
-  const logout_db = async () => {
-    await makeRequest.post("/auth/logout", "");
-    localStorage.removeItem("user");
-    localStorage.removeItem('downloadList');
-    navigator("/signin");
-}
-  const suspendedUser = async () => {
-      try {
-        const res = await makeRequest.put(`/auth/suspend`);
-        Swal.fire({
-          icon: "success",
-          title: "ระงับบัญชีสําเร็จ",
-        })
-        logout_db()
-      } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: err.response.data,
-        })
-      }
-      
-  }
-  const handleEditPasswordPopupClose = () => {
-    setShowEditPasswordPopup(false);
-  };
-  const suspendedClick = () => {
-    Swal.fire({
-      title: "คุณต้องการระงับบัญชีผู้ใช้ใช่หรือไม่",
-      text: 'กรุณายืนยันการระงับบัญชี: กรอกคำว่า "ระงับบัญชี" หากต้องการระงับบัญชีนี้',
-      icon: "warning",
-      iconColor: "red",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off",
-      },
-      showCancelButton: true,
-      confirmButtonText: "ยืนยัน",
-      confirmButtonColor: "red",
-      cancelButtonText: "ยกเลิก",
-      showLoaderOnConfirm: true,
-      preConfirm: (inputValue) => {
-        if (inputValue !== "ระงับบัญชี") {
-          Swal.showValidationMessage(`ข้อความที่กรอกไม่ตรงกับ "ระงับบัญชี"`);
-        } else {
-          suspendedUser();
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
-  };
+
 
   return (
     <>
@@ -286,13 +237,7 @@ function EditProfileData() {
                 )}
               </div>
             </form>
-            <button
-              type="button"
-              onClick={suspendedClick}
-              className="edit-profile-edit-button"
-            >
-              ระงับบัญชีผู้ใช้งาน
-            </button>
+            
           </div>
         </div>
       </div>
