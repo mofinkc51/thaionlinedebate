@@ -107,6 +107,8 @@ profile-stat-label{
 /* right side */
 .profile-right-side-box{
     width: 280px;
+    max-height: 600px;
+    overflow-y: auto;
     /* border: 1px solid green; */
 
 }
