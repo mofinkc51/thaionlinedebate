@@ -1,12 +1,12 @@
 .admin-manage-problem-row{
     height: 60px;
+    border-bottom: 1px solid #ddd;
 
 }
 
 .admin-manage-problem-topic-name{
     max-width: 140px;
-    /* border: 1px solid red; */
-    /* padding: 0px 5px 0 px; */
+
 }
 
 .admin-manage-problem-desc{
@@ -29,4 +29,17 @@
     background: transparent;
     border: none;
     padding: 5px 2.5px 0px 2.5px;
+}
+
+.admin-manage-problem-row-status div{
+    /* border: 1px solid green; */
+    display: flex;
+    justify-content: center;
+    
+
+}
+.admin-manage-problem-row-manage div{
+    /* border: 1px solid green; */
+    display: flex;
+    justify-content: center;
 }
