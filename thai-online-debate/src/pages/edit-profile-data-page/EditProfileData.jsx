@@ -132,7 +132,9 @@ function EditProfileData() {
   const changePassWord = () => {
     setShowEditPasswordPopup(true);
   };
-
+  const handleEditPasswordPopupClose = () => {
+    setShowEditPasswordPopup(false);
+  };
 
   return (
     <>

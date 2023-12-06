@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const makeRequest = axios.create({
-  baseURL: "http://localhost:8800/api/",
+  baseURL: "https://thaionlinedebate-a03ceea788c1.herokuapp.com/api/",
   withCredentials: true,
 });

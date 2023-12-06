@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
       // Handle error
       Swal.fire({
         icon: "error",
-        title: err.response.data,
+        title: err.response,
       })
     }
   };

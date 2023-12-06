@@ -225,7 +225,7 @@ export const downloadRequest = (req, res) => {
       if (err) {
         res.status(500).json({ message: "Error adding download request", error: err });
       } else {
-        res.status(200).json({ message: "Download request added successfully", dr_id: dr_id });
+        res.status(200).json("เพิ่มเรียบร้อยแล้ว");
       }
     });
   });

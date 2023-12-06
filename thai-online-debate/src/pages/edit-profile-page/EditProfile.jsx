@@ -33,9 +33,7 @@ function EditProfile() {
           }
           
       }
-      const handleEditPasswordPopupClose = () => {
-        setShowEditPasswordPopup(false);
-      };
+      
       const suspendedClick = () => {
         Swal.fire({
           title: "คุณต้องการระงับบัญชีผู้ใช้ใช่หรือไม่",
