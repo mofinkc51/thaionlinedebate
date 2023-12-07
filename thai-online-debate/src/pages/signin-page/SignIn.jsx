@@ -30,10 +30,7 @@ function SignIn() {
        navigate('/');
     } catch (err) {
       SetErr(err.response.data);
-      Swal.fire({
-        icon: 'error',
-        title: err.response.data,
-      })
+      console.log(err);
     }
   };
   const logout_db = async () => {
