@@ -29,7 +29,7 @@
     max-width: 400px;
     color: #000;
 
-    font-size: 28px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: 32px; /* 114.286% */
@@ -276,7 +276,7 @@ debate-topic-option-image{
 
 .debate-topic-side-stance-title{
     color: #000;
-    font-size: 28px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: 45px; 
@@ -415,7 +415,7 @@ debate-topic-option-image{
     }
 
     .debate-topic-topic-name, .debate-topic-side-stance-title{
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .debate-topic-tag-container{

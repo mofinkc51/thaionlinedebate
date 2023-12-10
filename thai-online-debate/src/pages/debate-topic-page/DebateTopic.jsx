@@ -443,7 +443,7 @@ function DebateTopic(props) {
           <div className="debate-topic-side-box">
             <div className="debate-topic-side-content-container">
               <p className="debate-topic-side-stance-title">
-                ฝั่ง{topicData.dbt_agree}
+                {topicData.dbt_agree}
               </p>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
@@ -468,7 +468,7 @@ function DebateTopic(props) {
           <div className="debate-topic-side-box">
             <div className="debate-topic-side-content-container">
               <p className="debate-topic-side-stance-title">
-                ฝั่ง{topicData.dbt_disagree}
+                {topicData.dbt_disagree}
               </p>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataDisagree.map((commentDataDisAgree, index) => (
