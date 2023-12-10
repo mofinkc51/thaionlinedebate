@@ -111,13 +111,13 @@
 }
 
 .download-form-proof-text{
-    min-width: 140px;
+    min-width: 210px;
     color: #000;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .download-form-upload-proof-button{
@@ -134,13 +134,14 @@
 }
 
 .download-row-upload-filename{
-    margin-left: 20px;
-    min-width: 140px;
+    margin-left: 10px;
+    max-width: 110px;
     color: #000;
     font-size: 13px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    overflow-x: hidden;
     /* margin-right: 20px; */
 }
 
@@ -180,6 +181,7 @@
     display: none;
 }
 .download-form-button-label{
+    width: 60px;
     cursor: pointer;
     color: #97C4FB;
     text-align: center;

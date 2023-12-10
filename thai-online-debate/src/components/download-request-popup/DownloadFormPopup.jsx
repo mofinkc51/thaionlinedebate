@@ -91,7 +91,7 @@ function DownloadFormPopup(props) {
                 <div className="download-form-popup-proof-row">
                     <label className='download-form-popup-label'>หลักฐานการนำข้อมูลไปใช้</label><br/>
                     <div className='download-form-popup-proof-input'>
-                        <label className='download-form-proof-text'>บัตรประชาชน</label>
+                        <label className='download-form-proof-text'>รูปภาพบัตรประชาชน (.png หรือ .jpeg)</label>
                         <label className='download-form-button-label'>
                             อัปโหลด
                             <input type="file" name="dr_proof_one_Data" onChange={handleFileChange} accept=".png, .jpg, .jpeg"/>
@@ -100,7 +100,7 @@ function DownloadFormPopup(props) {
 
                     </div>
                     <div className='download-form-popup-proof-input'>
-                        <label className='download-form-proof-text'>เอกสารยืนยันจากต้นสังกัด</label>
+                        <label className='download-form-proof-text'>เอกสารยืนยันจากต้นสังกัด (.pdf)</label>
                         <label className='download-form-button-label'>
                             อัปโหลด
                             <input type="file" name="dr_proof_two_Data" onChange={handleFileChange} accept=".pdf"/>
