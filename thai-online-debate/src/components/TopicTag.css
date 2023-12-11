@@ -6,10 +6,23 @@
     align-items: center;
     height: 26px;
     align-items: center;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for background and box-shadow */
+    cursor: pointer; /* Change cursor to indicate clickable item */
 }
+
+.tag-component:hover {
+    background-color: #C4D7EA; /* A lighter shade for hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a shadow for depth */
+}
+
+
 .tag-component-name{
-    font-size: 13px;
+    font-size: 14px;
     color: #225EAF;
-
-
+    text-decoration: none;    
 }
+
+.tag-component-name:hover {
+    color: #1F4E8C; /* Optionally, a darker shade of the text color on hover for contrast */
+}
+
