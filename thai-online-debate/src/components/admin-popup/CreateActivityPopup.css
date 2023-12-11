@@ -46,6 +46,14 @@
     cursor: pointer;
 }
 
+.create-activity-cancel-button{
+    background-color: #FBE7E8;
+    color: #A30D11;
+    width: 75px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+}
 /* for everyone */
 .create-activity-popup-label{
     color: #000;
