@@ -50,7 +50,7 @@
 .download-form-popup-label{
     color: #000;
     /* font-family: Inter; */
-    font-size: 13px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -105,13 +105,15 @@
 }
 
 .download-form-popup-proof-input{
+    margin-top: 5px;
+
     width: 100%;
     display: flex;
     /* justify-content: space-between; */
 }
 
 .download-form-proof-text{
-    min-width: 210px;
+    min-width: 160px;
     color: #000;
     font-size: 13px;
     font-style: normal;
@@ -136,10 +138,10 @@
 .download-row-upload-filename{
     margin-left: 10px;
     max-width: 110px;
-    color: #000;
+    /* color: #000; */
     font-size: 13px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: normal;
     overflow-x: hidden;
     /* margin-right: 20px; */
