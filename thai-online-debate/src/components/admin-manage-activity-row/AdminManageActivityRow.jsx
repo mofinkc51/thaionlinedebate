@@ -61,14 +61,14 @@ function AdminManageActivityRow({ activity, onEdit }) {
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "grey",
-        confirmButtonText: "ใช่ ลบประเด็นโต้แย้ง!",
+        confirmButtonText: "ใช่ ลบกิจกรรมโต้แย้ง!",
         cancelButtonText: "ยกเลิก",
       }).then(async (result) => {
         if (result.isConfirmed) {
           console.log("Activity ID:", activity.dbt_id);
           await makeRequest.delete(`/admin/deleteActivity/${activity.dbt_id}`);
           Swal.fire({
-            title: "ลบประเด็นโต้แย้งเรียบร้อย!",
+            title: "ลบกิจกรรมโต้แย้งเรียบร้อย",
             icon: "success",
           }).then(() => {
             onEdit();
