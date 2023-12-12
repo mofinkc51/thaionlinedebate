@@ -7,6 +7,7 @@ import CreateTopicPopup from "../../components/CreateTopicPopup";
 import { makeRequest } from "../../axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import AdminNavBar from "../../components/Navbar/AdminNavBar";
+import CountdownTimer from "../../components/CountdownTimer";
 import { AuthContext } from "../../context/authContext";
 import searchButton from "../../assets/icon/search.png";
 import BannerSlider from "../../components/banner-silder/BannerSlider";
@@ -65,8 +66,11 @@ function Home() {
     : allTags;
 
   // รวม filteredItems และ filteredTags
-  const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(0,5);
-  
+  const combinedFilteredResults = [...filteredItems, ...filteredTags].slice(
+    0,
+    5
+  );
+
   const handleTagClicked = async (e) => {
     try {
       navigate(`/tag/${e}`);
@@ -109,31 +113,31 @@ function Home() {
     getActivity();
   }, []);
 
-  const [activity, setActivity] = useState([])
+  const [activity, setActivity] = useState([]);
   const getActivity = async () => {
     try {
-      const res = await makeRequest.get("/posts/activity")
-      return setActivity(res.data)
+      const res = await makeRequest.get("/posts/activity");
+      return setActivity(res.data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-    //check admin
-    const [isAdmin, setIsAdmin] = useState(false);
-    const checkadmin = async () => {
-      try {
-        const res = await makeRequest.get("/auth/admin-checked")
-        if (res.data === "true") {
-          setIsAdmin(true)
-        }
-        return res.data
-      } catch (err) {
-        console.log(err)
+  };
+  //check admin
+  const [isAdmin, setIsAdmin] = useState(false);
+  const checkadmin = async () => {
+    try {
+      const res = await makeRequest.get("/auth/admin-checked");
+      if (res.data === "true") {
+        setIsAdmin(true);
       }
+      return res.data;
+    } catch (err) {
+      console.log(err);
     }
-    useEffect(() => {
-      checkadmin()
-    }, [])
+  };
+  useEffect(() => {
+    checkadmin();
+  }, []);
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -144,7 +148,10 @@ function Home() {
           {/* tag container left side */}
           <div className="tag-bar-container">
             {tags.map((tag) => (
-              <div className="tag-item" onClick={() => handleTagClicked(tag.tag_title)}>
+              <div
+                className="tag-item"
+                onClick={() => handleTagClicked(tag.tag_title)}
+              >
                 <span className="tag-item-span">{tag.tag_title}</span>
               </div>
             ))}
@@ -193,29 +200,33 @@ function Home() {
             <img src={bbImg} alt="" className='billboard-img'/>
           </div> */}
         <BannerSlider />
-        {/*  */}          
+        {/*  */}
         {/* activity */}
-          {/* <h2 className='popular-title'>Popular Topic</h2> */}
-          {activity.length > 0 ? (
-            <>
-              <h2 className="popular-title">กิจกรรมโต้แย้ง</h2>
-              <div className="popular-topic-container">
-                <div className="popular-topic-grid">
-                  {activity.map((debate) => (
-                    <TopicComponent
-                      topicname={debate.dbt_title}
-                      id={debate.dbt_id}
-                      refresh={getTopTopics}
-                    />
-                  ))}
-                </div>
+        {/* <h2 className='popular-title'>Popular Topic</h2> */}
+        {activity.length > 0 ? (
+          <>
+            <div className="home-activity-row">
+              <h2 className="activity-title">กิจกรรมโต้แย้ง</h2>
+              <CountdownTimer
+                startDate="2023-12-13T00:00:00Z"
+                endDate="2023-12-20T23:59:59Z"
+              />
+            </div>
+            <div className="popular-topic-container">
+              <div className="popular-topic-grid">
+                {activity.map((debate) => (
+                  <TopicComponent
+                    topicname={debate.dbt_title}
+                    id={debate.dbt_id}
+                    refresh={getTopTopics}
+                  />
+                ))}
               </div>
-            </>
-          ) : (
-            <>
-            </>
-          )}
-
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
 
         {/* Popular topic */}
         <h2 className="popular-title">ประเด็นโต้แย้งยอดนิยม</h2>
@@ -231,7 +242,6 @@ function Home() {
             ))}
           </div>
         </div>
-
       </div>
       <div id="create-topic-popup" display="none">
         <CreateTopicPopup />

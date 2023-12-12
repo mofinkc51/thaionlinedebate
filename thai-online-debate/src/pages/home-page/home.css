@@ -124,6 +124,27 @@
     margin-bottom: 50px;
 }
 
+.home-activity-row{
+    /* border: 1px solid red; */
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    /* margin-bottom: 30px; */
+    margin-bottom: 20px;
+
+}
+
+.activity-title{
+    /* padding-left: 30px; */
+    color: #100F0F;
+    /* font-family: Inter; */
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
 .popular-title{
     padding-left: 30px;
     color: #100F0F;
