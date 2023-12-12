@@ -1,0 +1,41 @@
+.activity-countdown-container {
+    /* max-width: 350px; */
+    display: flex;
+    align-items: center;
+    /* background-color: #f0f0f0; */
+    /* border: 1px solid #1561AC; */
+  }
+  
+  .activity-countdown-element {
+    display: flex;
+    background-color: #D3E6F9; /* White background for the elements */
+    border-radius: 10px; /* Rounded corners for elements */
+    margin: 0 5px; /* Spacing between elements */
+    padding: 5px 10px; /* Padding inside elements */
+    font-size: 1.5em; /* Larger text */
+    box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.1); /* Inner shadow for inset effect */
+  }
+  
+  .activity-countdown-label {
+    display: block;
+    text-align: center;
+    color: #1561AC; /* Dark text for contrast */
+    /* margin-top: 5px; */
+    font-size: 14px;
+  }
+  .activity-countdown-time-label{
+    display: block;
+    /* padding-top: 2px; */
+    margin-right: 2px;
+    text-align: center;
+    color: #1561AC; /* Dark text for contrast */
+    /* margin-top: 5px; */
+    font-size: 14px;
+  }
+  
+  .activity-subtitle{
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 5px;
+  }
+  
