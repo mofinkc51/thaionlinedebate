@@ -50,6 +50,20 @@
     margin-bottom: 5px;
 }
 
+.debate-topic-time-label{
+    color: #2C343D;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px; /* 141.667% */
+    margin-top: 15px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+
+
 .debate-topic-tag-container{
     margin-top: 15px;
     border-radius: 3px;
@@ -66,7 +80,7 @@
     color: #2C343D;
     font-size: 16px;
     font-style: normal;
-    font-weight: 800;
+    font-weight: 600;
     line-height: 17px; /* 141.667% */
 }
 

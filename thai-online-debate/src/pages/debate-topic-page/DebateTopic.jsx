@@ -370,6 +370,10 @@ function DebateTopic(props) {
               <a className="debate-topic-topic-creator-link">
                 {topicData.user_name}
               </a>
+              <label className="debate-topic-time-label">สร้างเมื่อ: </label>
+              <label className="debate-topic-topic-creator-link">
+                วันที่ 1 มกราคม 2565 เวลา 20:00 น.
+              </label>
             </div>
 
             {/* progress bar */}
