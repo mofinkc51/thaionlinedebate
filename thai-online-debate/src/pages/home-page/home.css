@@ -134,6 +134,12 @@
 
 }
 
+.home-activity-container{
+    padding: 0 30px;
+    margin-bottom: 30px;
+
+}
+
 .activity-title{
     /* padding-left: 30px; */
     color: #100F0F;

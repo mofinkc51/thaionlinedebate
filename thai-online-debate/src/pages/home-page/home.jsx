@@ -8,6 +8,7 @@ import { makeRequest } from "../../axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import AdminNavBar from "../../components/Navbar/AdminNavBar";
 import CountdownTimer from "../../components/CountdownTimer";
+import ActivityComponent from "../../components/ActivityComponent";
 import { AuthContext } from "../../context/authContext";
 import searchButton from "../../assets/icon/search.png";
 import BannerSlider from "../../components/banner-silder/BannerSlider";
@@ -209,10 +210,10 @@ function Home() {
               <h2 className="activity-title">กิจกรรมโต้แย้ง</h2>
               <CountdownTimer
                 startDate="2023-12-13T00:00:00Z"
-                endDate="2023-12-20T23:59:59Z"
+                endDate="2023-12-14T23:59:59Z"
               />
             </div>
-            <div className="popular-topic-container">
+            {/* <div className="popular-topic-container">
               <div className="popular-topic-grid">
                 {activity.map((debate) => (
                   <TopicComponent
@@ -222,6 +223,9 @@ function Home() {
                   />
                 ))}
               </div>
+            </div> */}
+            <div className="home-activity-container">
+              <ActivityComponent />
             </div>
           </>
         ) : (
