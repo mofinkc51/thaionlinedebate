@@ -128,7 +128,7 @@
     /* border: 1px solid red; */
     padding: 0 30px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     /* margin-bottom: 30px; */
     margin-bottom: 20px;
 
@@ -149,6 +149,7 @@
     font-weight: 600;
     line-height: normal;
     text-transform: capitalize;
+    margin-right: 30px;
 }
 
 .popular-title{

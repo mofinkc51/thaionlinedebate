@@ -207,7 +207,7 @@ function Home() {
         {activity.length > 0 ? (
           <>
             <div className="home-activity-row">
-              <h2 className="activity-title">กิจกรรมโต้แย้ง</h2>
+              <h2 className="activity-title">กิจกรรมโต้แย้ง:</h2>
               <CountdownTimer
                 startDate="2023-12-13T00:00:00Z"
                 endDate="2023-12-14T23:59:59Z"

@@ -39,7 +39,7 @@ const CountdownTimer = ({ startDate, endDate }) => {
 
   return (
     <div className="activity-countdown-container">
-      <p className="activity-subtitle">เวลาคงเหลือ</p>
+      <p className="activity-subtitle">สิ้นสุดใน</p>
 
       <div className="activity-countdown-element">
         <span className="activity-countdown-time-label">{days}</span>

@@ -1,6 +1,7 @@
 import React from "react";
 import "./ActivityComponent.css";
 import TopicTag from "./TopicTag";
+import eventIcon from "../assets/icon/activity.png";
 
 function ActivityComponent() {
   const topicData = {
@@ -16,7 +17,12 @@ function ActivityComponent() {
       <div className="activity-component-meta-data-container">
         <div className="activity-component-meta-data-content">
           {/* topic name */}
-          <p className="activity-component-topic-name">{topicData.dbt_title}</p>
+          <div className="activity-component-topic-name-row">
+            <img src={eventIcon} alt="" className="activity-component-icon" />
+            <p className="activity-component-topic-name">
+              {topicData.dbt_title}
+            </p>
+          </div>
 
           {/* desc row */}
           {/* <h3 className="activity-component-topic-description-title">
