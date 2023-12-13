@@ -1,0 +1,19 @@
+.comment-tag-component{
+    background-color: #D4E5FA;
+    display: flex;
+    padding: .2em .75em;
+    border-radius: 20px;
+    align-items: center;
+    height: 26px;
+    align-items: center;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for background and box-shadow */
+}
+
+
+
+.comment-tag-component-name{
+    font-size: 14px;
+    color: #225EAF;
+    text-decoration: none;    
+}
+
