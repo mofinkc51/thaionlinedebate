@@ -11,6 +11,7 @@ import EditTopicPopup from "../../components/topic-popup/EditTopicPopup";
 import DeleteTopicPopup from "../../components/topic-popup/DeleteTopicPopup";
 import AddToFavPopup from "../../components/topic-popup/AddToFavPopup";
 import AddToDownloadPopup from "../../components/topic-popup/AddToDownloadPopup";
+import CommentTag from "../../components/CommentTag";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
@@ -460,6 +461,17 @@ function DebateTopic(props) {
               <p className="debate-topic-side-stance-title">
                 {topicData.dbt_agree}
               </p>
+              <p className="debate-topic-top-five-title">
+                5 อันดับหัวข้อความคิดเห็น
+              </p>
+              <div className="debate-topic-top-five-tag">
+                <CommentTag tagName="ทดสอบ" />
+                <CommentTag tagName="ทดสอบสอบ" />
+                <CommentTag tagName="ทดสอบ" />
+                <CommentTag tagName="สอบสอบสอบ" />
+                <CommentTag tagName="ทดสอบ" />
+                {/* <TopicTag tagName="สอบสอบสอบ" /> */}
+              </div>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
                   <CommentComponent
@@ -487,6 +499,15 @@ function DebateTopic(props) {
               <p className="debate-topic-side-stance-title">
                 {topicData.dbt_disagree}
               </p>
+              <p className="debate-topic-top-five-title">
+                5 อันดับหัวข้อความคิดเห็น
+              </p>
+              <div className="debate-topic-top-five-tag">
+                <CommentTag tagName="ทดสอบ" />
+                <CommentTag tagName="ทดสอบสอบ" />
+                <CommentTag tagName="ทดสอบ" />
+                <CommentTag tagName="ทดสอบ" />
+              </div>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataDisagree.map((commentDataDisAgree, index) => (
                   <CommentComponent
