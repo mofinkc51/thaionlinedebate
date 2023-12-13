@@ -3,6 +3,9 @@ import axios from "axios";
 import "./AdminManageRequest.css";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import proofTest from "../../assets/test-proof.pdf";
+
 function AdminManageRequest(props) {
   const { data, onBack, debate, refresh } = props;
   const timestamp = data.dr_timestamp;
@@ -92,6 +95,19 @@ function AdminManageRequest(props) {
     });
   };
 
+  const MySwal = withReactContent(Swal);
+
+  const openPDFInModal = () => {
+    MySwal.fire({
+      html: <iframe src={proofTest} width="800px" height="700px" title="PDF" />,
+      width: 900,
+      padding: "1rem",
+      confirmButtonText: "ปิด",
+      // showCloseButton: true,
+      // backdrop: true,
+    });
+  };
+
   const handleDisapproval = async () => {
     const drId = detailData.dr_id; // Extract dr_id from detailData
 
@@ -170,7 +186,7 @@ function AdminManageRequest(props) {
             <p className="manage-request-text">บัตรประชาชน</p>
             <button
               className="download-detail-upload-proof-button"
-              onClick={downloadCertOne}
+              onClick={openPDFInModal}
             >
               ตรวจสอบ
             </button>
@@ -179,7 +195,7 @@ function AdminManageRequest(props) {
             <p className="manage-request-text">เอกสารยืนยันจากต้นสังกัด</p>
             <button
               className="download-detail-upload-proof-button"
-              onClick={downloadCertTwo}
+              onClick={openPDFInModal}
             >
               ตรวจสอบ
             </button>
