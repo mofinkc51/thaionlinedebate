@@ -82,7 +82,7 @@ export const getDownloadRequest = (req, res) => {
 
   export const getActivity = (req, res) => {
     const sql = `
-      SELECT  d.dbt_title,a.act_id,a.act_start_date,a.act_end_date,user.user_name,d.dbt_id
+      SELECT d.dbt_title,a.act_id,a.act_start_date,a.act_end_date,user.user_name,d.dbt_id
       FROM activity a 
       LEFT JOIN debatetopic d ON a.dbt_id = d.dbt_id
       LEFT JOIN user ON d.user_id = user.user_id
