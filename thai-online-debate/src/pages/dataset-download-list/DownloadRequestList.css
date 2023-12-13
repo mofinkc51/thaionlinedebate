@@ -29,7 +29,14 @@
     color: #FFF;
     border: none;
     background: #624DE3;    
+    transition: background-color 0.3s, transform 0.3s;
 
+}
+
+.download-request-title-row button:hover {
+    background: #7462E9; /* A lighter shade of the original background color */
+    transform: translateY(-2px); /* Button moves up slightly on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for depth */
 }
 .download-request-down-button{
     position: relative;

@@ -3,7 +3,7 @@ import "./CreateActivityPopup.css";
 import closeButtonIcon from "../../assets/icon/close.png";
 import axios from "axios";
 import { makeRequest } from "../../axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import InputTag from "../input-tag/InputTag";
 import { text_validation } from "../../checked";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +18,6 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
     dbt_disagree: "ไม่เห็นด้วย",
     tags: [],
   });
-
 
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
@@ -36,11 +35,9 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
   // end search tag part
 
   const [err, SetErr] = useState(null);
-  const [tagsuggest, setTagseggest] = useState([
-  ]);
+  const [tagsuggest, setTagseggest] = useState([]);
 
-  const [tags, setTags] = useState([
-  ]);
+  const [tags, setTags] = useState([]);
   const handleTagClick = (tag) => {
     if (tags.includes(tag)) {
       // ลบ tag when includes
@@ -112,67 +109,78 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    setActData({ ...actData, tags: tags })
-        if (!text_validation(actData.dbt_title,8,50)){
-            return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: ("หัวข้อประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 8 + " ถึง " + 50)
-              }).then(() => {
-                  document.getElementsByName('dbt_title')[0].focus()
-              })
-        }
-        if (!text_validation(actData.dbt_description,10,500)){
-            return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: ("คำอธิบายประเด็นโต้แย้งต้องมีความยาวระหว่าง " + 10 + " ถึง " + 500)
-              }).then(() => {
-                 document.getElementsByName('dbt_description')[0].focus();
-              })
-        } 
-        if (!text_validation(actData.dbt_agree,3,40)){
-            return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: ("ฝั่งที่ 1 ควรมีความยาวระหว่าง " + 3 + " ถึง " + 40 + " เช่น เห็นด้วย")
-              }).then(() => {
-                 document.getElementsByName('dbt_agree')[0].focus();
-              })
-        } 
-        if (!text_validation(actData.dbt_disagree,3,40)){
-            return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: ("ฝั่งที่ 2 ควรมีความยาวระหว่าง " + 3 + " ถึง " + 40 + " เช่น ไม่เห็นด้วย")
-              }).then(() => {
-                 document.getElementsByName('dbt_disagree')[0].focus();
-              })
-        }
-        if (tags.length === 0 || tags.length > 5) {
-            return Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: "กรุณาเลือกแท็ก 1 - 5 แท็ก"
-              })
-        }
-        try {
-            console.log("check tag from font-end>>>>>>",tags)
-            await makeRequest.post('admin/postactivity', actData)
-            Swal.fire({
-                icon: 'success',
-                title: 'สร้างประเด็นโต้แย้งเรียบร้อย',
-            })
-            onCreate()
-            closePopup();
-          } catch (err) {
-            console.log(err);
-            SetErr(err.response.data)
-            Swal.fire({
-                icon: 'error',
-                title: err.response.data,
-            })
-        }
+    setActData({ ...actData, tags: tags });
+    if (!text_validation(actData.dbt_title, 8, 50)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "หัวข้อกิจกรรมโต้แย้งต้องมีความยาวระหว่าง " + 8 + " ถึง " + 50,
+      }).then(() => {
+        document.getElementsByName("dbt_title")[0].focus();
+      });
+    }
+    if (!text_validation(actData.dbt_description, 10, 500)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text:
+          "คำอธิบายกิจกรรมโต้แย้งต้องมีความยาวระหว่าง " + 10 + " ถึง " + 500,
+      }).then(() => {
+        document.getElementsByName("dbt_description")[0].focus();
+      });
+    }
+    if (!text_validation(actData.dbt_agree, 3, 40)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text:
+          "ฝั่งที่ 1 ควรมีความยาวระหว่าง " +
+          3 +
+          " ถึง " +
+          40 +
+          " เช่น เห็นด้วย",
+      }).then(() => {
+        document.getElementsByName("dbt_agree")[0].focus();
+      });
+    }
+    if (!text_validation(actData.dbt_disagree, 3, 40)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text:
+          "ฝั่งที่ 2 ควรมีความยาวระหว่าง " +
+          3 +
+          " ถึง " +
+          40 +
+          " เช่น ไม่เห็นด้วย",
+      }).then(() => {
+        document.getElementsByName("dbt_disagree")[0].focus();
+      });
+    }
+    if (tags.length === 0 || tags.length > 5) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "กรุณาเลือกแท็ก 1 - 5 แท็ก",
+      });
+    }
+    try {
+      console.log("check tag from font-end>>>>>>", tags);
+      await makeRequest.post("admin/postactivity", actData);
+      Swal.fire({
+        icon: "success",
+        title: "สร้างกิจกรรมโต้แย้งเรียบร้อย",
+      });
+      onCreate();
+      closePopup();
+    } catch (err) {
+      console.log(err);
+      SetErr(err.response.data);
+      Swal.fire({
+        icon: "error",
+        title: err.response.data,
+      });
+    }
   };
 
   useEffect(() => {
@@ -290,8 +298,8 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
               </div>
 
               {/* แท็กที่เลือก */}
-              <div className="create-actData-tag-row">
-                <p className="create-actData-popup-label">
+              <div className="create-activity-tag-row">
+                <p className="create-activity-popup-label">
                   แท็กที่เลือก
                   <span className="tooltip-icon" title="">
                     ?
@@ -313,12 +321,12 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
                 </div>
               </div>
               {/* tag row */}
-              <div className="create-actData-tag-row">
-                <p className="create-actData-popup-label">
+              <div className="create-activity-tag-row">
+                <p className="create-activity-popup-label">
                   แท็กที่เกี่ยวข้อง
                   <span
                     className="tooltip-icon"
-                    title="เมื่อผู้ใช้ทำการกรอกหัวข้อประเด็นโต้แย้ง ระบบจะแนะนำแท็กที่เกี่ยวข้องกับประเด็นโต้แย้ง"
+                    title="เมื่อผู้ใช้ทำการกรอกหัวข้อกิจกรรมโต้แย้ง ระบบจะแนะนำแท็กที่เกี่ยวข้องกับกิจกรรมโต้แย้ง"
                   >
                     ?
                   </span>
@@ -339,8 +347,8 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
               </div>
 
               {/* tag search row */}
-              <div className="create-actData-search-tag-row">
-                <p className="create-actData-popup-label">ค้นหาแท็ก</p>
+              <div className="create-activity-search-tag-row">
+                <p className="create-activity-popup-label">ค้นหาแท็ก</p>
                 <input
                   type="text"
                   placeholder=""

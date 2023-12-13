@@ -218,17 +218,18 @@ function DebateTopic(props) {
   }
   async function addToDownloadList(topicData) {
     if (isAdmin) {
-      let downloadList = JSON.parse(localStorage.getItem('downloadList')) || [];
+      let downloadList = JSON.parse(localStorage.getItem("downloadList")) || [];
       if (!downloadList.includes(topicData.dbt_id)) {
         downloadList.push(topicData.dbt_id);
         // บันทึกกลับเข้า localStorage
-        localStorage.setItem('downloadList', JSON.stringify(downloadList));
+        localStorage.setItem("downloadList", JSON.stringify(downloadList));
         return Swal.fire({
           icon: "success",
           title: "เพิ่มเรียบร้อย",
-        })
-      } }
-      else { try {
+        });
+      }
+    } else {
+      try {
         const res = await makeRequest.post("/downloads/", topicData);
         if (res.status === 200)
           return Swal.fire({
@@ -259,10 +260,12 @@ function DebateTopic(props) {
   const [selectedCommentData, setSelectedCommentData] = useState(null);
   const handleReportTopic = (commentData) => {
     setSelectedCommentData(commentData);
-    setSelectedReportPopup(<ReportTopicPopup 
-      onCloseClick={onCommentCloseClick} 
-      data={selectedCommentData}
-    />);
+    setSelectedReportPopup(
+      <ReportTopicPopup
+        onCloseClick={onCommentCloseClick}
+        data={selectedCommentData}
+      />
+    );
     setOpen(false);
   };
   if (!!selectedReportPopup) {
@@ -300,29 +303,37 @@ function DebateTopic(props) {
   const handleEditTopic = () => {
     setOpen(false);
     setSelectedEditPopup(
-      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} tag={topicTag}/>
+      <EditTopicPopup
+        onCloseClick={onCommentCloseClick}
+        data={topicData}
+        tag={topicTag}
+      />
     );
   };
   if (!!selectedEditPopup) {
     popup = (
-      <EditTopicPopup onCloseClick={onCommentCloseClick} data={topicData} tag={topicTag}/>
+      <EditTopicPopup
+        onCloseClick={onCommentCloseClick}
+        data={topicData}
+        tag={topicTag}
+      />
     );
   }
   const [isAdmin, setIsAdmin] = useState(false);
   const checkadmin = async () => {
     try {
-      const res = await makeRequest.get("/auth/admin-checked")
+      const res = await makeRequest.get("/auth/admin-checked");
       if (res.data === "true") {
-        setIsAdmin(true)
+        setIsAdmin(true);
       }
-      return res.data
+      return res.data;
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
   useEffect(() => {
-    checkadmin()
-  }, [])
+    checkadmin();
+  }, []);
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -330,42 +341,42 @@ function DebateTopic(props) {
       <div className="debate-topic-page-container">
         {/* topic meta data box */}
         <div className="debate-topic-meta-data-container">
-          {/* left content */}
-          <div className="debate-topic-meta-data-left-content">
+          <div className="debate-topic-meta-data-content">
             {/* topic name */}
             <p className="debate-topic-topic-name">{topicData.dbt_title}</p>
-            {/* topic tag */}
 
-            <p className="debate-topic-label">แท็กที่เกี่ยวข้อง</p>
-            <div className="debate-topic-tag-container">
-              {topicTag.map((tag) => (
-                <TopicTag tagName={tag.tag_title} />
-              ))}
-            </div>
-            {/* topic creator row */}
-            <div className="debate-topic-creator-row">
-              <label className="debate-topic-label">สร้างโดย: </label>
-              <a className="debate-topic-topic-creator-link">
-                {topicData.user_name}
-              </a>
-            </div>
-          </div>
-          {/* right content */}
-          <div className="debate-topic-meta-data-right-content">
-            <h3 className="debate-topic-topic-description-title">
+            {/* desc row */}
+            {/* <h3 className="debate-topic-topic-description-title">
               รายละเอียดประเด็นโต้แย้ง
-            </h3>
-
+            </h3> */}
             <div className="debate-topic-description-box">
               <p className="debate-topic-topic-description">
                 {topicData.dbt_description}
               </p>
             </div>
-            <h3 className="debate-topic-progress-bar-title">
-              อัตราส่วนการโต้แย้ง
-            </h3>
-            {/* <progress className='debate-topic-progress-bar' id="file" value="70" max="100"></progress>  */}
 
+            {/* topic tag */}
+            <div className="debate-topic-tag-container">
+              {/* <p className="debate-topic-label">แท็กที่เกี่ยวข้อง</p> */}
+
+              {topicTag.map((tag) => (
+                <TopicTag tagName={tag.tag_title} />
+              ))}
+            </div>
+
+            {/* creator row */}
+            <div className="debate-topic-creator-row">
+              <label className="debate-topic-label">สร้างโดย: </label>
+              <a className="debate-topic-topic-creator-link">
+                {topicData.user_name}
+              </a>
+              <label className="debate-topic-time-label">สร้างเมื่อ: </label>
+              <label className="debate-topic-topic-creator-link">
+                วันที่ 1 มกราคม 2565 เวลา 20:00 น.
+              </label>
+            </div>
+
+            {/* progress bar */}
             <div className="debate-topic-legend-row">
               {/* agree legend */}
               <div className="debate-topic-legend-element">
@@ -399,39 +410,43 @@ function DebateTopic(props) {
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* drop down button */}
-          <div className="debate-topic-option-dropdown">
-            <div
-              className="debate-topic-option-vert-button"
-              onClick={() => {
-                setOpen(!open);
-              }}
-            >
-              <img
-                className="debate-topic-option-image"
-                src={optionButtonIcon}
-                alt=""
-              />
-            </div>
-            <div
-              id="myDropdown"
-              class={`debate-topic-dropdown-content ${
-                open ? "active" : "inactive"
-              }`}
-            >
-              <button onClick={handleAddToFav}>เพิ่มเข้ารายการชื่นชอบ</button>
-              <button onClick={handleAddToDownload}>
-                เพิ่มเข้ารายการดาวน์โหลด
-              </button>
-              {canEditDelete && (
-                <div>
-                  <button onClick={handleEditTopic}>แก้ไขประเด็นโต้แย้ง</button>
-                  <button onClick={handleDeleteTopic}>ลบประเด็นโต้แย้ง</button>
-                </div>
-              )}
-              <button onClick={() => handleReportTopic(topicData)}>รายงานปัญหา</button>
+            <div className="debate-topic-option-dropdown">
+              <div
+                className="debate-topic-option-vert-button"
+                onClick={() => {
+                  setOpen(!open);
+                }}
+              >
+                <img
+                  className="debate-topic-option-image"
+                  src={optionButtonIcon}
+                  alt=""
+                />
+              </div>
+              <div
+                id="myDropdown"
+                class={`debate-topic-dropdown-content ${
+                  open ? "active" : "inactive"
+                }`}
+              >
+                <button onClick={handleAddToFav}>เพิ่มเข้ารายการชื่นชอบ</button>
+                <button onClick={handleAddToDownload}>
+                  เพิ่มเข้ารายการดาวน์โหลด
+                </button>
+                {canEditDelete && (
+                  <div>
+                    <button onClick={handleEditTopic}>
+                      แก้ไขประเด็นโต้แย้ง
+                    </button>
+                    <button onClick={handleDeleteTopic}>
+                      ลบประเด็นโต้แย้ง
+                    </button>
+                  </div>
+                )}
+                <button onClick={() => handleReportTopic(topicData)}>
+                  รายงานปัญหา
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -443,13 +458,15 @@ function DebateTopic(props) {
           <div className="debate-topic-side-box">
             <div className="debate-topic-side-content-container">
               <p className="debate-topic-side-stance-title">
-                ฝั่ง{topicData.dbt_agree}
+                {topicData.dbt_agree}
               </p>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
                   <CommentComponent
                     data={commentDataAgree}
-                    handleReportTopic={() => handleReportTopic(commentDataAgree)}
+                    handleReportTopic={() =>
+                      handleReportTopic(commentDataAgree)
+                    }
                     dbt_id={dbt_id}
                     key={index}
                   />
@@ -468,13 +485,15 @@ function DebateTopic(props) {
           <div className="debate-topic-side-box">
             <div className="debate-topic-side-content-container">
               <p className="debate-topic-side-stance-title">
-                ฝั่ง{topicData.dbt_disagree}
+                {topicData.dbt_disagree}
               </p>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataDisagree.map((commentDataDisAgree, index) => (
                   <CommentComponent
                     data={commentDataDisAgree}
-                    handleReportTopic={() => handleReportTopic(commentDataDisAgree)}
+                    handleReportTopic={() =>
+                      handleReportTopic(commentDataDisAgree)
+                    }
                     dbt_id={dbt_id}
                     key={index}
                   />
