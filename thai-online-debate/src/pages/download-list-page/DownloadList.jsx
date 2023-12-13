@@ -17,9 +17,6 @@ function DownloadList() {
       console.error(error);
     }
   };
-  useEffect(() => {
-    getDownloadData();
-  }, []);
 
   const [downloadDetail, setDownloadDetail] = useState({});
 
@@ -32,6 +29,9 @@ function DownloadList() {
   }
 
   const getDownloadDetail = async (dr_id) => {
+    if (dr_id === undefined) {
+      return;
+    }
     try {
       const res = await makeRequest.get(`/downloads/detail/${dr_id}`);
       setDownloadDetail(res.data); // กำหนดค่า downloadDetail
@@ -39,7 +39,7 @@ function DownloadList() {
         `/downloads/detail/debate/${dr_id}`
       );
       setDetailDebate(resDebate.data);
-      handleRequestClick(); // จากนั้นเรียกใช้ handleRequestClick
+      console.log(resDebate.data);
     } catch (error) {
       console.error(error);
     }
@@ -65,6 +65,12 @@ function DownloadList() {
         debate={detailDebate}
       />
     );
+  }
+  const handleDetailClick = (dr_id) => {
+    getDownloadDetail(dr_id).then(() => {
+      handleRequestClick(); // จากนั้นเรียกใช้ handleRequestClick
+    })
+    
   }
   const [downloadListArray, setDownloadListArray] = useState([]);
   const getDownloadDataApproved = async (dr_id) => {
@@ -100,6 +106,10 @@ function DownloadList() {
       console.log(err);
     }
   };
+  useEffect(() => {
+    getDownloadData();
+    getDownloadDetail();
+  }, []);
   //check admin
   const [isAdmin, setIsAdmin] = useState(false);
   const checkadmin = async () => {
@@ -130,7 +140,7 @@ function DownloadList() {
           <tr className="download-list-table-header">
             <th>วัน-เวลา</th>
             <th className="download-list-th-time">เวลาคงเหลือ</th>
-            <th className="download-list-th-quantity">จำนวนประเด็นโต้แย้ง</th>
+            <th className="download-list-th-quantity">หัวข้อประเด็นโต้แย้ง</th>
             <th>สถานะ</th>
             <th>ตรวจสอบ</th>
           </tr>
@@ -139,7 +149,8 @@ function DownloadList() {
             <DownloadRow
               data={data}
               onClick={handleRequestClick}
-              getDetail={() => getDownloadDetail(data.dr_id)}
+              key={data.dr_id}
+              getDetail={() => handleDetailClick(data.dr_id)}
               getDownloadDataApproved={() =>
                 getDownloadDataApproved(data.dr_id)
               }

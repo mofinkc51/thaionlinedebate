@@ -81,10 +81,12 @@ function DebateTopic(props) {
         dbt_title: res.data[0].dbt_title,
         user_name: res.data[0].user_name,
         user_id: res.data[0].user_id,
+        dbt_timestamp: res.data[0].dbt_timestamp,
         dbt_description: res.data[0].dbt_description,
         dbt_agree: res.data[0].dbt_agree,
         dbt_disagree: res.data[0].dbt_disagree,
       });
+      
     } catch (err) {
       console.log(err);
     }
@@ -335,6 +337,27 @@ function DebateTopic(props) {
   useEffect(() => {
     checkadmin();
   }, []);
+  const dateFormat = (dbt_timestamp) => {
+    if (!dbt_timestamp) {
+      return 'Loading...'; // หรือข้อความอื่นตามความต้องการ
+    }
+    
+    const date = new Date(dbt_timestamp);
+    if (isNaN(date.getTime())) {
+      return 'วันที่ไม่ถูกต้อง'; // หรือข้อความอื่นตามความต้องการ
+    }
+    // ตั้งค่าสำหรับการแสดงผลในรูปแบบที่ต้องการ
+    const options = { 
+          year: 'numeric', month: 'long', day: 'numeric',
+          hour: 'numeric', minute: 'numeric',
+          timeZone: 'Asia/Bangkok' // ตั้งค่าเขตเวลาเป็นของประเทศไทย
+      };
+  
+      // จัดรูปแบบวันที่
+      const formattedDate = new Intl.DateTimeFormat('th-TH', options).format(date);
+      return formattedDate
+  }
+
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -373,7 +396,7 @@ function DebateTopic(props) {
               </a>
               <label className="debate-topic-time-label">สร้างเมื่อ: </label>
               <label className="debate-topic-topic-creator-link">
-                วันที่ 1 มกราคม 2565 เวลา 20:00 น.
+                วันที่ {dateFormat(topicData.dbt_timestamp)} น.
               </label>
             </div>
 

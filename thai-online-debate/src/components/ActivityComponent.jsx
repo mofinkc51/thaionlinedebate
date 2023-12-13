@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ActivityComponent.css";
 import TopicTag from "./TopicTag";
 import eventIcon from "../assets/icon/activity.png";
+import { makeRequest } from "../axios";
+import { Link } from "react-router-dom";
 
-function ActivityComponent() {
+function ActivityComponent(props) {
   const topicData = {
-    dbt_title: "ประเทศไทยควรยกเลิกการเกณฑ์ทหารหรือไม่",
-    dbt_description:
-      "ในปัจจุบันประเทศไทยใช้ระบบการเกณฑ์ทหารซึ่งบังคับให้ชายไทยที่มีอายุครบ 21 ปี ต้องเข้ารับการเกณฑ์ทหารเป็นเวลา 2 ปี บางคนมองว่าระบบการเกณฑ์ทหารเป็นระบบที่ล้าสมัยและควรยกเลิก ส่วนบางคนมองว่าระบบการเกณฑ์ทหารเป็นระบบที่มีประโยชน์และควรรักษาไว้",
-    user_name: "ชื่อผู้สร้าง",
-    dbt_agree: 10,
-    dbt_disagree: 90,
+    dbt_id: props.data.dbt_id,
+    dbt_title: props.data.dbt_title,
+    dbt_description: props.data.dbt_description
   };
+  const [topicTag, setTopicTag] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // เพิ่ม state สำหรับติดตามสถานะการโหลด
+  const getTagByDebate = async () => {
+    try {
+      const res = await makeRequest.get(
+        `/posts/tag/debate/${topicData.dbt_id}`
+      );
+      setTopicTag(res.data);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (topicTag.length === 0) {
+      getTagByDebate();
+    }
+  }, [topicTag]);
   return (
     <>
+    <Link to={`/topic/${topicData.dbt_id}`}>
       <div className="activity-component-meta-data-container">
         <div className="activity-component-meta-data-content">
           {/* topic name */}
@@ -37,29 +56,18 @@ function ActivityComponent() {
           {/* topic tag */}
           <div className="activity-component-tag-container">
             {/* <p className="activity-component-label">แท็กที่เกี่ยวข้อง</p> */}
-
-            {/* {topicTag.map((tag) => (
-              <TopicTag tagName={tag.tag_title} />
-            ))} */}
+            {isLoading ? (
+              <p>Loading tags...</p> // แสดงข้อความหรือ spinner ในขณะที่ข้อมูลกำลังโหลด
+            ) : (
+              topicTag.map((tag) => (
+                <TopicTag key={tag.id} tagName={tag.tag_title} /> // ใช้ key prop เพื่อประสิทธิภาพในการ render
+              ))
+            )}
+            {/* <TopicTag tagName="ทดลอง" />
             <TopicTag tagName="ทดลอง" />
             <TopicTag tagName="ทดลอง" />
-            <TopicTag tagName="ทดลอง" />
-            <TopicTag tagName="ทดลอง" />
+            <TopicTag tagName="ทดลอง" /> */}
           </div>
-
-          {/* creator row */}
-          {/* <div className="activity-component-creator-row">
-            <label className="activity-component-label">สร้างโดย: </label>
-            <a className="activity-component-topic-creator-link">
-              ชื่อผู้สร้าง
-            </a>
-            <label className="activity-component-time-label">
-              สร้างเมื่อ:{" "}
-            </label>
-            <label className="activity-component-topic-creator-link">
-              วันที่ 1 มกราคม 2565 เวลา 20:00 น.
-            </label>
-          </div> */}
 
           {/* progress bar */}
           <div className="activity-component-legend-row">
@@ -97,6 +105,7 @@ function ActivityComponent() {
           </div>
         </div>
       </div>
+    </Link>
     </>
   );
 }

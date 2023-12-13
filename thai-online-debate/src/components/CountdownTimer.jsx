@@ -20,7 +20,6 @@ const CountdownTimer = ({ startDate, endDate }) => {
         return newTimeLeft;
       });
     }, 1000);
-
     return () => clearInterval(intervalId);
   }, [startDate, endDate]);
 

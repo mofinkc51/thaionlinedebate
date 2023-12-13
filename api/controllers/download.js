@@ -210,6 +210,19 @@ export const getDownloadApproved = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+export const getDownloadRequestById = (req, res) => {
+  const dr_id = req.params.dr_id;
+  const sql =`
+    SELECT * FROM approval 
+    WHERE dr_id = ?;
+  `;
+  db.query(sql, [dr_id], (err, data) => {
+    if (err) res.status(500).json(err);
+    return res.status(200).json(data);
+});
+}
+
 //delete
 export const deleteDownload = (req, res) => {
   const dbt_id = req.params.dbt_id;
@@ -332,7 +345,7 @@ export const addDownload = (req, res) => {
                           return res
                             .status(200)
                             .json(
-                              "RequestDebate has been added and DownloadRequest is checked/created"
+                              "เพิ่มเข้ารายการดาวน์โหลดเรียบร้อยแล้ว"
                             );
                         }
                       });

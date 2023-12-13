@@ -5,6 +5,7 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 export const register = (req,res)=>{
     //check user
+    const {user_email,user_password,user_name,user_phonenum,user_birthday,user_religion,user_gender,user_province} = req.body
     const sql = "SELECT * FROM user WHERE user_email = ?"
 
     db.query(sql,[req.body.user_email], (err,data)=>{
@@ -14,9 +15,9 @@ export const register = (req,res)=>{
     //create user
         //hash pass
         const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync(req.body.user_password,salt)
+        const hashedPassword = bcrypt.hashSync(user_password,salt)
         
-        const sql = "INSERT INTO user (`user_id`,`user_name`,`user_email`,`user_phonenum`,`user_password`,`user_pic`) VALUE (?)";
+        const sql = "INSERT INTO user (`user_id`,`user_name`,`user_email`,`user_phonenum`,`user_password`,`user_pic`,`user_birthday`,`user_gender`,`user_religion`,`user_province`) VALUE (?)";
         
         const randomId = function(length = 6) {
             return Math.random().toString(36).substring(2, length+2);
@@ -24,11 +25,15 @@ export const register = (req,res)=>{
         const defaultPic = "profile.png";
         const values = [
             randomId(8),
-            req.body.user_name,
-            req.body.user_email,
-            req.body.user_phonenum,
+            user_name,
+            user_email,
+            user_phonenum,
             hashedPassword,
-            defaultPic
+            defaultPic,
+            user_birthday,
+            user_religion,
+            user_gender,
+            user_province
         ];
         db.query(sql, [values], (err, data) => {
             if (err) 

@@ -42,15 +42,17 @@ export const getActivityTopic = (req, res) => {
 
     // คำสั่ง SQL สำหรับเลือกข้อมูลจาก debatetopic ที่ตรงกับเงื่อนไขที่กำหนด
     const sql = `
-      SELECT dt.dbt_id, dt.dbt_title 
-      FROM debatetopic dt 
-      INNER JOIN activity act ON dt.dbt_id = act.dbt_id 
+      SELECT * FROM activity AS act
+      JOIN debatetopic
+      ON debatetopic.dbt_id = act.dbt_id
       WHERE NOW() BETWEEN act.act_start_date AND act.act_end_date
+      LIMIT 1
     `;
 
     db.query(sql, (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json(data);
+      console.log(data[0]);
+      return res.status(200).json(data[0]);
     });
   });
 };
