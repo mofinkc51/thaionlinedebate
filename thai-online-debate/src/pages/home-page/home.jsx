@@ -139,6 +139,7 @@ function Home() {
   useEffect(() => {
     checkadmin();
   }, []);
+  console.log(activity)
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -204,13 +205,13 @@ function Home() {
         {/*  */}
         {/* activity */}
         {/* <h2 className='popular-title'>Popular Topic</h2> */}
-        {activity.length > 0 ? (
+        {activity ? (
           <>
             <div className="home-activity-row">
               <h2 className="activity-title">กิจกรรมโต้แย้ง</h2>
               <CountdownTimer
-                startDate="2023-12-13T00:00:00Z"
-                endDate="2023-12-14T23:59:59Z"
+                startDate={activity.act_start_date}
+                endDate={activity.act_end_date}
               />
             </div>
             {/* <div className="popular-topic-container">
@@ -225,7 +226,9 @@ function Home() {
               </div>
             </div> */}
             <div className="home-activity-container">
-              <ActivityComponent />
+              <ActivityComponent 
+              data={activity}
+              />
             </div>
           </>
         ) : (

@@ -60,6 +60,7 @@ function TagDebatePage(props) {
     console.log(tagname);
     try {
       const resTag = await makeRequest.get('/posts/tag/' + tagname);
+      console.log("tag debate",resTag.data);
       let sortedData = handleSort(resTag.data, sortType); // 2. เรียกใช้ handleSort กับข้อมูลที่ได้
       setDebate(sortedData);
     } catch (err) {
