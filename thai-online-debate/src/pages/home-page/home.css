@@ -15,9 +15,11 @@
 }
 
 .tag-bar-container {
+    
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     display: flex;
+    align-items: center;
     /* flex-wrap: wrap; */
     gap: 10px;
 }
@@ -59,7 +61,7 @@
 }
 
 .search-bar-container{
-    width: 30%;
+    width: 25%;
     position: relative;
 }
 

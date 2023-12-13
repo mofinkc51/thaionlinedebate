@@ -148,6 +148,7 @@ function Home() {
         <div className="tag-search-container">
           {/* tag container left side */}
           <div className="tag-bar-container">
+            แท็กยอดนิยม:
             {tags.map((tag) => (
               <div
                 className="tag-item"
