@@ -17,7 +17,6 @@ function DownloadRow(props) {
     minute: "2-digit",
     second: "2-digit",
   }).format(dateObject);
-  // จะแสดงเป็น "วัน/เดือน/ปี เวลา" ตามรูปแบบที่ต้องการ
   
   const [rowData, setRowData] = useState({
     date: formattedDate,
@@ -30,24 +29,36 @@ function DownloadRow(props) {
   };
   const downloadFile = () => {
     props.getDownloadDataApproved(props.data.dr_id);
-  }
+  };
 
   // color status
 
-const getStatusText = (status) => {
-  switch (status) {
-    case 'approved':
-      return <div className="download-row-status-box-approved"><p>อนุมัติแล้ว</p></div>;
-    case 'pending':
-      return <div className="download-row-status-box-pending"><p>รออนุมัติ</p></div>;
-    case 'rejected':
-      return <div className="download-row-status-box-rejected"><p>ไม่อนุมัติ</p></div>;
-    // Add more cases for other statuses if needed
-    default:
-      return 'Unknown'; // Default text
-  }
-};
 const [dabateTitle, setDabateTitle] = useState([]);
+  const getStatusText = (status) => {
+    switch (status) {
+      case "approved":
+        return (
+          <div className="download-row-status-box-approved">
+            <p>อนุมัติแล้ว</p>
+          </div>
+        );
+      case "pending":
+        return (
+          <div className="download-row-status-box-pending">
+            <p>รออนุมัติ</p>
+          </div>
+        );
+      case "rejected":
+        return (
+          <div className="download-row-status-box-rejected">
+            <p>ไม่อนุมัติ</p>
+          </div>
+        );
+      // Add more cases for other statuses if needed
+      default:
+        return "Unknown"; // Default text
+    }
+  };
 
 const getDownloadDetail = async (dr_id) => {
 
@@ -122,17 +133,23 @@ return (
          rowData.status === "rejected" ? "N/A" : "N/A"}</td>
         <td className="download-list-td-quantity">{dabateTitle ? dabateTitle.map((data, index) => <p>{index + 1}. {data.dbt_title}</p>) : "N/A"}</td>
         <td><div>{getStatusText(rowData.status)}</div></td>
+
         <td>
           <div className="download-row-button-row">
-            <button onClick={handleButtonClick} className="download-row-inspect-button">
-              <img src= {inspectIcon} alt="" />
+            <button
+              onClick={handleButtonClick}
+              className="download-row-inspect-button"
+            >
+              <img src={inspectIcon} alt="" />
             </button>
             {rowData.status === "approved" ? (
-              <button onClick={downloadFile} className="download-row-download-button">
-                <img src= {downloadIcon} alt="" />
-                
-              </button>)
-            : null}
+              <button
+                onClick={downloadFile}
+                className="download-row-download-button"
+              >
+                <img src={downloadIcon} alt="" />
+              </button>
+            ) : null}
           </div>
         </td>
       </tr>

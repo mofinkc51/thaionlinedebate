@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ActivityComponent.css";
 import TopicTag from "./TopicTag";
+import eventIcon from "../assets/icon/activity.png";
 import { makeRequest } from "../axios";
 import { Link } from "react-router-dom";
 
@@ -35,7 +36,12 @@ function ActivityComponent(props) {
       <div className="activity-component-meta-data-container">
         <div className="activity-component-meta-data-content">
           {/* topic name */}
-          <p className="activity-component-topic-name">{topicData.dbt_title}</p>
+          <div className="activity-component-topic-name-row">
+            <img src={eventIcon} alt="" className="activity-component-icon" />
+            <p className="activity-component-topic-name">
+              {topicData.dbt_title}
+            </p>
+          </div>
 
           {/* desc row */}
           {/* <h3 className="activity-component-topic-description-title">

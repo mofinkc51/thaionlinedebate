@@ -20,7 +20,11 @@
     width: 100%;
     position: relative;
 }
-
+.activity-component-topic-name-row{
+    display: flex;
+    align-items:end;
+    /* border: 1px solid red; */
+}
 .activity-component-topic-name{
     /* max-width: 400px; */
     color: #000;
@@ -28,7 +32,12 @@
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
-    line-height: 32px; /* 114.286% */
+    /* line-height: 36px; */
+}
+.activity-component-icon{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
 
 .activity-component-creator-row{

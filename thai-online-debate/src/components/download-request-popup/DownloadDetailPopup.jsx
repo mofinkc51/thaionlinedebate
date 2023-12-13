@@ -2,6 +2,9 @@ import React, { Children, useEffect, useState } from "react";
 import "./DownloadDetailPopup.css";
 import closeButtonIcon from "../../assets/icon/close.png";
 import { makeRequest } from "../../axios";
+import withReactContent from "sweetalert2-react-content";
+import proofTest from "../../assets/test-proof.pdf";
+import Swal from "sweetalert2";
 
 function DownloadDetailPopup(props) {
   const timestamp = props.data.dr_timestamp;
@@ -48,6 +51,19 @@ function DownloadDetailPopup(props) {
     const filename2 = detailData.dr_proof_two;
     const url = `http://localhost:8800/api/downloads/cert/${filename2}`;
     downloadFile(url, filename2);
+  };
+
+  const MySwal = withReactContent(Swal);
+
+  const openPDFInModal = () => {
+    MySwal.fire({
+      html: <iframe src={proofTest} width="800px" height="700px" title="PDF" />,
+      width: 900,
+      padding: "1rem",
+      confirmButtonText: "ปิด",
+      // showCloseButton: true,
+      // backdrop: true,
+    });
   };
   return (
     <div className="download-detail-bg-opacity">
@@ -100,7 +116,8 @@ function DownloadDetailPopup(props) {
               </label>
               <button
                 className="download-detail-upload-proof-button"
-                onClick={downloadCertOne}
+                // onClick={downloadCertOne}
+                onClick={openPDFInModal}
               >
                 ตรวจสอบ
               </button>
@@ -112,7 +129,8 @@ function DownloadDetailPopup(props) {
               </label>
               <button
                 className="download-detail-upload-proof-button"
-                onClick={downloadCertTwo}
+                // onClick={downloadCertTwo}
+                onClick={openPDFInModal}
               >
                 ตรวจสอบ
               </button>

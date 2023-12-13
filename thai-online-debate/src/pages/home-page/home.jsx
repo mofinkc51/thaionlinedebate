@@ -149,6 +149,7 @@ function Home() {
         <div className="tag-search-container">
           {/* tag container left side */}
           <div className="tag-bar-container">
+            แท็กยอดนิยม:
             {tags.map((tag) => (
               <div
                 className="tag-item"
@@ -208,7 +209,7 @@ function Home() {
         {activity ? (
           <>
             <div className="home-activity-row">
-              <h2 className="activity-title">กิจกรรมโต้แย้ง</h2>
+              <h2 className="activity-title">กิจกรรมโต้แย้ง:</h2>
               <CountdownTimer
                 startDate={activity.act_start_date}
                 endDate={activity.act_end_date}

@@ -15,9 +15,11 @@
 }
 
 .tag-bar-container {
+    
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     display: flex;
+    align-items: center;
     /* flex-wrap: wrap; */
     gap: 10px;
 }
@@ -59,7 +61,7 @@
 }
 
 .search-bar-container{
-    width: 30%;
+    width: 25%;
     position: relative;
 }
 
@@ -128,7 +130,7 @@
     /* border: 1px solid red; */
     padding: 0 30px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     /* margin-bottom: 30px; */
     margin-bottom: 20px;
 
@@ -149,6 +151,7 @@
     font-weight: 600;
     line-height: normal;
     text-transform: capitalize;
+    margin-right: 30px;
 }
 
 .popular-title{
