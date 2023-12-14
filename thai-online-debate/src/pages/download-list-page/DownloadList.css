@@ -1,7 +1,7 @@
 
 .download-list-page-container{
     width: 100%;
-    max-width: 894px;
+    max-width: 1000px;
     margin: 80px auto;
     /* border: 1px solid red; */
     padding: 0 15px;
@@ -47,6 +47,10 @@ table {
 .download-list-table-header{
     height: 50px;
 
+}
+
+.download-list-th-status{
+    width: 100px;
 }
 /* .download-list-table-header th{
     color: #000;

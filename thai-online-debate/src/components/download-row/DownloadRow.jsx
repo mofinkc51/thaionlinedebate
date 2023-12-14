@@ -17,7 +17,7 @@ function DownloadRow(props) {
     minute: "2-digit",
     second: "2-digit",
   }).format(dateObject);
-  
+
   const [rowData, setRowData] = useState({
     date: formattedDate,
     timeRemaining: "6 วัน 23 ชั่วโมง",
@@ -33,7 +33,7 @@ function DownloadRow(props) {
 
   // color status
 
-const [dabateTitle, setDabateTitle] = useState([]);
+  const [dabateTitle, setDabateTitle] = useState([]);
   const getStatusText = (status) => {
     switch (status) {
       case "approved":
@@ -60,79 +60,94 @@ const [dabateTitle, setDabateTitle] = useState([]);
     }
   };
 
-const getDownloadDetail = async (dr_id) => {
+  const getDownloadDetail = async (dr_id) => {
+    try {
+      const resDebate = await makeRequest.get(
+        `/downloads/detail/debate/${dr_id}`
+      );
+      setDabateTitle(resDebate.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getDownloadRequestById = async (dr_id) => {
+    try {
+      const res = await makeRequest.get(`/downloads/request/${dr_id}`);
+      setRowData({
+        ...rowData,
+        timeRemaining: res.data[0].ap_download_expired_date,
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getCountdownTime = (timestamp) => {
+    const createdAt = new Date(timestamp);
+    const sevenDaysLater = new Date(createdAt.getTime());
+    const now = new Date();
+    const timeRemaining = sevenDaysLater - now;
 
-  try {
-    const resDebate = await makeRequest.get(
-      `/downloads/detail/debate/${dr_id}`
-    );
-    setDabateTitle(resDebate.data);
-  } catch (error) {
-    console.error(error);
-  }
-};
-const getDownloadRequestById = async (dr_id) => {
-  try {
-    const res = await makeRequest.get(`/downloads/request/${dr_id}`);
-    setRowData({...rowData,
-      timeRemaining: res.data[0].ap_download_expired_date,
-    })
-    console.log(res.data)
-  } catch (error) {
-    console.error(error);
-  }
-}
-const getCountdownTime = (timestamp) => {
-  const createdAt = new Date(timestamp);
-  const sevenDaysLater = new Date(createdAt.getTime());
-  const now = new Date();
-  const timeRemaining = sevenDaysLater - now;
+    if (timeRemaining < 0) {
+      return "หมดเวลา";
+    }
+    let seconds = Math.floor((timeRemaining / 1000) % 60);
+    let minutes = Math.floor((timeRemaining / 1000 / 60) % 60);
+    let hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
 
-  if (timeRemaining < 0) {
-    return 'หมดเวลา';
-  }
-  let seconds = Math.floor((timeRemaining / 1000) % 60);
-  let minutes = Math.floor((timeRemaining / 1000 / 60) % 60);
-  let hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-  let days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+    days = days < 10 ? "0" + days : days;
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  days = days < 10 ? '0' + days : days;
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
+    return `${days} วัน ${hours} ชั่วโมง ${minutes} นาที `;
+  };
 
-  return `${days} วัน ${hours} ชั่วโมง ${minutes} นาที `;
-};
+  const [countdown, setCountdown] = useState();
 
-const [countdown, setCountdown] = useState();
+  useEffect(() => {
+    getDownloadDetail(props.data.dr_id);
+    getDownloadRequestById(props.data.dr_id);
+  }, []);
 
-useEffect(() => {
-  getDownloadDetail(props.data.dr_id);
-  getDownloadRequestById(props.data.dr_id);
-}, []);
+  useEffect(() => {
+    console.log(dabateTitle); // ค่าใหม่ที่อัปเดตแล้วจะแสดงที่นี่หลังจาก re-render
+  }, [dabateTitle]);
 
-useEffect(() => {
-  console.log(dabateTitle); // ค่าใหม่ที่อัปเดตแล้วจะแสดงที่นี่หลังจาก re-render
-}, [dabateTitle]);
+  useEffect(() => {
+    if (!rowData) {
+      return;
+    }
+    const intervalId = setInterval(() => {
+      setCountdown(getCountdownTime(rowData.timeRemaining));
+    }, 1000);
 
-useEffect(() => {
-  if (!rowData) {
-    return;
-  }
-  const intervalId = setInterval(() => {
-    setCountdown(getCountdownTime(rowData.timeRemaining));
-  }, 1000);
-
-  return () => clearInterval(intervalId);
-}, [rowData]);
-return (
+    return () => clearInterval(intervalId);
+  }, [rowData]);
+  return (
     <>
       <tr className="download-list-row">
         <td className="download-list-td-date">{rowData.date}</td>
-        <td className="download-list-td-time">{rowData.status === "approved" ? countdown : 
-         rowData.status === "rejected" ? "N/A" : "N/A"}</td>
-        <td className="download-list-td-quantity">{dabateTitle ? dabateTitle.map((data, index) => <p>{index + 1}. {data.dbt_title}</p>) : "N/A"}</td>
-        <td><div>{getStatusText(rowData.status)}</div></td>
+        <td className="download-list-td-time">
+          {rowData.status === "approved"
+            ? countdown
+            : rowData.status === "rejected"
+            ? "N/A"
+            : "N/A"}
+        </td>
+        <td className="download-list-td-quantity">
+          {dabateTitle
+            ? dabateTitle.map((data, index) => (
+                <p>
+                  {index + 1}. {data.dbt_title}
+                </p>
+              ))
+            : "N/A"}
+        </td>
+        <td className="download-list-td-status">
+          <div>{getStatusText(rowData.status)}</div>
+        </td>
 
         <td>
           <div className="download-row-button-row">

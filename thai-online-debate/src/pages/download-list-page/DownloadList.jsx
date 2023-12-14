@@ -70,9 +70,8 @@ function DownloadList() {
   const handleDetailClick = (dr_id) => {
     getDownloadDetail(dr_id).then(() => {
       handleRequestClick(); // จากนั้นเรียกใช้ handleRequestClick
-    })
-    
-  }
+    });
+  };
   let stance = {
     dbc_stance: 0,
   };
@@ -82,7 +81,7 @@ function DownloadList() {
       const res = await makeRequest.get(`/comments/${dbt_id}`, {
         params: stance,
       });
-      console.log("comment 0",res.data);
+      console.log("comment 0", res.data);
       //res.data = array of comment agree
       return res.data;
     } catch (err) {
@@ -97,7 +96,7 @@ function DownloadList() {
         params: stance,
       });
       //res.data = array of comment disagree
-      console.log("comment 1",res.data);
+      console.log("comment 1", res.data);
 
       return res.data;
     } catch (err) {
@@ -107,61 +106,25 @@ function DownloadList() {
   //finding top tag comment agree
   const topFrequencyTagComments = async (commentDataAgree) => {
     const tagFrequency = {}; // ใช้เพื่อนับความถี่ของแต่ละ tag
-    
+
     for (const comment of commentDataAgree) {
       try {
-        console.log("comment agree",comment.dbc_comment);
+        console.log("comment agree", comment.dbc_comment);
         const response = await axios.post(
-          'https://api.aiforthai.in.th/tagsuggestion',
+          "https://api.aiforthai.in.th/tagsuggestion",
           `text=${encodeURIComponent(comment.dbc_comment)}&numtag=10`,
           {
             headers: {
-              'Apikey': 'OKXVty86JM5w4g7ve9EyJfEfEXVArVHE',
-              'Content-Type': 'application/x-www-form-urlencoded',
+              Apikey: "OKXVty86JM5w4g7ve9EyJfEfEXVArVHE",
+              "Content-Type": "application/x-www-form-urlencoded",
             },
           }
         );
-        const responseData = response.data; 
-        console.log("res api data",responseData)
-        if (responseData && responseData.tags) {
-          // รวบรวม tags และนับความถี่
-          responseData.tags.forEach(tag => {
-            tagFrequency[tag.tag] = (tagFrequency[tag.tag] || 0) + 1;
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    // เลือก 5 tags ที่ซ้ำกันมากที่สุด
-    const topTags = Object.entries(tagFrequency)
-    .sort((a, b) => b[1] - a[1]) 
-    .slice(0, 5) 
-    .map(item => item[0]);
-    return topTags;
-  };
-  //finding top tag comment disagree
-
-  const topFrequencyTagComments_dis = async (commentDataDisAgree) => {
-    const tagFrequency = {}; // ใช้เพื่อนับความถี่ของแต่ละ tag
-    
-    for (const comment of commentDataDisAgree) {
-      try {
-        const response = await axios.post(
-          'https://api.aiforthai.in.th/tagsuggestion',
-          `text=${encodeURIComponent(comment.dbc_comment)}&numtag=10`,
-          {
-            headers: {
-              'Apikey': 'OKXVty86JM5w4g7ve9EyJfEfEXVArVHE',
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-          }
-        );
-  
         const responseData = response.data;
+        console.log("res api data", responseData);
         if (responseData && responseData.tags) {
           // รวบรวม tags และนับความถี่
-          responseData.tags.forEach(tag => {
+          responseData.tags.forEach((tag) => {
             tagFrequency[tag.tag] = (tagFrequency[tag.tag] || 0) + 1;
           });
         }
@@ -172,8 +135,44 @@ function DownloadList() {
     // เลือก 5 tags ที่ซ้ำกันมากที่สุด
     const topTags = Object.entries(tagFrequency)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 5) 
-      .map(item => item[0]);
+      .slice(0, 5)
+      .map((item) => item[0]);
+    return topTags;
+  };
+  //finding top tag comment disagree
+
+  const topFrequencyTagComments_dis = async (commentDataDisAgree) => {
+    const tagFrequency = {}; // ใช้เพื่อนับความถี่ของแต่ละ tag
+
+    for (const comment of commentDataDisAgree) {
+      try {
+        const response = await axios.post(
+          "https://api.aiforthai.in.th/tagsuggestion",
+          `text=${encodeURIComponent(comment.dbc_comment)}&numtag=10`,
+          {
+            headers: {
+              Apikey: "OKXVty86JM5w4g7ve9EyJfEfEXVArVHE",
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+
+        const responseData = response.data;
+        if (responseData && responseData.tags) {
+          // รวบรวม tags และนับความถี่
+          responseData.tags.forEach((tag) => {
+            tagFrequency[tag.tag] = (tagFrequency[tag.tag] || 0) + 1;
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // เลือก 5 tags ที่ซ้ำกันมากที่สุด
+    const topTags = Object.entries(tagFrequency)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map((item) => item[0]);
     return topTags;
   };
   const [downloadListArray, setDownloadListArray] = useState([]);
@@ -197,11 +196,14 @@ function DownloadList() {
           dbt_top5_tags_stance_agree: [],
           dbt_top5_tags_stance_disagree: [],
         };
-        const resTag = await makeRequest.get(`/posts/tag/debate/${debateList[i].dbt_id}`);
+        const resTag = await makeRequest.get(
+          `/posts/tag/debate/${debateList[i].dbt_id}`
+        );
         if (resTag.data.length > 0) {
-
           // Map each tag object to its tag_title and join with comma to create a string
-          debate_topic_download.dbt_tag = resTag.data.map(tag => tag.tag_title).join(', ');
+          debate_topic_download.dbt_tag = resTag.data
+            .map((tag) => tag.tag_title)
+            .join(", ");
         }
         const res = await makeRequest.get("/downloads/approved/", {
           params: { dbt_id: debateList[i].dbt_id },
@@ -210,16 +212,21 @@ function DownloadList() {
           debate_topic_download.dbt_comment = res.data;
         }
         // Call the functions and wait for their results before pushing to newDownloadListArray
-        const agreeTags = await topFrequencyTagComments(await getCommentAgree(debateList[i].dbt_id));
-        const disagreeTags = await topFrequencyTagComments_dis(await getCommentDisagree(debateList[i].dbt_id));
+        const agreeTags = await topFrequencyTagComments(
+          await getCommentAgree(debateList[i].dbt_id)
+        );
+        const disagreeTags = await topFrequencyTagComments_dis(
+          await getCommentDisagree(debateList[i].dbt_id)
+        );
 
-        debate_topic_download.dbt_top5_tags_stance_agree = agreeTags.join(', ');
-        debate_topic_download.dbt_top5_tags_stance_disagree = disagreeTags.join(', ');
+        debate_topic_download.dbt_top5_tags_stance_agree = agreeTags.join(", ");
+        debate_topic_download.dbt_top5_tags_stance_disagree =
+          disagreeTags.join(", ");
         newDownloadListArray.push(debate_topic_download);
       }
 
       if (newDownloadListArray.length > 0) {
-        console.log(newDownloadListArray)
+        console.log(newDownloadListArray);
         setDownloadListArray(newDownloadListArray); // อัปเดต state ทีเดียวหลังจากการวนลูปเสร็จ
       }
     } catch (err) {
@@ -266,7 +273,7 @@ function DownloadList() {
             <th>วัน-เวลา</th>
             <th className="download-list-th-time">เวลาคงเหลือ</th>
             <th className="download-list-th-quantity">หัวข้อประเด็นโต้แย้ง</th>
-            <th>สถานะ</th>
+            <th className="download-list-th-status">สถานะ</th>
             <th>ตรวจสอบ</th>
           </tr>
           {/* table body */}
