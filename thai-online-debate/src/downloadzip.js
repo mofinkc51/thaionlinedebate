@@ -55,22 +55,6 @@ async function downloadFilesAsZip(dataArray) {
     const xmlContent = jsonToXML([data]); // ต้องส่งเป็นอาร์เรย์
     zip.file(`debate-topic-${index + 1}.xml`, xmlContent);
 
-    // Check if the data.dbt_comment is valid for CSV creation
-    if (data.dbt_comment && data.dbt_comment.length > 0) {
-      // Assume all comments have the same structure, so use the headers from the first one
-      const headers = Object.keys(data.dbt_comment[0]);
-      const csvData = data.dbt_comment.map((comment) =>
-        headers.map((header) => {
-          const value = comment[header];
-          // If the value contains a comma, newline or double-quote, enclose it in double quotes
-          return typeof value === 'string' && /["\n,]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
-        }).join(',')
-      );
-      const csvContent = [headers.join(','), ...csvData].join('\n');
-      zip.file(`debate-topic-${index + 1}-comments.csv`, csvContent);
-    } else {
-      console.error('Invalid data for CSV creation:', data);
-    }
   });
 
   // Generate the zip content
