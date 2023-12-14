@@ -4,7 +4,7 @@ import "./AdminManageRequest.css";
 import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import proofTest from "../../assets/test-proof.pdf";
+// import proofTest from "../../assets/test-proof.pdf";
 
 function AdminManageRequest(props) {
   const { data, onBack, debate, refresh } = props;
@@ -98,13 +98,21 @@ function AdminManageRequest(props) {
   const MySwal = withReactContent(Swal);
 
   const openPDFInModal = () => {
+    const filename1 = detailData.dr_proof_one;
     MySwal.fire({
-      html: <iframe src={proofTest} width="800px" height="700px" title="PDF" />,
+      html: <iframe src={`http://localhost:8800/uploads/${filename1}`} width="800px" height="700px" title="PDF" />,
       width: 900,
       padding: "1rem",
-      confirmButtonText: "ปิด",
-      // showCloseButton: true,
-      // backdrop: true,
+      confirmButtonText: "ปิด"
+    });
+  };
+  const openPDFInModal_2 = () => {
+    const filename2 = detailData.dr_proof_two;
+    MySwal.fire({
+      html: <iframe src={`http://localhost:8800/uploads/${filename2}`} width="800px" height="700px" title="PDF" />,
+      width: 900,
+      padding: "1rem",
+      confirmButtonText: "ปิด"
     });
   };
 
@@ -195,7 +203,7 @@ function AdminManageRequest(props) {
             <p className="manage-request-text">เอกสารยืนยันจากต้นสังกัด</p>
             <button
               className="download-detail-upload-proof-button"
-              onClick={openPDFInModal}
+              onClick={openPDFInModal_2}
             >
               ตรวจสอบ
             </button>

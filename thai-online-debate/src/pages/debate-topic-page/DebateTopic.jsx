@@ -17,6 +17,7 @@ import { makeRequest } from "../../axios";
 import Swal from "sweetalert2";
 import ReportTopicPopup from "../../components/topic-popup/ReportTopicPopup";
 import AdminNavBar from "../../components/Navbar/AdminNavBar";
+import axios from "axios";
 
 function DebateTopic(props) {
   const [open, setOpen] = useState(false);
@@ -339,25 +340,99 @@ function DebateTopic(props) {
   }, []);
   const dateFormat = (dbt_timestamp) => {
     if (!dbt_timestamp) {
-      return 'Loading...'; // หรือข้อความอื่นตามความต้องการ
+      return 'Loading...';
     }
-    
     const date = new Date(dbt_timestamp);
     if (isNaN(date.getTime())) {
-      return 'วันที่ไม่ถูกต้อง'; // หรือข้อความอื่นตามความต้องการ
+      return 'วันที่ไม่ถูกต้อง';
     }
-    // ตั้งค่าสำหรับการแสดงผลในรูปแบบที่ต้องการ
     const options = { 
           year: 'numeric', month: 'long', day: 'numeric',
           hour: 'numeric', minute: 'numeric',
-          timeZone: 'Asia/Bangkok' // ตั้งค่าเขตเวลาเป็นของประเทศไทย
+          timeZone: 'Asia/Bangkok'
       };
-  
-      // จัดรูปแบบวันที่
       const formattedDate = new Intl.DateTimeFormat('th-TH', options).format(date);
       return formattedDate
   }
-
+  //finding top tag comment agree
+  const [topTagCommentAgree, setTopTagCommentAgree] = useState([]);
+  const topFrequencyTagComments = async (commentDataAgree) => {
+    const tagFrequency = {}; // ใช้เพื่อนับความถี่ของแต่ละ tag
+    
+    for (const comment of commentDataAgree) {
+      try {
+        const response = await axios.post(
+          'https://api.aiforthai.in.th/tagsuggestion',
+          `text=${encodeURIComponent(comment.dbc_comment)}&numtag=10`,
+          {
+            headers: {
+              'Apikey': 'OKXVty86JM5w4g7ve9EyJfEfEXVArVHE',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+  
+        const responseData = response.data;
+        if (responseData && responseData.tags) {
+          // รวบรวม tags และนับความถี่
+          responseData.tags.forEach(tag => {
+            tagFrequency[tag.tag] = (tagFrequency[tag.tag] || 0) + 1;
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // เลือก 5 tags ที่ซ้ำกันมากที่สุด
+    const topTags = Object.entries(tagFrequency)
+      .sort((a, b) => b[1] - a[1]) // จัดเรียงตามความถี่
+      .slice(0, 5) 
+      .map(item => item[0]);
+    setTopTagCommentAgree(topTags);
+    console.log("isAdmin doing")
+  };
+  //finding top tag comment disagree
+  const [topTagCommentDisagree, setTopTagCommentDisagree] = useState([]);
+  const topFrequencyTagComments_dis = async (commentDataDisAgree) => {
+    const tagFrequency = {}; // ใช้เพื่อนับความถี่ของแต่ละ tag
+    
+    for (const comment of commentDataDisAgree) {
+      try {
+        const response = await axios.post(
+          'https://api.aiforthai.in.th/tagsuggestion',
+          `text=${encodeURIComponent(comment.dbc_comment)}&numtag=10`,
+          {
+            headers: {
+              'Apikey': 'OKXVty86JM5w4g7ve9EyJfEfEXVArVHE',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+  
+        const responseData = response.data;
+        if (responseData && responseData.tags) {
+          // รวบรวม tags และนับความถี่
+          responseData.tags.forEach(tag => {
+            tagFrequency[tag.tag] = (tagFrequency[tag.tag] || 0) + 1;
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // เลือก 5 tags ที่ซ้ำกันมากที่สุด
+    const topTags = Object.entries(tagFrequency)
+      .sort((a, b) => b[1] - a[1]) // จัดเรียงตามความถี่
+      .slice(0, 5) 
+      .map(item => item[0]);
+      setTopTagCommentDisagree(topTags);
+  };
+  useEffect(() => {
+    topFrequencyTagComments(commentDataAgree);
+  }, [isAdmin]);
+  useEffect(() => {
+    topFrequencyTagComments_dis(commentDataDisagree);
+  }, [isAdmin]);
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -384,7 +459,7 @@ function DebateTopic(props) {
               {/* <p className="debate-topic-label">แท็กที่เกี่ยวข้อง</p> */}
 
               {topicTag.map((tag) => (
-                <TopicTag tagName={tag.tag_title} />
+                <TopicTag tagName={tag.tag_title}/>
               ))}
             </div>
 
@@ -484,17 +559,19 @@ function DebateTopic(props) {
               <p className="debate-topic-side-stance-title">
                 {topicData.dbt_agree}
               </p>
-              <p className="debate-topic-top-five-title">
-                5 อันดับหัวข้อความคิดเห็น
-              </p>
-              <div className="debate-topic-top-five-tag">
-                <CommentTag tagName="ทดสอบ" />
-                <CommentTag tagName="ทดสอบสอบ" />
-                <CommentTag tagName="ทดสอบ" />
-                <CommentTag tagName="สอบสอบสอบ" />
-                <CommentTag tagName="ทดสอบ" />
+              {isAdmin && (
+                  <>
+                    <p className="debate-topic-top-five-title">
+                      5 อันดับหัวข้อความคิดเห็น
+                    </p>
+                    <div className="debate-topic-top-five-tag">
+                      {topTagCommentAgree.map((tag, index) => (
+                        <CommentTag key={index} tagName={tag} />
+                      ))}
+                    </div>
+                  </>
+                )}
                 {/* <TopicTag tagName="สอบสอบสอบ" /> */}
-              </div>
               <div className="debate-topic-comment-scroll-box">
                 {commentDataAgree.map((commentDataAgree, index) => (
                   <CommentComponent
@@ -522,15 +599,18 @@ function DebateTopic(props) {
               <p className="debate-topic-side-stance-title">
                 {topicData.dbt_disagree}
               </p>
-              <p className="debate-topic-top-five-title">
-                5 อันดับหัวข้อความคิดเห็น
-              </p>
-              <div className="debate-topic-top-five-tag">
-                <CommentTag tagName="ทดสอบ" />
-                <CommentTag tagName="ทดสอบสอบ" />
-                <CommentTag tagName="ทดสอบ" />
-                <CommentTag tagName="ทดสอบ" />
-              </div>
+              {isAdmin && (
+                  <>
+                    <p className="debate-topic-top-five-title">
+                      5 อันดับหัวข้อความคิดเห็น
+                    </p>
+                    <div className="debate-topic-top-five-tag">
+                      {topTagCommentDisagree.map((tag, index) => (
+                        <CommentTag key={index} tagName={tag} />
+                      ))}
+                    </div>
+                  </>
+                )}
               <div className="debate-topic-comment-scroll-box">
                 {commentDataDisagree.map((commentDataDisAgree, index) => (
                   <CommentComponent

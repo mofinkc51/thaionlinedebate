@@ -123,7 +123,6 @@ export const checktoken = (req,res)=>{
         console.log("no token")
         return token;
     } else {
-        console.log(token)
         return res.status(200).json("Token is valid");
     } 
 };

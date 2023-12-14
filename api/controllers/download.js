@@ -102,7 +102,7 @@ export const getDownloadDetailDebate = (req, res) => {
     if (err) {
       return res.status(403).json("Token is not valid!");
     }
-    const sql = "SELECT dbt_title,rd.dbt_id , dr.dr_id FROM requestdebate as rd JOIN  downloadrequest as dr ON rd.dr_id = dr.dr_id JOIN debatetopic ON debatetopic.dbt_id = rd.dbt_id WHERE rd.dr_id = ?";
+    const sql = "SELECT rd.dbt_id ,dbt_title ,dbt_description, dr.dr_id FROM requestdebate as rd JOIN  downloadrequest as dr ON rd.dr_id = dr.dr_id JOIN debatetopic ON debatetopic.dbt_id = rd.dbt_id WHERE rd.dr_id = ?";
     const dr_id = req.params.dr_id;
     db.query(sql, [dr_id], (err, result) => {
       if (err) {
@@ -203,10 +203,17 @@ export const getDownloadApproved = (req, res) => {
   console.log(req.query);
   let dbt_id = req.query.dbt_id;
   if (dbt_id.length === 0) return res.status(401).json("No list download!");
-  const sql =
-    "SELECT dbc_comment as comment, dbc_stance as stance FROM debatecomment WHERE dbt_id=? ";
+  const sql = `
+    SELECT dbc_comment AS comment, debatecomment.dbc_id, debatecomment.dbc_stance,
+    CASE WHEN dbc_stance = 0 THEN dbt.dbt_agree WHEN dbc_stance = 1 THEN dbt.dbt_disagree END AS stance
+    FROM debatecomment 
+    JOIN debatetopic AS dbt 
+    ON dbt.dbt_id = debatecomment.dbt_id
+    WHERE debatecomment.dbt_id = ?;
+  `;
   db.query(sql, [dbt_id], (err, data) => {
     if (err) res.status(500).json(err);
+    console.log(data)
     return res.status(200).json(data);
   });
 };

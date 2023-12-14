@@ -51,7 +51,6 @@ export const getActivityTopic = (req, res) => {
 
     db.query(sql, (err, data) => {
       if (err) return res.status(500).json(err);
-      console.log(data[0]);
       return res.status(200).json(data[0]);
     });
   });

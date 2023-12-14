@@ -102,7 +102,6 @@ export const getDownloadRequest = (req, res) => {
 
   export const postActivity = (req, res) => { 
     const { dbt_title, dbt_description, dbt_agree, dbt_disagree,act_end_date, act_start_date } = req.body;
-    console.log(req.body);
     const token = req.cookies.accessToken;
     if (!token) 
       return res.status(401).json("ไม่มีการตรวจสอบสิทธิ์!");
@@ -268,9 +267,7 @@ export const reportupdateStatus = (req, res) => {
 };
 
 export const admindescription = (req, res) => {
-  console.log("ree")
   const {rp_id ,rp_admin_note} = req.body;
-  console.log(rp_id,rp_admin_note);
   const success = "success";
   const checkSql = 'UPDATE reportedproblem SET rp_status = ? ,rp_admin_note = ? WHERE rp_id = ?';
 
