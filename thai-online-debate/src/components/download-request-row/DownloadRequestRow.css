@@ -22,6 +22,10 @@
     margin: 5px;
 }
 
+.download-request-row-number p{
+    text-align: center;
+}
+
 @media screen and (max-width: 700px){
     .download-request-row-stance{
         display: none;
