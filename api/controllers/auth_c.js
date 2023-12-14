@@ -31,8 +31,8 @@ export const register = (req,res)=>{
             hashedPassword,
             defaultPic,
             user_birthday,
-            user_religion,
             user_gender,
+            user_religion,
             user_province
         ];
         db.query(sql, [values], (err, data) => {

@@ -204,11 +204,13 @@ export const getDownloadApproved = (req, res) => {
   let dbt_id = req.query.dbt_id;
   if (dbt_id.length === 0) return res.status(401).json("No list download!");
   const sql = `
-    SELECT dbc_comment AS comment, debatecomment.dbc_id, debatecomment.dbc_stance,
+    SELECT dbc_comment AS comment, debatecomment.dbc_id, debatecomment.dbc_stance,debatecomment.user_id,u.user_gender,u.user_province,u.user_birthday,u.user_religion,
     CASE WHEN dbc_stance = 0 THEN dbt.dbt_agree WHEN dbc_stance = 1 THEN dbt.dbt_disagree END AS stance
     FROM debatecomment 
     JOIN debatetopic AS dbt 
     ON dbt.dbt_id = debatecomment.dbt_id
+    JOIN user AS u
+    ON u.user_id = debatecomment.user_id
     WHERE debatecomment.dbt_id = ?;
   `;
   db.query(sql, [dbt_id], (err, data) => {

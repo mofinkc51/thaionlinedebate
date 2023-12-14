@@ -209,6 +209,7 @@ function DownloadList() {
           params: { dbt_id: debateList[i].dbt_id },
         });
         if (res.data.length > 0) {
+          console.log("comment", res.data);
           debate_topic_download.dbt_comment = res.data;
         }
         // Call the functions and wait for their results before pushing to newDownloadListArray
@@ -239,6 +240,7 @@ function DownloadList() {
   }, []);
   useEffect(() => {
     if (downloadListArray.length > 0) {
+      console.log(downloadListArray);
       downloadFilesAsZip(downloadListArray);
     }
   }, [downloadListArray]);

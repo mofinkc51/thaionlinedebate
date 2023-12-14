@@ -20,6 +20,12 @@ function jsonToXML(jsonData) {
     for (const comment of debate.dbt_comment) {
       xml += `    <dbt_comment id='${comment.dbc_id}' stance='${comment.stance}'>\n`;
       xml += `      <dbc_comment>${comment.comment}</dbc_comment>\n`;
+      xml += `      <demographics userID='${comment.user_id}'>\n`;
+      xml += `        <gender>${comment.user_gender}</gender>\n`;
+      xml += `        <religion>${comment.user_religion}</religion>\n`;
+      xml += `        <birthdate>${comment.user_birthday}</birthdate>\n`;
+      xml += `        <province>${comment.user_province}</province>\n`;
+      xml += `      </demographics>\n`;
       xml += `    </dbt_comment>\n`;
     }
 
