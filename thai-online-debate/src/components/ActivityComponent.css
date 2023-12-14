@@ -176,3 +176,9 @@
     font-weight: 500;
     line-height: 17px; /* 141.667% */
 }
+
+
+.activity-link{
+    text-decoration: none !important; /* This will remove underlines */
+
+}
