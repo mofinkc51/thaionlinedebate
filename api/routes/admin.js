@@ -2,8 +2,8 @@ import express from "express";
 import { getAllUsers , getActivity, getDownloadRequest, getProblem,  updateStatus, downloadRequest,
       getApproval, postActivity,
       reportupdateStatus, admindescription, 
-      postApproval, editActivity,deleteActivity,postRejected
-    
+      postApproval, editActivity,deleteActivity,postRejected,
+      checkTimeOverlap
     } from "../controllers/admin.js";
 
 
@@ -14,6 +14,8 @@ router.get("/findall", getAllUsers)
 router.get("/downloadrequest", getDownloadRequest)
 
 router.get("/getApproval", getApproval)
+
+router.post("/checktimeactivity",checkTimeOverlap)
 
 router.get("/activity", getActivity)
 

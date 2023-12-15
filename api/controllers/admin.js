@@ -78,6 +78,26 @@ export const getDownloadRequest = (req, res) => {
         return res.status(200).json(data);
     });
 };
+export const checkTimeOverlap = (req, res) => {
+  const { act_start_date, act_end_date } = req.body;
+  const sql = `
+    SELECT COUNT(*) AS overlapCount FROM activity
+    WHERE (act_start_date < ? AND act_end_date > ?) OR (act_start_date < ? AND act_end_date > ?);
+  `;
+
+  db.query(sql, [act_end_date, act_start_date, act_start_date, act_end_date], (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json("Internal server error");
+    }
+    const overlapCount = results[0].overlapCount;
+    if (overlapCount > 0) {
+      return res.status(409).json("กิจกรรมโต้แย้งนี้มีเวลาที่ซ้ำกันกับกิจกรรมก่อนหน้า โปรดเปลี่ยนเวลา.");
+    } else {
+      return res.status(200).json({ message: "No time overlap detected.", canProceed: true });
+    }
+  });
+};
 
 
   export const getActivity = (req, res) => {

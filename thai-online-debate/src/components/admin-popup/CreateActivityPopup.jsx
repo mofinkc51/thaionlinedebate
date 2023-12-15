@@ -165,6 +165,15 @@ const CreateActivityPopup = ({ closePopup, onCreate }) => {
       });
     }
     try {
+      const response = await makeRequest.post("admin/checktimeactivity", actData);
+      // Check the response data for the canProceed flag
+      if (!response.data.canProceed) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "กิจกรรมโต้แย้งนี้มีเวลาที่ทับซ้อนกัน",
+        });
+      }
       console.log("check tag from font-end>>>>>>", tags);
       await makeRequest.post("admin/postactivity", actData);
       Swal.fire({
