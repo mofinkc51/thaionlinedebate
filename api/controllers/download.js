@@ -65,6 +65,7 @@ export const getDownloadAdmin = (req,res)=>{
     if (err) return res.status(403).json("Token is not valid!");
     db.query(sql,[dbt_ids],(err, data) => {
       if (err) res.status(500).json(err);
+      console.log(data)
       return res.status(200).json(data);
     })
   })

@@ -4,8 +4,6 @@ import checkButtonIcon from '../../assets/icon/check.png';
 
 function AdminManageProblemRow({ problem, onEditClick }) {
   const { user_name, rp_timestamp, rp_description, rp_status, rp_id } = problem;
-
-  // console.log('rp_id:', rp_id); // ใส่ console.log เพื่อดูค่า rp_id
   const formatDate = (dateString) => {
     const options = {
       year: 'numeric',
