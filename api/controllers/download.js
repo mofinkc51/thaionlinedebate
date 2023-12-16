@@ -5,7 +5,6 @@ import moment from "moment";
 
 export const getDownload = (req, res) => {
   const token = req.cookies.accessToken;
-  console.log(req.params)
   if (!token) {
     return res.status(401).json("Not authenticated!");
   }
@@ -65,7 +64,6 @@ export const getDownloadAdmin = (req,res)=>{
     if (err) return res.status(403).json("Token is not valid!");
     db.query(sql,[dbt_ids],(err, data) => {
       if (err) res.status(500).json(err);
-      console.log(data)
       return res.status(200).json(data);
     })
   })
@@ -201,7 +199,6 @@ export const getDownloadPending = (req, res) => {
 }
 
 export const getDownloadApproved = (req, res) => {
-  console.log(req.query);
   let dbt_id = req.query.dbt_id;
   if (dbt_id.length === 0) return res.status(401).json("No list download!");
   const sql = `
@@ -216,7 +213,6 @@ export const getDownloadApproved = (req, res) => {
   `;
   db.query(sql, [dbt_id], (err, data) => {
     if (err) res.status(500).json(err);
-    console.log(data)
     return res.status(200).json(data);
   });
 };
@@ -290,7 +286,6 @@ export const deleteDownload = (req, res) => {
 };
 //addtodownloadlist
 export const addDownload = (req, res) => {
-  console.log(req.body.dbt_id);
   const token = req.cookies.accessToken;
   if (!token) {
     return res.status(401).json("Not authenticated!");

@@ -26,10 +26,10 @@ function ActivityComponent(props) {
     }
   };
   useEffect(() => {
-    if (topicTag.length === 0) {
+    if (topicData.dbt_id) {
       getTagByDebate();
     }
-  }, [topicTag]);
+  }, [topicData.dbt_id]);
   return (
     <>
       <Link className="activity-link" to={`/topic/${topicData.dbt_id}`}>

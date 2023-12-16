@@ -428,11 +428,17 @@ function DebateTopic(props) {
       setTopTagCommentDisagree(topTags);
   };
   useEffect(() => {
-    topFrequencyTagComments(commentDataAgree);
-  }, [isAdmin]);
+    if (isAdmin) {
+      topFrequencyTagComments(commentDataAgree);
+    }
+  }, [isAdmin, commentDataAgree]); // ให้เรียกใช้ฟังก์ชันนี้เมื่อ isAdmin หรือ commentDataAgree มีการเปลี่ยนแปลง
+  
   useEffect(() => {
-    topFrequencyTagComments_dis(commentDataDisagree);
-  }, [isAdmin]);
+    if (isAdmin) {
+      topFrequencyTagComments_dis(commentDataDisagree);
+    }
+  }, [isAdmin, commentDataDisagree]); // ให้เรียกใช้ฟังก์ชันนี้เมื่อ isAdmin หรือ commentDataDisagree มีการเปลี่ยนแปลง
+  
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}

@@ -139,7 +139,6 @@ function Home() {
   useEffect(() => {
     checkadmin();
   }, []);
-  console.log(activity)
   return (
     <>
       {isAdmin ? <AdminNavBar /> : <UserNavBar />}
@@ -206,7 +205,7 @@ function Home() {
         {/*  */}
         {/* activity */}
         {/* <h2 className='popular-title'>Popular Topic</h2> */}
-        {activity ? (
+        {activity && activity.dbt_id && (
           <>
             <div className="home-activity-row">
               <h2 className="activity-title">กิจกรรมโต้แย้ง:</h2>
@@ -215,27 +214,13 @@ function Home() {
                 endDate={activity.act_end_date}
               />
             </div>
-            {/* <div className="popular-topic-container">
-              <div className="popular-topic-grid">
-                {activity.map((debate) => (
-                  <TopicComponent
-                    topicname={debate.dbt_title}
-                    id={debate.dbt_id}
-                    refresh={getTopTopics}
-                  />
-                ))}
-              </div>
-            </div> */}
             <div className="home-activity-container">
               <ActivityComponent 
               data={activity}
               />
             </div>
           </>
-        ) : (
-          <></>
         )}
-
         {/* Popular topic */}
         <h2 className="popular-title">ประเด็นโต้แย้งยอดนิยม</h2>
         <div className="popular-topic-container">
